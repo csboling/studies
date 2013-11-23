@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\title{ECE 867 - Homework \#4}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem \#1}
+
+\begin{enumerate}
+  \item{Derive expressions for the minimum number of ones 
+  $n_{1\varepsilon}^{\mathrm{min}}$ and the maximum number of ones
+  $n_{1\varepsilon}^{\mathrm{max}}$ that any sequence $\overline{X}$ can
+  have such that $\overline{X} \in T_{\varepsilon}^{(n)}$. 
+  \horline
+  For any $X^{(n)}$ we have that
+  \begin{align*}
+  H(X) - \varepsilon & \leq -\frac{1}{n}\log p(x_1, \dots, x_n)
+                     & \leq H(X) + \varepsilon \\
+  H(X) - \varepsilon & \leq 
+       -\frac{1}{n}\log \left(\prod_{i=1}^{n} p(x_i)\right) 
+                     & \leq H(X) + \varepsilon \\
+  H(X) - \varepsilon & \leq 
+       -\frac{1}{n}\sum_{i=1}^{n}\log p(x_i) & \leq H(X) + \varepsilon,
+  \end{align*}
+  so 
+  \begin{align*}
+  H(p) - \varepsilon & \leq 
+       -\frac{1}{n}\left(\sum_{i=1}^{n_1} \log p 
+                       + \sum_{i={n_1+1}}^{n} \log (1 - p)\right)
+                     & \leq H(p) + \varepsilon \\
+  H(p) - \varepsilon & \leq
+       -\frac{1}{n}\left(n_1 \log p + (n - n_1) \log (1 - p)\right)
+                     & \leq H(p) + \varepsilon \\
+  H(p) - \varepsilon
+  \end{align*}
+  }
+ 
+\end{enumerate}
+
+\end{document}
+
