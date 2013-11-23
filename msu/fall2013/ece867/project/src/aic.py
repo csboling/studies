@@ -79,12 +79,19 @@ def dwtmat(N, wavelet, level=1):
     return np.hstack(pywt.wavedec(x, wavelet, level=level)[0:2])
   return np.apply_along_axis(fwd_dwt, 1, np.eye(N)).T
 
+def threshold(x, thresh=0.5):
+  if (abs(x) > thresh):
+    return x
+  else:
+    return 0
+
 def cycle_random(sets):
   while True:
     yield np.random.randint(0, sets)
 
 def cycle_blocks(levels, sets):
-  size     = 2**levels
+  #size     = 2**levels
+  size = sets
   upstep   = size/2 + 1
   downstep = size - upstep
   print levels,'levels',sets,'sets, upstep',upstep,'downstep',downstep
@@ -144,7 +151,8 @@ class cmux:
       target.send(z)
 
   @cr.coroutine
-  def bcr_recon(self, levels, Psi, target, lasso=True, k=0.005, iteration_cap=500):
+  def bcr_recon(self, levels, Psi, target, 
+                lasso=True, k=0.005, iteration_cap=500):
     windowsize = Psi.shape[1]
     numcoefs   = Psi.shape[0]
 
@@ -152,8 +160,8 @@ class cmux:
     window = cr.circbuf(y)
 
 #    ch_it = cycle_random(self.channels)
-#    ch_it = cycle_blocks(levels=levels, sets=self.channels)
-    ch_it = xrange(iteration_cap)
+    ch_it = cycle_blocks(levels=levels, sets=self.channels)
+#    ch_it = xrange(iteration_cap)
 
     alpha0_ridge = linear_model.Ridge()
     alpha_lasso  = linear_model.Lasso(alpha=k)
@@ -168,6 +176,7 @@ class cmux:
         window.send((yield))      
         chips[..., i] = in_chip.next()
       w = np.dot(Psi, y)
+#      w = np.vectorize(threshold)(w)
 
       # construct the dictionary from chip sequences
       Phi = np.zeros((self.channels, numcoefs, windowsize))
@@ -213,42 +222,3 @@ class cmux:
       w = np.dot(Psi, x)#Phi[ch], x)
       target.send(w)
 
-  def bcr_reconstruct(self, Psi):
-    length = Psi.shape[1]
-
-    out_chip = np.zeros((self.channels, 0))
-    for new_chip in self.chipseq(length):
-      out_chip = np.hstack((out_chip, new_chip))
-    Phi = np.zeros((length,0))
-    for ch_chip in out_chip:
-      Phi   = np.hstack((Phi, Psi*ch_chip))
-    print Phi.shape
-
-    #ridge regression to initialize alpha
-    alpha0_ridge = linear_model.Ridge()
-    alpha0_ridge.fit(Phi, y)
-
-    Phi_blocks = Phi.reshape((self.channels, length, length))
-    alpha    = alpha0_ridge.coef_.reshape((self.channels, length, 1))
-    print 'alpha: ',alpha.shape
-    print 'largest alpha0:',np.max(alpha)
-
-    # BCR from Sardy, Bruce, Tseng et. al. 2000
-    alpha_lasso = linear_model.Lasso()
-    for i in xrange(self.channels):
-      Phi_minor = np.hstack((Phi_blocks[:i].reshape(length,-1),    
-                             Phi_blocks[i+1:].reshape(length,-1)))
-      alpha_m   = np.vstack((alpha[:i].reshape((-1,1)), 
-                             alpha[i+1:].reshape(-1,1)))
-      v = y - np.dot(Phi_minor, alpha_m)
-      print "largest residual:",np.max(v)
-#      print v[0], Phi_blocks[i]
-      alpha_lasso.fit(Phi_blocks[i], v) 
-      new_alpha = alpha_lasso.coef_
-      print 'new alpha: ',new_alpha.shape
-      print new_alpha
-      print 'max alpha: ',np.max(new_alpha)
-      #alpha[i] = alpha_lasso.coef_.reshape((length,-1))
-      #print np.max(alpha[i])
-      #print "alpha[i]:",np.squeeze(alpha[i])
-    return alpha

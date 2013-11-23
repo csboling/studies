@@ -11,8 +11,8 @@ import coroutine as cr
 Fs = 24000.0
 channels = 4
 dft_size = 128
-levels = 4
-wavelet = 'haar'
+levels = 1
+wavelet = 'sym4'
 
 PLOT_FFT      = 0
 PLOT_WAVELET  = 0
@@ -25,16 +25,8 @@ def plot_fft(sig):
   freq = np.fft.fftfreq(z0.size)
   plt.plot(freq, np.abs(Fz))
 
-def plot_dwt_A(sig, wavelet):
-  dwt_A, dwt_D = pywt.dwt(sig, wavelet)
-  plt.plot(dwt_A)
-
-def plot_dwt_D(sig, wavelet):
-  dwt_A, dwt_D = pywt.dwt(sig, wavelet)
-  plt.plot(dwt_D)
-
-def threshold(x, thresh=5):
-  if x > thresh:
+def threshold(x, thresh=0.5):
+  if abs(x) > thresh:
     return x
   else:
     return 0
@@ -61,27 +53,10 @@ t  = np.arange(5*int(Fs))
 #z  = np.dot(coeffs, ys)[0,...,...]
 z = np.array([ec_filtered[t.size*i + t] for i in xrange(channels)])
 
-#if (PLOT_FFT):
-#  for i in xrange(z.shape[0]):
-#    plt.subplot(330 + i)
-#    plot_fft(z[i,...])
-
-
-
-#aic_out_iter = (converter.get_output(zvals) for zvals in z.T)
-#first = np.fromiter(aic_out_iter, float, 2048)#dft_size)
-
-#for t in xrange(runtime/dft_size):
-#recon0 = converter.bcr_reconstruct(np.asarray(z[0])[4096:4096+128])[0]
-#recon   = converter.bcr_reconstruct(first.reshape((-1,1)))
-#recon0  = recon[0]
-#print 'alpha: type = ',type(recon0),', maxval = ',np.max(recon0),', shape = ',recon0.shape
-
 offset = 4096#26385
 windowsize = 512
 z0 = np.asarray(z[0])[offset:offset+windowsize]
 z1 = np.asarray(z[0])[26385:26385+windowsize]
-#plt.plot(z0)
 
 if (PLOT_WAVELET): 
   plt.figure()
@@ -99,9 +74,6 @@ if (PLOT_WAVELET):
     w = np.dot(H, z0)
     Ahaar.append(w[:w.size/2])
     Dhaar.append(w[w.size/2:])
-#  Hsym = aic.dwtmat(z0.size,wavelet,levels)
-#  wsym = np.dot(Hsym, z0)
-#  Asym, Dsym = np.split(wsym,2)
 
   plt.subplot(334)
   y = np.hstack((Asym[4], Dsym[4], Dsym[3]))
@@ -109,48 +81,23 @@ if (PLOT_WAVELET):
   plt.title('A4, D4, D3 - symlet')
   plt.stem(x,y)
 
-#  plt.subplot(337)
-#  y = Dsym
-#  x = np.arange(y.size)
-#  plt.title('D4 - symlet')
-#  plt.stem(x,y)  
-
   plt.subplot(331)
   recon = pywt.waverec([Asym[4], Dsym[4]],wavelet)
   reconsym4 = scipy.signal.resample(recon, z0.size)
   plt.title('A4, D4 - symlet')
   plt.plot(reconsym4)
-#  recon = pywt.waverec([Asym_thresh, Dsym_thresh],wavelet)
-#  plt.plot(reconsym_thresh)
 
   plt.subplot(337)
   recon = pywt.waverec([Asym[4], Dsym[4], Dsym[3]],wavelet)
   reconsym43 = scipy.signal.resample(recon, z0.size)
   plt.title('A4, D4, D3 - symlet')
   plt.plot(reconsym43)
-#  recon = pywt.waverec([Asym_thresh, Dsym_thresh],wavelet)
-#  plt.plot(reconsym_thresh)
-
-#  w = np.hstack((A[4], D[4])).T
-#  print w.shape
-#  H = aic.dwtmat(w.shape[0],wavelet)
-#  y = np.dot(H.T, w)
-
-#  Hhaar = aic.haarmat(z0.size,levels)
-#  whaar = np.dot(Hhaar, z0)
-#  Ahaar, Dhaar = np.split(whaar,2)
 
   plt.subplot(335)
   y = np.hstack((Ahaar[4], Dhaar[4], Dhaar[3]))
   x = np.arange(y.size)
   plt.title('A4, D4, D3 - haar')
   plt.stem(x,y)
-
-#  plt.subplot(338)
-#  y = Dhaar
-#  x = np.arange(y.size)
-#  plt.title('D4 - haar')
-#  plt.stem(x,y)  
 
   plt.subplot(332)
   recon = pywt.waverec([Ahaar[4], Dhaar[4]],'haar')
@@ -163,11 +110,6 @@ if (PLOT_WAVELET):
   reconhaar43 = scipy.signal.resample(recon, z0.size)
   plt.title('A4, D4, D3 - haar')
   plt.plot(reconhaar43)
-#  plt.subplot(333)
-#  plt.title('original')
-#  plt.plot(z0)  
-#  plt.plot(reconhaar)
-#  plt.plot(reconsym)
 
   normsym  = reconsym4  / np.max(reconsym4)
   normhaar = reconhaar4 / np.max(reconhaar4)
@@ -193,16 +135,12 @@ if (PLOT_WAVELET):
   plt.plot(normsym)
   plt.plot(normhaar)
 
-#  normsym_thresh  = reconsym_thresh  / np.max(reconsym_thresh)
-#  normhaar_thresh = reconhaar_thresh / np.max(reconhaar_thresh)
-#  plt.subplot(339)
-#  plt.plot(normorig)
-#  plt.plot(normsym_thresh)
-#  plt.plot(normhaar_thresh)
-
+#test_data = 0.5*np.random.normal(size=(channels, windowsize))
 test_data = np.zeros((channels, windowsize))
-test_data[0] = z0#z[0, :windowsize]
-#test_data[3] = z[3, :windowsize]
+test_data[0] = z1#z[0, :windowsize]
+test_data[1] = z[2, :windowsize]
+test_data[2] = z[3, :windowsize]
+test_data[3] = z0#[3, :windowsize]
 
 #test_data = z[..., :windowsize]
 
@@ -217,14 +155,17 @@ if PLOT_RECON:
     H = aic.dwtmat(windowsize, wavelet, i+1)
     newA, newD = np.split(H,2)
     D.append(newD)
-  Psi = np.vstack((newA, D[4], D[3], D[2], D[1]))
+#  Psi = np.vstack((newA, D[4], D[3], D[2], D[1]))
+  Psi = np.vstack((newA, D[1]))
   recon0   = np.zeros((5, Psi.shape[0]))
   converter = aic.cmux(Fs, channels)
 
   # build a pipeline
   t_recon     = converter.triv_recon(windowsize, 0, cr.circbuf(t_recon0))
   recon       = converter.reconstruct(Psi, windowsize, 0, cr.circbuf(recon0))
-  bcr_recon   = converter.bcr_recon(levels, Psi, recon, lasso=True, k=0.00001, iteration_cap=10)
+  bcr_recon   = converter.bcr_recon(levels, Psi, recon, lasso=True, 
+                k=0.001, iteration_cap=100)
+
 
   aic_targets = cr.broadcast([cr.circbuf(o0),
                               t_recon,
@@ -245,6 +186,11 @@ if PLOT_RECON:
   x = np.arange(y.size)
   plt.stem(x,y)
 
+  threshed = np.vectorize(threshold)(y)
+  sparsity = np.linalg.norm(threshed,0)/float(y.size)
+  print 'input sparsity:', sparsity
+
+#  recon0[0] = np.vectorize(threshold)(recon0[0])
   plt.subplot(413)
   y = recon0[0]
   x = np.arange(y.size)
@@ -256,7 +202,10 @@ if PLOT_RECON:
     rem, newD = np.split(rem, 2)
     reconD.append(newD)
 #  A, D = np.split(recon0[0], 2)
-  bcr_recon0 = pywt.waverec([rem, reconD[4], reconD[3], reconD[2], reconD[1]], wavelet)
+  bcr_recon0 = pywt.waverec((rem, None), wavelet, 1)
+  bw_b, bw_a  = scipy.signal.bessel(1, (300/Fs, 3000/Fs))
+  rc_filtered = scipy.signal.lfilter(bw_b, bw_a, bcr_recon0)
+#  bcr_recon0 = pywt.waverec([rem, reconD[4], reconD[3], reconD[2], reconD[1]], wavelet)
   #bcr_recon0 = scipy.signal.resample(bcr_recon0, windowsize)
 
   plt.subplot(414)
