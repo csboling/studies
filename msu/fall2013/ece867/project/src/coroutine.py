@@ -27,13 +27,34 @@ def cascade(blocks):
     feeder.send(msg)
 
 @coroutine
-def circbuf(v, debug=False):
-  if debug:
-   print 'destination array:',v.shape
+def printer():
+  while True:
+    print (yield)
+
+class Flush(Exception):
+  pass
+@coroutine
+def circbuf(v, target=None):
+  size  = len(v)
+  count = 0
   while True:
     for i in xrange(len(v)):
-      x = (yield)
-      if debug:
-        print 'slot',i,' = ',x.shape
-      v[i] = x
+      try:
+        v[i] = (yield)
+        if count < size:
+          count += 1
+      except Flush:
+        if target == None:
+          break
+        else:
+          tail = i - count
+          if tail < 0: tail += size
+          while count:
+            target.send(v[tail])
+            tail  += 1
+            if tail == size: tail = 0
+            count -= 1
+            
+    
+       
 
