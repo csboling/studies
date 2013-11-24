@@ -79,7 +79,7 @@ def dwtmat(N, wavelet, level=1):
     return np.hstack(pywt.wavedec(x, wavelet, level=level)[0:2])
   return np.apply_along_axis(fwd_dwt, 1, np.eye(N)).T
 
-def threshold(x, thresh=0.5):
+def threshold(x, thresh=10):
   if (abs(x) > thresh):
     return x
   else:
@@ -176,7 +176,7 @@ class cmux:
         window.send((yield))      
         chips[..., i] = in_chip.next()
       w = np.dot(Psi, y)
-#      w = np.vectorize(threshold)(w)
+      w = np.vectorize(threshold)(w)
 
       # construct the dictionary from chip sequences
       Phi = np.zeros((self.channels, numcoefs, windowsize))
