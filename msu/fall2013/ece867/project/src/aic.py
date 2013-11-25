@@ -142,6 +142,17 @@ class cmux:
       invals = (yield)
       target.send(invals[channel])
 
+  def snippet(self, thresholds, data, before=15, after=24):
+    pos = 0
+    q   = []
+    for samples in data:
+      if pos < before:
+        continue
+      for ch in self.channels:
+        if samples[ch] > thresholds[ch]:
+          q.append((ch, pos, samples[pos-before:pos+after, ch]))
+      seen += 1
+
   @cr.coroutine
   def triv_recon(self, windowsize, ch, target):
     out_chip = self.chip()
