@@ -79,7 +79,7 @@ def dwtmat(N, wavelet, level=1):
     return np.hstack(pywt.wavedec(x, wavelet, level=level)[0:2])
   return np.apply_along_axis(fwd_dwt, 1, np.eye(N)).T
 
-def threshold(x, thresh=10):
+def threshold(x, thresh=12.5):
   if (abs(x) > thresh):
     return x
   else:
@@ -98,11 +98,11 @@ def cycle_blocks(levels, sets):
 
   m, shift = 0, 0
   while True:
-    shift += upstep
-    m = (m + shift) % sets
+    #shift += upstep
+    m = (m + upstep) % sets
     yield m
     shift -= downstep
-    m = (m + shift) % sets
+    m = (m - downstep) % sets
     yield m
 
 class cmux:
@@ -120,7 +120,8 @@ class cmux:
     lfsrval = bitstring.BitArray(self.seed)
     chip    = self.chipseed
     while True:
-      if (time % self.chipT) == 0:
+      if time == self.chipT:
+        time = 0
         lfsrval = lfsr(lfsrval, self.taps)
       else:
         time += 1
@@ -159,8 +160,8 @@ class cmux:
     y = np.zeros(windowsize)
     window = cr.circbuf(y)
 
-#    ch_it = cycle_random(self.channels)
-    ch_it = cycle_blocks(levels=levels, sets=self.channels)
+    ch_it = cycle_random(self.channels)
+#    ch_it = cycle_blocks(levels=levels, sets=self.channels)
 #    ch_it = xrange(iteration_cap)
 
     alpha0_ridge = linear_model.Ridge()
@@ -207,6 +208,9 @@ class cmux:
  
             alpha[ch*windowsize:(ch+1)*windowsize] = alpha_lasso.coef_
     
+            if np.max(alpha) == 0:
+              print 'All coefficients driven to zero, stopping.'
+              break
             if iterations > iteration_cap:
               break
             iterations += 1

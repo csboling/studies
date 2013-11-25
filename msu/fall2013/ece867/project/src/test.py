@@ -56,7 +56,7 @@ t  = np.arange(5*int(Fs))
 z = np.array([ec_filtered[t.size*i + t] for i in xrange(channels)])
 
 offset = 4096#26385
-windowsize = 512
+windowsize = 1024
 z0 = np.asarray(z[0])[offset:offset+windowsize]
 z1 = np.asarray(z[0])[26385:26385+windowsize]
 
@@ -143,6 +143,11 @@ test_data[0] = z1#z[0, :windowsize]
 test_data[1] = z[2, :windowsize]
 test_data[2] = z[3, :windowsize]
 test_data[3] = z0#[3, :windowsize]
+#test_data[4] = z[4, :windowsize]
+#test_data[5] = z[5, :windowsize]
+#test_data[6] = z[6, :windowsize]
+#test_data[7] = z[7, :windowsize]
+
 
 #test_data = z[..., :windowsize]
 
@@ -166,7 +171,7 @@ if PLOT_RECON:
   t_recon     = converter.triv_recon(windowsize, 0, cr.circbuf(t_recon0))
   recon       = converter.reconstruct(Psi, windowsize, 0, cr.circbuf(recon0))
   bcr_recon   = converter.bcr_recon(levels, Psi, recon, lasso=True, 
-                k=0.03, iteration_cap=100)
+                k=0.001, iteration_cap=50)
 
 
   aic_targets = cr.broadcast([cr.circbuf(o0),
@@ -181,19 +186,25 @@ if PLOT_RECON:
     aic_out.send(x)
 
   plt.subplot(411)
-  y = np.dot(Psi, test_data[0])
+  plt.plot(test_data[0,:200])
+  plt.title('Original waveform (channel 0)')
+
+  plt.subplot(412)
+  y = np.dot(Psi, test_data[0])[:512]
   x = np.arange(y.size)
   plt.stem(x,y)
+  plt.title('Haar wavelet coefficients')
 
   threshed = np.vectorize(aic.threshold)(y)
   sparsity = np.linalg.norm(threshed,0)/float(y.size)
   print 'input sparsity:', sparsity
 
 #  recon0[0] = np.vectorize(threshold)(recon0[0])
-  plt.subplot(412)
-  y = recon0[0]
+  plt.subplot(414)
+  y = recon0[0,:512]
   x = np.arange(y.size)
   plt.stem(x,y)
+  plt.title('BCR reconstructed coefficients')
 
   reconD = [[]]
   rem = recon0[0]
@@ -205,16 +216,16 @@ if PLOT_RECON:
   bcr_recon0 = pywt.waverec([rem, reconD[4], reconD[3], 
                                   reconD[2], None], wavelet)
 
-  rc_bw_b, rc_bw_a  = scipy.signal.butter(1, [300/(0.5*Fs), 3000/(0.5*Fs)], 
+  rc_bw_b, rc_bw_a  = scipy.signal.butter(2, [300/(0.5*Fs), 3000/(0.5*Fs)], 
                                     btype='bandpass')
   rc_filtered = scipy.signal.lfilter(rc_bw_b, rc_bw_a, bcr_recon0)
 
   w, h = scipy.signal.freqz(rc_bw_b, rc_bw_a)
-  plt.subplot(413)
-  plt.plot((Fs*0.5 / np.pi)*w, abs(h))
+#  plt.subplot(413)
+#  plt.plot((Fs*0.5 / np.pi)*w, abs(h))
   #plt.plot(w, np.angle(h))
 
-  plt.subplot(414)
+  plt.subplot(413)
   norm_orig0    = test_data[0] / np.max(test_data[0])
   norm_t_recon0 = t_recon0 / np.max(t_recon0)
   norm_b_recon0 = bcr_recon0 / np.max(bcr_recon0)
@@ -223,11 +234,14 @@ if PLOT_RECON:
   print ((norm_t_recon0 - norm_orig0)**2).mean()
   print 'bcr reconstruction MSE:',
   print ((norm_b_recon0 - norm_orig0)**2).mean()
-  plt.plot(norm_orig0)
-  #plt.plot(norm_t_recon0)
-  plt.plot(norm_b_recon0)
-  plt.plot(norm_filt_rc0)
-  
+  #print 'filtered reconstruction MSE:',
+  #print ((norm_filt_rc0 - norm_orig0)**2).mean()
+  plt.plot(norm_orig0[:200], label='Original')
+  plt.plot(norm_t_recon0[:200], label='Trivial reconstruction')
+  plt.plot(norm_b_recon0[:200], label='BCR reconstruction')
+  #plt.plot(norm_filt_rc0)
+  plt.title('Reconstructed waveforms')
+  plt.legend(loc='best')
 
 #  plt.subplot(311)
 #  plot_fft(z[0])
