@@ -1,4 +1,4 @@
-\documentclass{paper}
+\documentclass[11pt]{paper}
 
 \usepackage{natbib}
 \usepackage{graphicx}
@@ -20,14 +20,14 @@ analysis. Next, a rate distortion curve will be plotted that shows the
 relationship between the number of compressive measurements and the 
 mean-squared distortion suffered by action potentials as they pass through
 the system. Additionally, the probability of sparse reconstruction 
-erroneously recovering a coefficient will be computed, and these error 
-probabilities will be used as input to the Blahut-Arimoto algorithm in an
-attempt to establish what coefficients should be preferred or discarded in
-the reconstruction step.
+making an error in the sign of a coefficient will be computed, and these 
+error probabilities will be used as input to the Blahut-Arimoto algorithm 
+in an attempt to establish what coefficients should be preferred or 
+discarded in the reconstruction step.
 
 Compressed sensing relies on the observation (and rigorous demonstration in
 \cite{candes2006}) that a high-dimensional signal which is known to be 
-"sparse" can be represented with a smaller number of measurements than its 
+``sparse" can be represented with a smaller number of measurements than its 
 dimension alone would indicate. More precisely, a dimension $N$ signal 
 $x$ with a representation in basis $\{\psi_i\}_{i=1}^N = \mathbf{\Psi}$ that
 has only $K$ nonzero coefficients, i.e. $x = \mathbf{\Psi}\alpha$ 
@@ -35,7 +35,8 @@ and $K = \|\alpha\|_0 \ll N$, is said to be sparse in $\mathbf{\Psi}$.
 Compressed sensing theory guarantees that such a signal can be reconstructed
 from projections $y = \mathbf{\Phi}x$ provided that the projective 
 transformation $\mathbf{\Phi}$ meets certain requirements. In particular,
-a sufficiently random choice of $\Phi$ guarantees that signals will not be
+a sufficiently random choice of $\mathbf{\Phi}$ guarantees that signals 
+will not be
 sparse in $\mathbf{\Phi}{\Psi}$, and in this case it is sufficient for the
 dimensionality of the projected measurements $y$ to be 
 $M > O\left(K \log \frac{N}{K}\right)$ regardless of the sparsity basis
@@ -97,14 +98,28 @@ particular interest to researchers. Nonetheless, increasing spatial
 resolution of neural recordings to desired levels will require novel
 approaches for controlling system bandwidth, and architectures which can
 afford multiple channels on a single analog-to-digital converter at a fixed
-rate are therefore highly attractive technologies for this problem.
+rate are therefore highly attractive technologies for this problem. In the
+multichannel case, the factor of improvement over Nyquist sampling is 
+concrete, since it is equal to the number of channels in the system. Given
+that the number of channels has a critical impact on the reconstruction
+quality and imposes the most stringent performance bound on the system,
+large scale neural recording platforms using this technology would likely
+involve a bank of such analog-to-information converters operating in
+parallel.
 
 Despite some theoretical developments regarding multichannel systems,
 relatively few architectures have been proposed for performing compressive
 sampling of numerous channels in analog. The most significant is the
 so-called compressive multiplexer described in \cite{slavinsky2011}. In 
 this approach, $J$ channels each with a bandwidth of $W/2$ Hz are sampled
-in parallel. A linear-feedback shift register (LFSR) with taps chosen for
+in parallel. Some other multichannel sampling approaches have been 
+theoretically proposed \cite{eldar2009} but do not necessarily yield obvious
+implementation architectures. The compressive multiplexer has the advantage
+that the compressive projection matrix can be generated independently by the
+receiver without requiring additional system bandwidth, while a major 
+benefit of compressed sensing in general is that a sparsity basis for a
+signal need not be known until reconstruction. A linear-feedback shift 
+register (LFSR) with taps chosen for
 a maximum period of repetition is used to generate chipping sequences that 
 take values of $\pm 1$ with fairly uniform probability, where new chips are
 generated at the rate $W$. Each channel is multiplied in analog with its 
@@ -115,7 +130,7 @@ basis, and the use of a pseudorandom deterministic source allows a receiver
 using the same pseudorandom seed to reconstruct signals acquired in this 
 fashion. Here the projection matrix $\mathbf{\Phi}$ consists of a union of
 $J$ matrices with the chip sequences along the diagonal. By multiplying the 
-resulting stream by the chip sequence for a 
+resulting output stream by the chip sequence for a 
 given channel, a receiver can reproduce the input for that channel plus a
 noise term with a magnitude determined by the sparsity of all other 
 channels. This is the trivial reconstruction mode of the system. The 
@@ -138,13 +153,25 @@ allows the software to flow much like a hardware system and produce output
 on a sample-by-sample basis. NumPy and SciPy are used for data management,
 linear algebra and signal processing, and the PyWavelets and sklearn 
 libraries are used for wavelet decomposition and sparse optimization 
-solving, respectively. Some tuning of parameters and experimentation with
+solving, respectively. Initial attempts to reproduce the results given by 
+Sylvain et al. encountered difficulties since the optimization libraries
+available for Python do not handle complex matrices such as the discrete 
+Fourier transform matrix. Since wavelet transform matrices are real and 
+since wavelets provide the sparse representations of interest these attempts
+were abandoned, but current reconstruction quality does not show the same
+performance as the published results for Fourier-sparse radar signals. Some 
+tuning of parameters and experimentation with
 wavelet bases and sparsification techniques has been performed and 
 development will now focus on information theoretic analysis. When comparing
 reconstructions with inputs it is important to consider only the windows
 immediately surrounding spike events, since for most analysis and control
 applications all data that does not contain action potentials is discarded
 as noise. 
+
+\begin{figure}[!t]
+  \includegraphics[width=\linewidth,clip,trim=125 10 100 0]
+                  {prelim-results.pdf}
+\end{figure}
 
 At present, reasonably good reconstruction performance for action potentials
 has been obtained from both trivial and BCR methods (see figure), although
@@ -167,15 +194,20 @@ quantitatively analyzing the probability that such an error will occur,
 using the finite alphabet of 1 for a positive coefficient with a magnitude 
 above a certain threshold, -1 for a negative coefficient with a magnitude 
 above the threshold, and 0 for any coefficient with a magnitude below the 
-threshold, it should be possible to use the Blahut-Arimoto algorithm to find
-an optimal probability distribution for the "channel" that the compressed 
+threshold, it should be possible to use the Blahut-Arimoto algorithm 
+\cite{yeung2002} to find
+an optimal probability distribution for the ``channel" that the compressed 
 sensing architecture implements. Locating such a probability distribution 
 may provide some insight into which coefficients should be preferred or 
 discarded during sparse optimization.
 
-\begin{figure}
-  \includegraphics[width=\linewidth]{prelim-results.png}
-\end{figure}
+Preliminary results are promising and design tuning and analysis are 
+underway. Rate distortion for the system will be examined in a similar 
+fashion to empirical studies performed for compressed sensing of images in
+the literature, and an approach has been identified to confine the signals
+of interest to finite alphabets in order to make the Blahut-Arimoto 
+algorithm tractable and relevant to the problem.
+
 
 \bibliographystyle{plain}
 \bibliography{references}

@@ -10,7 +10,7 @@ import coroutine as cr
 
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
-timestep_unit = 1000000 #us
+timestep_unit = 10000 #us
 rate_unit     = 1
 
 maximal_taps = {
@@ -47,7 +47,6 @@ maximal_taps = {
 }
 
 def lfsr(bits, taps, direction=1):
-  shift_amt = len(bits)-1
   newbit = bitstring.BitArray('0b0')
   for tap in taps:
     if direction:
@@ -76,10 +75,10 @@ def haarmat(N, level=1):
  
 def dwtmat(N, wavelet, level=1):
   def fwd_dwt(x):
-    return np.hstack(pywt.wavedec(x, wavelet, level=level)[0:2])
+    return np.hstack(pywt.wavedec(x, wavelet, mode='per', level=level)[0:2])
   return np.apply_along_axis(fwd_dwt, 1, np.eye(N)).T
 
-def threshold(x, thresh=12.5):
+def threshold(x, thresh=10.0):
   if (abs(x) > thresh):
     return x
   else:
@@ -90,37 +89,52 @@ def cycle_random(sets):
     yield np.random.randint(0, sets)
 
 def cycle_blocks(levels, sets):
-  #size     = 2**levels
   size = sets
   upstep   = size/2 + 1
   downstep = size - upstep
-  print levels,'levels',sets,'sets, upstep',upstep,'downstep',downstep
 
   m, shift = 0, 0
   while True:
-    #shift += upstep
-    m = (m + upstep) % sets
+    shift += upstep
+    m = (m + shift) % sets
     yield m
     shift -= downstep
-    m = (m - downstep) % sets
+    m = (m + shift) % sets
     yield m
 
 class cmux:
-  def __init__(self, chiprate, channels=96, period=32):
-    self.channels  = channels
-    self.chiprate  = chiprate #Hz
-    self.chipT     = timestep_unit / (self.chiprate * rate_unit)
-    self.taps      = maximal_taps[period]
+  def __init__(self, chiprate, windowsize, wavelet, levels, channels=96, period=32):
+    self.wavelet    = wavelet
+    self.levels     = levels
+    self.windowsize = windowsize
 
-    self.seed      = '0b' + '1'*period
+    (self.Psi, self.Psi_inv) = self.get_matrix()
+
+    self.channels   = channels
+    self.chiprate   = chiprate #Hz
+    self.chipT      = timestep_unit / (self.chiprate * rate_unit)
+    self.taps       = maximal_taps[period]
+
+    self.seed       = '0b' + '1'*period
     self.chipseed    = np.array([[1,-1]*(self.channels/2)])
+
+  def get_matrix(self):
+    D = []
+    for i in xrange(self.levels):
+      H = dwtmat(self.windowsize, self.wavelet, i+1)
+      newA, newD = np.split(H,2)
+      D.insert(0, newD)
+    Psi_inv = np.vstack((newA, np.vstack(D)))
+    Psi     = np.linalg.inv(Psi_inv)
+
+    return (Psi, Psi_inv)
 
   def chip(self):
     time = 0
     lfsrval = bitstring.BitArray(self.seed)
     chip    = self.chipseed
     while True:
-      if time == self.chipT:
+      if time >= self.chipT:
         time = 0
         lfsrval = lfsr(lfsrval, self.taps)
       else:
@@ -145,16 +159,29 @@ class cmux:
   def snippet(self, thresholds, data, before=15, after=24):
     pos = 0
     q   = []
+    post_ct = [0]*self.channels
     for samples in data:
       if pos < before:
-        continue
-      for ch in self.channels:
-        if samples[ch] > thresholds[ch]:
-          q.append((ch, pos, samples[pos-before:pos+after, ch]))
-      seen += 1
+        pass
+      else:
+        for ch in xrange(self.channels):
+          if post_ct[ch] == 0:
+            if abs(samples[ch]) > thresholds[ch]:
+              post_ct[ch] += 1
+              new = {'ch'   : ch,
+                     'pos'  : pos,
+                     'snip' : data[pos-before:pos+after, ch]}
+              q.append(new)
+          else:
+            if post_ct[ch] == after:
+              post_ct[ch] = 0
+            else:
+              post_ct[ch] += 1
+      pos += 1
+    return q
 
   @cr.coroutine
-  def triv_recon(self, windowsize, ch, target):
+  def triv_recon(self, ch, target):
     out_chip = self.chip()
     while True:
       v = (yield)
@@ -163,39 +190,37 @@ class cmux:
       target.send(z)
 
   @cr.coroutine
-  def bcr_recon(self, levels, Psi, target, 
+  def bcr_recon(self, levels, target, 
                 lasso=True, k=0.005, iteration_cap=500):
-    windowsize = Psi.shape[1]
-    numcoefs   = Psi.shape[0]
+    numcoefs   = self.Psi.shape[0]
 
-    y = np.zeros(windowsize)
+    y = np.zeros(self.windowsize)
     window = cr.circbuf(y)
 
-    ch_it = cycle_random(self.channels)
+#    ch_it = cycle_random(self.channels)
 #    ch_it = cycle_blocks(levels=levels, sets=self.channels)
-#    ch_it = xrange(iteration_cap)
+    ch_it = xrange(iteration_cap)
 
     alpha0_ridge = linear_model.Ridge()
     alpha_lasso  = linear_model.Lasso(alpha=k)
 
     in_chip = self.chip()
-    chips = np.zeros((self.channels, windowsize))
+    chips = np.zeros((self.channels, self.windowsize))
 
-    I = np.eye(windowsize)
+    I = np.eye(self.windowsize)
     while True:
       # get a vector of windowsize samples
-      for i in xrange(windowsize):
+      for i in xrange(self.windowsize):
         window.send((yield))      
         chips[..., i] = in_chip.next()
-      w = np.dot(Psi, y)
-      w = np.vectorize(threshold)(w)
-
+      w = y
+ 
       # construct the dictionary from chip sequences
-      Phi = np.zeros((self.channels, numcoefs, windowsize))
-      A   = np.zeros((numcoefs, windowsize*self.channels))
+      Phi = np.zeros((self.channels, numcoefs, self.windowsize))
+      A   = np.zeros((numcoefs, self.windowsize*self.channels))
       for ch in xrange(self.channels):
-        Phi[ch] = np.dot(Psi, chips[ch]*I)
-        A[...,ch*windowsize:(ch+1)*windowsize] = Phi[ch]
+        Phi[ch] = np.dot(chips[ch]*I, self.Psi)
+        A[...,ch*self.windowsize:(ch+1)*self.windowsize] = Phi[ch]
  
       alpha0_ridge.fit(A, w)    
       alpha = alpha0_ridge.coef_
@@ -205,11 +230,11 @@ class cmux:
         try:
           for ch in ch_it:
             ch = ch % self.channels
-            print 'iteration',iterations,', channel',ch
-            A_before = (A.T[:ch*windowsize]).T
-            A_after  = (A.T[(ch+1)*windowsize:]).T
-            alpha_before = alpha[:ch*windowsize]
-            alpha_after  = alpha[(ch+1)*windowsize:]
+            #print 'iteration',iterations,', channel',ch
+            A_before = (A.T[:ch*self.windowsize]).T
+            A_after  = (A.T[(ch+1)*self.windowsize:]).T
+            alpha_before = alpha[:ch*self.windowsize]
+            alpha_after  = alpha[(ch+1)*self.windowsize:]
   
             A_minor = np.hstack((A_before, A_after))
             alpha_m = np.hstack((alpha_before, alpha_after))
@@ -217,7 +242,7 @@ class cmux:
             v = w - np.dot(A_minor, alpha_m)
             alpha_lasso.fit(Phi[ch], v)
  
-            alpha[ch*windowsize:(ch+1)*windowsize] = alpha_lasso.coef_
+            alpha[ch*self.windowsize:(ch+1)*self.windowsize] = alpha_lasso.coef_
     
             if np.max(alpha) == 0:
               print 'All coefficients driven to zero, stopping.'
@@ -230,10 +255,30 @@ class cmux:
       target.send((Phi, alpha))
      
   @cr.coroutine
-  def reconstruct(self, Psi, windowsize, ch, target):
+  def isolate(self, ch, target):
     while True:
       Phi, alpha = (yield)
-      x = alpha[ch*windowsize:(ch+1)*windowsize]
-      w = np.dot(Psi, x)#Phi[ch], x)
-      target.send(w)
+      x = alpha[ch*self.windowsize:(ch+1)*self.windowsize]
+      target.send(x)
+
+  @cr.coroutine
+  def undo_dwt(self, target):
+    while True:
+      reconD = []
+      rem = (yield)
+      for i in xrange(self.levels):
+        rem, newD = np.split(rem, 2)
+        reconD.insert(0,newD)
+      dwt_coefs = [rem] + reconD
+      dwt_recon = pywt.waverec(dwt_coefs, self.wavelet, mode='per')
+      target.send(dwt_recon)
+
+  @cr.coroutine
+  def endpoint(self, A, X):
+    alpha_end = cr.circbuf(A)
+    recon_end = self.undo_dwt(cr.circbuf(X))
+    while True:
+      alpha = (yield)
+      alpha_end.send(alpha)
+      recon_end.send(alpha)
 

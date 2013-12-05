@@ -2,23 +2,29 @@ from functools import partial
 
 import numpy as np
 import scipy.io, scipy.signal
-import matplotlib.pyplot as plt
-import pywt
 
-import cookbook
+import matplotlib.pyplot as plt
+from   matplotlib import rc
+
+import pywt
 
 import aic
 import coroutine as cr
+import plots
 
+
+rc('text', usetex=True)
 Fs = 24000.0
 channels = 4
-dft_size = 128
-levels = 4
-wavelet = 'haar'
+windowsize = 128
+levels = range(1, int(np.log2(windowsize)))
+wavelet = 'sym4'
+filter_output = False
 
 PLOT_FFT      = 0
 PLOT_WAVELET  = 0
 PLOT_RECON    = 1
+PLOT_SNIPPETS = 1
 
 def plot_fft(sig):
   z0 = np.squeeze(sig)
@@ -27,256 +33,157 @@ def plot_fft(sig):
   freq = np.fft.fftfreq(z0.size)
   plt.plot(freq, np.abs(Fz))
 
-def threshold(x, thresh=0.5):
-  if abs(x) > thresh:
-    return x
-  else:
-    return 0
+def sine_inputs(Fs, channels, duration):
+  sinecount = np.floor(5*np.random.rand(channels)) + 1
+  max_sines = np.max(sinecount)
+  f = np.zeros((channels, max_sines))
+  for i in xrange(f.shape[0]):
+    f[i] = Fs/2 * np.hstack((np.random.rand(sinecount[i]), 
+                             [0]*(max_sines-sinecount[i])))
+  coeffs = 5 * np.random.rand(channels, max_sines)
+  w = f/Fs
 
-sinecount = np.floor(5*np.random.rand(channels)) + 1
-max_sines = np.max(sinecount)
-f = np.zeros((channels, max_sines))
-for i in xrange(f.shape[0]):
-  f[i] = Fs/2 * np.hstack((np.random.rand(sinecount[i]), 
-                           [0]*(max_sines-sinecount[i])))
-coeffs = 5 * np.random.rand(channels, max_sines)
-w = f/Fs
+  t  = np.arange(int(duration))
+  ys = np.array([[np.sin(2*np.pi*w0*t) for w0 in ch] for ch in w])
+  return np.dot(coeffs, ys)[0,...,...]
 
-# import Quiroga et al's simulated data set 
-# (from http://www2.le.ac.uk/departments/engineering/research/
-#              bioengineering/neuroengineering-lab/software)
-# and filter it between 500 and 7500 Hz to examine spike data
-extracel = scipy.io.loadmat('quiroga_simulation_1.mat')['data'][0,...]
-bw_b, bw_a = scipy.signal.butter(1, (300/(0.5*Fs), 3000/(0.5*Fs)), btype='band')
-ec_filtered = scipy.signal.lfilter(bw_b, bw_a, extracel)
+def extracel_inputs(Fs, channels, duration):
+  '''
+  import Quiroga et al's simulated data set 
+  (from http://www2.le.ac.uk/departments/engineering/research/
+                bioengineering/neuroengineering-lab/software)
+  and filter it between 500 and 7500 Hz to examine spike data
+  '''
+  extracel = scipy.io.loadmat('quiroga_simulation_1.mat')['data'][0,...]
+  bw_b, bw_a = scipy.signal.butter(1, (300/(0.5*Fs), 3000/(0.5*Fs)), btype='band')
+  ec_filtered = scipy.signal.lfilter(bw_b, bw_a, extracel)
 
-t  = np.arange(5*int(Fs))
-#ys = np.array([[np.sin(2*np.pi*w0*t) for w0 in ch] for ch in w])
-#z  = np.dot(coeffs, ys)[0,...,...]
-z = np.array([ec_filtered[t.size*i + t] for i in xrange(channels)])
+  t  = np.arange(int(duration))
+  return np.array([ec_filtered[t.size*i + t] for i in xrange(channels)])
 
-offset = 4096#26385
-windowsize = 1024
-z0 = np.asarray(z[0])[offset:offset+windowsize]
-z1 = np.asarray(z[0])[26385:26385+windowsize]
+def synthetic_input(windowsize, channels, sparsity, wavelet, levels):
+  ret = np.zeros((channels, windowsize))
+  nonzeros = int(sparsity*windowsize)
+  coefs = np.zeros(windowsize)
+  for ch in xrange(channels):
+    mag = 50.0
+    for i in xrange(nonzeros):
+      j = np.random.randint(windowsize)
+      coefs[j] = mag
+      mag /= 2
 
-if (PLOT_WAVELET): 
+    reconD = []
+    rem = coefs
+    for i in xrange(levels):
+      rem, newD = np.split(rem, 2)
+      reconD.insert(0,newD)
+    dwt_coefs = [rem] + reconD
+    ret[ch] = pywt.waverec(dwt_coefs, wavelet, mode='per')
+    coefs[...] = 0
+  return ret
+  
+def main():
+  #z = sine_inputs(Fs, channels, 5*Fs)
+  z = extracel_inputs(Fs, channels, 5*Fs)
+  #z = synthetic_input(windowsize, channels, 0.01, wavelet, levels) 
+
+  known_spike = np.asarray(z[0])[26385:26385+windowsize]
+
+  #plots.plot_wavelets(z0, wavelet, levels)
+
+  error = []
+  min_mse = 10000
+  low_err_level = 0
+  for level in levels:
+    test_data = z[..., :windowsize]
+    test_data[0] = known_spike
+    chipped = np.zeros(test_data.shape)
+    t_recon = np.zeros(test_data.shape)
+  
+    converter = aic.cmux(Fs, windowsize, wavelet, level, channels=channels)
+    alpha     = np.zeros((channels, 1, converter.Psi.shape[0]))
+    signals   = np.zeros((channels, 1, converter.Psi.shape[1]))
+
+    # build a pipeline
+    chipped_buffers  = cr.broadcast([cr.circbuf(chipped[i])
+                                     for i in xrange(channels)])
+    t_reconstructors = cr.broadcast([converter.triv_recon(i, cr.circbuf(t_recon[i]))
+                                     for i in xrange(channels)])
+    ch_isolators     = cr.broadcast([converter.isolate(i, converter.endpoint(alpha[i], signals[i]))
+                                     for i in xrange(channels)])
+    bcr_reconstructor = converter.bcr_recon(level,  ch_isolators, lasso=True, 
+                                            k=0.0005, iteration_cap=20*channels)
+
+    aic_targets = cr.broadcast([chipped_buffers,
+                                t_reconstructors,
+                              bcr_reconstructor])
+    #aic_out = converter.bypass(aic_targets, 0)
+    aic_out     = converter.out(aic_targets)
+
+    alpha_in        = np.dot(converter.Psi_inv, test_data.T).T
+    # push the data through
+    for x in test_data.T:
+      aic_out.send(x)
+
+    bf_b, bf_a = scipy.signal.bessel(1, (3000/(0.5*Fs),), btype='low')
+    if filter_output:
+      filtered = [scipy.signal.lfilter(bf_b, bf_a, s) for s in signals.squeeze()]
+    else:
+      filtered = signals.squeeze()
+
+    norm_thresholds = 0.9*np.ones(channels)
+    test_data /= np.max(np.abs(test_data))
+    t_recon   /= np.max(np.abs(t_recon))
+    signals   /= np.max(np.abs(signals))
+    filtered  /= np.max(np.abs(filtered))
+  
+    in_snippets     = converter.snippet(norm_thresholds, test_data.T)
+    print '%d input snippets' % len(in_snippets)
+    recon_snippets  = converter.snippet(norm_thresholds, filtered.T)
+    print '%d BCR recon snippets' % len(recon_snippets)
+  
+    if PLOT_SNIPPETS:
+      for snip in in_snippets:
+        maybe_snip = None
+        while recon_snippets:
+          maybe_snip = recon_snippets.pop(0)
+          if maybe_snip['ch'] == snip['ch']:
+            break
+          else:
+            print 'bogus snippet: ch %d pos %d vs ch %d pos %d' \
+                  % (snip['ch'], snip['pos'], maybe_snip['ch'], maybe_snip['pos'])
+        if maybe_snip == None:
+          print 'no reconstruction found for ch %d pos %d' % (snip['ch'], snip['pos'])
+        else:
+          mse = ((maybe_snip['snip'] - snip['snip'])**2).mean()
+          if mse < min_mse:
+            min_mse = mse
+            low_err_level = level
+            best_in_snip  = snip
+            best_out_snip = maybe_snip
+          error.append(mse)
+    else:
+      for i in xrange(channels):
+        plots.plot_aic(test_data[i], alpha_in[i], 
+                       t_recon[i],     
+                       alpha[i][0], signals[i][0], filtered[i])
+  
+  
+  print 'Smallest MSE =',min_mse
   plt.figure()
-
-  Asym, Dsym = [[]], [[]]
-  for i in xrange(1, levels+1):
-    H = aic.dwtmat(z0.size, wavelet, i)
-    w = np.dot(H, z0)
-    Asym.append(w[:w.size/2])
-    Dsym.append(w[w.size/2:])
-
-  Ahaar, Dhaar = [[]], [[]]
-  for i in xrange(1, levels+1):
-    H = aic.dwtmat(z0.size, 'haar', i)
-    w = np.dot(H, z0)
-    Ahaar.append(w[:w.size/2])
-    Dhaar.append(w[w.size/2:])
-
-  plt.subplot(334)
-  y = np.hstack((Asym[4], Dsym[4], Dsym[3]))
-  x = np.arange(y.size)
-  plt.title('A4, D4, D3 - symlet')
-  plt.stem(x,y)
-
-  plt.subplot(331)
-  recon = pywt.waverec([Asym[4], Dsym[4]],wavelet)
-  reconsym4 = scipy.signal.resample(recon, z0.size)
-  plt.title('A4, D4 - symlet')
-  plt.plot(reconsym4)
-
-  plt.subplot(337)
-  recon = pywt.waverec([Asym[4], Dsym[4], Dsym[3]],wavelet)
-  reconsym43 = scipy.signal.resample(recon, z0.size)
-  plt.title('A4, D4, D3 - symlet')
-  plt.plot(reconsym43)
-
-  plt.subplot(335)
-  y = np.hstack((Ahaar[4], Dhaar[4], Dhaar[3]))
-  x = np.arange(y.size)
-  plt.title('A4, D4, D3 - haar')
-  plt.stem(x,y)
-
-  plt.subplot(332)
-  recon = pywt.waverec([Ahaar[4], Dhaar[4]],'haar')
-  reconhaar4 = scipy.signal.resample(recon, z0.size)
-  plt.title('A4, D4 - haar')
-  plt.plot(reconhaar4)
-
-  plt.subplot(338)
-  recon = pywt.waverec([Ahaar[4], Dhaar[4], Dhaar[3]],'haar')
-  reconhaar43 = scipy.signal.resample(recon, z0.size)
-  plt.title('A4, D4, D3 - haar')
-  plt.plot(reconhaar43)
-
-  normsym  = reconsym4  / np.max(reconsym4)
-  normhaar = reconhaar4 / np.max(reconhaar4)
-  normorig = z0 / np.max(z0)
-  print 'sym MSE without d3:' , ((normsym - normorig)**2).mean(), 
-  print 'sparsity', np.linalg.norm(np.hstack((Ahaar[4], Dhaar[4])),0)/float(z0.size)
-  print 'haar MSE without d3:', ((normhaar - normorig)**2).mean(),
-  print 'sparsity', np.linalg.norm(np.hstack((Asym[4], Dsym[4])),0)/float(z0.size)
-  plt.subplot(333)
-  plt.plot(normorig)
-  plt.plot(normsym)
-  plt.plot(normhaar)
-  print
-
-  normsym  = reconsym43  / np.max(reconsym43)
-  normhaar = reconhaar43 / np.max(reconhaar43)
-  print 'sym MSE with d3:' , ((normsym - normorig)**2).mean(),
-  print 'sparsity', np.linalg.norm(np.hstack((Ahaar[4], Dhaar[4], Dhaar[3])),0)/float(z0.size)
-  print 'haar MSE with d3:', ((normhaar - normorig)**2).mean(),
-  print 'sparsity', np.linalg.norm(np.hstack((Asym[4], Dsym[4], Dsym[3])),0)/float(z0.size)
-  plt.subplot(339)
-  plt.plot(normorig)
-  plt.plot(normsym)
-  plt.plot(normhaar)
-
-#test_data = 0.5*np.random.normal(size=(channels, windowsize))
-test_data = np.zeros((channels, windowsize))
-test_data[0] = z1#z[0, :windowsize]
-test_data[1] = z[2, :windowsize]
-test_data[2] = z[3, :windowsize]
-test_data[3] = z0#[3, :windowsize]
-#test_data[4] = z[4, :windowsize]
-#test_data[5] = z[5, :windowsize]
-#test_data[6] = z[6, :windowsize]
-#test_data[7] = z[7, :windowsize]
-
-
-#test_data = z[..., :windowsize]
-
-if PLOT_RECON:
-  o0 = np.zeros(test_data.shape[1])
-  t_recon0 = np.zeros(test_data.shape[1])
-
-  # transform matrix for a basis in which the signals
-  # are believed to be sparse
-  D = [[]]
-  for i in xrange(levels):
-    H = aic.dwtmat(windowsize, wavelet, i+1)
-    newA, newD = np.split(H,2)
-    D.append(newD)
-  Psi = np.vstack((newA, D[4], D[3], D[2], D[1]))
-#  Psi = np.vstack((newA, D[1]))
-  recon0   = np.zeros((5, Psi.shape[0]))
-  converter = aic.cmux(Fs, channels)
-
-  # build a pipeline
-  t_recon     = converter.triv_recon(windowsize, 0, cr.circbuf(t_recon0))
-  recon       = converter.reconstruct(Psi, windowsize, 0, cr.circbuf(recon0))
-  bcr_recon   = converter.bcr_recon(levels, Psi, recon, lasso=True, 
-                k=0.001, iteration_cap=50)
-
-
-  aic_targets = cr.broadcast([cr.circbuf(o0),
-                              t_recon,
-                              bcr_recon])
-  #aic_out = converter.bypass(aic_targets, 0)
-  aic_out     = converter.out(aic_targets)
-
-  # push the data through
-  print test_data.shape
-  for x in test_data.T:
-    aic_out.send(x)
-
-  plt.subplot(411)
-  plt.plot(test_data[0,:200])
-  plt.title('Original waveform (channel 0)')
-
-  plt.subplot(412)
-  y = np.dot(Psi, test_data[0])[:512]
-  x = np.arange(y.size)
-  plt.stem(x,y)
-  plt.title('Haar wavelet coefficients')
-
-  threshed = np.vectorize(aic.threshold)(y)
-  sparsity = np.linalg.norm(threshed,0)/float(y.size)
-  print 'input sparsity:', sparsity
-
-#  recon0[0] = np.vectorize(threshold)(recon0[0])
-  plt.subplot(414)
-  y = recon0[0,:512]
-  x = np.arange(y.size)
-  plt.stem(x,y)
-  plt.title('BCR reconstructed coefficients')
-
-  reconD = [[]]
-  rem = recon0[0]
-  for i in xrange(levels):
-    rem, newD = np.split(rem, 2)
-    reconD.append(newD)
-#  A, D = np.split(recon0[0], 2)
-#  bcr_recon0 = pywt.waverec([rem, reconD[1]], wavelet, 1)
-  bcr_recon0 = pywt.waverec([rem, reconD[4], reconD[3], 
-                                  reconD[2], None], wavelet)
-
-  rc_bw_b, rc_bw_a  = scipy.signal.butter(2, [300/(0.5*Fs), 3000/(0.5*Fs)], 
-                                    btype='bandpass')
-  rc_filtered = scipy.signal.lfilter(rc_bw_b, rc_bw_a, bcr_recon0)
-
-  w, h = scipy.signal.freqz(rc_bw_b, rc_bw_a)
-#  plt.subplot(413)
-#  plt.plot((Fs*0.5 / np.pi)*w, abs(h))
-  #plt.plot(w, np.angle(h))
-
-  plt.subplot(413)
-  norm_orig0    = test_data[0] / np.max(test_data[0])
-  norm_t_recon0 = t_recon0 / np.max(t_recon0)
-  norm_b_recon0 = bcr_recon0 / np.max(bcr_recon0)
-  norm_filt_rc0 = rc_filtered / np.max(rc_filtered)
-  print 'trivial reconstruction MSE:',
-  print ((norm_t_recon0 - norm_orig0)**2).mean()
-  print 'bcr reconstruction MSE:',
-  print ((norm_b_recon0 - norm_orig0)**2).mean()
-  #print 'filtered reconstruction MSE:',
-  #print ((norm_filt_rc0 - norm_orig0)**2).mean()
-  plt.plot(norm_orig0[:200], label='Original')
-  plt.plot(norm_t_recon0[:200], label='Trivial reconstruction')
-  plt.plot(norm_b_recon0[:200], label='BCR reconstruction')
-  #plt.plot(norm_filt_rc0)
-  plt.title('Reconstructed waveforms')
+  plt.title('Channel %d of %d\n%d levels\nMSE %f' % (best_in_snip['ch']+1, channels, low_err_level, min_mse))
+  plt.plot(best_in_snip['snip'],  label='Original')
+  plt.plot(best_out_snip['snip'], label='Reconstruction')
   plt.legend(loc='best')
 
-#  plt.subplot(311)
-#  plot_fft(z[0])
-
-#  plt.subplot(312)
-#  plot_fft(z[1])
-
-#  plt.subplot(313)
-#  plot_fft(t_recon0)
-
-#  plt.subplot(335)
-#  Hx = np.dot(aic.haarmat(z0.size), z0)
-#  plt.plot(Hx[:z0.size/2])
-#  plot_fft(t_recon0)
-
-#  plt.subplot(336)
-#  plt.plot(Hx[z0.size/2:])
-#  plot_dwt(t_recon0, wavelet)
-
-#  plt.subplot(339)
-#  plt.plot(recon0)  
-
-#  plt.subplot(337)
-#  inv_haar_recon0 = np.dot(aic.haarmat(recon0.size).T, recon0)
-#  plt.plot(inv_haar_recon0)
+  plt.figure()
+  plt.plot(levels, error,)
+  plt.plot(levels, error, 'x')
+  plt.title('Mean squared error\n%s\n%s' % (wavelet, 'filtered' if filter_output else 'unfiltered'))
+  plt.xlabel('# decomposition levels')
+  plt.ylabel('$\epsilon$')
   
-#  plt.subplot(338)
-#  plot_fft(inv_haar_recon0)
+  plt.show()
 
-#  plt.subplot(336)
-#  plot_dwt(recon0, wavelet)
-#  print recon[0].shape
-#  print recon[0]
-#  freq_recon = np.fft.fftfreq(recon0.shape[0])
-#  plt.subplot(414)
-#  plt.plot(freq_recon, np.abs(recon[0]))
-
-plt.show()
+if __name__ == '__main__':
+  main()

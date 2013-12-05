@@ -54,7 +54,4 @@ def circbuf(v, target=None):
             tail  += 1
             if tail == size: tail = 0
             count -= 1
-            
-    
-       
 
