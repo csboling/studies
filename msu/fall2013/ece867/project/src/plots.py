@@ -88,7 +88,6 @@ def plot_aic(invec, alpha_in, t_recon, alpha, recon, filtered):
   lines = ['-','--','-.','.']
   linecycler = cycle(lines)
 
-
   plt.figure()
   plt.subplot(411)
   plt.plot(invec)

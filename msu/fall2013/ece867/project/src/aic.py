@@ -81,7 +81,7 @@ def dwtmat(N, wavelet, level=1):
     return np.hstack(pywt.wavedec(x, wavelet, mode='per', level=level)[0:2])
   return np.apply_along_axis(fwd_dwt, 1, np.eye(N)).T
 
-def threshold(x, thresh=0.5):
+def threshold(x, thresh=10.0):
   if (abs(x) > thresh):
     return x
   else:
@@ -164,11 +164,11 @@ class cmux:
       H = dwtmat(self.windowsize, self.wavelet, i+1)
       newA, newD = np.split(H,2)
       D.insert(0, newD)
-      
-    forward = np.vstack((newA, np.vstack(D)))
-    inverse = np.linalg.inv(forward)
 
-    return (forward, inverse)
+    Psi_inv = np.vstack((newA, np.vstack(D)))
+    Psi     = np.linalg.inv(Psi_inv)
+
+    return (Psi, Psi_inv)
 
   def chip(self):
     time = 0
@@ -208,7 +208,6 @@ class cmux:
         for ch in xrange(self.channels):
           if post_ct[ch] == 0:
             if abs(samples[ch]) > thresholds[ch]:
-              print 'snippet on ch %d at %d' % (ch, pos)
               post_ct[ch] += 1
               new = {'ch'   : ch,
                      'pos'  : pos,
@@ -232,17 +231,14 @@ class cmux:
       target.send(z)
 
   @cr.coroutine
-  def bcr_recon(self, levels, Psi, target, 
+  def bcr_recon(self, levels, target, 
                 lasso=True, k=0.005, iteration_cap=500):
-    windowsize = Psi.shape[1]
-    numcoefs   = Psi.shape[0]
+    numcoefs   = self.Psi.shape[0]
 
     y = np.zeros(self.windowsize)
     window = cr.circbuf(y)
 
-#    ch_it = cycle_random(self.channels)
     ch_it = cycle_blocks(levels=levels, sets=self.channels)
-#    ch_it = xrange(iteration_cap)
 
     alpha0_ridge = sklearn.linear_model.Ridge()
     alpha_lasso  = sklearn.linear_model.Lasso(alpha=k)
@@ -257,7 +253,6 @@ class cmux:
         window.send((yield))      
         chips[..., i] = in_chip.next()
       w = self.prep(y)
-      #w = np.vectorize(threshold)(w)
  
       # construct the dictionary from chip sequences
       Phi = np.zeros((self.channels, numcoefs, self.windowsize))
@@ -284,7 +279,6 @@ class cmux:
   
             v = w - np.dot(A_minor, alpha_m)
             alpha_lasso.fit(Phi[ch], v)
-
             alpha[ch*self.windowsize:(ch+1)*self.windowsize] = alpha_lasso.coef_
     
             if np.max(alpha) == 0:
