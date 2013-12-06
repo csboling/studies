@@ -1,7 +1,7 @@
-import sys, logging
+import sys, logging, time
 
 import numpy as np
-from sklearn import linear_model
+import sklearn.linear_model
 import pywt
 
 import bitstring
@@ -108,7 +108,12 @@ class cmux:
     self.levels     = levels
     self.windowsize = windowsize
 
-    (self.Psi, self.Psi_inv) = self.get_matrix()
+    (self.Psi, self.Psi_inv) = self.get_undwt_matrix()
+    self.prep       = lambda y: y
+    self.endpoint   = self.endpoint_undwt
+#    (self.Psi_inv, self.Psi) = self.get_undwt_matrix()
+#    self.prep       = lambda y: np.dot(self.Psi, y)
+#    self.endpoint   = self.endpoint_dwt
 
     self.channels   = channels
     self.chiprate   = chiprate #Hz
@@ -118,12 +123,13 @@ class cmux:
     self.seed       = '0b' + '1'*period
     self.chipseed    = np.array([[1,-1]*(self.channels/2)])
 
-  def get_matrix(self):
+  def get_undwt_matrix(self):
     D = []
     for i in xrange(self.levels):
       H = dwtmat(self.windowsize, self.wavelet, i+1)
       newA, newD = np.split(H,2)
       D.insert(0, newD)
+      
     Psi_inv = np.vstack((newA, np.vstack(D)))
     Psi     = np.linalg.inv(Psi_inv)
 
@@ -201,8 +207,8 @@ class cmux:
 #    ch_it = cycle_blocks(levels=levels, sets=self.channels)
     ch_it = xrange(iteration_cap)
 
-    alpha0_ridge = linear_model.Ridge()
-    alpha_lasso  = linear_model.Lasso(alpha=k)
+    alpha0_ridge = sklearn.linear_model.Ridge()
+    alpha_lasso  = sklearn.linear_model.Lasso(alpha=k)#, precompute=False)
 
     in_chip = self.chip()
     chips = np.zeros((self.channels, self.windowsize))
@@ -213,7 +219,7 @@ class cmux:
       for i in xrange(self.windowsize):
         window.send((yield))      
         chips[..., i] = in_chip.next()
-      w = y
+      w = self.prep(y)
  
       # construct the dictionary from chip sequences
       Phi = np.zeros((self.channels, numcoefs, self.windowsize))
@@ -230,7 +236,6 @@ class cmux:
         try:
           for ch in ch_it:
             ch = ch % self.channels
-            #print 'iteration',iterations,', channel',ch
             A_before = (A.T[:ch*self.windowsize]).T
             A_after  = (A.T[(ch+1)*self.windowsize:]).T
             alpha_before = alpha[:ch*self.windowsize]
@@ -241,7 +246,7 @@ class cmux:
   
             v = w - np.dot(A_minor, alpha_m)
             alpha_lasso.fit(Phi[ch], v)
- 
+
             alpha[ch*self.windowsize:(ch+1)*self.windowsize] = alpha_lasso.coef_
     
             if np.max(alpha) == 0:
@@ -274,7 +279,14 @@ class cmux:
       target.send(dwt_recon)
 
   @cr.coroutine
-  def endpoint(self, A, X):
+  def do_dwt(self, target):
+    while True:
+      w = (yield)
+      x = np.dot(self.Psi, w)
+      target.send(x)
+
+  @cr.coroutine
+  def endpoint_undwt(self, A, X):
     alpha_end = cr.circbuf(A)
     recon_end = self.undo_dwt(cr.circbuf(X))
     while True:
@@ -282,3 +294,11 @@ class cmux:
       alpha_end.send(alpha)
       recon_end.send(alpha)
 
+  @cr.coroutine
+  def endpoint_dwt(self, A, X):
+    alpha_end = self.do_dwt(cr.circbuf(A))
+    recon_end = cr.circbuf(X)
+    while True:
+      alpha = (yield)
+      alpha_end.send(alpha)
+      recon_end.send(alpha)
