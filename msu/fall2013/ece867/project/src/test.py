@@ -17,14 +17,19 @@ rc('text', usetex=True)
 Fs = 24000.0
 channels = 4
 windowsize = 128
-levels = range(1, int(np.log2(windowsize)))
+levels = [2]*2#range(1, int(np.log2(windowsize)))
 wavelet = 'sym4'
 filter_output = False
 
 PLOT_FFT      = 0
 PLOT_WAVELET  = 0
-PLOT_RECON    = 1
+PLOT_RECON    = 0
 PLOT_SNIPPETS = 1
+
+def normalize(x):
+  y =  x / np.max(np.abs(x))
+  x /= np.max(np.abs(x))
+  return y
 
 def plot_fft(sig):
   z0 = np.squeeze(sig)
@@ -87,6 +92,7 @@ def main():
   z = extracel_inputs(Fs, channels, 5*Fs)
   #z = synthetic_input(windowsize, channels, 0.01, wavelet, levels) 
 
+  bf_b, bf_a = scipy.signal.bessel(1, (3000/(0.5*Fs),), btype='low')
   known_spike = np.asarray(z[0])[26385:26385+windowsize]
 
   #plots.plot_wavelets(z0, wavelet, levels)
@@ -94,16 +100,24 @@ def main():
   error = []
   min_mse = 10000
   low_err_level = 0
-  for level in levels:
+
+ 
+  for level in levels: 
     test_data = z[..., :windowsize]
     test_data[0] = known_spike
     chipped = np.zeros(test_data.shape)
     t_recon = np.zeros(test_data.shape)
-  
+
+
     converter = aic.cmux(Fs, windowsize, wavelet, level, channels=channels)
     alpha     = np.zeros((channels, 1, converter.Psi.shape[0]))
     signals   = np.zeros((channels, 1, converter.Psi.shape[1]))
+    filtered  = np.zeros(t_recon.shape)
 
+    print test_data[0,0]
+    print t_recon[0,0]
+    print signals[0,0]
+    print filtered[0,0]
     # build a pipeline
     chipped_buffers  = cr.broadcast([cr.circbuf(chipped[i])
                                      for i in xrange(channels)])
@@ -125,21 +139,20 @@ def main():
     for x in test_data.T:
       aic_out.send(x)
 
-    bf_b, bf_a = scipy.signal.bessel(1, (3000/(0.5*Fs),), btype='low')
     if filter_output:
       filtered = [scipy.signal.lfilter(bf_b, bf_a, s) for s in signals.squeeze()]
     else:
       filtered = signals.squeeze()
 
     norm_thresholds = 0.9*np.ones(channels)
-    test_data /= np.max(np.abs(test_data))
-    t_recon   /= np.max(np.abs(t_recon))
-    signals   /= np.max(np.abs(signals))
-    filtered  /= np.max(np.abs(filtered))
-  
-    in_snippets     = converter.snippet(norm_thresholds, test_data.T)
+    norm_test_data = normalize(test_data)
+    norm_t_recon   = normalize(t_recon)
+    norm_signals   = normalize(signals)
+    norm_filtered  = normalize(filtered)
+ 
+    in_snippets     = converter.snippet(norm_thresholds, norm_test_data.T)
     print '%d input snippets' % len(in_snippets)
-    recon_snippets  = converter.snippet(norm_thresholds, filtered.T)
+    recon_snippets  = converter.snippet(norm_thresholds, norm_filtered.T)
     print '%d BCR recon snippets' % len(recon_snippets)
   
     if PLOT_SNIPPETS:
@@ -164,24 +177,25 @@ def main():
           error.append(mse)
     else:
       for i in xrange(channels):
-        plots.plot_aic(test_data[i], alpha_in[i], 
-                       t_recon[i],     
-                       alpha[i][0], signals[i][0], filtered[i])
+        plots.plot_aic(norm_test_data[i], alpha_in[i], 
+                       norm_t_recon[i],     
+                       alpha[i][0], norm_signals[i][0], norm_filtered[i])
   
   
-  print 'Smallest MSE =',min_mse
-  plt.figure()
-  plt.title('Channel %d of %d\n%d levels\nMSE %f' % (best_in_snip['ch']+1, channels, low_err_level, min_mse))
-  plt.plot(best_in_snip['snip'],  label='Original')
-  plt.plot(best_out_snip['snip'], label='Reconstruction')
-  plt.legend(loc='best')
+  if PLOT_SNIPPETS:
+    print 'Smallest MSE =',min_mse
+    plt.figure()
+    plt.title('Channel %d of %d\n%d levels\nMSE %f' % (best_in_snip['ch']+1, channels, low_err_level, min_mse))
+    plt.plot(best_in_snip['snip'],  label='Original')
+    plt.plot(best_out_snip['snip'], label='Reconstruction')
+    plt.legend(loc='best')
 
-  plt.figure()
-  plt.plot(levels, error,)
-  plt.plot(levels, error, 'x')
-  plt.title('Mean squared error\n%s\n%s' % (wavelet, 'filtered' if filter_output else 'unfiltered'))
-  plt.xlabel('# decomposition levels')
-  plt.ylabel('$\epsilon$')
+    plt.figure()
+    plt.plot(levels, error,)
+    plt.plot(levels, error, 'x')
+    plt.title('Mean squared error\n%s\n%s' % (wavelet, 'filtered' if filter_output else 'unfiltered'))
+    plt.xlabel('# decomposition levels')
+    plt.ylabel('$\epsilon$')
   
   plt.show()
 
