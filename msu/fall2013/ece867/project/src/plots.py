@@ -79,6 +79,9 @@ def plot_wavelets(z, wavelet, levels):
   plt.plot(normsym)
   plt.plot(normhaar)
 
+def vline(x, amp):
+  plt.plot([x,x], [-amp,amp])
+
 def plot_aic(invec, alpha_in, t_recon, alpha, recon, filtered):
 
   plt.figure()
@@ -87,15 +90,21 @@ def plot_aic(invec, alpha_in, t_recon, alpha, recon, filtered):
   plt.title('Original waveform')
 
   plt.subplot(412)
-  y = alpha_in#np.dot(Psi, invec)
+  y = alpha_in.reshape(-1)#squeeze()#np.dot(Psi, invec)
   x = np.arange(y.size)
   plt.stem(x,y)
+  amp = np.max(np.abs(alpha_in))
+  for t in xrange(alpha_in.shape[0]):
+    vline(t*alpha_in.shape[1], amp)
   plt.title('Wavelet coefficients')
 
   plt.subplot(414)
-  y = alpha
+  y = alpha.reshape(-1)
   x = np.arange(y.size)
   plt.stem(x,y)
+  amp = np.max(np.abs(alpha))
+  for t in xrange(alpha.shape[0]):
+    vline(t*alpha.shape[1], amp)
   plt.title('BCR-recovered coefficients')
 
   plt.subplot(413)
@@ -104,12 +113,12 @@ def plot_aic(invec, alpha_in, t_recon, alpha, recon, filtered):
     print ((t_recon - invec)**2).mean()
   print 'bcr reconstruction MSE:',
   print ((recon - invec)**2).mean()
-  plt.plot(invec[:200], label='Original')
+  plt.plot(invec, label='Original')
   if t_recon != None:
-    plt.plot(t_recon[:200], label='Trivial reconstruction')
-  plt.plot(recon[:200], label='BCR reconstruction')
+    plt.plot(t_recon, label='Trivial reconstruction')
+  plt.plot(recon, label='BCR reconstruction')
   if filtered != None:
-    plt.plot(filtered[:200], label='Filtered BCR')
+    plt.plot(filtered, label='Filtered BCR')
   plt.title('Reconstructed waveforms')
   plt.legend(loc='best')
 

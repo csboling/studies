@@ -123,10 +123,14 @@ def elim_coefs(discard, thresh, v):
 
 class cmux:
   def __init__(self, chiprate, windowsize, wavelet, levels, 
-                     discard=0, threshold=0, channels=96, period=32, domain='wav'):
+                     discard=0, threshold=0, 
+                     channels=96, period=32, domain='wav'):
     self.wavelet    = wavelet
     self.levels     = levels
     self.windowsize = windowsize
+
+    self.discard    = int(discard * self.windowsize)
+    self.threshold  = threshold
 
     if domain == 'time':
       (self.Psi_inv, self.Psi) = self.get_undwt_matrix()
@@ -137,7 +141,12 @@ class cmux:
     else:
       (self.Psi, self.Psi_inv) = self.get_undwt_matrix()
       self.forward    = self.Psi
-      self.prep       = lambda y: elim_coefs(discard, threshold, np.dot(self.Psi, y))
+
+      def prep(y):
+        return elim_coefs(self.discard, 
+                   self.threshold,
+                   np.dot(self.Psi, y))
+      self.prep       = prep
       self.endpoint   = self.endpoint_dwt
       self.chipshape  = (1,-1)
 
@@ -199,6 +208,7 @@ class cmux:
         for ch in xrange(self.channels):
           if post_ct[ch] == 0:
             if abs(samples[ch]) > thresholds[ch]:
+              print 'snippet on ch %d at %d' % (ch, pos)
               post_ct[ch] += 1
               new = {'ch'   : ch,
                      'pos'  : pos,
@@ -234,7 +244,7 @@ class cmux:
     ch_it = xrange(iteration_cap)
 
     alpha0_ridge = sklearn.linear_model.Ridge()
-    alpha_lasso  = sklearn.linear_model.Lasso(alpha=k)#, precompute=False)
+    alpha_lasso  = sklearn.linear_model.Lasso(alpha=k)
 
     in_chip = self.chip()
     chips = np.zeros((self.channels, self.windowsize))
@@ -314,7 +324,14 @@ class cmux:
       target.send(x)
 
   @cr.coroutine
-  def endpoint_undwt(self, A, X):
+  def discard_coefs(self, target):
+    while True:
+      v = (yield)
+      w = elim_coefs(self.discard, self.threshold, v)
+      target.send(w)
+
+  @cr.coroutine
+  def endpoint_undwt(self, A, X, filt=False):
     alpha_end = cr.circbuf(A)
     recon_end = self.undo_dwt(cr.circbuf(X))
     while True:
@@ -323,15 +340,23 @@ class cmux:
       recon_end.send(v)
 
   @cr.coroutine
-  def endpoint_dwt(self, A, X):
-    if A != None:
-      alpha_end = self.do_dwt(cr.circbuf(A))
-    if X != None:
-      recon_end = cr.circbuf(X)
+  def endpoint_dwt(self, A, X, discard=False):
+    alpha_buffer = cr.circbuf(A)
+    if X == None:
+      recon_buffer = cr.consume()
+    else:
+      recon_buffer = cr.circbuf(X)
+    if discard:
+      disc_targets = cr.broadcast([alpha_buffer,
+                                   self.undo_dwt(recon_buffer)])
+      discarder = self.discard_coefs(disc_targets)
+      alpha_end = self.do_dwt(discarder)
+      recon_end = cr.consume()
+    else:
+      alpha_end = self.do_dwt(alpha_buffer)
+      recon_end = recon_buffer
     while True:
       v = (yield)
-      if A != None:
-        alpha_end.send(v)
-      if X != None:
-        recon_end.send(v)
+      alpha_end.send(v)
+      recon_end.send(v)
 

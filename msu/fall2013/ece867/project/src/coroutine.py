@@ -6,6 +6,11 @@ def coroutine(f):
   return start
 
 @coroutine
+def consume():
+  while True:
+    (yield)
+
+@coroutine
 def broadcast(targets):
   while True:
     msg = (yield)
@@ -13,18 +18,20 @@ def broadcast(targets):
       target.send(msg)
 
 @coroutine
+def accrue(depth, target):
+  w = [[]]*depth
+  window = circbuf(w)
+  while True:
+    for i in xrange(depth):
+      window.send((yield))
+    target.send(w)
+
+@coroutine
 def disperse(targets):
   while True:
     results = (yield)
     for i in xrange(len(results)):
       targets[i].send(results[i])
-
-@coroutine
-def cascade(blocks):
-  feeder = block(cascade(blocks[1:]))
-  while True:
-    msg = (yield)
-    feeder.send(msg)
 
 @coroutine
 def printer():
