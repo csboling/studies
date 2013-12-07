@@ -1,8 +1,11 @@
 import sys, logging, time
 
 import numpy as np
+import scipy.signal
 import sklearn.linear_model
 import pywt
+
+import matplotlib.pyplot as plt
 
 import bitstring
 
@@ -78,11 +81,11 @@ def dwtmat(N, wavelet, level=1):
     return np.hstack(pywt.wavedec(x, wavelet, mode='per', level=level)[0:2])
   return np.apply_along_axis(fwd_dwt, 1, np.eye(N)).T
 
-def threshold(x, thresh=10.0):
-  if (abs(x) > thresh):
-    return x
-  else:
-    return 0
+#def threshold(x, thresh=10.0):
+#  if (abs(x) > thresh):
+#    return x
+#  else:
+#    return 0
 
 def cycle_random(sets):
   while True:
@@ -102,18 +105,41 @@ def cycle_blocks(levels, sets):
     m = (m + shift) % sets
     yield m
 
+def threshold_coefs(thresh, v):
+  for i in xrange(len(v)):
+    if (abs(v[i]) < thresh):
+      v[i] = 0
+  return v
+
+def discard_coefs(count, v):
+  for i in xrange(count):
+    v[-i] = 0
+  return v
+
+def elim_coefs(discard, thresh, v):
+  v = discard_coefs(discard, v)
+  v = threshold_coefs(thresh, v)
+  return v
+
 class cmux:
-  def __init__(self, chiprate, windowsize, wavelet, levels, channels=96, period=32):
+  def __init__(self, chiprate, windowsize, wavelet, levels, 
+                     discard=0, threshold=0, channels=96, period=32, domain='wav'):
     self.wavelet    = wavelet
     self.levels     = levels
     self.windowsize = windowsize
 
-    (self.Psi, self.Psi_inv) = self.get_undwt_matrix()
-    self.prep       = lambda y: y
-    self.endpoint   = self.endpoint_undwt
-#    (self.Psi_inv, self.Psi) = self.get_undwt_matrix()
-#    self.prep       = lambda y: np.dot(self.Psi, y)
-#    self.endpoint   = self.endpoint_dwt
+    if domain == 'time':
+      (self.Psi_inv, self.Psi) = self.get_undwt_matrix()
+      self.forward    = self.Psi_inv
+      self.prep       = lambda y: y
+      self.endpoint   = self.endpoint_undwt
+      self.chipshape  = (-1,1)
+    else:
+      (self.Psi, self.Psi_inv) = self.get_undwt_matrix()
+      self.forward    = self.Psi
+      self.prep       = lambda y: elim_coefs(discard, threshold, np.dot(self.Psi, y))
+      self.endpoint   = self.endpoint_dwt
+      self.chipshape  = (1,-1)
 
     self.channels   = channels
     self.chiprate   = chiprate #Hz
@@ -130,10 +156,10 @@ class cmux:
       newA, newD = np.split(H,2)
       D.insert(0, newD)
       
-    Psi_inv = np.vstack((newA, np.vstack(D)))
-    Psi     = np.linalg.inv(Psi_inv)
+    forward = np.vstack((newA, np.vstack(D)))
+    inverse = np.linalg.inv(forward)
 
-    return (Psi, Psi_inv)
+    return (forward, inverse)
 
   def chip(self):
     time = 0
@@ -220,17 +246,18 @@ class cmux:
         window.send((yield))      
         chips[..., i] = in_chip.next()
       w = self.prep(y)
+      #w = np.vectorize(threshold)(w)
  
       # construct the dictionary from chip sequences
       Phi = np.zeros((self.channels, numcoefs, self.windowsize))
       A   = np.zeros((numcoefs, self.windowsize*self.channels))
       for ch in xrange(self.channels):
-        Phi[ch] = np.dot(chips[ch]*I, self.Psi)
+        Phi[ch] = self.Psi * chips[ch].reshape(self.chipshape)
         A[...,ch*self.windowsize:(ch+1)*self.windowsize] = Phi[ch]
  
       alpha0_ridge.fit(A, w)    
       alpha = alpha0_ridge.coef_
-       
+
       if lasso:
         iterations = 0
         try:
@@ -257,6 +284,7 @@ class cmux:
             iterations += 1
         except KeyboardInterrupt:
           pass
+     
       target.send((Phi, alpha))
      
   @cr.coroutine
@@ -282,7 +310,7 @@ class cmux:
   def do_dwt(self, target):
     while True:
       w = (yield)
-      x = np.dot(self.Psi, w)
+      x = np.dot(self.forward, w)
       target.send(x)
 
   @cr.coroutine
@@ -290,15 +318,20 @@ class cmux:
     alpha_end = cr.circbuf(A)
     recon_end = self.undo_dwt(cr.circbuf(X))
     while True:
-      alpha = (yield)
-      alpha_end.send(alpha)
-      recon_end.send(alpha)
+      v = (yield)
+      alpha_end.send(v)
+      recon_end.send(v)
 
   @cr.coroutine
   def endpoint_dwt(self, A, X):
-    alpha_end = self.do_dwt(cr.circbuf(A))
-    recon_end = cr.circbuf(X)
+    if A != None:
+      alpha_end = self.do_dwt(cr.circbuf(A))
+    if X != None:
+      recon_end = cr.circbuf(X)
     while True:
-      alpha = (yield)
-      alpha_end.send(alpha)
-      recon_end.send(alpha)
+      v = (yield)
+      if A != None:
+        alpha_end.send(v)
+      if X != None:
+        recon_end.send(v)
+

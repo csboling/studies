@@ -17,19 +17,22 @@ rc('text', usetex=True)
 Fs = 24000.0
 channels = 4
 windowsize = 128
-levels = [2]*2#range(1, int(np.log2(windowsize)))
+levels = [2]#range(1, int(np.log2(windowsize)))
+discard_cap = 100
+discards = range(0, discard_cap, 5)
+threshold_cap = 20.0
+thresholds = np.arange(0, threshold_cap, 0.5)
 wavelet = 'sym4'
-filter_output = False
+filter_output = True
 
-PLOT_FFT      = 0
-PLOT_WAVELET  = 0
-PLOT_RECON    = 0
-PLOT_SNIPPETS = 1
+PLOT_FFT       = 0
+PLOT_WAVELET   = 0
+PLOT_RECON     = 1
+PLOT_SNIPPETS  = 0
+SHOW_ALL_SNIPS = 0
 
 def normalize(x):
-  y =  x / np.max(np.abs(x))
-  x /= np.max(np.abs(x))
-  return y
+  return (x / (np.max(np.abs(x))))
 
 def plot_fft(sig):
   z0 = np.squeeze(sig)
@@ -97,27 +100,24 @@ def main():
 
   #plots.plot_wavelets(z0, wavelet, levels)
 
-  error = []
-  min_mse = 10000
-  low_err_level = 0
 
  
+  test_data = z[..., :windowsize]
+  #test_data = np.zeros((channels, windowsize))
+  test_data[0] = known_spike
+  error = []
+  min_mse = 10000
   for level in levels: 
-    test_data = z[..., :windowsize]
-    test_data[0] = known_spike
     chipped = np.zeros(test_data.shape)
     t_recon = np.zeros(test_data.shape)
-
-
-    converter = aic.cmux(Fs, windowsize, wavelet, level, channels=channels)
+  
+    converter = aic.cmux(Fs, windowsize, wavelet, level, 
+                         channels=channels, domain='wav')
     alpha     = np.zeros((channels, 1, converter.Psi.shape[0]))
+    alpha_in  = np.zeros((channels, 1, converter.Psi.shape[0]))#np.dot(converter.Psi_inv, test_data.T).T
     signals   = np.zeros((channels, 1, converter.Psi.shape[1]))
     filtered  = np.zeros(t_recon.shape)
-
-    print test_data[0,0]
-    print t_recon[0,0]
-    print signals[0,0]
-    print filtered[0,0]
+  
     # build a pipeline
     chipped_buffers  = cr.broadcast([cr.circbuf(chipped[i])
                                      for i in xrange(channels)])
@@ -130,11 +130,11 @@ def main():
 
     aic_targets = cr.broadcast([chipped_buffers,
                                 t_reconstructors,
-                              bcr_reconstructor])
+                                bcr_reconstructor])
     #aic_out = converter.bypass(aic_targets, 0)
     aic_out     = converter.out(aic_targets)
 
-    alpha_in        = np.dot(converter.Psi_inv, test_data.T).T
+    alpha_in        = np.dot(converter.forward, test_data.T).T
     # push the data through
     for x in test_data.T:
       aic_out.send(x)
@@ -175,27 +175,35 @@ def main():
             best_in_snip  = snip
             best_out_snip = maybe_snip
           error.append(mse)
+          if SHOW_ALL_SNIPS:
+            plt.figure(1)
+            plt.title("channel %d, level %d" % (snip['ch'], level))
+            plt.plot(snip['snip'], label='Original (%s)' % ('filtered' if filter_output else 'unfiltered'))
+            plt.plot(maybe_snip['snip'], label='Reconstruction (%s)' % ('filtered' if filter_output else 'unfiltered')) 
+            plt.legend(loc='best')
     else:
       for i in xrange(channels):
         plots.plot_aic(norm_test_data[i], alpha_in[i], 
                        norm_t_recon[i],     
                        alpha[i][0], norm_signals[i][0], norm_filtered[i])
-  
-  
-  if PLOT_SNIPPETS:
-    print 'Smallest MSE =',min_mse
-    plt.figure()
-    plt.title('Channel %d of %d\n%d levels\nMSE %f' % (best_in_snip['ch']+1, channels, low_err_level, min_mse))
-    plt.plot(best_in_snip['snip'],  label='Original')
-    plt.plot(best_out_snip['snip'], label='Reconstruction')
-    plt.legend(loc='best')
 
-    plt.figure()
-    plt.plot(levels, error,)
-    plt.plot(levels, error, 'x')
-    plt.title('Mean squared error\n%s\n%s' % (wavelet, 'filtered' if filter_output else 'unfiltered'))
-    plt.xlabel('# decomposition levels')
-    plt.ylabel('$\epsilon$')
+  if PLOT_SNIPPETS:
+    print 'Smallest MSE = %f (channel %d, level %d)' % (min_mse, best_out_snip['ch'], low_err_level)
+    if not SHOW_ALL_SNIPS:
+      plt.figure(1)
+      plt.title('Channel %d of %d\n%d levels\nMSE %f' 
+                % (best_in_snip['ch']+1, channels, low_err_level, min_mse))
+      plt.plot(best_in_snip['snip'],  label='Original')
+      plt.plot(best_out_snip['snip'], label='Reconstruction')
+      plt.legend(loc='best')
+  
+#      plt.figure(2)
+#      plt.plot(discards, error, label='filtered' if filter_output else 'unfiltered')
+#      plt.plot(discards, error, 'x')
+#      plt.title('Mean squared error\n%s' % wavelet)
+#      plt.xlabel('\# detail coefficients discarded')
+#      plt.ylabel('$\epsilon$')
+#      plt.legend(loc='best')
   
   plt.show()
 
