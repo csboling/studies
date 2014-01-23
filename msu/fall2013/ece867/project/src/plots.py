@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy
 
+from itertools import cycle
+
 def plot_wavelets(z, wavelet, levels):
   plt.figure()
 
@@ -83,6 +85,9 @@ def vline(x, amp):
   plt.plot([x,x], [-amp,amp])
 
 def plot_aic(invec, alpha_in, t_recon, alpha, recon, filtered):
+  lines = ['-','--','-.','.']
+  linecycler = cycle(lines)
+
 
   plt.figure()
   plt.subplot(411)
@@ -113,12 +118,12 @@ def plot_aic(invec, alpha_in, t_recon, alpha, recon, filtered):
     print ((t_recon - invec)**2).mean()
   print 'bcr reconstruction MSE:',
   print ((recon - invec)**2).mean()
-  plt.plot(invec, label='Original')
+  plt.plot(invec, next(linecycler), label='Original')
   if t_recon != None:
     plt.plot(t_recon, label='Trivial reconstruction')
-  plt.plot(recon, label='BCR reconstruction')
+  plt.plot(recon, next(linecycler), label='BCR reconstruction')
   if filtered != None:
-    plt.plot(filtered, label='Filtered BCR')
+    plt.plot(filtered, next(linecycler), label='Filtered BCR')
   plt.title('Reconstructed waveforms')
   plt.legend(loc='best')
 

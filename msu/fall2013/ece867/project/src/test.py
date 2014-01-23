@@ -1,4 +1,5 @@
 from functools import partial
+from itertools import cycle
 
 import numpy as np
 import scipy.io, scipy.signal
@@ -241,10 +242,9 @@ def main():
           error.append(mse)
           if SHOW_ALL_SNIPS:
             plt.figure()
-            plt.title("channel %d, level %d, pos %d\nMSE %f" \
-                      % (snip['ch'], level, snip['pos'], mse))
-            plt.plot(norm_snip, label='Original (%s)' 
-                     % ('filtered' if filter_output else 'unfiltered'))
+          #  plt.title("channel %d, level %d, pos %d\nMSE %f" \
+          #            % (snip['ch'], level, snip['pos'], mse))
+            plt.plot(norm_snip, label='Original')
             plt.plot(maybe_snip['snip'], label='Reconstruction (%s)' 
                      % ('filtered' if filter_output else 'unfiltered')) 
             plt.legend(loc='best')
@@ -256,13 +256,12 @@ def main():
                    maybe_snip['ch'], maybe_snip['pos'])
           if SHOW_BOGUS_SNIPS:
             plt.figure()
-            plt.plot(snip['snip'], label='Original')
-            plt.plot(maybe_snip['snip']*signals_scales[maybe_snip['ch']], 
+            plt.plot(norm_snip, label='Original')
+            plt.plot(maybe_snip['snip'],
                      label='Reconstruction (BOGUS)')
-            plt.title('BOGUS SNIPPET on ch %d, pos %d' \
-                      % (maybe_snip['ch'], maybe_snip['pos']))
+          #  plt.title('BOGUS SNIPPET on ch %d, pos %d' \
+          #            % (maybe_snip['ch'], maybe_snip['pos']))
 
-        
     if PLOT_RECON:
       for i in xrange(channels):
         plots.plot_aic(norm_test_data[i], alpha_in[i], 
