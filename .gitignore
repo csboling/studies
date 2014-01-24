@@ -8,6 +8,7 @@
 *.toc
 
 *.png
+*.PNG
 
 *.log
 *.swp
@@ -18,3 +19,5 @@
 *.o
 *.out
 *.mat
+
+papers/templates/
