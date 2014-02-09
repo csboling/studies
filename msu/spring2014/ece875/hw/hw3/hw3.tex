@@ -220,6 +220,7 @@ $$
 \frac{N_D}{N_D^+} \approx 2.22 \times 10^16.
 $$
 
+\pagebreak
 \section*{Problem \#1.25}
 The recombination rate is given by Eq. 92. Under low injection condition, $U$
 can be expressed as $(p_n - p_{no})/\tau_r$, where $\tau_r$ is the 
@@ -245,7 +246,7 @@ and under the given assumptions $U = \frac{p_n - p_{no}}{\tau_r}$ so
   &= \frac{\tau_{ro}^{-1} (pn - n_i^2)}
           {n + p + 2n_i \cosh \left(\frac{E_t - E_i}{kT}\right)}
 \end{align*}
-so
+when $\frac{\tau_{ro}}{\tau_{r}} = 2$, so
 $$
 p - p_{no} = \Delta p 
            = \frac{2 (pn - n_i^2)}
@@ -256,10 +257,29 @@ $n_{no} \gg n_i \geq 10^{10}$, and in the low injection condition
 $n \approx n_{no} \gg \Delta p \gg p_{no}$, so since 
 $p = p_{no} + \Delta p$ (the doping concentration of holes on the n-type
 side of the junction plus the concentration of holes moving from the
-p-type material) we may approximate $p \approx \Delta p$. Then we have
-$$
-\Delta p = 
-$$
+p-type material) and $p_{no} = \frac{n_i^2}{n_{no}}$, we see that
+\begin{align*}
+pn - n_i^2 &= n_{no} (p_{no} + \Delta p) - n_i^2 \\
+           &= n_{no} (\frac{n_i^2}{n_{no}} + \Delta p) - n_i^2 \\
+           &= n_{no} \Delta p.
+\end{align*}
 
+Then we have
+$$
+\Delta p \approx \frac{2 n_{no} \Delta p}{n_{no} + p + 2n_i \cosh \left(\frac{E_t - E_i}{kT}\right)}
+$$
+or
+$$
+p + 2n_i \cosh \left(\frac{E_t - E_i}{kT}\right) = n_{no}
+$$
+and since $p = p_{no} + \Delta p$ and $\Delta p \gg p_{no}$, $p \approx \Delta p \ll n_{no}$ so
+\begin{align*}
+2 n_i \cosh\left(\frac{E_t - E_i}{kT}\right) &= n_{no} \\
+\cosh\left(\frac{E_t - E_i}{kT}\right) &= \frac{n_{no}}{2 n_i} \\
+E_t - E-i &= kT \cosh^{-1}\left(\frac{n_{no}}{2 n_i}\right) \\
+  &\approx 300(1.38 \times 10^{-23})\cosh^{-1}\left(\frac{10^{15}}{2 \cdot 9.65 \times 10^9}\right) \\
+  &\approx 4.78 \times 10^{-20} \mathrm{J} \approx 0.30 \mathrm{eV}
+\end{align*}
+in silicon at 300K.
 
 \end{document}
