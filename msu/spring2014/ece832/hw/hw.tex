@@ -30,8 +30,192 @@
 
 \section*{Problem \#1}
 
+Label the gate voltage of $Q_2$ as $V_l$ and of $Q_3$ as $V_r$, and the
+voltage at the node fed by the current source as $V_b$.
+
+A heuristic argument for the above is as follows:
+When $V_{in}^{+}$ is fixed, the branch on
+the right acts as a current source \ref{},. 
+
+First, consider the situation where $V_{in}^{+}$ is fixed and
+$V_{in}^{-}$ increases by $\Delta v$.
+
+\begin{align*}
+g_m (\Delta v - \Delta V_r) + g_d (\Delta V_b - \Delta V_r) &= g_m \Delta V_r \\
+g_m \Delta v + g_d \Delta V_b &= (2 g_m + g_d) \Delta V_r \\
+g_m \Delta v &\approx 2 g_m \Delta V_r \\
+\Delta V_r &\approx \frac{\Delta v}{2} \\
+\Delta I_r &\approx g_m \frac{\Delta v}{2}
+\end{align*}
+and
+\begin{align*}
+-g_m (0 - \Delta V_b) - g_d (\Delta V_l - \Delta V_b) &= g_m \Delta V_l \\
+g_m \Delta V_b + g_d \Delta V_b &= (g_m + g_d) \Delta V_l \\
+\Delta V_l &= \Delta V_b \\
+\Delta I_l &= g_m \Delta V_b
+\end{align*}
+but from above
+\begin{align*}
+\Delta V_b &= \frac{1}{g_d} [(2 g_m + g_d) \Delta V_r - g_m \Delta v] \\
+           &\approx \frac{1}{g_d} [2 g_m \frac{\Delta v}{2} - g_m \Delta v] \\
+           &= 0,
+\end{align*}
+so $\Delta I_l = 0$ and $\Delta I_r = g_m \frac{\Delta v_{in}^{-}}{2}$. For a
+differential input, let $\Delta v_{in}^{-} = -\Delta v$ so that
+$\Delta I_{out} = \frac{1}{2} g_m \Delta v$ in this case.
+
+Next, consider the situation where $V_{in}^{+}$ increases by $\Delta v$ 
+and $V_{in}^{-}$ remains fixed. 
+
+We see that
+\begin{align*}
+  -g_m (\Delta v - \Delta V_b) - g_d (\Delta V_l - \Delta V_b) &= g_m \Delta V_l \\
+  (g_m + g_d) \Delta V_b - g_m \Delta v &= (g_m + g_d) \Delta V_l \\
+  \Delta V_l &= \Delta V_b + \frac{g_m}{g_m + g_d} \Delta v \approx \Delta V_b + \Delta v \\
+  \Delta I_l &= g_m (\Delta V_b + \Delta v)
+\end{align*}
+and that
+\begin{align*}
+g_m (0 - \Delta V_r) + g_d (\Delta V_b - \Delta V_r) &= g_m \Delta V_r \\
+(s g_m + g_d) \Delta V_r &= g_d \Delta V_b \\
+\Delta V_r &= \frac{g_d}{2 g_m + g_d} \Delta V_b
+\end{align*}
+so
+$$
+\Delta I_r = g_m \Delta V_r 
+           \approx g_m \frac{g_d}{2 g_m} \Delta V_b 
+           = \frac{1}{2} g_d \Delta V_b.
+$$
+
+Next observe that
+\begin{enumerate}
+  \item{Since the drain and gate of $Q_3$ are tied together, the change in 
+        current through $Q_3$ is 
+        $(g_m + g_d) \Delta V_r \approx g_m \Delta V_r$.
+       }
+  \item{The change in current through $Q_5$ is
+        $$
+        g_m (0 - \Delta V_r) + g_d (\Delta V_b - \Delta V_r)
+      = -\Delta V_r (g_m + g_d) + g_d \Delta V_b \approx -g_m \Delta V_r
+        $$
+        as long as $\Delta V_b$ is small enough to keep $Q_5$ and $Q_6$ in
+        saturation.
+       }
+   \item{Then $\Delta I_r \approx g_m \Delta V_r \approx -g_m \Delta V_r$, so 
+         $\Delta I_r = \Delta V_r = 0$.
+        }
+\end{enumerate}
+Thus $\frac{g_d}{2} \Delta V_b \approx 0$ so $\Delta V_b \approx 0$, so
+the output current is simply $\g_m \Delta v$ for this case.
+
+Superposition of these two results gives
+$\Delta I_{out} = \frac{3}{2} g_m \Delta v$,
+and the output impedance is the parallel impedance of the two cascoded
+current sources
+$$
+R_{out} = g_m r_{ds}^2 \| g_m r_{ds}^2 = \frac{1}{2} g_m r_{ds}^2,
+$$
+so the output voltage is
+$$
+\Delta V_{out} = \Delta I_{out} R_{out} = \frac{3}{4} g_m^2 r_{ds}^2 \Delta v
+$$
+and thus the gain is
+$$
+A_v = \frac{\Delta V_{out}}{\Delta V_{in}^{+} - \Delta V_{in}^{-}} 
+    = \frac{\Delta V_{out}}{2 \Delta v} 
+    = \frac{3}{8} g_{m}^2 r_{ds}^2.
+$$
+
+
+%$$
+%\begin{tabular}{l | l l l | l}
+%    & \Delta v_{g} & \Delta v_{d} & \Delta v_{s} & \Delta{I} \\
+%Q_2 & \Delta v_{l} & \Delta v_{l} & 0            & (g_m + g_d) \Delta V_1 \\
+%\end{tabular}
+%$$
 
 \section*{Problem \#2}
+Note that $Q_6$ is mirroring the current $I_b$ through $Q_7$ and $Q_1$ is
+mirroring the same current through $Q_1$, so since current through $Q_5$ is
+flowing towards the top of the circuit diagram, this means that the pin 
+connected to the gate of $Q_5$ is actually $Q_5$'s drain, so $Q_5$ also forms a
+current mirror with $Q_3$. Therefore we may redraw the diagram as follows:
+
+\begin{circuitikz}[american currents] \draw 
+  % INSTANCES
+  (0,0)     node[nmos] (q4) {}
+  (q4.base) node[anchor=west] {$Q_4$}
+  (q4.gate) node[anchor=east] {$V_{in}^{-}$}
+
+  (q4.base) ++(3,0) node[nmos, xscale=-1] (q2) {}
+  (q2.base) node[anchor=east] {$Q_2$}
+  (q2.gate) node[anchor=west] {$V_{in}^{+}$}
+  
+  (1,-2) node[nmos, xscale=-1] (q1) {}
+  (q1.base) node[anchor=east] {$Q_1$}
+
+  (q4.drain) ++(0,1) node[pmos, xscale=-1] (q5) {}
+  (q5.base) node[anchor=east] {$Q_5$}
+
+  (1,4) node[pmos, xscale=-1] (q6) {}
+  (q6.base) node[anchor=east] {$Q_6$}
+
+  (q2.drain) ++(0,1) node[pmos] (q3) {}
+  (q3.base) node[anchor=west] {$Q_3$}
+
+  (6,-2)     node[nmos] (q8) {}
+  (q8.base) node[anchor=west] {$Q_8$}
+
+  (6,4) node[pmos] (q7) {}
+  (q7.base) node[anchor=west] {$Q_7$}
+
+  % CONNECTIONS
+  (q4.source) -- (q2.source)
+  (q4.source) ++(2,0) -| (q1.drain)
+  (q4.source) to[short, -*] ++(1,0)
+  (q4.drain)  -- (q5.drain)
+
+  (q2.drain)  -- (q3.drain)
+
+  (q5.gate)   -- (q3.gate)
+  (q5.gate)   node[circ] {} |- (q5.drain) node[circ] {}
+  (q5.source) -- (q3.source)
+  (q5.source) ++(2,0) -| (q6.drain)
+  (q5.source) to[short, -*] ++(1,0)
+
+  (q2.drain)  -- (q3.drain)
+
+  (q5.gate)   -- (q3.gate)
+  (q5.gate)   node[circ] {} |- (q5.drain) node[circ] {}
+  (q5.source) -- (q3.source)
+
+  (q1.source) -- ++(0,0) node[sground] {}
+  (q1.gate)   -- (q8.gate)
+
+  (q8.source) -- ++(0,0) node[sground] {}
+  (q8.gate)   node[circ] {} |- (q8.drain) node[circ] {}
+
+  (q7.drain)  to[I, i=$I_b$] (q8.drain)
+  (q7.source) -- ++(0,0) node[rground, yscale=-1] {}
+  (q7.gate)   node[circ] {} |- (q7.drain) node[circ] {}
+
+  (q6.source) -- ++(0,0) node[rground, yscale=-1] {}
+  (q6.gate) -- (q7.gate)
+  
+  
+  
+;\end{circuitikz}
+
+
+\section*{Problem \#3}
+
+
+\section*{Problem \#4}
+
+
+\section*{Problem \#5}
+
+
 
 
 \section*{Problem \#3}
