@@ -31,11 +31,116 @@
 \section*{Problem \#1}
 
 Label the gate voltage of $Q_2$ as $V_l$ and of $Q_3$ as $V_r$, and the
-voltage at the node fed by the current source as $V_b$.
+voltage at the node fed by the current source as $V_b$. Observe that since
+the gates of $Q_2$ and $Q_3$ are tied to their drains, $V_{gs} = V_{ds}$ for
+these transistors, so the dependent current source in their small signal models
+has a value of $g_m V_{gs} = g_m V_{ds}$. But a current source dependent on the
+voltage applied across it is simply a resistor, so $Q_2$ and $Q_3$ can be 
+represented as a resistor with value $\frac{1}{g_m}$ in parallel with a 
+resistor with value $\frac{1}{g_d}$. $g_m \gg g_d$, so 
+$\frac{1}{g_m} \ll \frac{1}{g_d}$, so the equivalent parallel resistance is
+about $\frac{1}{g_m}$. Therefore the drain voltages for the left and right
+sides are given by $\Delta V_l \approx \frac{\Delta I_l}{g_m}$ and
+$\Delta V_r \approx \frac{\Delta I_r}{g_m}$.
 
-A heuristic argument for the above is as follows:
-When $V_{in}^{+}$ is fixed, the branch on
-the right acts as a current source \ref{},. 
+
+\begin{enumerate}
+  \item{First consider the situation where $V_{in}^{+}$ increases by a small amount
+        $\Delta v$ and $V_{in}^{-}$ is fixed. 
+    \begin{enumerate}
+      \item{
+        $Q_5$ acts as a 
+        source-degenerated current sink, so its output impedance is about 
+        $R_{out_l} = \frac{g_m}{g_d} R$, where $R = \frac{1}{g_m}$ so 
+        $R_{out_l} = \frac{1}{g_d}$, and thus 
+        $\Delta V_b = \frac{\Delta I_r}{g_d} \approx 0$ for small changes in 
+        $\Delta I_r$. Writing the small signal model for $Q_5$ with 
+        $\Delta V_b = \frac{\Delta I_r}{g_d}$, and observing that 
+        $\Delta v_s$ for this transistor is the voltage drop across the
+        equivalent source resistor $\frac{1}{g_m}$ gives
+        \begin{align*}
+          \Delta I_r &= g_m(0 - \frac{\Delta I_r}{g_m})
+                     + g_d(\Delta V_b - \frac{\Delta I_r}{g_m}) \\
+            &\approx -\Delta I_r + \Delta I_r - \frac{g_d}{g_m} \Delta I_r
+        \end{align*}
+        so $\Delta I_r \approx 0$.
+      }
+      \item{
+        Next the small signal model for $Q_4$ gives
+        $$
+        \Delta I_l = -g_m \Delta v 
+                     -\frac{g_d}{g_m} \Delta I_l 
+                     +(g_m + g_d) \Delta V_b
+             \approx -g_m \Delta v
+        $$
+        since $(g_m + g_d)\Delta V_b \approx 
+               \frac{g_m}{g_d} \Delta I_r 
+               \approx 0$
+        and $\frac{g_d}{g_m} \Delta I_l$ is very small for small currents.
+      }
+      \item{
+        Therefore the output current in this case is about $-g_m \Delta v$
+        since $\Delta I_l$ and $\Delta I_r$ are reflected by the current 
+        mirrors formed by the other transistors.
+      }
+    \end{enumerate}
+   }
+  \item{
+    Consider the situation where $V_{in}^{+}$ is fixed and
+    $V_{in}^{-}$ changes by a small amount $-\Delta v$. 
+    \begin{enumerate}
+      \item{
+        Note that the output impedance of the right branch is 
+        $r_{ds}(1 + \frac{g_m}{g_m}) = 2 r_{ds}$, so 
+        $\Delta V_b = 2 r_{ds} \Delta I_r$. The small signal
+        model for $Q_5$ then gives
+        \begin{align*}
+        \Delta I_r &= g_m (\Delta v - \frac{\Delta I_r}{g_m})
+                    + g_d (\Delta V_b - \frac{\Delta I_r}{g_m}) \\
+                   &= g_m \Delta v - \Delta I_r 
+                    + 2 \Delta I_r - \frac{g_d}{g_m} \Delta I_r 
+        \end{align*}
+        so $\frac{g_d}{g_m} \Delta I_r = g_m \Delta v$, or
+        $\Delta I_r = \frac{g_m^2}{g_d} \Delta v$, so
+        $\Delta V_b = 2\frac{g_m^2}{g_d^2} \Delta v$.
+      }
+      \item{
+        Applying the small signal model for $Q_4$ gives
+        \begin{align*}
+          \Delta I_l &= -g_m(0 - \Delta V_b)
+                        -g_d(\frac{\Delta I}{g_m}
+        \end{align*}
+      }
+    \end{enumerate}
+  }
+\end{enumerate}
+
+The small signal model for $Q_5$ gives
+\begin{align*}
+\Delta I_r &\approx g_m (0 - \frac{\Delta I_r}{g_m}) 
+                  + g_d(\Delta V_b - \Delta V_r) \\
+           &=      - g_m \frac{\Delta I_r}{g_m} 
+                   + g_d \Delta V_b 
+                   - \frac{g_d}{g_m} \Delta I_r
+\end{align*}
+so since $\frac{g_d}{g_m}$ is very small, 
+$\Delta I_r \approx \frac{g_d}{2} \Delta V_b$ and thus
+$\Delta V_b \approx \frac{2}{g_d} \Delta I_r$. Next we see from the small
+signal model for $Q_4$ that
+\begin{align*}
+\Delta I_l &= -g_m (\Delta V - \Delta V_b)
+              -g_d (\Delta V_l - \Delta V_b) \\
+           &= -g_m \Delta V + \frac{2 g_m}{g_d} \Delta V_b 
+              -\frac{g_d}{g_m} \Delta I_l + g_d \Delta V_b
+\end{align*}
+and thus
+\begin{align*}
+\Delta I_l &\approx -g_m \Delta V + \left(\frac{2 g_m}{g_d} + g_d\right) \Delta V_b \\
+           &\approx -g_m \Delta V + \left(\frac{4 g_m}{g_d^2} + 1\right) \Delta I_r \\
+           &\approx -g_m \Delta V,
+\end{align*}
+
+
 
 First, consider the situation where $V_{in}^{+}$ is fixed and
 $V_{in}^{-}$ increases by $\Delta v$.
@@ -106,7 +211,7 @@ Next observe that
         }
 \end{enumerate}
 Thus $\frac{g_d}{2} \Delta V_b \approx 0$ so $\Delta V_b \approx 0$, so
-the output current is simply $\g_m \Delta v$ for this case.
+the output current is simply $g_m \Delta v$ for this case.
 
 Superposition of these two results gives
 $\Delta I_{out} = \frac{3}{2} g_m \Delta v$,
