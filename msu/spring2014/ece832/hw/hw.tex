@@ -108,130 +108,132 @@ $\Delta V_r \approx \frac{\Delta I_r}{g_m}$.
         Applying the small signal model for $Q_4$ gives
         \begin{align*}
           \Delta I_l &= -g_m(0 - \Delta V_b)
-                        -g_d(\frac{\Delta I}{g_m}
+                        -g_d(\frac{\Delta I_l}{g_m} - \Delta V_b) \\
+                     &= 2\frac{g_m^3}{g_d^2} \Delta v
+                      - \frac{g_d}{g_m} \Delta I_l - 2\frac{g_m^2}{g_d} \Delta v
         \end{align*}
       }
     \end{enumerate}
   }
 \end{enumerate}
 
-The small signal model for $Q_5$ gives
-\begin{align*}
-\Delta I_r &\approx g_m (0 - \frac{\Delta I_r}{g_m}) 
-                  + g_d(\Delta V_b - \Delta V_r) \\
-           &=      - g_m \frac{\Delta I_r}{g_m} 
-                   + g_d \Delta V_b 
-                   - \frac{g_d}{g_m} \Delta I_r
-\end{align*}
-so since $\frac{g_d}{g_m}$ is very small, 
-$\Delta I_r \approx \frac{g_d}{2} \Delta V_b$ and thus
-$\Delta V_b \approx \frac{2}{g_d} \Delta I_r$. Next we see from the small
-signal model for $Q_4$ that
-\begin{align*}
-\Delta I_l &= -g_m (\Delta V - \Delta V_b)
-              -g_d (\Delta V_l - \Delta V_b) \\
-           &= -g_m \Delta V + \frac{2 g_m}{g_d} \Delta V_b 
-              -\frac{g_d}{g_m} \Delta I_l + g_d \Delta V_b
-\end{align*}
-and thus
-\begin{align*}
-\Delta I_l &\approx -g_m \Delta V + \left(\frac{2 g_m}{g_d} + g_d\right) \Delta V_b \\
-           &\approx -g_m \Delta V + \left(\frac{4 g_m}{g_d^2} + 1\right) \Delta I_r \\
-           &\approx -g_m \Delta V,
-\end{align*}
-
-
-
-First, consider the situation where $V_{in}^{+}$ is fixed and
-$V_{in}^{-}$ increases by $\Delta v$.
-
-\begin{align*}
-g_m (\Delta v - \Delta V_r) + g_d (\Delta V_b - \Delta V_r) &= g_m \Delta V_r \\
-g_m \Delta v + g_d \Delta V_b &= (2 g_m + g_d) \Delta V_r \\
-g_m \Delta v &\approx 2 g_m \Delta V_r \\
-\Delta V_r &\approx \frac{\Delta v}{2} \\
-\Delta I_r &\approx g_m \frac{\Delta v}{2}
-\end{align*}
-and
-\begin{align*}
--g_m (0 - \Delta V_b) - g_d (\Delta V_l - \Delta V_b) &= g_m \Delta V_l \\
-g_m \Delta V_b + g_d \Delta V_b &= (g_m + g_d) \Delta V_l \\
-\Delta V_l &= \Delta V_b \\
-\Delta I_l &= g_m \Delta V_b
-\end{align*}
-but from above
-\begin{align*}
-\Delta V_b &= \frac{1}{g_d} [(2 g_m + g_d) \Delta V_r - g_m \Delta v] \\
-           &\approx \frac{1}{g_d} [2 g_m \frac{\Delta v}{2} - g_m \Delta v] \\
-           &= 0,
-\end{align*}
-so $\Delta I_l = 0$ and $\Delta I_r = g_m \frac{\Delta v_{in}^{-}}{2}$. For a
-differential input, let $\Delta v_{in}^{-} = -\Delta v$ so that
-$\Delta I_{out} = \frac{1}{2} g_m \Delta v$ in this case.
-
-Next, consider the situation where $V_{in}^{+}$ increases by $\Delta v$ 
-and $V_{in}^{-}$ remains fixed. 
-
-We see that
-\begin{align*}
-  -g_m (\Delta v - \Delta V_b) - g_d (\Delta V_l - \Delta V_b) &= g_m \Delta V_l \\
-  (g_m + g_d) \Delta V_b - g_m \Delta v &= (g_m + g_d) \Delta V_l \\
-  \Delta V_l &= \Delta V_b + \frac{g_m}{g_m + g_d} \Delta v \approx \Delta V_b + \Delta v \\
-  \Delta I_l &= g_m (\Delta V_b + \Delta v)
-\end{align*}
-and that
-\begin{align*}
-g_m (0 - \Delta V_r) + g_d (\Delta V_b - \Delta V_r) &= g_m \Delta V_r \\
-(s g_m + g_d) \Delta V_r &= g_d \Delta V_b \\
-\Delta V_r &= \frac{g_d}{2 g_m + g_d} \Delta V_b
-\end{align*}
-so
-$$
-\Delta I_r = g_m \Delta V_r 
-           \approx g_m \frac{g_d}{2 g_m} \Delta V_b 
-           = \frac{1}{2} g_d \Delta V_b.
-$$
-
-Next observe that
-\begin{enumerate}
-  \item{Since the drain and gate of $Q_3$ are tied together, the change in 
-        current through $Q_3$ is 
-        $(g_m + g_d) \Delta V_r \approx g_m \Delta V_r$.
-       }
-  \item{The change in current through $Q_5$ is
-        $$
-        g_m (0 - \Delta V_r) + g_d (\Delta V_b - \Delta V_r)
-      = -\Delta V_r (g_m + g_d) + g_d \Delta V_b \approx -g_m \Delta V_r
-        $$
-        as long as $\Delta V_b$ is small enough to keep $Q_5$ and $Q_6$ in
-        saturation.
-       }
-   \item{Then $\Delta I_r \approx g_m \Delta V_r \approx -g_m \Delta V_r$, so 
-         $\Delta I_r = \Delta V_r = 0$.
-        }
-\end{enumerate}
-Thus $\frac{g_d}{2} \Delta V_b \approx 0$ so $\Delta V_b \approx 0$, so
-the output current is simply $g_m \Delta v$ for this case.
-
-Superposition of these two results gives
-$\Delta I_{out} = \frac{3}{2} g_m \Delta v$,
-and the output impedance is the parallel impedance of the two cascoded
-current sources
-$$
-R_{out} = g_m r_{ds}^2 \| g_m r_{ds}^2 = \frac{1}{2} g_m r_{ds}^2,
-$$
-so the output voltage is
-$$
-\Delta V_{out} = \Delta I_{out} R_{out} = \frac{3}{4} g_m^2 r_{ds}^2 \Delta v
-$$
-and thus the gain is
-$$
-A_v = \frac{\Delta V_{out}}{\Delta V_{in}^{+} - \Delta V_{in}^{-}} 
-    = \frac{\Delta V_{out}}{2 \Delta v} 
-    = \frac{3}{8} g_{m}^2 r_{ds}^2.
-$$
-
-
+%The small signal model for $Q_5$ gives
+%\begin{align*}
+%\Delta I_r &\approx g_m (0 - \frac{\Delta I_r}{g_m}) 
+%                  + g_d(\Delta V_b - \Delta V_r) \\
+%           &=      - g_m \frac{\Delta I_r}{g_m} 
+%                   + g_d \Delta V_b 
+%                   - \frac{g_d}{g_m} \Delta I_r
+%\end{align*}
+%so since $\frac{g_d}{g_m}$ is very small, 
+%$\Delta I_r \approx \frac{g_d}{2} \Delta V_b$ and thus
+%$\Delta V_b \approx \frac{2}{g_d} \Delta I_r$. Next we see from the small
+%signal model for $Q_4$ that
+%\begin{align*}
+%\Delta I_l &= -g_m (\Delta V - \Delta V_b)
+%              -g_d (\Delta V_l - \Delta V_b) \\
+%           &= -g_m \Delta V + \frac{2 g_m}{g_d} \Delta V_b 
+%              -\frac{g_d}{g_m} \Delta I_l + g_d \Delta V_b
+%\end{align*}
+%and thus
+%\begin{align*}
+%\Delta I_l &\approx -g_m \Delta V + \left(\frac{2 g_m}{g_d} + g_d\right) \Delta V_b \\
+%           &\approx -g_m \Delta V + \left(\frac{4 g_m}{g_d^2} + 1\right) \Delta I_r \\
+%           &\approx -g_m \Delta V,
+%\end{align*}
+%
+%
+%
+%First, consider the situation where $V_{in}^{+}$ is fixed and
+%$V_{in}^{-}$ increases by $\Delta v$.
+%
+%\begin{align*}
+%g_m (\Delta v - \Delta V_r) + g_d (\Delta V_b - \Delta V_r) &= g_m \Delta V_r \\
+%g_m \Delta v + g_d \Delta V_b &= (2 g_m + g_d) \Delta V_r \\
+%g_m \Delta v &\approx 2 g_m \Delta V_r \\
+%\Delta V_r &\approx \frac{\Delta v}{2} \\
+%\Delta I_r &\approx g_m \frac{\Delta v}{2}
+%\end{align*}
+%and
+%\begin{align*}
+%-g_m (0 - \Delta V_b) - g_d (\Delta V_l - \Delta V_b) &= g_m \Delta V_l \\
+%g_m \Delta V_b + g_d \Delta V_b &= (g_m + g_d) \Delta V_l \\
+%\Delta V_l &= \Delta V_b \\
+%\Delta I_l &= g_m \Delta V_b
+%\end{align*}
+%but from above
+%\begin{align*}
+%\Delta V_b &= \frac{1}{g_d} [(2 g_m + g_d) \Delta V_r - g_m \Delta v] \\
+%           &\approx \frac{1}{g_d} [2 g_m \frac{\Delta v}{2} - g_m \Delta v] \\
+%           &= 0,
+%\end{align*}
+%so $\Delta I_l = 0$ and $\Delta I_r = g_m \frac{\Delta v_{in}^{-}}{2}$. For a
+%differential input, let $\Delta v_{in}^{-} = -\Delta v$ so that
+%$\Delta I_{out} = \frac{1}{2} g_m \Delta v$ in this case.
+%
+%Next, consider the situation where $V_{in}^{+}$ increases by $\Delta v$ 
+%and $V_{in}^{-}$ remains fixed. 
+%
+%We see that
+%\begin{align*}
+%  -g_m (\Delta v - \Delta V_b) - g_d (\Delta V_l - \Delta V_b) &= g_m \Delta V_l \\
+%  (g_m + g_d) \Delta V_b - g_m \Delta v &= (g_m + g_d) \Delta V_l \\
+%  \Delta V_l &= \Delta V_b + \frac{g_m}{g_m + g_d} \Delta v \approx \Delta V_b + \Delta v \\
+%  \Delta I_l &= g_m (\Delta V_b + \Delta v)
+%\end{align*}
+%and that
+%\begin{align*}
+%g_m (0 - \Delta V_r) + g_d (\Delta V_b - \Delta V_r) &= g_m \Delta V_r \\
+%(s g_m + g_d) \Delta V_r &= g_d \Delta V_b \\
+%\Delta V_r &= \frac{g_d}{2 g_m + g_d} \Delta V_b
+%\end{align*}
+%so
+%$$
+%\Delta I_r = g_m \Delta V_r 
+%           \approx g_m \frac{g_d}{2 g_m} \Delta V_b 
+%           = \frac{1}{2} g_d \Delta V_b.
+%$$
+%
+%Next observe that
+%\begin{enumerate}
+%  \item{Since the drain and gate of $Q_3$ are tied together, the change in 
+%        current through $Q_3$ is 
+%        $(g_m + g_d) \Delta V_r \approx g_m \Delta V_r$.
+%       }
+%  \item{The change in current through $Q_5$ is
+%        $$
+%        g_m (0 - \Delta V_r) + g_d (\Delta V_b - \Delta V_r)
+%      = -\Delta V_r (g_m + g_d) + g_d \Delta V_b \approx -g_m \Delta V_r
+%        $$
+%        as long as $\Delta V_b$ is small enough to keep $Q_5$ and $Q_6$ in
+%        saturation.
+%       }
+%   \item{Then $\Delta I_r \approx g_m \Delta V_r \approx -g_m \Delta V_r$, so 
+%         $\Delta I_r = \Delta V_r = 0$.
+%        }
+%\end{enumerate}
+%Thus $\frac{g_d}{2} \Delta V_b \approx 0$ so $\Delta V_b \approx 0$, so
+%the output current is simply $g_m \Delta v$ for this case.
+%
+%Superposition of these two results gives
+%$\Delta I_{out} = \frac{3}{2} g_m \Delta v$,
+%and the output impedance is the parallel impedance of the two cascoded
+%current sources
+%$$
+%R_{out} = g_m r_{ds}^2 \| g_m r_{ds}^2 = \frac{1}{2} g_m r_{ds}^2,
+%$$
+%so the output voltage is
+%$$
+%\Delta V_{out} = \Delta I_{out} R_{out} = \frac{3}{4} g_m^2 r_{ds}^2 \Delta v
+%$$
+%and thus the gain is
+%$$
+%A_v = \frac{\Delta V_{out}}{\Delta V_{in}^{+} - \Delta V_{in}^{-}} 
+%    = \frac{\Delta V_{out}}{2 \Delta v} 
+%    = \frac{3}{8} g_{m}^2 r_{ds}^2.
+%$$
+%
+%
 %$$
 %\begin{tabular}{l | l l l | l}
 %    & \Delta v_{g} & \Delta v_{d} & \Delta v_{s} & \Delta{I} \\
@@ -240,12 +242,15 @@ $$
 %$$
 
 \section*{Problem \#2}
+\begin{enumerate}
+\item{
 Note that $Q_6$ is mirroring the current $I_b$ through $Q_7$ and $Q_1$ is
 mirroring the same current through $Q_1$, so since current through $Q_5$ is
 flowing towards the top of the circuit diagram, this means that the pin 
 connected to the gate of $Q_5$ is actually $Q_5$'s drain, so $Q_5$ also forms a
 current mirror with $Q_3$. Therefore we may redraw the diagram as follows:
 
+\ctikzset{tripoles/mos style/arrows}
 \begin{circuitikz}[american currents] \draw 
   % INSTANCES
   (0,0)     node[nmos] (q4) {}
@@ -267,6 +272,9 @@ current mirror with $Q_3$. Therefore we may redraw the diagram as follows:
 
   (q2.drain) ++(0,1) node[pmos] (q3) {}
   (q3.base) node[anchor=west] {$Q_3$}
+
+  (q2.drain) -- ++(0,0) node[circ]{} -| ++(0.5,0) node[] (vout) {}
+  (vout) node[anchor=west] {$V_{out}$}
 
   (6,-2)     node[nmos] (q8) {}
   (q8.base) node[anchor=west] {$Q_8$}
@@ -306,25 +314,53 @@ current mirror with $Q_3$. Therefore we may redraw the diagram as follows:
 
   (q6.source) -- ++(0,0) node[rground, yscale=-1] {}
   (q6.gate) -- (q7.gate)
-  
-  
-  
 ;\end{circuitikz}
+A fully differential input to this amplifier will cause no change in the 
+current through $Q_1$, and thus no change in the voltage at the source of
+the input stage transistors. Therefore this is a point of symmetry. As
+$V_{in}^{+}$ increases by $\Delta v$ and $V_{in}^{-}$ decreases by 
+$\Delta v$, the current through $Q_2$ increases by $g_m \Delta v$ and the
+current through $Q_3$ (as reflected by the current mirror $Q_5$) decreases
+by $g_m \Delta v$. Therefore the change in output current is 
+$-g_m \Delta v - g_m \Delta v = -2 g_m \Delta v$. The output resistance is
+the drain resistance $\frac{1}{g_d}$ of $Q_2$ in parallel with the drain
+resistance $\frac{1}{g_d}$ of $Q_3$ and is thus about $\frac{1}{2g_d}$, so
+the DC gain is
+$$
+A_v = \frac{-2 \frac{g_m}{g_d} \Delta v}{2 \Delta v} = -\frac{g_m}{g_d}.
+$$ 
+}
+\item
+{
+}
+\item
+{
+The current through $Q_6$ and $Q_7$ is $I_b$, so the power draw for the circuit
+is $2 I_b V_{dd}$.
+}
+\end{enumerate}
+
 
 
 \section*{Problem \#3}
+\begin{enumerate}
+\item{
+If a fully differential input is applied, the currents through $Q_2$ and
+$Q_3$ will both increase as the currents through $Q_4$ and $Q_5$ both 
+decrease by an equal amount, so the drain of $Q_1$ is a point of symmetry.
+Furthermore, the current through $Q_2$ will increase by the same amount 
+that the current through $Q_4$ decreases, so there is no change in 
+current through $Q_7$ or similarly through $Q_9$. Therefore the 
+output current for the amplifier is $\Delta I_{out} = -g_m \Delta v$
+so the DC gain is $-\frac{g_m}{4 g_d}$.
+}
+\item{
+$Q_{11}$ and $Q_{12}$ form a current mirror since their source and gate are 
+tied together, but the gate is floating so the mirror does not reliably 
+operate the source follower $Q_6$.
 
-
-\section*{Problem \#4}
-
-
-\section*{Problem \#5}
-
-
-
-
-\section*{Problem \#3}
-
+}
+\end{enumerate}
 
 \section*{Problem \#4}
 
