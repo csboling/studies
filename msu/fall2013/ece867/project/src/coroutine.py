@@ -55,7 +55,8 @@ def circbuf(v, target=None):
           break
         else:
           tail = i - count
-          if tail < 0: tail += size
+          if tail < 0: 
+            tail += size
           while count:
             target.send(v[tail])
             tail  += 1
