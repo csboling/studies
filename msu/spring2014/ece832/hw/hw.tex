@@ -165,6 +165,81 @@ operate the source follower $Q_6$.
 
 
 \section*{Problem \#5}
+\begin{enumerate}
+  \item{
+    For the first circuit (with no cascode):
+    \begin{enumerate}
+      \item{
+        The output range is bounded by
+        \begin{align*}
+        V_{eff} &\leq \Delta V_{out} 
+                &\leq V_{dd} - V_{eff} \\
+        \sqrt{\frac{2 L I_b}{\mu_n C_{ox} W}} 
+                &\leq \Delta V_{out} \\
+                &\leq V_{dd} - \sqrt{\frac{2 L I_b}{\mu_p C_{ox} W}} 
+        \end{align*}
+        so the size of the output range is
+        $$
+        V_{dd} - V_{eff_{p}} - V_{eff_{n}} = 
+        V_{dd} 
+      - \left(\frac{1}{\sqrt{\mu_n}}
+            + \frac{1}{\sqrt{\mu_p}}\right)
+        \sqrt{\frac{2 L I_b}{C_{ox} W}}.
+        $$
+        For the output to avoid saturation we thus require
+        $$
+        2|\Delta V_{out}| \leq 
+        V_{dd} 
+      - \left(\frac{1}{\sqrt{\mu_n}}
+            + \frac{1}{\sqrt{\mu_p}}\right)
+        \sqrt{\frac{2 L I_b}{C_{ox} W}}.
+        $$
+
+        The output impedance is $\frac{1}{g_{dn}} \| \frac{1}{g_{dp}}$ so the gain is 
+        $-\frac{g_{mn}}{g_{dn} + g_{dp}}$, so the above condition gives
+        $$
+        |\Delta V_{in}| \leq \frac{g_{dn} + g_{dp}}{g_{mn}} \left(
+        V_{dd} 
+      - \left(\frac{1}{\sqrt{\mu_n}}
+            + \frac{1}{\sqrt{\mu_p}}\right)
+        \sqrt{\frac{2 L I_b}{C_{ox} W}}\right),
+        $$
+        and since $V_{gs} > V_{th}$ is required for the input transistor
+        to be in saturation, this gives the input bias point as
+        \begin{align*}
+        V_{bias} = V_{th_{n}} + |\Delta V_{in}|.
+        \end{align*}
+
+        For the ami06 MOS models, we have 
+        \begin{align*}
+        C_{ox} &= \frac{3.9 \dot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}}
+                      {1.41 \times 10^{-6} ~\mathrm{cm}} \\
+               &= 2.45 \times 10^{-7} ~\mathrm{F}~\mathrm{cm}^{-2}, \\
+        \mu_p  &= 202.5 ~\mathrm{cm}^2~\mathrm{V}^{-1}~\mathrm{s}^{-1}, \\
+        \mu_n  &= 533.7 ~\mathrm{cm}^2~\mathrm{V}^{-1}~\mathrm{s}^{-1}.
+        \end{align*}
+        Approximate transconductance values for each current are given as measured 
+        from simulations with operating points of about $\frac{V_{dd}}{2}$.
+
+        \begin{tabular}{c | c c c c | c}
+$I_b$        & 0.5 $\mu$A            & 1 $\mu$A              & 2 $\mu$A              & 4 $\mu$A              & units \\
+\hline       & & & & &\\
+$g_{mp}$     & $1.22 \times 10^{-5}$ & $1.73 \times 10^{-5}$ & $2.44 \times 10^{-5}$ & $3.46 \times 10^{-5}$ & $\mathrm{A}~\mathrm{V}^{-1}$\\
+$g_{mn}$     & $1.98 \times 10^{-5}$ & $2.80 \times 10^{-5}$ & $3.97 \times 10^{-5}$ & $5.61 \times 10^{-5}$ & $\mathrm{A}~\mathrm{V}^{-1}$\\
+$g_{dp}$     & $3    \times 10^{-9}$ & $6    \times 10^{-9}$ & $1    \times 10^{-8}$ & $2.25 \times 10^{-8}$ & $\mathrm{A}~\mathrm{V}^{-1}$\\
+$g_{dn}$     & $1.5  \times 10^{-8}$ & $3    \times 10^{-8}$ & $5.6  \times 10^{-8}$ & $9.5  \times 10^{-8}$ & $\mathrm{A}~\mathrm{V}^{-1}$\\
+DC gain      & $-1100$               & $-778$                &    \\
+Output swing &  \\
+          Input swing  &  \\
+          Input bias point & \\
+          Bandwidth & \\\
+        \end{tabular}
+      }
+    \end{enumerate}
+       }
+  \item{
+       }
+\end{enumerate}
 
 
 
