@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \title{ECE 832 - Homework}
-\author{Sam Boling}
+\author{Sam Boling, PID A48788119}
 \date{\today}
 
 \usepackage{enumitem}
@@ -30,6 +30,8 @@
 
 \section*{Problem \#1}
 
+\begin{enumerate}
+\item{ (Gain.)
 Label the gate voltage of $Q_2$ as $V_l$ and of $Q_3$ as $V_r$, and the
 voltage at the node fed by the current source as $V_b$. Observe that since
 the gates of $Q_2$ and $Q_3$ are tied to their drains, $V_{gs} = V_{ds}$ for
@@ -38,6 +40,76 @@ has a value of $g_m V_{gs} = g_m V_{ds}$. But a current source dependent on the
 voltage applied across it is simply a resistor, so $Q_2$ and $Q_3$ can be 
 represented as a resistor with value $\frac{1}{g_m}$ in parallel with a 
 resistor with value $\frac{1}{g_d}$.
+
+A heuristic solution for the gain is as follows. The left branch presents an
+impedance of about $\frac{1}{g_m}$ to the node $V_{b}$ while the right branch
+presents $\frac{1}{g_d}$, so the voltage at $V_{b}$ does not have much impact
+on the current through $Q_5$. Since $Q_3$ acts as a resistor with a value of
+about $\frac{1}{g_m}$, this means that in response to a change in $V_{in}^{-}$
+of $-\Delta v$, the current through $Q_5$ is approximately given by
+\begin{align*}
+\Delta I_5 &= -g_m \Delta v - g_m \frac{\Delta I_5}{g_m} \\
+\Delta I_5 &= -\frac{g_m}{2} \Delta v.
+\end{align*}
+Since $I_b$ is constant, this current and the current through the left branch
+must sum to zero, so $\Delta I_4 = \frac{g_m}{2} \Delta v$. The voltage at
+$V_b$ will rise to ensure that this happens and will have little impact on
+the current through $Q_5$.
+
+The output voltage then changes by 
+$$
+\Delta V_{out} = \left(\frac{g_m}{2} \Delta v 
+                 - \left(-\frac{g_m}{2} \Delta v\right)\right)R_{out},
+$$
+where $R_{out}$ is the impedance of the cascode $Q_7$, $Q_8$ in parallel
+with the impedance of the cascode $Q_9$, $Q_{10}$, that is
+$$
+R_{out} = g_m r_{ds}^2 \| g_m r_{ds}^2 
+        = \frac{1}{2} \frac{g_m}{g_d^2},
+$$
+so
+$$
+A_v = \frac{\frac{1}{2}\left(\frac{g_m}{g_d}\right)^2 \Delta v}
+           {\Delta v - (- \Delta v)} 
+    = \frac{1}{4} \left(\frac{g_m}{g_d}\right)^2.
+$$
+
+A complete solution confirming this argument follows.
+
+\begin{enumerate}
+  \item{
+       }
+\end{enumerate}
+}
+\item{(Output swing.)
+Since the current through the left and right branches of the input stage
+is equal for perfectly matched transistors, the current through each of
+these branches is $\frac{I_b}{2}$. Therefore the current through the output
+stage is $\frac{I_b}{2}.$
+Therefore the output is limited by
+\begin{align*}
+2V_{eff} &\leq \Delta V_{out} \leq V_{dd} - 2V_{eff} \\
+2\frac{2 \left(\frac{I_b}{2}\right)}{g_m} 
+  & \leq \Delta V_{out} 
+    \leq V_{dd} - 2\frac{2 \left(\frac{I_b}{2}\right)}{g_m} \\
+\frac{2 I_b}{g_m} &\leq \Delta V_{out} \leq V_{dd} - \frac{2 I_b}{g_m},
+\end{align*}
+noting that
+$$
+g_m \approx \frac{2 I_0}{V_{gs} - V_{th}}.
+$$
+}
+\item{(Power.)
+The current drawn by the middle $V_{dd}$ rail is $I_b$, and the current
+drawn by each of the other rails is $\frac{I_b}{2}$, so the total power
+dissipation is
+$$
+V_{dd}\left(I_b + 2\frac{I_b}{2}\right) = 2 I_b V_{dd}.
+$$
+}
+\end{enumerate}
+
+\pagebreak
 
 \section*{Problem \#2}
 \begin{enumerate}
@@ -114,7 +186,12 @@ current mirror with $Q_3$. Therefore we may redraw the diagram as follows:
   (q6.gate) -- (q7.gate)
 ;\end{circuitikz}
 
-A fully differential input to this amplifier will cause no change in the 
+The current mirrors $Q_8$, $Q_1$ and $Q_7$, $Q_6$ provide non-ideal current
+sources to the differential pair. Since the impedance of these current
+sources is $\frac{1}{g_d}$ and since they are connected to the sources of
+transistors which present an impedance of $\frac{1}{g_m}$, these current
+sources are approximately ideal in this circuit. Therefore
+a fully differential input to the amplifier will cause no change in the 
 current through $Q_1$, and thus no change in the voltage at the source of
 the input stage transistors. Therefore this is a point of symmetry. As
 $V_{in}^{+}$ increases by $\Delta v$ and $V_{in}^{-}$ decreases by 
@@ -126,11 +203,21 @@ the drain resistance $\frac{1}{g_d}$ of $Q_2$ in parallel with the drain
 resistance $\frac{1}{g_d}$ of $Q_3$ and is thus about $\frac{1}{2g_d}$, so
 the DC gain is
 $$
-A_v = \frac{-2 \frac{g_m}{g_d} \Delta v}{2 \Delta v} = -\frac{g_m}{g_d}.
+A_v = \frac{-2 \frac{g_m}{2 g_d} \Delta v}{2 \Delta v} = -\frac{g_m}{2 g_d}.
 $$ 
 }
 \item
 {
+The output swing is 
+\begin{align*}
+V_{eff_2} + V_{eff_1} 
+  &\leq \Delta V_{out} 
+   \leq  V_{dd} - (V_{eff_3} + V_{eff_6}) \\
+\frac{I_b}{g_m} + \frac{2 I_b}{g_m}
+  &\leq \Delta V_{out}
+   \leq  V_{dd} - \frac{I_b}{g_m} + \frac{2 I_b}{g_m} \\
+\frac{3 I_b}{g_m} &\leq \Delta V_{out} \leq V_{dd} - \frac{3 I_b}{g_m}
+\end{align*}
 }
 \item
 {
@@ -143,25 +230,158 @@ is $2 I_b V_{dd}$.
 
 \section*{Problem \#3}
 \begin{enumerate}
-\item{
+\item{(DC gain.)
 If a fully differential input is applied, the currents through $Q_2$ and
 $Q_3$ will both increase as the currents through $Q_4$ and $Q_5$ both 
 decrease by an equal amount, so the drain of $Q_1$ is a point of symmetry.
 Furthermore, the current through $Q_2$ will increase by the same amount 
 that the current through $Q_4$ decreases, so there is no change in 
 current through $Q_7$ or similarly through $Q_9$. Therefore the 
-output current for the amplifier is $\Delta I_{out} = -g_m \Delta v$
-so the DC gain is $-\frac{g_m}{4 g_d}$.
+output current for the amplifier is $\Delta I_{out} = 0$
+so the DC gain is $0$.
 }
-\item{
-$Q_{11}$ and $Q_{12}$ form a current mirror since their source and gate are 
-tied together, but the gate is floating so the mirror does not reliably 
-operate the source follower $Q_6$.
-
+\item{(Output swing.)
+No change in input will change the output of this circuit, so its output
+swing is effectively 0.
+}
+\item{(Power consumption.)
+$Q_{11}$ will draw $I_b$, while $Q_7$ and $Q_9$ each draw a current of 
+$\frac{I_b}{2}$. $Q_8$ is shut off since its gate is floating and so it
+draws no current. Therefore the power consumed is $2 V_{dd} I_b$.
 }
 \end{enumerate}
 
 \section*{Problem \#4}
+\begin{enumerate}
+  \item{(Gain.)
+    \begin{enumerate}
+      \item{First, since the current mirror $M_{11}$ reflecting the reference
+        current has an impedance of about $\frac{1}{g_d}$ and the four branches
+        attached to it each present an impedance of $\frac{1}{g_m}$, the current
+        source is approximately ideal and therefore the sources of the input stage
+        transistors see a virtual ground.
+      } 
+      \item{Examining the middle two branches and writing a small signal model for the 
+        transistors closest to $V_{dd}$ (while assuming that $g_d$ can be ignored
+        compared to $g_m$) gives
+        $$
+        g_m \Delta v - g_m \Delta v_l = -g_m \Delta v 
+          \Rightarrow \Delta v_l = 2 \Delta v 
+          \Rightarrow \Delta I_l = -g_m \Delta v
+        $$
+        and
+        $$
+        -g_m \Delta v - g_m \Delta v_r = -g_m \Delta v 
+          \Rightarrow \Delta v_r = -2 \Delta v 
+          \Rightarrow \Delta I_r = g_m \Delta v,
+        $$
+        so these two branches cancel each other for a fully differential input
+        and can be ignored.
+      }
+      \item{The remaining circuit is familiar: an increase by $\Delta v$ at 
+            $V^{+}$ results in a current change of $g_m \Delta v$ that is 
+            reflected to the output, and a decrease by $\Delta v$ at $V^{-}$
+            results in a current change of $-g_m \Delta v$ that is reflected
+            to the other side of the output. The output impedance is 
+            $r_{ds} \| r_{ds}$ due to $M_7$ and $M_{10}$, so the DC gain is
+            $$A_v = \frac{-2 g_m \Delta v}{2 g_d} \frac{1}{2 \Delta v} = -\frac{g_m}{2 g_d}.$$
+           }
+  \end{enumerate}
+  }
+  \item{(Output swing.)
+        The output is limited by
+        \begin{align*}
+        V_{eff} &\leq \Delta V_{out} \leq V_{dd} - V_{eff} \\
+        \frac{2 \left(\frac{I_b}{4}\right)}{g_m} 
+        & \leq \Delta V_{out} 
+          \leq V_{dd} - \frac{ \left(\frac{I_b}{4}\right)}{g_m} \\
+        \frac{I_b}{2g_m} &\leq \Delta V_{out} \leq V_{dd} - \frac{I_b}{2g_m},
+        \end{align*}
+        since each of the middle branches draws an equal large-signal current.
+       }
+  \item{(Power consumption.)
+        The branch connected to the reference current consumes a power of 
+        $V_{dd} I_b$. Each of the six other branches requires 
+        $V_{dd} \frac{I_b}{4}$, so the total power consumption is 
+        $\frac{5}{2} V_{dd} I_b.$
+       }
+  \item{(Pole locations.)
+       The current mirrors $M_5$, $M_8$ and $M_6$, $M_7$ each introduce a pole
+       at about
+       $$
+       f_{p1} \approx f_{p2} \approx 
+       \frac{1}{2 \pi} \frac{1}{\frac{1}{g_m} 2 C_{gs}} = \frac{g_m}{4 \pi C_{gs}}
+       $$
+       and the mirror $M_9$, $M_{10}$ produces another at about
+       $$
+       f_{p3} \approx \frac{1}{2 \pi}\frac{g_m}{2C_{gs}} = \frac{g_m}{4 \pi C_{gs}}.
+       $$
+       There is another pole at the output produced by the output resistance
+       $r_{ds} \| r_{ds}$ and the output capacitance, so
+       $$
+       f_{p4} \approx \frac{1}{2\pi}\frac{g_d}{2C_{gd} + C_L},
+       $$
+       where $C_L$ is the load capacitance, if connected.
+       The branches in the middle of the circuit are not in the signal path
+       and thus do not contribute poles.
+       }
+  \item{(Zero locations.)
+        First, find $I_1(s)$. The resistance at the gate of the current mirror
+        $M_6$, $M_7$ is $\frac{1}{g_m}$ and the capacitance is $2 C_{gs}$, so 
+        the voltage at this node is 
+        $$
+        V_1(s) = \frac{-R I_r(s)}{1 + RCs} 
+               = \frac{\frac{1}{g_m} (g_m V(s))}{1 + \frac{2 C_{gs}}{g_m} s}
+               = \frac{V(s)}{1 + \frac{2 C_{gs}}{g_m} s}
+        $$
+        so the current $I_1(s)$ is about
+        $$
+        I_1(s) = -g_m V_1(s) = \frac{-g_m V(s)}{1 + \frac{2 C_{gs}}{g_m} s}.
+        $$
+        This is also the current through $M_9$ but with opposite sign 
+        (due to the equal and opposite input at $V^{+}$), which 
+        charges the same resistance and capacitance as above, resulting in a
+        voltage at the gate of
+        $$
+        V_2(s) = \frac{\frac{1}{g_m} (-I_1(s))}{1 + \frac{2 C_{gs}}{g_m} s}
+        $$ 
+        and thus a current through $M_{10}$ of
+        $$
+        I_2(s) = g_m V_2(s) = -\frac{I_1(s)}{1 + \frac{2 C_{gs}}{g_m} s}.
+        $$
+        These currents cancel each other when $I_1(s) = I_2(s)$, or when
+        \begin{align*}
+          1 + \frac{2 C_{gs}}{g_m} s &= -1 \\
+          s &= -\frac{g_m}{C_{gs}},
+        \end{align*}
+        so there is a real zero in the left half-plane.
+        The branches in the middle of the circuit are not in the signal path
+        and thus do not contribute zeros.
+       }
+  \item{(Transfer function.)
+       Using the currents derived in the previous part, we see that
+       \begin{align*}
+       V_{out}(s) &= \frac{(r_{ds} \| r_{ds})(I_1(s) - I_2(s))}
+                          {1 + (r_{ds} \| r_{ds})(2C_{gd} + C_L) s)} \\
+                  &= -\frac{\frac{1}{2g_d}
+                      \left(1 + \frac{1}{1 + \frac{2C_{gs}}{g_m}s}\right)
+                      \frac{g_m}{1 + \frac{2 C_{gs}}{g_m}s} V(s)}
+                          {1 + \frac{2C_{gd} + C_L}{2g_d}s} \\
+                  &= -\frac{g_m}{2g_d}
+                      \frac{(2 + \frac{2C_{gs}}{g_m}s)V(s)}
+                           {(1 + \frac{2C_{gd} + C_L}{2g_d}s)(1 + \frac{2C_{gs}}{g_m}s)^2} \\
+                  &= -\frac{g_m}{g_d}
+                      \frac{C_{gs}}{g_m}
+                      \frac{2g_d}{2C_{gd} + C_L}
+                      \left(\frac{2C_{gs}}{g_m}\right)^2
+                     \frac{s + \frac{g_m}{C_{gs}}}
+                          {(s + \frac{2g_d}{2C_{gd} + C_L})
+                           (s + \frac{g_m}{2C_{gs}})^2
+                          }
+                     V(s) 
+       \end{align*}
+       }
+\end{enumerate}
 
 
 \section*{Problem \#5}
@@ -173,36 +393,23 @@ operate the source follower $Q_6$.
         The output range is bounded by
         \begin{align*}
         V_{eff} &\leq \Delta V_{out} 
-                &\leq V_{dd} - V_{eff} \\
-        \sqrt{\frac{2 L I_b}{\mu_n C_{ox} W}} 
-                &\leq \Delta V_{out} \\
-                &\leq V_{dd} - \sqrt{\frac{2 L I_b}{\mu_p C_{ox} W}} 
+                \leq V_{dd} - V_{eff} 
         \end{align*}
         so the size of the output range is
         $$
-        V_{dd} - V_{eff_{p}} - V_{eff_{n}} = 
-        V_{dd} 
-      - \left(\frac{1}{\sqrt{\mu_n}}
-            + \frac{1}{\sqrt{\mu_p}}\right)
-        \sqrt{\frac{2 L I_b}{C_{ox} W}}.
+        V_{dd} - V_{eff_{p}} - V_{eff_{n}}.
         $$
         For the output to avoid saturation we thus require
         $$
         2|\Delta V_{out}| \leq 
-        V_{dd} 
-      - \left(\frac{1}{\sqrt{\mu_n}}
-            + \frac{1}{\sqrt{\mu_p}}\right)
-        \sqrt{\frac{2 L I_b}{C_{ox} W}}.
+        V_{dd} - V_{eff_p} - V_{eff_n}.
         $$
 
         The output impedance is $\frac{1}{g_{dn}} \| \frac{1}{g_{dp}}$ so the gain is 
         $-\frac{g_{mn}}{g_{dn} + g_{dp}}$, so the above condition gives
         $$
-        |\Delta V_{in}| \leq \frac{g_{dn} + g_{dp}}{g_{mn}} \left(
-        V_{dd} 
-      - \left(\frac{1}{\sqrt{\mu_n}}
-            + \frac{1}{\sqrt{\mu_p}}\right)
-        \sqrt{\frac{2 L I_b}{C_{ox} W}}\right),
+        |\Delta V_{in}| \leq \frac{g_{dn} + g_{dp}}{2g_{mn}} (
+        V_{dd} - V_{eff_p} - V_{eff_n}),
         $$
         and since $V_{gs} > V_{th}$ is required for the input transistor
         to be in saturation, this gives the input bias point as
@@ -218,26 +425,62 @@ operate the source follower $Q_6$.
         \mu_p  &= 202.5 ~\mathrm{cm}^2~\mathrm{V}^{-1}~\mathrm{s}^{-1}, \\
         \mu_n  &= 533.7 ~\mathrm{cm}^2~\mathrm{V}^{-1}~\mathrm{s}^{-1}.
         \end{align*}
-        Approximate transconductance values for each current are given as measured 
-        from simulations with operating points of about $\frac{V_{dd}}{2}$.
+        Operating points were determined from DC analysis simulations to find the
+        input/output crossover point for each bias current, and these are recorded 
+        in the "Input bias point" entries in the following table.
+        Approximate $g_{d}$ values for each current are given as measured 
+        from the saturation-region slope at the given bias currents, and these give
+        reasonable predictions of the input swing around the simulated bias points.
+        Parameters through Input Swing are estimated from the model equations, 
+        though the discrepancies in gain from simulation show that these estimates
+        carry considerable error.
 
         \begin{tabular}{c | c c c c | c}
-$I_b$        & 0.5 $\mu$A            & 1 $\mu$A              & 2 $\mu$A              & 4 $\mu$A              & units \\
-\hline       & & & & &\\
-$g_{mp}$     & $1.22 \times 10^{-5}$ & $1.73 \times 10^{-5}$ & $2.44 \times 10^{-5}$ & $3.46 \times 10^{-5}$ & $\mathrm{A}~\mathrm{V}^{-1}$\\
-$g_{mn}$     & $1.98 \times 10^{-5}$ & $2.80 \times 10^{-5}$ & $3.97 \times 10^{-5}$ & $5.61 \times 10^{-5}$ & $\mathrm{A}~\mathrm{V}^{-1}$\\
-$g_{dp}$     & $3    \times 10^{-9}$ & $6    \times 10^{-9}$ & $1    \times 10^{-8}$ & $2.25 \times 10^{-8}$ & $\mathrm{A}~\mathrm{V}^{-1}$\\
-$g_{dn}$     & $1.5  \times 10^{-8}$ & $3    \times 10^{-8}$ & $5.6  \times 10^{-8}$ & $9.5  \times 10^{-8}$ & $\mathrm{A}~\mathrm{V}^{-1}$\\
-DC gain      & $-1100$               & $-778$                &    \\
-Output swing &  \\
-          Input swing  &  \\
-          Input bias point & \\
-          Bandwidth & \\\
+$I_b$                    & 0.5 $\mu$A            & 1 $\mu$A              & 2 $\mu$A              & 4 $\mu$A              & 8 $\mu$A &  units \\
+\hline                   & & & & &\\
+$g_{mp}$                 & $1.22 \times 10^{-5}$ & $1.73 \times 10^{-5}$ & $2.44 \times 10^{-5}$ & $3.46 \times 10^{-5}$ &          & $\mathrm{A}~\mathrm{V}^{-1}$\\
+$g_{mn}$                 & $1.98 \times 10^{-5}$ & $2.80 \times 10^{-5}$ & $3.97 \times 10^{-5}$ & $5.61 \times 10^{-5}$ &          & $\mathrm{A}~\mathrm{V}^{-1}$\\
+$g_{dp}$                 & $3    \times 10^{-9}$ & $6    \times 10^{-9}$ & $1    \times 10^{-8}$ & $2.25 \times 10^{-8}$ &          & $\mathrm{A}~\mathrm{V}^{-1}$\\
+$g_{dn}$                 & $1.5  \times 10^{-8}$ & $3    \times 10^{-8}$ & $5.6  \times 10^{-8}$ & $9.5  \times 10^{-8}$ &          & $\mathrm{A}~\mathrm{V}^{-1}$\\
+Estimated DC gain        & $-1100$               & $-778$                & $-602$                & $-447$                &          & $\mathrm{V}$/$\mathrm{V}$   \\
+$V_{eff_p}$              & $0.08$                & $0.11$                & $0.16$                & $0.23$                &          & $\mathrm{V}$ \\
+$V_{eff_n}$              & $0.05$                & $0.07$                & $0.1$                 & $0.14$                &          & $\mathrm{V}$ \\
+Output swing             & 2.87                  & 2.82                  & 2.74                  & 2.63                  &          & $\mathrm{V}_{pp}$ \\
+Input swing              & 2.61                  & 3.62                  & 4.55                  & 5.88                  &          & $\mathrm{mV}_{pp}$ \\
+\hline \\
+Input bias point         & 706.78                & 765.2                 & 823.7                 & 882.4                 & 941.75   & $\mathrm{mV}$ \\
+Measured DC gain         & 52.78                 & 6.75                  & 2                     & 2.98                  & 11.68    & dB \\
+Bandwidth                & $2.55 \times 10^{-3}$ & $7.92 \times 10^{-3}$ & 2.397                 & 2.935                 & 1.65     & MHz (3 dB down) 
         \end{tabular}
       }
     \end{enumerate}
        }
-  \item{
+  \item{ This circuit has a gain of about
+         $$
+         -g_{mn} \left[
+          \left(\frac{g_{mn}}{g_{dn}^2}\right) \left\|
+          \left(\frac{g_{mp}}{g_{dp}^2}\right)\right.\right]
+         $$
+         and an output swing of
+         $$
+         2V_{eff_n} \leq \Delta V_{out} \leq V_{dd} - 2V_{eff_p},
+         $$
+         so the following parameters change:
+
+        \begin{tabular}{c | c c c c | c}
+$I_b$                    & 0.5 $\mu$A            & 1 $\mu$A              & 2 $\mu$A              & 4 $\mu$A              & 8 $\mu$A & units \\
+\hline                   & & & & &\\
+DC gain                  & $-1.6 \times 10^{6}$  & $-8.2 \times 10^{5}$  & $-4.78 \times 10^{5}$  & $-3.2 \times 10^{5}$ & $\mathrm{V}$/$\mathrm{V}$ \\
+Output swing             & 2.74                  & 2.64                  & 2.48                  & 2.36                  & $\mathrm{V}_{pp}$         \\
+Input swing              & 1.71                  & 3.22                  & 5.19                  & 7.38                  & $\mathrm{\mu V}_{pp}$     \\
+\hline \\
+Input bias point         & 765.14                   & 0.7                   & 0.7                   & 0.7                   & $\mathrm{mV}$ \\
+$V_b$                    & 1.53
+Simulated DC gain        & &
+Bandwidth                & \\
+        \end{tabular}
+        For each simulation $V_b$ was chosen as twice the operating point of 
+        the input transistor to ensure that it remains in saturation.
        }
 \end{enumerate}
 
