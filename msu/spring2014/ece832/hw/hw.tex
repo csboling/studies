@@ -8,7 +8,11 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{rotating}
 
 \usepackage{tikz}
 \usepackage{circuitikz}
@@ -77,7 +81,75 @@ $$
 A complete solution confirming this argument follows.
 
 \begin{enumerate}
-  \item{
+  \item{First, consider applying a change $\Delta v$ to $V_{in}^+$ while 
+        holding $V_{in}^-$ constant. The impedance of $Q_3$ is
+        $\frac{1}{g_m + g_d}$, so applying the small signal model at
+        $Q_5$ gives
+        $$
+        \Delta I_r = g_d \Delta V_b - (g_m + g_d) \Delta V_r 
+                   = g_d \Delta V_b - \Delta I_r,
+        $$
+        and thus the impedance looking into the right branch of the input
+        stage is $\frac{2}{g_d}$. Then since $\Delta I_l + \Delta I_r = 0$,
+        $$
+        \Delta I_l + \frac{\Delta V_b}{\frac{2}{g_d}} = 0
+        \Delta V_b = -\frac{2 \Delta I_l}{g_d},
+        $$
+        so
+        \begin{align*}
+        \Delta I_l &= -g_m (\Delta v + \frac{2 \Delta I_l}{g_d}) 
+                      -g_d (\frac{\Delta I_l}{g_m + g_d} 
+                         +  \frac{2 \Delta I_l}{g_d}) \\
+                   &= -g_m \Delta v - \frac{2 g_m}{g_d} \Delta I_l
+                      -\frac{g_d}{g_m + g_d} \Delta I_l - 2 \Delta I_l,
+        \end{align*}
+        so
+        $$
+        \Delta I_l (3 + \frac{2 g_m}{g_d} + \frac{g_d}{g_m + g_d}) 
+         = -g_m \Delta v,
+        $$
+        so since $g_m \gg g_d$ this means
+        $$
+        \Delta I_l \approx -\frac{g_d}{2} \Delta v
+        $$
+        and thus
+        $$
+        \Delta I_r \approx \frac{g_d}{2} \Delta v
+        $$
+        in this case.
+       }
+       \item{
+         Next consider holding $V_{in}^+$ constant and
+         applying a change $\Delta v$ at $V_{in}^-$. We see that
+         $$
+         \Delta I_l = g_m \Delta V_b - \frac{g_d}{g_m + g_d} \Delta I_l + g_d \Delta V_b,
+         $$
+         so $\Delta I_l \approx g_m \Delta V_b$. But
+         $$
+         -2 g_m \Delta V_b \approx -g_m \Delta v + g_d \Delta V_b,
+         -2 g_m \Delta V_b \approx -g_m \Delta v,
+         \Delta V_b \approx \frac{\Delta v}{2},
+         $$
+         so
+         $$
+         \Delta I_l \approx \frac{g_m}{2} \Delta v, \Delta I_r \approx -\frac{g_m}{2} \Delta v
+         $$
+         in this case.
+       }
+       \item{
+         Superposition of these two results gives
+         $$
+         \Delta I_{out} \approx (g_m - g_d) \Delta v \approx g_m \Delta v,
+         $$
+         and from the cascoded impedances in the output stage
+         $$
+         R_{out} = g_m r_{ds}^2 \| g_m r_{ds}^2 = \frac{g_m}{2 g_d},
+         $$
+         so
+         $$
+         A_v \approx \frac{g_m^2}{4g_d^2},
+         $$
+         confirming the heuristic analysis.
        }
 \end{enumerate}
 }
@@ -205,6 +277,45 @@ the DC gain is
 $$
 A_v = \frac{-2 \frac{g_m}{2 g_d} \Delta v}{2 \Delta v} = -\frac{g_m}{2 g_d}.
 $$ 
+
+The complete analysis follows. Consider an input of $-\Delta v$ applied to
+$V_{in}^{+}$ and of $\Delta v$ applied to $V_{in}^{-}$, and label the node
+at the drain of $Q_4$ as $V_x$, the voltage at the source of $Q_6$ as $V_t$ 
+and the voltage at the drain of $Q_1$ as $V_b$.  Approximating the
+sources provided by the current mirrors to be ideal and writing the small 
+signal models for $Q_4$, $Q_5$, $Q_3$ and $Q_2$, respectively, gives
+\begin{align*}
+\Delta I &= g_m \Delta v + g_d \Delta V_x - (g_m + g_d) \Delta V_b \\
+\Delta I &= -g_m \Delta V_x - g_d \Delta V_x + (g_m + g_d) \Delta V_t \\
+-\Delta I &= -g_m \Delta v + g_d \Delta V_{out} - (g_m + g_d) \Delta V_b \\
+-\Delta I &= -g_m \Delta V_x - g_d \Delta V_{out} + (g_m + g_d) \Delta V_t.
+\end{align*}
+Approximations give
+$$
+g_m \Delta v - g_m \Delta V_b = -g_m \Delta V_x + g_m \Delta V_t
+$$
+or
+$$
+\Delta v + \Delta V_x = \Delta V_b + \Delta V_t
+$$
+and
+$$
+-\Delta v + 2\frac{g_d}{g_m} \Delta V_{out} + \Delta V_x = \Delta V_t + \Delta V_b,
+$$
+so subtracting the second of these equations from the first gives
+$$
+2 \Delta V - 2 \frac{g_d}{g_m} \Delta V_{out} = 0,
+$$
+or
+$$
+\Delta V_{out} = \frac{g_m}{g_d} \Delta v.
+$$
+Thus
+$$
+A_v = \frac{\Delta V_{out}}{\Delta V_{in}^+ - \Delta V_{in}^-}
+    = \frac{\Delta V_{out}}{-2\Delta v} 
+    = -\frac{g_m}{2 g_d}.
+$$
 }
 \item
 {
@@ -231,23 +342,24 @@ is $2 I_b V_{dd}$.
 \section*{Problem \#3}
 \begin{enumerate}
 \item{(DC gain.)
+The current source $Q_1$ mirroring $I_b$ is effectively ideal since it has
+an impedance $\frac{1}{g_d}$ and the input transistors have a combined 
+impedance of $\frac{1}{4g_m}$.
 If a fully differential input is applied, the currents through $Q_2$ and
 $Q_3$ will both increase as the currents through $Q_4$ and $Q_5$ both 
-decrease by an equal amount, so the drain of $Q_1$ is a point of symmetry.
-Furthermore, the current through $Q_2$ will increase by the same amount 
-that the current through $Q_4$ decreases, so there is no change in 
-current through $Q_7$ or similarly through $Q_9$. Therefore the 
-output current for the amplifier is $\Delta I_{out} = 0$
-so the DC gain is $0$.
+decrease by an equal amount, so there is no change in 
+current through $Q_7$ or similarly through $Q_9$ (as long as $Q_{11}$'s 
+gate is tied to its drain instead of floating, so the current mirror 
+$Q_8$ is operational, and thus the source follower no current flows
+through the output so $A_v = 0$.
 }
 \item{(Output swing.)
 No change in input will change the output of this circuit, so its output
 swing is effectively 0.
 }
 \item{(Power consumption.)
-$Q_{11}$ will draw $I_b$, while $Q_7$ and $Q_9$ each draw a current of 
-$\frac{I_b}{2}$. $Q_8$ is shut off since its gate is floating and so it
-draws no current. Therefore the power consumed is $2 V_{dd} I_b$.
+$Q_{11}$ and $Q_8$ will draw $I_b$, while $Q_7$ and $Q_9$ each draw a current of 
+$\frac{I_b}{2}$. Therefore the power consumed is $3 V_{dd} I_b$.
 }
 \end{enumerate}
 
@@ -319,7 +431,7 @@ draws no current. Therefore the power consumed is $2 V_{dd} I_b$.
        There is another pole at the output produced by the output resistance
        $r_{ds} \| r_{ds}$ and the output capacitance, so
        $$
-       f_{p4} \approx \frac{1}{2\pi}\frac{g_d}{2C_{gd} + C_L},
+       f_{p4} \approx \frac{1}{2\pi}\frac{2g_d}{2C_{gd} + C_L},
        $$
        where $C_L$ is the load capacitance, if connected.
        The branches in the middle of the circuit are not in the signal path
@@ -360,129 +472,158 @@ draws no current. Therefore the power consumed is $2 V_{dd} I_b$.
        }
   \item{(Transfer function.)
        Using the currents derived in the previous part, we see that
+       (
+
        \begin{align*}
-       V_{out}(s) &= \frac{(r_{ds} \| r_{ds})(I_1(s) - I_2(s))}
-                          {1 + (r_{ds} \| r_{ds})(2C_{gd} + C_L) s)} \\
-                  &= -\frac{\frac{1}{2g_d}
-                      \left(1 + \frac{1}{1 + \frac{2C_{gs}}{g_m}s}\right)
-                      \frac{g_m}{1 + \frac{2 C_{gs}}{g_m}s} V(s)}
-                          {1 + \frac{2C_{gd} + C_L}{2g_d}s} \\
-                  &= -\frac{g_m}{2g_d}
-                      \frac{(2 + \frac{2C_{gs}}{g_m}s)V(s)}
-                           {(1 + \frac{2C_{gd} + C_L}{2g_d}s)(1 + \frac{2C_{gs}}{g_m}s)^2} \\
-                  &= -\frac{g_m}{g_d}
-                      \frac{C_{gs}}{g_m}
-                      \frac{2g_d}{2C_{gd} + C_L}
-                      \left(\frac{2C_{gs}}{g_m}\right)^2
-                     \frac{s + \frac{g_m}{C_{gs}}}
-                          {(s + \frac{2g_d}{2C_{gd} + C_L})
-                           (s + \frac{g_m}{2C_{gs}})^2
-                          }
-                     V(s) 
+       V_{out}(s) &= \frac{\frac{1}{2g_d}}{1 + \frac{2 C_{gd} + C_L}{2g_d} s} 
+                     (I_1(s) - I_2(s) \\
+                  &= \frac{1}{2 C_{gd} + C_L}
+                     \frac{1}{s + \frac{2 g_d}{2 C_{gd} + C_L}}
+                     I_1(s)\left(1 + \frac{1}{1 + \frac{2 C_{gs}}{g_m} s}\right) \\
+                  &= -\frac{g_m}{2 C_{gd} + C_L}
+                      \frac{g_m}{2 C_{gs}}
+                      \frac{V(s)}{(s + \frac{g_m}{2 C_{gs}})
+                                  (s + \frac{2 g_d}{2 C_{gd} + C_L})}
+                      \frac{2 + 2\frac{C_{gs}}{g_m} s}
+                           {1 + \frac{2 C_{gs}}{g_m} s} \\
+                  &= -\frac{g_m^2}{(2 C_{gd} + C_L)2C_{gs}}
+                      \frac{g_m}{2 C_{gs}}
+                      \frac{1 + \frac{C_{gs}}{g_m}s}
+                           {(s + \frac{g_m}{2 C_gs})^2
+                            (s + \frac{2g_d}{2 C_{gd} + C_L})} \\
+                  &= -\frac{g_m^2}{(2 C_{gd} + C_L)2 C_{gs}}
+                      \frac{s + \frac{g_m}{C_{gs}}}
+                           {(s + \frac{g_m}{2 C_{gs}})^2
+                            (s + \frac{2 g_d}{2 C_{gd} + C_L})},
        \end{align*}
+       confirming the pole and zero locations estimated above.
        }
 \end{enumerate}
 
+\pagebreak
 
 \section*{Problem \#5}
-\begin{enumerate}
-  \item{
-    For the first circuit (with no cascode):
-    \begin{enumerate}
-      \item{
-        The output range is bounded by
-        \begin{align*}
-        V_{eff} &\leq \Delta V_{out} 
-                \leq V_{dd} - V_{eff} 
-        \end{align*}
-        so the size of the output range is
-        $$
-        V_{dd} - V_{eff_{p}} - V_{eff_{n}}.
-        $$
-        For the output to avoid saturation we thus require
-        $$
-        2|\Delta V_{out}| \leq 
-        V_{dd} - V_{eff_p} - V_{eff_n}.
-        $$
+Selected simulation results are in the attached figures. The gain, bandwidth, 
+voltage swings, and bias points are tabulated below. 
 
-        The output impedance is $\frac{1}{g_{dn}} \| \frac{1}{g_{dp}}$ so the gain is 
-        $-\frac{g_{mn}}{g_{dn} + g_{dp}}$, so the above condition gives
-        $$
-        |\Delta V_{in}| \leq \frac{g_{dn} + g_{dp}}{2g_{mn}} (
-        V_{dd} - V_{eff_p} - V_{eff_n}),
-        $$
-        and since $V_{gs} > V_{th}$ is required for the input transistor
-        to be in saturation, this gives the input bias point as
-        \begin{align*}
-        V_{bias} = V_{th_{n}} + |\Delta V_{in}|.
-        \end{align*}
+The input swing was chosen to be approximately the same for all bias currents
+in the first circuit, since nonlinearities at the edges of the output swing 
+were more pronounced for higher bias currents. The simulation used to select
+an input range and bias point for the first circuit at a bias of 500 nA is
+shown in figure \ref{fig:op-5a-500nA}. A similar simulation was repeated for
+each bias.
 
-        For the ami06 MOS models, we have 
-        \begin{align*}
-        C_{ox} &= \frac{3.9 \dot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}}
-                      {1.41 \times 10^{-6} ~\mathrm{cm}} \\
-               &= 2.45 \times 10^{-7} ~\mathrm{F}~\mathrm{cm}^{-2}, \\
-        \mu_p  &= 202.5 ~\mathrm{cm}^2~\mathrm{V}^{-1}~\mathrm{s}^{-1}, \\
-        \mu_n  &= 533.7 ~\mathrm{cm}^2~\mathrm{V}^{-1}~\mathrm{s}^{-1}.
-        \end{align*}
-        Operating points were determined from DC analysis simulations to find the
-        input/output crossover point for each bias current, and these are recorded 
-        in the "Input bias point" entries in the following table.
-        Approximate $g_{d}$ values for each current are given as measured 
-        from the saturation-region slope at the given bias currents, and these give
-        reasonable predictions of the input swing around the simulated bias points.
-        Parameters through Input Swing are estimated from the model equations, 
-        though the discrepancies in gain from simulation show that these estimates
-        carry considerable error.
-
-        \begin{tabular}{c | c c c c | c}
-$I_b$                    & 0.5 $\mu$A            & 1 $\mu$A              & 2 $\mu$A              & 4 $\mu$A              & 8 $\mu$A &  units \\
-\hline                   & & & & &\\
-$g_{mp}$                 & $1.22 \times 10^{-5}$ & $1.73 \times 10^{-5}$ & $2.44 \times 10^{-5}$ & $3.46 \times 10^{-5}$ &          & $\mathrm{A}~\mathrm{V}^{-1}$\\
-$g_{mn}$                 & $1.98 \times 10^{-5}$ & $2.80 \times 10^{-5}$ & $3.97 \times 10^{-5}$ & $5.61 \times 10^{-5}$ &          & $\mathrm{A}~\mathrm{V}^{-1}$\\
-$g_{dp}$                 & $3    \times 10^{-9}$ & $6    \times 10^{-9}$ & $1    \times 10^{-8}$ & $2.25 \times 10^{-8}$ &          & $\mathrm{A}~\mathrm{V}^{-1}$\\
-$g_{dn}$                 & $1.5  \times 10^{-8}$ & $3    \times 10^{-8}$ & $5.6  \times 10^{-8}$ & $9.5  \times 10^{-8}$ &          & $\mathrm{A}~\mathrm{V}^{-1}$\\
-Estimated DC gain        & $-1100$               & $-778$                & $-602$                & $-447$                &          & $\mathrm{V}$/$\mathrm{V}$   \\
-$V_{eff_p}$              & $0.08$                & $0.11$                & $0.16$                & $0.23$                &          & $\mathrm{V}$ \\
-$V_{eff_n}$              & $0.05$                & $0.07$                & $0.1$                 & $0.14$                &          & $\mathrm{V}$ \\
-Output swing             & 2.87                  & 2.82                  & 2.74                  & 2.63                  &          & $\mathrm{V}_{pp}$ \\
-Input swing              & 2.61                  & 3.62                  & 4.55                  & 5.88                  &          & $\mathrm{mV}_{pp}$ \\
+\begin{figure}
+\begin{tabular}{c | c c c c c | c}
+Quantity          &       &       &       &       &       & Units          \\
+$I_b$             & $0.5$ & $1$   & $2$   & $4$   & $8$   & $\mathrm{\mu A}$ \\
 \hline \\
-Input bias point         & 706.78                & 765.2                 & 823.7                 & 882.4                 & 941.75   & $\mathrm{mV}$ \\
-Measured DC gain         & 52.78                 & 6.75                  & 2                     & 2.98                  & 11.68    & dB \\
-Bandwidth                & $2.55 \times 10^{-3}$ & $7.92 \times 10^{-3}$ & 2.397                 & 2.935                 & 1.65     & MHz (3 dB down) 
-        \end{tabular}
-      }
-    \end{enumerate}
-       }
-  \item{ This circuit has a gain of about
-         $$
-         -g_{mn} \left[
-          \left(\frac{g_{mn}}{g_{dn}^2}\right) \left\|
-          \left(\frac{g_{mp}}{g_{dp}^2}\right)\right.\right]
-         $$
-         and an output swing of
-         $$
-         2V_{eff_n} \leq \Delta V_{out} \leq V_{dd} - 2V_{eff_p},
-         $$
-         so the following parameters change:
+Input bias point  & 708.8 & 750.4 & 797.8 & 854.7 & 927.5 &$\mathrm{m V}$\\
+Input swing       & 5     & 5     & 5     & 5     & 5     &$\mathrm{m V}$\\
+Output swing      & 2.18  & 2.1   & 2     & 1.83  & 1.63  &$\mathrm{V}$ \\
+Gain              & 52.96 & 52.66 & 52.18 & 51.45 & 50.43 & dB \\
+Bandwidth         & 2.57  & 4.88  & 8.86  & 15.85 & 26.41 &$\mathrm{k Hz}$
+\end{tabular}
+\caption{Figures for the first circuit as determined from simulations.}
+\end{figure}
 
-        \begin{tabular}{c | c c c c | c}
-$I_b$                    & 0.5 $\mu$A            & 1 $\mu$A              & 2 $\mu$A              & 4 $\mu$A              & 8 $\mu$A & units \\
-\hline                   & & & & &\\
-DC gain                  & $-1.6 \times 10^{6}$  & $-8.2 \times 10^{5}$  & $-4.78 \times 10^{5}$  & $-3.2 \times 10^{5}$ & $\mathrm{V}$/$\mathrm{V}$ \\
-Output swing             & 2.74                  & 2.64                  & 2.48                  & 2.36                  & $\mathrm{V}_{pp}$         \\
-Input swing              & 1.71                  & 3.22                  & 5.19                  & 7.38                  & $\mathrm{\mu V}_{pp}$     \\
+\begin{figure}
+\begin{tabular}{c | c c c c c | c}
+Quantity          &         &         &         &         &         & Units          \\
+$I_b$             & $0.5$   & $1$     & $2$     & $4$     & $8$     & $\mathrm{\mu A}$ \\
 \hline \\
-Input bias point         & 765.14                   & 0.7                   & 0.7                   & 0.7                   & $\mathrm{mV}$ \\
-$V_b$                    & 1.53
-Simulated DC gain        & &
-Bandwidth                & \\
-        \end{tabular}
-        For each simulation $V_b$ was chosen as twice the operating point of 
-        the input transistor to ensure that it remains in saturation.
-       }
-\end{enumerate}
+Selected $V_b$    & 1.3     & 1.2     & 1.3     & 1.5     & 1.7     &$\mathrm{V}$\\
+Input bias point  & 710.250 & 752.249 & 799.644 & 856.342 & 928.945 &$\mathrm{m V}$\\
+Input swing       & 275     & 285     & 280     & 275     & 272     &$\mathrm{\mu V}$\\
+Output swing      & 1.78    & 1.9     & 1.68    & 1.33    & 0.9     &$\mathrm{V}$ \\
+Gain              & 69.1    & 67.59   & 67.76   & 66.65   & 65.72   & dB \\
+Bandwidth         & 70.84   & 149.8   & 265     & 501.2   & 890.8   &$\mathrm{Hz}$
+\end{tabular}
+\caption{Figures for the first circuit as determined from simulations.}
+\end{figure}
+
+In the second circuit, $V_b$ was chosen for each bias current to provide a 
+symmetrical output swing around 1.5 V and to be linear over a broad range.
+Multiple sweeps were performed for each bias current to select an appropriate
+value of $V_b$, as shown in figure \ref{fig:op-5b-2uA}.
+Note that the gain and bandwidth at 2 $\mathrm{\mu A}$ in this circuit
+are both improved over the figures at 1 $\mathrm{\mu A}$. This is due to a 
+fortunate choice of $V_b$ for this current. Comparing the AC response of
+both circuits on the same plot (figure \ref{fig:allgains}) shows that 
+despite the differences in frequency response, the second circuit's rolloff
+after its dominant pole is as fast as the rolloff of the first.
+
+For both amplifiers the bandwidth increases with bias current as the gain 
+(generally) decreases. For the first circuit, the transfer function is given by
+$$
+\frac{V_{out}(s)}{V_{in}(s)} 
+  \approx \frac{\frac{g_m}{g_d}}{1 + \frac{C_L + 2 C_{gd}}{2 g_d} s}
+  = \frac{2 g_m}{C_L + 2C_{gd}}\frac{1}{s + \frac{2 g_d}{C_L + 2 C_{gd}}}.
+$$
+Since the current flowing through the output stage transistors which produce 
+the output impedance $\frac{1}{2 g_d}$ is $I_b$, and since $g_d = \lambda I_b$, 
+an increase in $I_b$ will cause the pole at 
+$\omega \approx \frac{2 g_d}{C_L + 2 C_{gd}}$ to higher frequency, increasing
+the bandwidth of the amplifier. At DC, $s = 0$, so the transfer function is
+$$
+\left.H(s)\right|_{\omega = 0} 
+     = \frac{2 g_m}{C_L + 2 C_{gd}} \frac{1}{\frac{2 g_d}{C_L + 2 C_{gd}}}
+     = \frac{g_m}{g_d},
+$$
+and since $g_m = \sqrt{2 \mu C_{ox} \frac{W}{L} I_b}$, this means
+$$
+\frac{g_m}{g_d} = \frac{\sqrt{2 \mu C_{ox} \frac{W}{L}}}{\lambda\sqrt{I_b}},
+$$
+so the DC gain decreases with increasing $I_b$.
+
+Similarly for the second circuit the transfer function is
+$$
+H(s) \approx \frac{\frac{g_m^2}{g_d^2} V(s)}
+                  {(1 + \frac{2 C_{gd}}{g_m} s)
+                   (1 + \frac{2 C_{gd} + C_L}{2 g_d} s)},
+$$
+where the dominant pole and thus the bandwidth is still
+the output pole with the same expression as before and the
+DC gain is
+$$
+\left(\frac{g_m}{g_d}\right)^2 = \frac{2 \mu C_{ox} \frac{W}{L}}{\lambda^2 I_b}.
+$$
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{plot5a-op-500nA-crop}
+  \caption{Finding a bias point and input/output voltage range for the 
+           first circuit.  \label{fig:op-5a-500nA}}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{plot5a-gains}
+  \caption{Comparison of the frequency response of the first circuit
+           at different bias currents. \label{fig:op-5a-gains}}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{plot5b-op-2uA-cropped}
+  \caption{Finding bias points and input/output voltage range for the 
+           second circuit.  \label{fig:op-5b-2uA}}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{plot5b-gains-cropped}
+  \caption{Comparison of the frequency response of the second circuit
+           at different bias currents. \label{fig:op-5b-gains}}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{plot5-allgains-cropped}
+  \caption{Comparison of the frequency responses for all circuits simulated
+           in this problem. \label{fig:allgains}}
+\end{sidewaysfigure}
+
 
 
 
