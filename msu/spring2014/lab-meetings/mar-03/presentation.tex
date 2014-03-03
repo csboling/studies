@@ -1,0 +1,95 @@
+\documentclass{beamer}
+
+\usepackage{graphicx}
+%\usepackage[backend=bibtex]{biblatex}
+\usepackage[authoryear]{natbib}
+\usepackage{usebib}
+%\bibliography{references}
+
+\newcommand{\intextcitation}[1]{\citeauthor{#1} \usebibentry{#1}{year}, \usebibentry{#1}{title}}
+
+\title{Research and Reading Summary}
+\author{Sam Boling}
+\date{March 3, 2014}
+\usetheme{Berlin}
+\usecolortheme{seahorse}
+
+\bibinput{references}
+
+\begin{document}
+
+
+\begin{frame}
+%\nobibliography*
+\titlepage
+\end{frame}
+
+\begin{frame}{Energy Harvesting and Sustainable Sensor Nodes}
+  \begin{itemize}
+    \item{\intextcitation{lu2011}}
+    \item{\intextcitation{sudevalayam2011}}
+    \item{\intextcitation{mittal2014}}
+    \item{\intextcitation{hawkes2013}}
+    \item{\intextcitation{huang2012}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Low- and Self-powered Networking}
+  \begin{itemize}
+    \item{\intextcitation{ghidini2013}}
+    \item{\intextcitation{wang2012}}
+    \item{\intextcitation{liu2013}}
+    \item{\intextcitation{ransford2013}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Adaptation -- Dynamic Reconfiguration} 
+  \begin{itemize}
+    \item{\intextcitation{hinkelmann2010}}
+    \item{\intextcitation{mittal2013}}
+    \item{\intextcitation{garg2013}}
+    \item{\intextcitation{haubelt2010}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Abstraction and Assurance}
+  \begin{itemize}
+    \item{\intextcitation{honig2013}}
+    \item{\intextcitation{mainland2008}}
+    \item{Functional reactive programming (Denotative continuous-time programming)
+      \begin{itemize}  
+        \item{\intextcitation{wan2002}
+ 
+               \intextcitation{kaiabachev2007}}
+        \item{\intextcitation{belwal2012}
+ 
+              \intextcitation{belwal2013}}
+        \item{\intextcitation{krishnaswami2013}}
+      \end{itemize}
+    }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Work}
+  \begin{itemize}
+    \item{iEGAS -- operating specification draft and extensible SW framework done}
+    \item{Neural -- develop HW test harness for Yuning's FPGA core}
+    \item{aMEASURE -- lots of reading!
+      \begin{enumerate}
+        \item{further review of energy storage and management techniques}
+        \item{reconfigurable and low-power computational hardware (CGRAs?)}
+        \item{investigate functional reactive/high-level prototype, to be 
+              benchmarked against iEGAS C implementation}
+      \end{enumerate}
+    }
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+  \bibliographystyle{plainnat}
+  \bibliography{references}
+%  \printbibliography
+\end{frame}
+
+\end{document}
+
