@@ -182,22 +182,22 @@ an energy level below the Fermi level of the junction.
   \item{The built-in potential is given by the intercept of the line on the 
         plot so that $\psi_{bi} = V_{F} \approx .6 ~\mathrm{V}$ in this case.
         The slope of the line is approximately 
-        $2.3 \times 10^{12} ~\mathrm{cm}^{4} ~\mathrm{pF}^{-2} ~\mathrm{V}^{-1}
-        = 2.3 \times 10^{12}\cdot (10^{12})^2 ~\mathrm{cm}^4 ~\mathrm{F}^{-2} ~\mathrm{V}^{-1}$ so the doping
+        $2.3 \times 10^{-10} ~\mathrm{cm}^{4} ~\mathrm{pF}^{-2} ~\mathrm{V}^{-1}
+        = 2.3 \times 10^{-10}\cdot (10^{12})^2 ~\mathrm{cm}^4 ~\mathrm{F}^{-2} ~\mathrm{V}^{-1}$ so the doping
         concentration can be found as
         \begin{align*}
         N_D &= \frac{2}{q \varepsilon_s}\left[
                -\frac{1}{\frac{d}{dV}\left(\frac{1}{C^2}\right)}\right] \\
             &= \frac{2}{(1.6 \times 10^{-19} ~\mathrm{C})
                         (12.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
-               \frac{1}{2.3 \times 10^{36} ~\mathrm{cm}^4 ~\mathrm{F}^{-2}~\mathrm{V}^{-1}} \\
-            &= 4.76 \times 10^{-6} ~\mathrm{cm}^{-3} 
+               \frac{1}{2.3 \times 10^{14} ~\mathrm{cm}^4 ~\mathrm{F}^{-2}~\mathrm{V}^{-1}} \\
+            &= 4.76 \times 10^{16} ~\mathrm{cm}^{-3} 
        \end{align*}
        and thus
        \begin{align*}
          \phi_{n} &= \frac{E_{C} - E_{F}}{q} = \frac{kT}{q} \ln \frac{N_C}{N_D} \\
-                  &= (0.0259 ~\mathrm{V}) \ln \frac{4.7 \times 10^{17}}{4.76 \times 10^{-6}} \\
-                  &= 1.37 ~\mathrm{V}.
+                  &= (0.0259 ~\mathrm{V}) \ln \frac{4.7 \times 10^{17}}{4.76 \times 10^{16}} \\
+                  &= 0.059 ~\mathrm{V}.
        \end{align*}
        The barrier height is
        \begin{align*}
@@ -213,38 +213,26 @@ an energy level below the Fermi level of the junction.
        W_{D} &= \sqrt{\frac{2 \varepsilon_s}{q N_D}\left(\psi_{bi} - \frac{kT}{q}\right)} \\
              &= \sqrt{\frac{2 (12.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
                            {(1.6 \times 10^{-19} ~\mathrm{C})
-                            (4.76 \times 10^{-6} ~\mathrm{cm}^{-3})}
+                            (4.76 \times 10^{16} ~\mathrm{cm}^{-3})}
                            (0.6 - 0.0259 ~\mathrm{V})} \\
-             &\approx 4.15 ~\mathrm{km},
+             &\approx .131 ~\mathrm{\mu m},
        \end{align*}
-       which makes no sense whatsoever due to the totally bogus capacitance 
-       figure given in this problem. Proceeding without heed for any 
-       alleged correspondence between these calculations and reality, we see
+       so
        $$
        \Delta \phi = \sqrt{\frac{(1.6 \times 10^{-19} ~\mathrm{C})^2 
-                                 (4.76 \times 10^{-6} ~\mathrm{cm}^{-3})
-                                 (4.15 \times 10^{5}  ~\mathrm{cm})}
-                                {4 \pi (12.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})^2}} = 1.57 \times 10^{-8} ~\mathrm{V}.
+                                 (4.76 \times 10^{16} ~\mathrm{cm}^{-3})
+                                 (1.31 \times 10^{-5}  ~\mathrm{cm})}
+                                {4 \pi (12.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})^2}} \approx 0.03 ~\mathrm{V}.
        $$
        Then 
        $$
-       \phi_{Bn} \approx 1.37 + 0.6 + 0.0259 \approx 2 ~\mathrm{V}.
+       \phi_{Bn} \approx 0.059 + 0.6 + 0.0259 + 0.03 \approx 0.71 ~\mathrm{V}.
        $$
    }
-   \item{The current density gives 
-   \begin{align*}
-     \phi_{B0} &= -\frac{kT}{q} \ln \frac{J}{A^{\ast \ast} T^2} \\
-               &= -(0.0259 ~\mathrm V) 
-                    \ln \frac{5 \times 10^{7} ~\mathrm{A}~\mathrm{cm}^{-2}}
-                                {(4 ~\mathrm{A}~\mathrm{cm^{-2}}~\mathrm{K}^{-2})
-                                 (300 ~\mathrm{K})^2} + 1.57 \times 10^{-8}\\
-               &= -0.13 ~\mathrm{V}.
-   \end{align*}
-   This is much smaller than the barrier height computed above.
-   }
-   \item{The difference (2.13 V) does not seem to be consistent with the lowering potential 
-         computed earlier, though the depletion width and doping concentration
-         used to compute this parameter do not seem to make any sense.}
+   \item{The difference between this result and the effective barrier height 
+         is $0.71 - 0.707 = 0.003 ~\mathrm{V}$, giving the lowering potential 
+         $\Delta \phi$ under bias condition.
+        }
 \end{enumerate}
 
 
