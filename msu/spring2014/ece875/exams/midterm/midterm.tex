@@ -29,6 +29,222 @@
 
 \maketitle
 
+\section*{Problem \#1}
+\begin{enumerate}
+  \item{Show that the reciprocal lattice of a face centered cubic
+        (fcc) lattice with a lattice constant $a$ is a body
+        centered cubic (bcc) lattice with the side of the cubic
+        cell equal to $\frac{4 \pi}{a}$.
+       }
+  \item{Find the volume of the bcc primitive unit cell.}
+\end{enumerate}
+\horline
+\begin{enumerate}
+  \item{The basis vectors for a face-centered cubic primitive
+        cell with lattice constant $a$ are given by
+        \begin{align*}
+          \mathbf{a} &= \frac{a}{2} (\mathbf{y} + \mathbf{z}), \\
+          \mathbf{b} &= \frac{a}{2} (\mathbf{x} + \mathbf{z}), \\
+          \mathbf{c} &= \frac{a}{2} (\mathbf{x} + \mathbf{y}), \\
+        \end{align*}
+        where $\mathbf{x}$, $\mathbf{y}$, and $\mathbf{z}$ are orthogonal unit vectors. Then
+        \begin{align*}
+          \mathbf{b} \times \mathbf{c} &=
+          \left|\begin{array}{c c c}
+            \mathbf{x}   & \mathbf{y}  & \mathbf{z}  \\
+             \frac{a}{2} & 0           & \frac{a}{2} \\
+             \frac{a}{2} & \frac{a}{2} & 0 
+          \end{array}\right| \\
+          &= \left(0 - \frac{a^2}{4}\right) \mathbf{x} 
+           - \left(0 - \frac{a^2}{4}\right) \mathbf{y} 
+           + \left(\frac{a^2}{4} - 0\right) \mathbf{z} \\
+          &= \frac{a^2}{4} (\mathbf{y} + \mathbf{z} - \mathbf{x}), \\
+          \mathbf{c} \times \mathbf{a} &=
+          \left|\begin{array}{c c c}
+            \mathbf{x}   & \mathbf{y}  & \mathbf{z}  \\
+             \frac{a}{2} & \frac{a}{2} & 0           \\
+             0           & \frac{a}{2} & \frac{a}{2} \\
+          \end{array}\right| \\
+          &= \left(\frac{a^2}{4} - 0\right) \mathbf{x} 
+           - \left(\frac{a^2}{4} - 0\right) \mathbf{y} 
+           + \left(\frac{a^2}{4} - 0\right) \mathbf{z} \\
+          &= \frac{a^2}{4} (\mathbf{x} + \mathbf{z} - \mathbf{y}), \\
+          \mathbf{a} \times \mathbf{b} &=
+          \left|\begin{array}{c c c}
+            \mathbf{x}   & \mathbf{y}  & \mathbf{z}  \\
+             0           & \frac{a}{2} & \frac{a}{2} \\
+             \frac{a}{2} & 0           & \frac{a}{2} \\
+          \end{array}\right| \\
+          &= \left(\frac{a^2}{4} - 0\right) \mathbf{x} 
+           - \left(0 - \frac{a^2}{4}\right) \mathbf{y} 
+           + \left(0 - \frac{a^2}{4}\right) \mathbf{z} \\
+          &= \frac{a^2}{4} (\mathbf{x} + \mathbf{y} - \mathbf{z}), \\
+        \end{align*}
+        and furthermore
+        \begin{align*}
+        \mathbf{a} \bullet \mathbf{b} \times \mathbf{c} &=
+          \left(\frac{a}{2}(\mathbf{y} + \mathbf{z})\right) \bullet
+          \left(\frac{a^2}{4}(\mathbf{y} + \mathbf{z} - \mathbf{x})\right) \\
+        &= \frac{a^3}{8}(1 + 1) = \frac{a^3}{4}
+        \end{align*}
+        so
+        $$
+        \frac{2\pi}{\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}} = \frac{8 \pi}{a^3}.
+        $$
+        Therefore
+        \begin{align*}
+          \mathbf{a}^{\ast} &= \frac{2 \pi}
+                                    {\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}}
+                               \mathbf{b} \times \mathbf{c} \\
+                            &= \frac{8 \pi}{a^3} \frac{a^2}{4} 
+                               (\mathbf{y} + \mathbf{z} - \mathbf{x}) \\
+                            &= \frac{2 \pi}{a}(\mathbf{y} + \mathbf{z} - \mathbf{x}), \\
+          \mathbf{b}^{\ast} &= \frac{2 \pi}
+                                    {\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}}
+                               \mathbf{c} \times \mathbf{a} \\
+                            &= \frac{8 \pi}{a^3} \frac{a^2}{4} 
+                               (\mathbf{x} + \mathbf{z} - \mathbf{y}) \\
+                            &= \frac{2 \pi}{a}(\mathbf{x} + \mathbf{z} - \mathbf{y}), \\
+          \mathbf{c}^{\ast} &= \frac{2 \pi}
+                                    {\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}}
+                               \mathbf{a} \times \mathbf{b} \\
+                            &= \frac{8 \pi}{a^3} \frac{a^2}{4} 
+                               (\mathbf{x} + \mathbf{y} - \mathbf{z}) \\
+                            &= \frac{2 \pi}{a}(\mathbf{x} + \mathbf{y} - \mathbf{z}),
+        \end{align*}
+        and since $\frac{2\pi}{a} = \frac{\frac{4\pi}{a}}{2}$, these vectors
+        are the basis vectors of a bcc primitive cell with ``lattice constant"
+        $\frac{4\pi}{a}$.
+       }
+       \item{
+         The volume of the bcc primitive cell computed in part (a) is given by
+         the scalar triple product
+         \begin{align*}
+         \mathbf{a}^{\ast} \bullet \mathbf{b}^{\ast} \times \mathbf{c}^{\ast} \\
+         &= \left(\frac{2\pi}{a}(\mathbf{y} + \mathbf{z} - \mathbf{x})\right) \bullet 
+            \left|\begin{array}{r r r}
+            \mathbf{x}     &  \mathbf{y}     &  \mathbf{z}     \\
+            \frac{2\pi}{a} & -\frac{2\pi}{a} &  \frac{2\pi}{a} \\
+            \frac{2\pi}{a} &  \frac{2\pi}{a} & -\frac{2\pi}{a} \\
+            \end{array}\right| \\
+         &= \left(\frac{2\pi}{a}(\mathbf{y} + \mathbf{z} - \mathbf{x})\right) \bullet
+            \left[\left(\frac{4\pi^2}{a^2} - \frac{4 \pi^2}{a^2}\right)\mathbf{x}
+                - \left(-\frac{4\pi^2}{a^2} - \frac{4 \pi^2}{a^2}\right)\mathbf{y}
+                + \left(\frac{4\pi^2}{a^2} + \frac{4 \pi^2}{a^2}\right)\mathbf{z}\right] \\
+         &= \frac{8 \pi^{2}}{a^3}(\mathbf{y} + \mathbf{z} - \mathbf{x}) \bullet
+                            (\mathbf{y} + \mathbf{z}) \\
+         &= \frac{16 \pi^{2}}{a^3}.
+         \end{align*}
+       }
+\end{enumerate}
+
+\pagebreak 
+
+\section*{Problem \#2}
+Prove that the concentration of holes in neutral dopant acceptor
+states is given by
+$$
+N_{A}^{0} = \frac{N_A}
+                 {1 + \frac{h}{g} 
+                      \exp\left(\frac{E_F - E_A}{kT}\right)}.
+$$
+\horline
+We note from equation 35 that where $h=1$ and $g_A$ is the ground state 
+degeneracy for acceptors, the concentration of ionized acceptors is given by
+$$
+N_{A}^{-} = \frac{N_A}{1 + \frac{g_{A}}{h}\exp\left(\frac{E_A - E_F}{kT}\right)}
+          =  N_A ~\mathrm{Pr(an~acceptor~is~ionized)}.
+$$
+To find the concentration of holes in neutral dopant acceptor states, note 
+that the concentration of such holes is equal to the concentration of neutral
+acceptors (i.e., those that have "trapped" a hole), and that
+\begin{align*}
+\mathrm{Pr(an~acceptor~is~neutral)} &= 1 - \mathrm{Pr(an~acceptor~is~ionized)} \\
+  &= 1 - \frac{1}{1 + \frac{g_A}{h} \exp\left(\frac{E_A - E_F}{kT}\right)} \\
+  &= 1 - \frac{\frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right)}
+              {\frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right) + 1} \\
+  &= \frac{\frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right) + 1 
+         - \frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right)}
+          { \frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right) + 1} \\
+  &= \frac{1}{1 + \frac{h}{g_A} \exp\left(\frac{E_F - E_A}{kT}\right)},
+\end{align*}
+and thus
+$$
+N_A^0 = N_A ~\mathrm{Pr(an~acceptor~is~neutral)}
+      = \frac{N_A}{1 + \frac{h}{g} \exp\left(\frac{E_F - E_A}{kT}\right)}
+$$
+as desired.
+
+%Neutral acceptors are those which have not trapped a free electron in their
+%empty local energy level $E_A$, so the probability that an acceptor is 
+%neutral is, by definition, the probability that its local energy level is 
+%unoccupied, or $1 - F(E_A)$. But
+%\begin{align*}
+%1 - F(E) &= 1 - \frac{1}{1 + \frac{h}{g}\exp\left(\frac{E - E_F}{kT}\right)} \\
+%         &= 1 - \frac{\frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right)}
+%                     {\frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right) + 1} \\
+%         &= \frac{\frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right) + 1
+%                - \frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right)}
+%                 {\frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right) + 1} \\
+%         &= \frac{1}
+%                 {1 + \frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right)} 
+%\end{align*}
+%
+%
+%Thus the concentration of neutral acceptors, 
+%which must be equal to the concentration of holes in neutral dopant acceptor 
+%states, since an acceptor with an empty local energy level can be thought to
+%have trapped a hole, is
+%%\begin{align*}
+%N_{A}^{0} &= N_A (1 - F(E_A)) = \frac{N_A}{1 + \frac{h}{g} \exp\left(\frac{E
+%\end{align*}
+
+\pagebreak
+
+\section*{Problem \#3}
+For a single level recombination process, find the average time that takes 
+place between each recombination process in a region of a silicon
+sample at 300K where $n = p = 10^{13} ~\mathrm{cm}^{-3}$,
+$\sigma_n = \sigma_p = 2 \times 10^{-16} ~\mathrm{cm}^2$, 
+$v_{th} = 10^{7} ~\mathrm{cm} ~\mathrm{s}^{-1}$, 
+$N_t = 10^{16} ~\mathrm{cm}^{-3}$ and $(E_t - E_i) = 5 kT$.
+\horline
+The transition (recombination) rate is given by
+\begin{align*}
+  U &= \frac{\sigma_n \sigma_p v_{th} N_t(pn - n_i^2)}
+           {\sigma_n \left[n + n_i \exp\left(\frac{E_t - E_i}{kT}\right)\right]
+          + \sigma_p \left[p + n_i \exp\left(\frac{E_i - E_t}{kT}\right)\right]} \\
+    &= \frac{(2 \times 10^{-16} ~\mathrm{cm}^2)^2 
+             (10^7 ~\mathrm{cm}~\mathrm{s}^{-1})
+             (10^{16} ~\mathrm{cm}^{-3})
+             ((10^{13} ~\mathrm{cm}^{-3})^2 - (9.65 \times 10^9 ~\mathrm{cm}^{-3})^2)}
+            {(2 \times 10^{-16} ~\mathrm{cm}^2)
+             \left[2(10^{13} ~\mathrm{cm}^{-3}) 
+           + 2(9.65 \times 10^9 ~\mathrm{cm}^{-3})\cosh(5)\right]}
+\end{align*}
+
+\pagebreak
+
+\section*{Problem \#4}
+The given measurements are taken from an abrupt $p^{+}n$ junction and a
+symmetric linearly graded $pn$ junction. Which is which?
+
+\begin{enumerate}
+  \item{Evaluate $\psi_{bi}$, $a$ and $\mathscr{E}_{m}$ for the
+linearly graded $pn$ junction.}
+  \item{Evaluate $\psi_{bi}$, $N$ and $W_D$ for the abrupt junction.}
+  \item{A metal contact is made to the $n$-side of the linearly graded $pn$
+  junction well outside of the junction depletion region. What is the width of
+  the Schottky barrier depletion region $W_D$ that develops around the 
+  contact?}
+\end{enumerate}
+
+\pagebreak
+
+\section*{Problem \#5}
+For the given device structure fabricated in Si, find the depletion width
+at thermal equilibrium at 300K.
+
 
 
 \end{document}
