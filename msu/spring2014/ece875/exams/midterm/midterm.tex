@@ -12,7 +12,7 @@
 \usepackage{amssymb}
 
 \usepackage{graphicx}
-\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{rotating}
 
 \renewcommand*{\Re}{\operatorname{\mathfrak{Re}}}
@@ -209,7 +209,7 @@ $\sigma_n = \sigma_p = 2 \times 10^{-16} ~\mathrm{cm}^2$,
 $v_{th} = 10^{7} ~\mathrm{cm} ~\mathrm{s}^{-1}$, 
 $N_t = 10^{16} ~\mathrm{cm}^{-3}$ and $(E_t - E_i) = 5 kT$.
 \horline
-The transition (recombination) rate is given by
+The transition rate is given by
 \begin{align*}
   U &= \frac{\sigma_n \sigma_p v_{th} N_t(pn - n_i^2)}
            {\sigma_n \left[n + n_i \exp\left(\frac{E_t - E_i}{kT}\right)\right]
@@ -220,16 +220,21 @@ The transition (recombination) rate is given by
              ((10^{13} ~\mathrm{cm}^{-3})^2 - (9.65 \times 10^9 ~\mathrm{cm}^{-3})^2)}
             {(2 \times 10^{-16} ~\mathrm{cm}^2)
              \left[2(10^{13} ~\mathrm{cm}^{-3}) 
-           + 2(9.65 \times 10^9 ~\mathrm{cm}^{-3})\cosh(5)\right]}
+           + 2(9.65 \times 10^9 ~\mathrm{cm}^{-3})\cosh(5)\right]} \\
+          &= \frac{4 \times 10^{17} 
+                    ~\mathrm{cm}^{-4} ~\mathrm{s}^{-1}}
+                  {4.29 \times 10^{-3} ~\mathrm{cm}^{-1}} \\
+          &= 9.32 \times 10^{19} ~\mathrm{cm}^{-3} ~\mathrm{s}^{-1},
 \end{align*}
+which is positive since $pn \gg n_i^2$, indicating recombination. 
 
 \pagebreak
 
 \section*{Problem \#4}
 The given measurements are taken from an abrupt $p^{+}n$ junction and a
-symmetric linearly graded $pn$ junction. Which is which?
-
+symmetric linearly graded $pn$ junction. 
 \begin{enumerate}
+  \item{Which is which?}
   \item{Evaluate $\psi_{bi}$, $a$ and $\mathscr{E}_{m}$ for the
 linearly graded $pn$ junction.}
   \item{Evaluate $\psi_{bi}$, $N$ and $W_D$ for the abrupt junction.}
@@ -238,6 +243,51 @@ linearly graded $pn$ junction.}
   the Schottky barrier depletion region $W_D$ that develops around the 
   contact?}
 \end{enumerate}
+
+\horline
+\begin{enumerate}
+  \item{$\frac{1}{C^2}$ curves are plotted from the given data in figure 
+        \ref{fig:capplots}. Junction \#1 is nonlinear while junction \#2 is 
+        linear, so junction \#2 is the abrupt junction and junction \#1 has 
+        non-constant doping on either side of the junction.
+       }
+  \item{From equation 38 in Sze, 
+        \begin{align*}
+          C_D &= \left[\frac{q a \varepsilon_s^2}{12 (\psi_{bi} - V)}\right] \\
+          \frac{1}{C_D^3} &= \frac{12(\psi_{bi} - V)}{q a \varepsilon_s^2} \\
+          \frac{d}{dV}\left(\frac{1}{C_D^3}\right) &= -\frac{12}{q a \varepsilon_s^2} \\
+          a &= -\frac{12}{q \varepsilon_s^2 \frac{d}{dV}\left(\frac{1}{C_D^3}\right)},
+        \end{align*}
+        so the doping gradient $a$ is given by
+        \begin{align*}
+        a &= -\frac{12}{(1.6 \times 10^{-19} ~\mathrm{C})
+                       (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})^2
+                       (-5.67 \times 10^{-5} ~\mathrm{(cm^2 / nF)}^3 ~\mathrm{V}^{-1})
+                      } \\
+          &= 1.26 \times 10^{9} ~\mathrm{cm}^{-4}.
+        \end{align*}
+        Then from equation 37,
+        \begin{align*}
+          \psi_{bi} = 
+        \end{align*}
+       }
+  \item{The $V$-intercept from the linear extrapolations of the curve is
+        $0.6 ~\mathrm{V}$ for junction \#2, the abrupt junction,
+        so $\psi_{bi} = 0.6 ~\mathrm{V}$.
+       }
+\end{enumerate}
+
+\begin{figure}[ht!]
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics[width=\linewidth]{junction1}
+  \end{subfigure} 
+
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics[width=\linewidth]{junction2}
+  \end{subfigure}
+  \caption{The $\frac{1}{C^2}$ plots for Problem 4. \label{fig:capplots}}
+\end{figure}
 
 \pagebreak
 
