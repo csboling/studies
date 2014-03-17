@@ -18,6 +18,7 @@ slope2 = (Y2[5] - Y2[0]) / (V[5] - V[0])
 
 cubeslope1 = (cubeY1[5] - cubeY1[0]) / (V[5] - V[0])
 print 'slope vs 1/C_1^3', cubeslope1
+print 'slope vs 1/C_2^2', slope2
 
 xs     = np.arange(-1, 1.5, 0.1)
 line1 = np.dot(slope1, xs) + (Y1[0] - slope1*xs[0])

@@ -273,7 +273,23 @@ linearly graded $pn$ junction.}
        }
   \item{The $V$-intercept from the linear extrapolations of the curve is
         $0.6 ~\mathrm{V}$ for junction \#2, the abrupt junction,
-        so $\psi_{bi} = 0.6 ~\mathrm{V}$.
+        so $\psi_{bi} = 0.6 ~\mathrm{V}$. The slope of the line is 
+        $-1.2 \times 10^{-4} ~(\mathrm{cm} / \mathrm{nF})^2 ~\mathrm{V}^{-1}=
+         -1.2 \times 10^{14} ~\mathrm{cm} ~\mathrm{F}^{-1} ~\mathrm{V}^{-1}$ so the doping 
+        concentration on the $n$ side is
+        \begin{align*}
+          N_D &= -\frac{2}{q \varepsilon_s}\left[-\frac{1}{\frac{d}{dV}\left(\frac{1}{C^2}\right)} \\
+              &= \frac{2}{1.6 \times 10^{-19} ~\mathrm{C})(11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
+                 \frac{1}{2.3 \times 10^{14} ~\mathrm{cm}^{4} ~\mathrm{F}^{-2} ~\mathrm{V}^{-1} \\
+              &= 
+        \end{align*}
+        and therefore
+        \begin{align*}
+          W_D &= \sqrt{\frac{2 \varepsilon_s}{q N_D}\left(\psi_{bi} - \frac{kT}{q}\right) \\
+              &= \sqrt{\frac{2 (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F} ~\mathrm{cm}^{-1})}
+                            {(1.6 \times 10^{-19} ~\mathrm{C})()}
+                       (0.6 - 0.0259 ~\mathrm{V})} 
+        \end{align*}
        }
 \end{enumerate}
 
