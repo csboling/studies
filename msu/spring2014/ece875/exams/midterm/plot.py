@@ -17,12 +17,14 @@ slope1 = (Y1[5] - Y1[0]) / (V[5] - V[0])
 slope2 = (Y2[5] - Y2[0]) / (V[5] - V[0])
 
 cubeslope1 = (cubeY1[5] - cubeY1[0]) / (V[5] - V[0])
+print 'slope vs 1/C_1^2', slope1
 print 'slope vs 1/C_1^3', cubeslope1
 print 'slope vs 1/C_2^2', slope2
 
 xs     = np.arange(-1, 1.5, 0.1)
 line1 = np.dot(slope1, xs) + (Y1[0] - slope1*xs[0])
 line2 = np.dot(slope2, xs) + (Y2[0] - slope2*xs[0])
+cubeline = np.dot(cubeslope1, xs) + (Y1[0] - cubeslope1*xs[0])
 
 plt.figure()
 #plt.plot(V, Y1, label=r'$\frac{1}{C_1^2}$', linestyle=linecycler.next())
@@ -35,6 +37,8 @@ plt.xlabel(r'$V$ (V)')
 plt.legend(loc='best')
 zindex1 = np.where(np.abs(line1) == min(np.abs(line1)))[0]
 print 'zero crossing for 1/C_1^2 = ', xs[zindex1]
+zindex1 = np.where(np.abs(cubeline) == min(np.abs(cubeline)))[0]
+print 'zero crossing for 1/C_1^3 = ', xs[zindex1]
 
 plt.figure()
 plt.plot(V, Y2, label=r'$\frac{1}{C_2^2}$', linestyle=linecycler.next())
@@ -82,5 +86,5 @@ print 'zero crossing for 1/C_2^2 = ', xs[zindex2]
 #plt.legend(loc='best')
 
 
-plt.show()
+#plt.show()
 
