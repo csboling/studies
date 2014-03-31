@@ -16,7 +16,7 @@ import plots
 
 rc('text', usetex=True)
 Fs = 24000.0
-channels = 4
+channels = 1
 samples = 3840
 windowsize = 128
 chunks = samples/windowsize
@@ -26,7 +26,7 @@ filter_output = True
 
 PLOT_FFT       = 0
 PLOT_WAVELET   = 0
-PLOT_RECON     = 0
+PLOT_RECON     = 1
 
 PLOT_SNIPPETS    = 0
 SHOW_BOGUS_SNIPS = 1

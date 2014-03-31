@@ -81,12 +81,6 @@ def dwtmat(N, wavelet, level=1):
     return np.hstack(pywt.wavedec(x, wavelet, mode='per', level=level)[0:2])
   return np.apply_along_axis(fwd_dwt, 1, np.eye(N)).T
 
-#def threshold(x, thresh=10.0):
-#  if (abs(x) > thresh):
-#    return x
-#  else:
-#    return 0
-
 def cycle_random(sets):
   while True:
     yield np.random.randint(0, sets)
