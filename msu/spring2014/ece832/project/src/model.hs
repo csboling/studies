@@ -10,13 +10,14 @@ sarADC depth f t = fst . last &&& map snd . tail $ scanl comp (0, False) [1..dep
                          x        = 2**depth * f t
 
 heaviside x
-  | x <= 0    = 0
+  | x < 0     = 0
   | otherwise = 1
 
---decode :: RealFrac a => [a] -> Int
-decode bits = sum $ zipWith ((*) . heaviside . round) bits weights
-              where weights = [2^(depth-i) | i <- [1..depth]]
-                    depth   = length bits
+{-alternative depth f t = accum step 
+              where accum term = sum $ map (\i -> term * 2**(depth-i)) [1..depth]
+                    step       = heaviside (x - accum 1)
+                    x          = f $! t
+-}
 
 lfsr taps bits = shiftL 1 bits .|. ones `mod` 2 
                  where ones = popCount (bits .&. taps) + 1
@@ -26,6 +27,7 @@ freq     = 0.25
 input    = (/2) . (1+) . sin . (2 * pi * freq *)
 main = do
        plot X11 [ subtract 0.5 . (2**bitdepth *) . input
+--                , fst . alt bitdepth input
                 , fst . sarADC bitdepth input
                 ]
 
