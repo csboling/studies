@@ -20,15 +20,15 @@ entity CLOCK_GENERATOR is
     SELECT_V_IN    : out std_logic := '1';
     SELECT_V_REF   : out std_logic := '0';
     
-    BITS           : out std_logic_vector(8-1 downto 0) := (others => '0');
-    VALID          : out std_logic                      := '0';
-    DIGITAL_BITS   : out std_logic_vector(8-1 downto 0) := (others => '0')
+    BITS           : out std_logic_vector(DEPTH-1 downto 0) := (others => '0');
+    DIGITAL_BITS   : out std_logic_vector(DEPTH-1 downto 0) := (others => '0');
+    VALID          : out std_logic                      := '0'
   );
 end CLOCK_GENERATOR;
 
 architecture STRUCTURAL of CLOCK_GENERATOR is
-  constant MAX_BIT_COUNT : std_logic_vector(vector_length(8) - 1 downto 0)
-                             := std_logic_vector(to_unsigned(8-1, vector_length(8)));
+  constant MAX_BIT_COUNT : std_logic_vector(vector_length(DEPTH) - 1 downto 0)
+                             := std_logic_vector(to_unsigned(DEPTH-1, vector_length(DEPTH)));
 
   type   STATE_TYPE is (IDLE,
                         CLEAR, SAMPLE, DISCONNECT_INPUT, BREAK_FEEDBACK, 
@@ -38,11 +38,11 @@ architecture STRUCTURAL of CLOCK_GENERATOR is
 
   signal BITS_I           : std_logic_vector(BITS'range)
                               := (others => '0');
-  signal BIT_COUNT        : std_logic_vector(vector_length(8)-1 downto 0) 
+  signal BIT_COUNT        : std_logic_vector(vector_length(DEPTH)-1 downto 0) 
                               := MAX_BIT_COUNT;
   signal DIGITAL_BITS_I   : std_logic_vector(DIGITAL_BITS'range)
                               := (others => '0');
-  signal BIT_COUNT_AS_INT : integer range 0 to 8-1;
+  signal BIT_COUNT_AS_INT : integer range 0 to DEPTH-1;
 begin
 
   BIT_COUNT_AS_INT <= to_integer(unsigned(BIT_COUNT));
@@ -107,6 +107,8 @@ begin
             STATE     <= TEST_BIT;
             
             BIT_COUNT <= BIT_COUNT;
+
+            BITS_I                   <= (others => '0');
             BITS_I(BIT_COUNT_AS_INT) <= '1';
             
           when TEST_BIT =>
@@ -120,7 +122,8 @@ begin
               STATE     <= NEXT_BIT;
               BIT_COUNT <= std_logic_vector(unsigned(BIT_COUNT) - 1);
             end if;
-            BITS_I <= (BIT_COUNT_AS_INT => '1', others => '0');
+            BITS_I                   <= (others => '0');
+--            BITS_I(BIT_COUNT_AS_INT) <= '1';
 --            BITS_I(BIT_COUNT_AS_INT) <= COMPARE;
 
           when DONE =>
