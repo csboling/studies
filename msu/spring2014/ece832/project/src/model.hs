@@ -29,10 +29,8 @@ plots    = plot X11 [ subtract 0.5 . (2**bitdepth *) . input
                     , fst . sarADC bitdepth input
                     ] 
 
---liftText :: (Read a, Show b) => 
+liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
 liftText f = (pack . show) `fmap` f `fmap` (read . unpack)
---liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
---liftText f = pack . show . f . read . unpack
 
 toPulses timescale vdd (t:vs) = (liftText (timescale*) t):(map (liftText (vdd*)) vs)
 
@@ -89,7 +87,8 @@ csvToVolts x y = sourceFile x        $=
                  intoCSV inSettings  $$
                  bitify 4            =$
                  fromCSV outSettings =$
-                 sinkFile y
+                 sinkList
+--                 sinkFile y
 
 
 main = runResourceT $ --csvToPWLs  "../example-pulses.csv" ["file"]
