@@ -1,7 +1,7 @@
 import Graphics.EasyPlot
 
 import Data.Conduit
-import Data.Conduit.Binary
+import Data.Conduit.Binary hiding (mapM_)
 import qualified Data.Conduit.List as CL
 import Data.CSV.Conduit
 import Data.Traversable
@@ -22,6 +22,52 @@ sarADC depth f t = fst . last &&& map snd . tail $ scanl comp (0, False) [1..dep
                                          (if next < x then next else v, next < x)
                          bit i    = 2**(depth-i)
                          x        = 2**depth * f t
+bitdepth = 2
+freq     = 0.25
+input    = (/2) . (1+) . sin . (2 * pi * freq *)
+plots    = plot X11 [ subtract 0.5 . (2**bitdepth *) . input
+                    , fst . sarADC bitdepth input
+                    ] 
+
+--liftText :: (Read a, Show b) => 
+liftText f = (pack . show) `fmap` f `fmap` (read . unpack)
+--liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
+--liftText f = pack . show . f . read . unpack
+
+toPulses timescale vdd (t:vs) = (liftText (timescale*) t):(map (liftText (vdd*)) vs)
+
+hz        = 10e3
+timescale = 20
+scale :: (Monad m) => Conduit (Row Text) m (Row Text)
+scale = CL.map (toPulses (1/(timescale*hz)) 3.0)
+
+getColumn :: Monad m => Int -> Conduit (Row Text) m (Row Text)
+getColumn n = awaitForever get
+              where get (t:vs) = CL.sourceList . return . (!! n) 
+                               $ map (([t]++) . return) vs
+
+split xs = getZipSink $ traverse (ZipSink . splitter) (zip [1..] xs)
+           where splitter (n, name) = getColumn n            =$ 
+                                      fromCSV outSettings    =$ 
+                                      sinkFile (name ++ ".txt")
+
+
+inSettings  = CSVSettings
+              { csvSep = ','
+              , csvQuoteChar = Nothing
+              }
+outSettings = CSVSettings
+              { csvSep = ' '
+              , csvQuoteChar = Nothing
+              }
+
+csvToPWLs x y = sourceFile x       $=
+                intoCSV inSettings $=
+                scale              $$
+                split y
+
+selectCols :: [a] -> [Int] -> [a]
+selectCols xs indices = map ($ xs) (map (flip (!!)) indices)
 
 heaviside x
   | x <= 0    = 0
@@ -32,34 +78,21 @@ decode bits = sum $ zipWith ((*) . heaviside . round) bits weights
               where weights = [2^(depth-i) | i <- [1..depth]]
                     depth   = length bits
 
-toPulses timescale vdd (t:vs) = (lift (timescale*) t):(map (lift (vdd*)) vs)
-                                where lift f = pack . show . f . read . unpack
+select_bits :: (RealFrac a) => Int -> [a] -> [a]
+select_bits depth bs = (last bs):[decode $ selectCols bs slots]
+                       where slots = [2*n + 1 | n <- [0..depth-1]]
 
-hz        = 10e3
-timescale = 20e-12
-scale :: (Monad m) => Conduit (Row Text) m (Row Text)
-scale = CL.map (toPulses (1/(hz * timescale)) 3.0)
+bitify :: (Monad m) => Int -> Conduit (Row Text) m (Row Text)
+bitify n = CL.map $ map (pack . show) . select_bits n . map (read . unpack)
 
-getColumn :: Monad m => Int -> Conduit (Row Text) m (Row Text)
-getColumn n = awaitForever get
-              where get (t:vs) = CL.sourceList . return . (!! n) 
-                               $ map (([t]++) . return) vs
+csvToVolts x y = sourceFile x        $=
+                 intoCSV inSettings  $$
+                 bitify 4            =$
+                 fromCSV outSettings =$
+                 sinkFile y
 
---split :: (Show a, Monad m) => [a] -> Sink (Row Text) m [()]
-split xs = getZipSink $ traverse (ZipSink . splitter) (zip [0..] xs)
-           where splitter (n, name) = getColumn n            =$ 
-                                      fromCSV defCSVSettings =$ 
-                                      sinkFile (name ++ ".txt")
 
-bitdepth = 2
-freq     = 0.25
-input    = (/2) . (1+) . sin . (2 * pi * freq *)
-main = runResourceT $
-         sourceFile "../example-pulses.csv" $=
-         intoCSV defCSVSettings             $=
-         scale                              $$
-         split ["one", "two", "three"]
---       plot X11 [ subtract 0.5 . (2**bitdepth *) . input
---                , fst . sarADC bitdepth input
---                ] 
+main = runResourceT $ --csvToPWLs  "../example-pulses.csv" ["file"]
+                      csvToVolts "../example-nohead.csv" "decoded.csv"
+
 
