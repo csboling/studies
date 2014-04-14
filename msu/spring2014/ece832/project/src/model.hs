@@ -1,3 +1,4 @@
+import System.Environment
 import Graphics.EasyPlot
 
 import Data.Conduit
@@ -32,6 +33,7 @@ plots    = plot X11 [ subtract 0.5 . (2**bitdepth *) . input
 liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
 liftText f = (pack . show) `fmap` f `fmap` (read . unpack)
 
+toPulses _         _   []     = []
 toPulses timescale vdd (t:vs) = (liftText (timescale*) t):(map (liftText (vdd*)) vs)
 
 hz        = 10e3
@@ -44,7 +46,7 @@ getColumn n = awaitForever get
               where get (t:vs) = CL.sourceList . return . (!! n) 
                                $ map (([t]++) . return) vs
 
-split xs = getZipSink $ traverse (ZipSink . splitter) (zip [1..] xs)
+split xs = getZipSink $ traverse (ZipSink . splitter) (zip [0..] xs)
            where splitter (n, name) = getColumn n            =$ 
                                       fromCSV outSettings    =$ 
                                       sinkFile (name ++ ".txt")
@@ -60,8 +62,8 @@ outSettings = CSVSettings
               }
 
 csvToPWLs x y = sourceFile x       $=
-                intoCSV inSettings $=
-                scale              $$
+                intoCSV inSettings $$
+                scale              =$
                 split y
 
 selectCols :: [a] -> [Int] -> [a]
@@ -73,7 +75,7 @@ heaviside x
 
 decode :: (RealFrac a, Num b) => [a] -> b
 decode bits = sum $ zipWith ((*) . heaviside . round) bits weights
-              where weights = [2^(depth-i) | i <- [1..depth]]
+              where weights = [2^i | i <- [0..depth-1]]
                     depth   = length bits
 
 select_bits :: (RealFrac a) => Int -> [a] -> [a]
@@ -87,11 +89,25 @@ csvToVolts x y = sourceFile x        $=
                  intoCSV inSettings  $$
                  bitify 4            =$
                  fromCSV outSettings =$
-                 sinkList
---                 sinkFile y
+                 sinkFile y
 
 
-main = runResourceT $ --csvToPWLs  "../example-pulses.csv" ["file"]
-                      csvToVolts "../example-nohead.csv" "decoded.csv"
+main = do
+       args <- getArgs
+       runResourceT $ csvToPWLs (args !! 0) [ "VALID"
+                                            , "SELECT_V_REF"
+                                            , "SELECT_V_IN"
+                                            , "SAMPLE_INPUT"
+                                            , "CLOSE_FEEDBACK"
+                                            , "BIT_0"
+                                            , "BIT_1"
+                                            , "BIT_2"
+                                            , "BIT_3"
+                                            , "BIT_4"
+                                            , "BIT_5"
+                                            , "BIT_6"
+                                            , "BIT_7"              
+                                            ]
+                      --csvToVolts (args !! 0) (args !! 1)
 
 
