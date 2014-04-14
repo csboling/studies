@@ -33,13 +33,23 @@ plots    = plot X11 [ subtract 0.5 . (2**bitdepth *) . input
 liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
 liftText f = (pack . show) `fmap` f `fmap` (read . unpack)
 
+--toPulses :: (Num a, Read a, Show a, Num b, Read b, Show b) => 
+--            a -> b -> Row Text -> [Row Text]
 toPulses _         _   []     = []
-toPulses timescale vdd (t:vs) = (liftText (timescale*) t):(map (liftText (vdd*)) vs)
+toPulses timescale vdd (t:vs) = [ (liftText (subtract (timescale/1000) . (timescale*)) t):scaled
+                                , (liftText (timescale*) t):scaled
+                                ]
+                                where scaled = (map (liftText (vdd*)) vs)
+                                
 
+hz :: Float
 hz        = 10e3
+
+timescale :: Float
 timescale = 20
+
 scale :: (Monad m) => Conduit (Row Text) m (Row Text)
-scale = CL.map (toPulses (1/(timescale*hz)) 3.0)
+scale = awaitForever $ CL.sourceList . toPulses (1/(timescale*hz)) 3.0
 
 getColumn :: Monad m => Int -> Conduit (Row Text) m (Row Text)
 getColumn n = awaitForever get
@@ -94,20 +104,22 @@ csvToVolts x y = sourceFile x        $=
 
 main = do
        args <- getArgs
-       runResourceT $ csvToPWLs (args !! 0) [ "VALID"
-                                            , "SELECT_V_REF"
-                                            , "SELECT_V_IN"
-                                            , "SAMPLE_INPUT"
-                                            , "CLOSE_FEEDBACK"
-                                            , "BIT_0"
-                                            , "BIT_1"
-                                            , "BIT_2"
-                                            , "BIT_3"
-                                            , "BIT_4"
-                                            , "BIT_5"
-                                            , "BIT_6"
-                                            , "BIT_7"              
-                                            ]
+       runResourceT $ csvToPWLs (args !! 0) outList 
+       where outList = map ("data/pwls/" ++) 
+                                        [ "VALID"
+                                        , "SELECT_V_REF"
+                                        , "SELECT_V_IN"
+                                        , "SAMPLE_INPUT"
+                                        , "CLOSE_FEEDBACK"
+                                        , "BIT_0"
+                                        , "BIT_1"
+                                        , "BIT_2"
+                                        , "BIT_3"
+                                        , "BIT_4"
+                                        , "BIT_5"
+                                        , "BIT_6"
+                                        , "BIT_7"              
+                                        ]
                       --csvToVolts (args !! 0) (args !! 1)
 
 
