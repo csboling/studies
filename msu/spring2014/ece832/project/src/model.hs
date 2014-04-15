@@ -9,6 +9,7 @@ import Data.Traversable
 
 import Data.Text (Text, pack, unpack)
 import Data.Bits
+import Data.Maybe
 
 import Control.Monad.IO.Class (liftIO)
 import Control.Arrow
@@ -34,12 +35,12 @@ liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
 liftText f = (pack . show) `fmap` f `fmap` (read . unpack)
 
 --toPulses :: (Num a, Read a, Show a, Num b, Read b, Show b) => 
---            a -> b -> Row Text -> [Row Text]
-toPulses _         _   []     = []
-toPulses timescale vdd (t:vs) = [ (liftText (subtract (timescale/1000) . (timescale*)) t):scaled
-                                , (liftText (timescale*) t):scaled
-                                ]
-                                where scaled = (map (liftText (vdd*)) vs)
+--            a -> b -> [Row Text] -> [Row Text]
+toPulses timescale vdd ((t1:vs1):(t2:vs2):vs) = [ (liftText (timescale*) t1):(map (liftText (vdd*)) vs1)
+                                                , (liftText (subtract (timescale/1000) . (timescale*)) t2):(map (liftText (vdd*)) vs1)
+                                                ]
+toPulses timescale vdd ((t:vs):[])            = [ (liftText (timescale*) t):(map (liftText (vdd*)) vs) ]
+toPulses _         _   []                     = []
                                 
 
 hz :: Float
@@ -49,7 +50,14 @@ timescale :: Float
 timescale = 20
 
 scale :: (Monad m) => Conduit (Row Text) m (Row Text)
-scale = awaitForever $ CL.sourceList . toPulses (1/(timescale*hz)) 3.0
+scale = do
+        row1 <- await
+        row2 <- CL.peek
+        case row1 of
+          Nothing -> return ()
+          _       -> do 
+                     CL.sourceList $ toPulses (1/(timescale*hz)) 3.0 (catMaybes [row1, row2])
+                     scale
 
 getColumn :: Monad m => Int -> Conduit (Row Text) m (Row Text)
 getColumn n = awaitForever get
@@ -104,22 +112,25 @@ csvToVolts x y = sourceFile x        $=
 
 main = do
        args <- getArgs
-       runResourceT $ csvToPWLs (args !! 0) outList 
-       where outList = map ("data/pwls/" ++) 
-                                        [ "VALID"
-                                        , "SELECT_V_REF"
-                                        , "SELECT_V_IN"
-                                        , "SAMPLE_INPUT"
-                                        , "CLOSE_FEEDBACK"
-                                        , "BIT_0"
-                                        , "BIT_1"
-                                        , "BIT_2"
-                                        , "BIT_3"
-                                        , "BIT_4"
-                                        , "BIT_5"
-                                        , "BIT_6"
-                                        , "BIT_7"              
-                                        ]
-                      --csvToVolts (args !! 0) (args !! 1)
+       case args of
+         []         -> return [()]
+         ("pwls":_) -> runResourceT $ csvToPWLs (args !! 1) outList 
+                       where outList = map ("data/pwls/" ++) 
+                                           [ "BIT_7"
+                                           , "BIT_6"
+                                           , "BIT_5"
+                                           , "BIT_4"
+                                           , "BIT_3"
+                                           , "BIT_2"
+                                           , "BIT_1"
+                                           , "BIT_0"              
+                                           , "CLOSE_FEEDBACK"
+                                           , "CMP"
+                                           , "SAMPLE_INPUT"
+                                           , "SELECT_V_REF"
+                                           , "SELECT_V_IN"
+                                           , "VALID"
+                                           ]
+         ("volts":_) -> runResourceT $ csvToVolts (args !! 1) (args !! 2)
 
 
