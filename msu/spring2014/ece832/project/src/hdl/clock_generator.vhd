@@ -19,10 +19,11 @@ entity CLOCK_GENERATOR is
     SAMPLE_INPUT   : out std_logic := '0';
     SELECT_V_IN    : out std_logic := '1';
     SELECT_V_REF   : out std_logic := '0';
-    
+
+    CMP            : out std_logic := '0';
     BITS           : out std_logic_vector(DEPTH-1 downto 0) := (others => '0');
     DIGITAL_BITS   : out std_logic_vector(DEPTH-1 downto 0) := (others => '0');
-    VALID          : out std_logic                      := '0'
+    VALID          : out std_logic := '0'
   );
 end CLOCK_GENERATOR;
 
@@ -33,7 +34,8 @@ architecture STRUCTURAL of CLOCK_GENERATOR is
   type   STATE_TYPE is (IDLE,
                         CLEAR, SAMPLE, DISCONNECT_INPUT, BREAK_FEEDBACK, 
                         HOLD, CONNECT_REFERENCE,
-                        NEXT_BIT, TEST_BIT, DONE);
+                        NEXT_BIT, TEST_BIT, SAMPLE_CMP, BIT_OK,
+                        DONE);
   signal STATE            : STATE_TYPE := IDLE;
 
   signal BITS_I           : std_logic_vector(BITS'range)
@@ -110,10 +112,24 @@ begin
 
             BITS_I                   <= (others => '0');
             BITS_I(BIT_COUNT_AS_INT) <= '1';
-            
-          when TEST_BIT =>
-            STATE     <= NEXT_BIT;
 
+          when TEST_BIT =>
+            STATE     <= SAMPLE_CMP;
+
+            BIT_COUNT <= BIT_COUNT;
+            
+            BITS_I                   <= (others => '0');
+            BITS_I(BIT_COUNT_AS_INT) <= '1';
+
+          when SAMPLE_CMP =>
+            STATE     <= BIT_OK;
+
+            BIT_COUNT <= BIT_COUNT;
+
+            BITS_I                   <= (others => '0');
+            BITS_I(BIT_COUNT_AS_INT) <= '1';
+            
+          when BIT_OK =>
             if (BIT_COUNT = (BIT_COUNT'range => '0'))
             then
               STATE     <= DONE;
@@ -123,8 +139,6 @@ begin
               BIT_COUNT <= std_logic_vector(unsigned(BIT_COUNT) - 1);
             end if;
             BITS_I                   <= (others => '0');
---            BITS_I(BIT_COUNT_AS_INT) <= '1';
---            BITS_I(BIT_COUNT_AS_INT) <= COMPARE;
 
           when DONE =>
             STATE           <= CLEAR;
@@ -154,6 +168,8 @@ begin
       
       SELECT_V_IN    <= '0';
       SELECT_V_REF   <= '0';
+
+      CMP            <= '0';          
       
       VALID  <= '0';
     else
@@ -164,7 +180,9 @@ begin
           
           SELECT_V_IN    <= '0';
           SELECT_V_REF   <= '0';
-      
+
+          CMP            <= '0';          
+          
           VALID          <= '0';
           
         when CLEAR  =>
@@ -174,6 +192,8 @@ begin
           SELECT_V_IN    <= '0';
           SELECT_V_REF   <= '0';
 
+          CMP            <= '0';          
+          
           VALID          <= '0';
           
         when SAMPLE =>
@@ -182,6 +202,8 @@ begin
           
           SELECT_V_IN    <= '1';
           SELECT_V_REF   <= '0';
+
+          CMP            <= '0';          
           
           VALID          <= '0';
 
@@ -192,6 +214,8 @@ begin
           SELECT_V_IN    <= '0';
           SELECT_V_REF   <= '0';
 
+          CMP            <= '0';          
+          
           VALID          <= '0';
           
         when BREAK_FEEDBACK =>
@@ -200,6 +224,8 @@ begin
           
           SELECT_V_IN    <= '0';
           SELECT_V_REF   <= '0';
+
+          CMP            <= '0';          
           
           VALID          <= '0';
 
@@ -210,6 +236,8 @@ begin
           SELECT_V_IN    <= '0';
           SELECT_V_REF   <= '0';
 
+          CMP            <= '0';                    
+          
           VALID          <= '0';
           
         when CONNECT_REFERENCE =>
@@ -219,6 +247,8 @@ begin
           SELECT_V_IN    <= '0';
           SELECT_V_REF   <= '1';
 
+          CMP            <= '0';          
+          
           VALID          <= '0';
           
         when DONE =>
@@ -227,8 +257,21 @@ begin
 
           SELECT_V_IN    <= '0';
           SELECT_V_REF   <= '0';
+
+          CMP            <= '0';          
           
           VALID  <= '1';
+
+        when SAMPLE_CMP =>
+          CLOSE_FEEDBACK <= '0';
+          SAMPLE_INPUT   <= '0';
+
+          SELECT_V_IN    <= '0';
+          SELECT_V_REF   <= '1';
+
+          CMP            <= '1';
+
+          VALID          <= '0';
           
         when others =>                  -- bit cycling phase
           CLOSE_FEEDBACK <= '0';
@@ -236,6 +279,8 @@ begin
 
           SELECT_V_IN    <= '0';
           SELECT_V_REF   <= '1';
+
+          CMP            <= '0';          
           
           VALID  <= '0';
       end case;

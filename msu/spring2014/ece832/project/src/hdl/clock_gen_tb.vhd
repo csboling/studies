@@ -20,7 +20,8 @@ architecture SIMULATION of TESTBENCH is
   signal SAMPLE_INPUT   : std_logic;
   signal SELECT_V_IN    : std_logic;
   signal SELECT_V_REF   : std_logic;
-  
+
+  signal CMP            : std_logic;
   signal BITS           : std_logic_vector(DEPTH-1 downto 0);
   signal DIGITAL_BITS   : std_logic_vector(DEPTH-1 downto 0);
   signal VALID          : std_logic;
@@ -40,7 +41,8 @@ architecture SIMULATION of TESTBENCH is
       SAMPLE_INPUT   : out std_logic := '0';
       SELECT_V_IN    : out std_logic := '1';
       SELECT_V_REF   : out std_logic := '0';
-      
+
+      CMP            : out std_logic := '0';
       BITS           : out std_logic_vector(DEPTH-1 downto 0);
       DIGITAL_BITS   : out std_logic_vector(DEPTH-1 downto 0);
       VALID          : out std_logic
@@ -66,7 +68,8 @@ begin
       SAMPLE_INPUT   => SAMPLE_INPUT,
       SELECT_V_IN    => SELECT_V_IN,
       SELECT_V_REF   => SELECT_V_REF,
-      
+
+      CMP            => CMP,
       BITS           => BITS,
       DIGITAL_BITS   => DIGITAL_BITS,
       VALID          => VALID
