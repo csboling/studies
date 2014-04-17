@@ -1,3 +1,4 @@
+import Debug.Trace
 import System.Environment
 import Graphics.EasyPlot
 
@@ -11,6 +12,7 @@ import Data.Text (Text, pack, unpack)
 import Data.Bits
 import Data.Maybe
 
+import Control.Monad(liftM)
 import Control.Monad.IO.Class (liftIO)
 import Control.Arrow
 
@@ -32,7 +34,7 @@ plots    = plot X11 [ subtract 0.5 . (2**bitdepth *) . input
                     ] 
 
 liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
-liftText f = (pack . show) `fmap` f `fmap` (read . unpack)
+liftText f = pack . show . f . read . unpack 
 
 --toPulses :: (Num a, Read a, Show a, Num b, Read b, Show b) => 
 --            a -> b -> [Row Text] -> [Row Text]
@@ -64,7 +66,11 @@ getColumn n = awaitForever get
               where get (t:vs) = CL.sourceList . return . (!! n) 
                                $ map (([t]++) . return) vs
 
-split xs = getZipSink $ traverse (ZipSink . splitter) (zip [0..] xs)
+broadcast :: (Monad m, Traversable t) =>
+  (a -> Sink i m b) -> t a -> Sink i m (t b)
+broadcast f = getZipSink . traverse (ZipSink . f)
+
+split xs = broadcast splitter (zip [0..] xs)
            where splitter (n, name) = getColumn n            =$ 
                                       fromCSV outSettings    =$ 
                                       sinkFile (name ++ ".txt")
@@ -87,33 +93,37 @@ csvToPWLs x y = sourceFile x       $=
 selectCols :: [a] -> [Int] -> [a]
 selectCols xs indices = map ($ xs) (map (flip (!!)) indices)
 
+maybeHeaviside :: (Num a, Ord a) => a -> a -> Maybe a
+maybeHeaviside eps x
+  | x < -eps  = Just 0
+  | x >  eps  = Just 1
+  | otherwise = Nothing
+
 heaviside x
   | x <= 0    = 0
   | otherwise = 1
 
-decode :: (RealFrac a, Num b) => [a] -> b
-decode bits = sum $ zipWith ((*) . heaviside . round) bits weights
+decode :: (RealFrac a, Num b, Show a) => [a] -> b
+decode bits = sum $ zipWith ((*) . heaviside . subtract 1.5) bits weights
               where weights = [2^i | i <- [0..depth-1]]
                     depth   = length bits
 
-select_bits :: (RealFrac a) => Int -> [a] -> [a]
-select_bits depth bs = (last bs):[decode $ selectCols bs slots]
-                       where slots = [2*n + 1 | n <- [0..depth-1]]
+select_bits :: (RealFrac a, Show a) => Int -> [a] -> [a]
+select_bits depth bs = (bs !! 1):[decode $ selectCols bs slots]
+                       where slots = [2*n + 3 | n <- [0..depth-1]]
 
 bitify :: (Monad m) => Int -> Conduit (Row Text) m (Row Text)
 bitify n = CL.map $ map (pack . show) . select_bits n . map (read . unpack)
 
-csvToVolts x y = sourceFile x        $=
-                 intoCSV inSettings  $$
-                 bitify 4            =$
-                 fromCSV outSettings =$
-                 sinkFile y
-
+csvToVolts x ys     = sourceFile x        $=
+                      intoCSV inSettings  $$
+                      bitify 8            =$
+                      fromCSV outSettings =$
+                      broadcast sinkFile ys
 
 main = do
        args <- getArgs
        case args of
-         []         -> return [()]
          ("pwls":_) -> runResourceT $ csvToPWLs (args !! 1) outList 
                        where outList = map ("data/pwls/" ++) 
                                            [ "BIT_7"
@@ -125,12 +135,15 @@ main = do
                                            , "BIT_1"
                                            , "BIT_0"              
                                            , "CLOSE_FEEDBACK"
-                                           , "CMP"
                                            , "SAMPLE_INPUT"
                                            , "SELECT_V_REF"
                                            , "SELECT_V_IN"
                                            , "VALID"
                                            ]
-         ("volts":_) -> runResourceT $ csvToVolts (args !! 1) (args !! 2)
+         ("volts":_) -> runResourceT $ csvToVolts (args !! 1) [args !! 2]
+         _           -> putStrLn usage >> return [()]
+       where usage = "usage: \n\
+\                            model pwls  infile \n\
+\                      or    model volts infile outfile\n"
 
 

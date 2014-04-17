@@ -3,17 +3,21 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-def main(fname):
+def main(bits, fname):
   data = np.genfromtxt(fname, dtype=None, delimiter=' ')
   
   plt.hold(True)
-  plt.plot(data[0:,0], np.dot(data[0:,0] - 1.2, 2**4 / (3 - 1.2)))
-  plt.plot(data[0:,0], data[0:,1])
+  vin = np.dot(data[0:, 0] - 1.2, 2**bits / (3 - 1.2))
+  response = data[0:, 1]
+  
+  plt.plot(vin, vin)
+  plt.plot(vin, response)
+
   plt.show()
 
 if __name__ == '__main__':
-  if len(sys.argv) > 1:
-    main(sys.argv[1])
+  if len(sys.argv) > 2:
+    main(int(sys.argv[1]), sys.argv[2])
   else:
     main('data.csv')
 
