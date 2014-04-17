@@ -21,24 +21,16 @@ import Control.Arrow
 lfsr taps bits = shiftL 1 bits .|. ones `mod` 2 
                  where ones = popCount (bits .&. taps) + 1
 
-sarADC :: (Enum b, Ord b, Floating b) => b -> (a -> b) -> a -> (b, [Bool])
+sarADC :: (Fractional b, Ord b, Integral a) => a -> (t -> b) -> t -> (b, [Bool])
 sarADC depth f t = fst . last &&& map snd . tail $ scanl comp (0, False) [1..depth] 
                    where comp (v, _) i = let next = v + bit i in
                                          (if next < x then next else v, next < x)
-                         bit i    = 2**(depth-i)
-                         x        = 2**depth * f t
-bitdepth = 2
-freq     = 0.25
-input    = (/2) . (1+) . sin . (2 * pi * freq *)
-plots    = plot X11 [ subtract 0.5 . (2**bitdepth *) . input
-                    , fst . sarADC bitdepth input
-                    ] 
+                         bit i    = 2^^(depth-i)
+                         x        = 2^^(depth) * f t
 
 liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
 liftText f = pack . show . f . read . unpack 
 
---toPulses :: (Num a, Read a, Show a, Num b, Read b, Show b) => 
---            a -> b -> [Row Text] -> [Row Text]
 toPulses timescale vdd ((t1:vs1):(t2:vs2):vs) = [ (liftText (timescale*) t1):(map (liftText (vdd*)) vs1)
                                                 , (liftText (subtract (timescale/1000) . (timescale*)) t2):(map (liftText (vdd*)) vs1)
                                                 ]
@@ -104,16 +96,20 @@ heaviside x
   | x <= 0    = 0
   | otherwise = 1
 
-decode :: (RealFrac a, Num b, Show a) => [a] -> Maybe b
+decode :: (Floating a, Ord a, Show a, Num b) => [a] -> Maybe b
 decode bits = sum <$> (sequence $ zipWith choose bits weights)
               where choose  = liftA2 (*) . maybeHeaviside 0.5 . subtract 1.5
                     weights = [ Just (2^i) | i <- [0..depth-1]]
                     depth   = length bits
 
-select_bits :: (RealFrac a, Show a) => Int -> [a] -> [a]
-select_bits depth bs = maybe [] ((input:) . return) (decode $ selectCols bs slots)
-                        where input = bs !! 1
-                              slots = [2*n + 3 | n <- [0..depth-1]]
+select_bits :: (Floating a, Ord a, Show a) => Int -> [a] -> [a]
+select_bits depth bs = maybe [] 
+                             ((input:) . (ideal:) . return) 
+                             (decode $ selectCols bs slots)
+                       where input = bs !! 1
+                             ideal = fst $ sarADC depth calibrate input
+                             calibrate = (/ 1.3) . subtract (1.2 + 1.3/2^^depth)
+                             slots = [2*n + 3 | n <- [0..depth-1]]
 
 bitify :: (Monad m) => Int -> Conduit (Row Text) m (Row Text)
 bitify n = CL.map $ map (pack . show) . select_bits n . map (read . unpack)
