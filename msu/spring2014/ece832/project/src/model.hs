@@ -6,13 +6,14 @@ import Data.Conduit
 import Data.Conduit.Binary hiding (mapM_)
 import qualified Data.Conduit.List as CL
 import Data.CSV.Conduit
-import Data.Traversable
+import Data.Traversable (Traversable, traverse)
 
 import Data.Text (Text, pack, unpack)
 import Data.Bits
 import Data.Maybe
 
 import Control.Monad(liftM)
+import Control.Applicative
 import Control.Monad.IO.Class (liftIO)
 import Control.Arrow
 
@@ -93,7 +94,7 @@ csvToPWLs x y = sourceFile x       $=
 selectCols :: [a] -> [Int] -> [a]
 selectCols xs indices = map ($ xs) (map (flip (!!)) indices)
 
-maybeHeaviside :: (Num a, Ord a) => a -> a -> Maybe a
+maybeHeaviside :: (Num a, Ord a, Num b) => a -> a -> Maybe b
 maybeHeaviside eps x
   | x < -eps  = Just 0
   | x >  eps  = Just 1
@@ -103,14 +104,16 @@ heaviside x
   | x <= 0    = 0
   | otherwise = 1
 
-decode :: (RealFrac a, Num b, Show a) => [a] -> b
-decode bits = sum $ zipWith ((*) . heaviside . subtract 1.5) bits weights
-              where weights = [2^i | i <- [0..depth-1]]
+decode :: (RealFrac a, Num b, Show a) => [a] -> Maybe b
+decode bits = sum <$> (sequence $ zipWith choose bits weights)
+              where choose  = liftA2 (*) . maybeHeaviside 0.5 . subtract 1.5
+                    weights = [ Just (2^i) | i <- [0..depth-1]]
                     depth   = length bits
 
 select_bits :: (RealFrac a, Show a) => Int -> [a] -> [a]
-select_bits depth bs = (bs !! 1):[decode $ selectCols bs slots]
-                       where slots = [2*n + 3 | n <- [0..depth-1]]
+select_bits depth bs = maybe [] ((input:) . return) (decode $ selectCols bs slots)
+                        where input = bs !! 1
+                              slots = [2*n + 3 | n <- [0..depth-1]]
 
 bitify :: (Monad m) => Int -> Conduit (Row Text) m (Row Text)
 bitify n = CL.map $ map (pack . show) . select_bits n . map (read . unpack)
