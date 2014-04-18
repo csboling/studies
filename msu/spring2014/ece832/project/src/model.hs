@@ -38,8 +38,11 @@ lfsr taps bits = shiftL 1 bits .|. ones `mod` 2
 liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
 liftText f = pack . show . f . read . unpack 
 
-liftTextToCl     f = CL.map $ read . unpack
-unliftTextFromCl f = CL.map $ pack . show
+textToCL :: (Monad m, Read a) => Conduit (Row Text) m [a]
+textToCL   = CL.map $ map (read . unpack)
+
+textFromCL :: (Monad m, Show a) => Conduit [a] m (Row Text)
+textFromCL = CL.map $ map (pack . show)
 
 broadcast :: (Monad m, Traversable t) =>
   (a -> Sink i m b) -> t a -> Sink i m (t b)
@@ -99,11 +102,8 @@ selectCols :: [Int] -> [a] -> [a]
 selectCols indices = (flip (!!) <$> indices <*>) <$> pure
 
 bitify :: (Monad m) => 
-  SarADC -> [Int] -> Conduit (Row Text) m (Row Text)
-bitify sar cols = CL.map $ map (pack . show) .
-                           parse sar         .
-                           selectCols cols   .
-                           map (read . unpack)
+  SarADC -> [Int] -> Conduit ([Float]) m ([Float])
+bitify sar cols = CL.map $ parse sar . selectCols cols
 
 bitify' :: (Monad m) =>
   SarADC -> [Int] -> Conduit (Row Text) m (Row Text)
@@ -133,11 +133,13 @@ csvToPWLs x y = sourceFile x       $=
                 scale              =$
                 split y
 csvToVolts x ys = sourceFile x        $=
-                  intoCSV inSettings  $$
-                  bitify  sarToUse [2*n + 1 | n <- [0..bitDepth sarToUse]] =$
-                  fromCSV outSettings =$
+                  intoCSV  inSettings $=
+                  textToCL            $$
+                  bitify sarToUse [2*n + 1 | n <- [0..bitDepth sarToUse]] =$
+                  textFromCL           =$
+                  fromCSV  outSettings =$
                   broadcast sinkFile ys
-
+                   
 main = do
        args <- getArgs
        case args of
