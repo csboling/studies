@@ -38,6 +38,9 @@ lfsr taps bits = shiftL 1 bits .|. ones `mod` 2
 liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
 liftText f = pack . show . f . read . unpack 
 
+liftTextToCl     f = CL.map $ read . unpack
+unliftTextFromCl f = CL.map $ pack . show
+
 broadcast :: (Monad m, Traversable t) =>
   (a -> Sink i m b) -> t a -> Sink i m (t b)
 broadcast f = getZipSink . traverse (ZipSink . f)
