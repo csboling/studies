@@ -15,13 +15,13 @@ import Control.Applicative
 import Control.Monad.IO.Class (liftIO)
 import Control.Arrow
 
-data SarADC  = SarADC {
-                bitDepth :: Int,
-                refLo    :: Float,
-                refHi    :: Float
+data SarADC  = SarADC 
+              { bitDepth :: Int
+              , refLo    :: Float
+              , refHi    :: Float
               } deriving (Show)
-range     sar   = refHi sar - refLo sar
-lsb       sar   = (range sar) / 2^^(bitDepth sar)
+range     sar = refHi sar - refLo sar
+lsb       sar = (range sar) / 2^^(bitDepth sar)
 calibrate :: SarADC -> Float -> Float
 calibrate sar = (/ range sar) . subtract (refLo sar + lsb sar)
 
@@ -90,16 +90,26 @@ parse sar (t:bs) = maybe []
                          ((t:) . (ideal:) . return) 
                          (decode bs)
                    where ideal = fst $ sarADC (bitDepth sar) (calibrate sar) t
-                               --inl = (abs (response - ideal))/lsb
+
 
 selectCols :: [Int] -> [a] -> [a]
 selectCols indices = (flip (!!) <$> indices <*>) <$> pure
 
-bitify :: (Monad m) => SarADC -> [Int] -> Conduit (Row Text) m (Row Text)
-bitify sar cols = CL.map $ map (pack . show) . 
-                           parse sar         . 
-                           selectCols cols   . 
+bitify :: (Monad m) => 
+  SarADC -> [Int] -> Conduit (Row Text) m (Row Text)
+bitify sar cols = CL.map $ map (pack . show) .
+                           parse sar         .
+                           selectCols cols   .
                            map (read . unpack)
+
+bitify' :: (Monad m) =>
+  SarADC -> [Int] -> Conduit (Row Text) m (Row Text)
+bitify' sar cols = CL.concatMapAccum (\ row acc -> (max acc next_inl, next_row row)) 0 
+                   where next_inl = undefined
+                         next_row = undefined {-map (pack . show) .
+                                    parse sar         .
+                                    selectCols cols   .
+                                    map (read . unpack)-}
 
 {- processing functions -}
 inSettings  = CSVSettings
