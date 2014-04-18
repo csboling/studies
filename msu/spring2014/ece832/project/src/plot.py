@@ -17,7 +17,7 @@ def main(bits, fname):
   linecycler = cycle(lines)
   plt.plot(vin, vin,      label='Input   voltage',  linestyle=next(linecycler))
   plt.plot(vin, ideal,    label='Ideal   response', linestyle=next(linecycler))
-  plt.plot(vin, response, label='Circuit esponse',  linestyle=next(linecycler))
+  plt.plot(vin, response, label='Circuit response',  linestyle=next(linecycler))
 
   plt.legend(loc='best')
   plt.show()

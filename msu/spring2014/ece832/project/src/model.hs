@@ -1,6 +1,4 @@
-import Debug.Trace
 import System.Environment
-import Graphics.EasyPlot
 
 import Data.Conduit
 import Data.Conduit.Binary hiding (mapM_)
@@ -17,9 +15,15 @@ import Control.Applicative
 import Control.Monad.IO.Class (liftIO)
 import Control.Arrow
 
-
-lfsr taps bits = shiftL 1 bits .|. ones `mod` 2 
-                 where ones = popCount (bits .&. taps) + 1
+data SarADC  = SarADC {
+                bitDepth :: Int,
+                refLo    :: Float,
+                refHi    :: Float
+              } deriving (Show)
+range     sar   = refHi sar - refLo sar
+lsb       sar   = (range sar) / 2^^(bitDepth sar)
+calibrate :: SarADC -> Float -> Float
+calibrate sar = (/ range sar) . subtract (refLo sar + lsb sar)
 
 sarADC :: (Fractional b, Ord b, Integral a) => a -> (t -> b) -> t -> (b, [Bool])
 sarADC depth f t = fst . last &&& map snd . tail $ scanl comp (0, False) [1..depth] 
@@ -28,22 +32,24 @@ sarADC depth f t = fst . last &&& map snd . tail $ scanl comp (0, False) [1..dep
                          bit i    = 2^^(depth-i)
                          x        = 2^^(depth) * f t
 
+lfsr taps bits = shiftL 1 bits .|. ones `mod` 2 
+                 where ones = popCount (bits .&. taps) + 1
+
 liftText :: (Read a, Show b) => (a -> b) -> Text -> Text
 liftText f = pack . show . f . read . unpack 
 
+broadcast :: (Monad m, Traversable t) =>
+  (a -> Sink i m b) -> t a -> Sink i m (t b)
+broadcast f = getZipSink . traverse (ZipSink . f)
+
+hz, timescale :: Float
+hz        = 10e3
+timescale = 20
 toPulses timescale vdd ((t1:vs1):(t2:vs2):vs) = [ (liftText (timescale*) t1):(map (liftText (vdd*)) vs1)
                                                 , (liftText (subtract (timescale/1000) . (timescale*)) t2):(map (liftText (vdd*)) vs1)
                                                 ]
 toPulses timescale vdd ((t:vs):[])            = [ (liftText (timescale*) t):(map (liftText (vdd*)) vs) ]
 toPulses _         _   []                     = []
-                                
-
-hz :: Float
-hz        = 10e3
-
-timescale :: Float
-timescale = 20
-
 scale :: (Monad m) => Conduit (Row Text) m (Row Text)
 scale = do
         row1 <- await
@@ -59,16 +65,43 @@ getColumn n = awaitForever get
               where get (t:vs) = CL.sourceList . return . (!! n) 
                                $ map (([t]++) . return) vs
 
-broadcast :: (Monad m, Traversable t) =>
-  (a -> Sink i m b) -> t a -> Sink i m (t b)
-broadcast f = getZipSink . traverse (ZipSink . f)
-
 split xs = broadcast splitter (zip [0..] xs)
            where splitter (n, name) = getColumn n            =$ 
                                       fromCSV outSettings    =$ 
                                       sinkFile (name ++ ".txt")
 
 
+maybeHeaviside :: (Num a, Ord a, Num b) => a -> a -> Maybe b
+maybeHeaviside eps x
+  | x < -eps  = Just 0
+  | x >  eps  = Just 1
+  | otherwise = Nothing
+
+decode :: (Floating a, Ord a, Show a, Num b) => [a] -> Maybe b
+decode bits = sum <$> (sequence $ zipWith choose bits weights)
+              where choose  = liftA2 (*) . maybeHeaviside 0.5 . subtract 1.5
+                    weights = [ Just (2^i) | i <- [0..depth-1]]
+                    depth   = length bits
+
+--parse :: (Floating a, Ord a, Show a) => SarADC -> [a] -> [a]
+parse :: SarADC -> [Float] -> [Float]
+parse _   []     = []
+parse sar (t:bs) = maybe [] 
+                         ((t:) . (ideal:) . return) 
+                         (decode bs)
+                   where ideal = fst $ sarADC (bitDepth sar) (calibrate sar) t
+                               --inl = (abs (response - ideal))/lsb
+
+selectCols :: [Int] -> [a] -> [a]
+selectCols indices = (flip (!!) <$> indices <*>) <$> pure
+
+bitify :: (Monad m) => SarADC -> [Int] -> Conduit (Row Text) m (Row Text)
+bitify sar cols = CL.map $ map (pack . show) . 
+                           parse sar         . 
+                           selectCols cols   . 
+                           map (read . unpack)
+
+{- processing functions -}
 inSettings  = CSVSettings
               { csvSep = ','
               , csvQuoteChar = Nothing
@@ -77,48 +110,20 @@ outSettings = CSVSettings
               { csvSep = ' '
               , csvQuoteChar = Nothing
               }
-
+sarToUse    = SarADC
+              { bitDepth = 8
+              , refLo    = 1.2
+              , refHi    = 2.5
+              }
 csvToPWLs x y = sourceFile x       $=
                 intoCSV inSettings $$
                 scale              =$
                 split y
-
-selectCols :: [a] -> [Int] -> [a]
-selectCols xs indices = map ($ xs) (map (flip (!!)) indices)
-
-maybeHeaviside :: (Num a, Ord a, Num b) => a -> a -> Maybe b
-maybeHeaviside eps x
-  | x < -eps  = Just 0
-  | x >  eps  = Just 1
-  | otherwise = Nothing
-
-heaviside x
-  | x <= 0    = 0
-  | otherwise = 1
-
-decode :: (Floating a, Ord a, Show a, Num b) => [a] -> Maybe b
-decode bits = sum <$> (sequence $ zipWith choose bits weights)
-              where choose  = liftA2 (*) . maybeHeaviside 0.5 . subtract 1.5
-                    weights = [ Just (2^i) | i <- [0..depth-1]]
-                    depth   = length bits
-
-select_bits :: (Floating a, Ord a, Show a) => Int -> [a] -> [a]
-select_bits depth bs = maybe [] 
-                             ((input:) . (ideal:) . return) 
-                             (decode $ selectCols bs slots)
-                       where input = bs !! 1
-                             ideal = fst $ sarADC depth calibrate input
-                             calibrate = (/ 1.3) . subtract (1.2 + 1.3/2^^depth)
-                             slots = [2*n + 3 | n <- [0..depth-1]]
-
-bitify :: (Monad m) => Int -> Conduit (Row Text) m (Row Text)
-bitify n = CL.map $ map (pack . show) . select_bits n . map (read . unpack)
-
-csvToVolts x ys     = sourceFile x        $=
-                      intoCSV inSettings  $$
-                      bitify 8            =$
-                      fromCSV outSettings =$
-                      broadcast sinkFile ys
+csvToVolts x ys = sourceFile x        $=
+                  intoCSV inSettings  $$
+                  bitify  sarToUse [2*n + 1 | n <- [0..bitDepth sarToUse]] =$
+                  fromCSV outSettings =$
+                  broadcast sinkFile ys
 
 main = do
        args <- getArgs
