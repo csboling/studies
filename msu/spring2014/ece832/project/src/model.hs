@@ -1,3 +1,4 @@
+{-# LANGUAGE TupleSections #-}
 import System.Environment
 
 import Data.Conduit
@@ -93,23 +94,47 @@ decode bits = sum <$> (sequence $ zipWith choose bits weights)
 parse :: SarADC -> [Float] -> [Float]
 parse _   []     = []
 parse sar (t:bs) = maybe [] 
-                         ((t:) . (ideal:) . return) 
+                         ((t:) . (ideal:) . return)
                          (decode bs)
                    where ideal = fst $ sarADC (bitDepth sar) (calibrate sar) t
 
+parse' :: SarADC -> (Float, [Float]) -> (Float, [Float])
+parse' _   (acc, [])     = (acc, [])
+parse' sar (acc, (t:bs)) = maybe (0, []) analyze response
+                           where response = decode bs
+                                 analyze  = (max acc . inl) &&& values
+                                 ideal    = fst $ sarADC 
+                                                  (bitDepth sar) 
+                                                  (calibrate sar) 
+                                                  t
+                                 inl      = (/ lsb sar) . abs . subtract ideal
+                                 values   = (t:) . (ideal:) . return
 
 selectCols :: [Int] -> [a] -> [a]
 selectCols indices = (flip (!!) <$> indices <*>) <$> pure
 
 bitify :: (Monad m) => 
-  SarADC -> [Int] -> Conduit ([Float]) m ([Float])
+  SarADC -> [Int] -> Conduit [Float] m [Float]
 bitify sar cols = CL.map $ parse sar . selectCols cols
 
-bitify' :: (Monad m) =>
-  SarADC -> [Int] -> Conduit (Row Text) m (Row Text)
-bitify' sar cols = CL.concatMapAccum (\ row acc -> (max acc next_inl, next_row row)) 0 
-                   where next_inl = undefined
-                         next_row = undefined {-map (pack . show) .
+{-
+ - bitify' :: (Monad m) => 
+  SarADC -> [Int] -> Conduit [Float] m (Float, [Float])
+bitify' sar cols = CL.map  (selectCols cols) =$=
+                   CL.map  (parse' sar)
+-}
+
+
+foldee lsb x (y, zs) = (flip (***) id) . max $ x (inl lsb y)
+                       where inl lsb (ideal, meas) = abs (meas - ideal) / lsb
+{-nonLins :: (Monad m) =>
+  SarADC -> [Int] -> Conduit [Float] m (Float, [Float])
+nonLins sar cols = bitify sar cols $=
+                   CL.fold (flip foldee) (0, [])
+                   where foldee x = (flip (***) id) . max $ x -}
+{-CL.concatMapAccum (\ row acc -> (max acc next_inl, next_row row)) 0 
+--                   where next_inl = undefined
+--                         next_row = undefined map (pack . show) .
                                     parse sar         .
                                     selectCols cols   .
                                     map (read . unpack)-}
