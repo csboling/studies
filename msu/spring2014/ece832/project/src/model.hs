@@ -1,4 +1,5 @@
 {-# LANGUAGE TupleSections #-}
+import Debug.Trace
 import System.Environment
 
 import Data.Conduit
@@ -26,12 +27,16 @@ lsb       sar = (range sar) / 2^^(bitDepth sar)
 calibrate :: SarADC -> Float -> Float
 calibrate sar = (/ range sar) . subtract (refLo sar + lsb sar)
 
+unsar :: SarADC -> Float -> Float
+unsar = (*) . lsb
+
 sarADC :: (Fractional b, Ord b, Integral a) => a -> (t -> b) -> t -> (b, [Bool])
 sarADC depth f t = fst . last &&& map snd . tail $ scanl comp (0, False) [1..depth] 
                    where comp (v, _) i = let next = v + bit i in
                                          (if next < x then next else v, next < x)
                          bit i    = 2^^(depth-i)
                          x        = 2^^(depth) * f t
+
 
 lfsr taps bits = shiftL 1 bits .|. ones `mod` 2 
                  where ones = popCount (bits .&. taps) + 1
@@ -110,6 +115,49 @@ parse' sar (acc, (t:bs)) = maybe (0, []) analyze response
                                  inl      = (/ lsb sar) . abs . subtract ideal
                                  values   = (t:) . (ideal:) . return
 
+extract :: (Num a) => SarADC -> [Float] -> Maybe (Float, (Float, a))
+extract _   []       = Nothing
+extract sar (v:bits) = maybe Nothing 
+                             (Just . (v,) . (ideal v,)) 
+                             (decode bits)
+                       where ideal = fst . sarADC (bitDepth sar) (calibrate sar)
+
+response :: Maybe (Float, (Float, Float)) -> [Float]
+response Nothing          = []
+response (Just (a,(b,c))) = (a:b:[c])
+                       
+next_inl :: 
+  SarADC -> Float -> Maybe (Float, Float) -> Float
+next_inl sar acc = maybe acc (max acc . new_inl) 
+                   where new_inl = (/ lsb sar) . 
+                                   abs . 
+                                   uncurry subtract . 
+                                   (unsar sar *** unsar sar)
+inl :: (Monad m) =>
+  SarADC -> Sink (Maybe (Float, Float)) m Float
+inl sar = CL.fold (next_inl sar) 0
+
+results :: (Monad m) =>
+  SarADC -> [Int] -> Conduit [Float] m (Maybe (Float, (Float, Float)))
+results sar cols = CL.map (extract sar . selectCols cols)
+--                   inl sar
+                       
+--                   CL.map (inl sar &&& response sar)
+
+
+{-
+parse'' :: SarADC -> (Float, [Float]) -> [Float] -> (Float, [Float])
+parse'' _   (acc, []) = (acc, [])
+parse'' sar (acc, row) (v:bits) = maybe (acc, rows) analyze response
+                                   where response = decode bits
+                                         analyze  = (max acc . inl) &&& values
+                                         ideal    = fst $ sarADC
+                                                          (bitDepth sar)
+                                                          (calibrate sar)
+                                                          v
+                                         inl      = (/ lsb sar) . abs . subtract ideal
+                                         values   = (v:) . (ideal:) . return
+-}
 selectCols :: [Int] -> [a] -> [a]
 selectCols indices = (flip (!!) <$> indices <*>) <$> pure
 
@@ -117,27 +165,6 @@ bitify :: (Monad m) =>
   SarADC -> [Int] -> Conduit [Float] m [Float]
 bitify sar cols = CL.map $ parse sar . selectCols cols
 
-{-
- - bitify' :: (Monad m) => 
-  SarADC -> [Int] -> Conduit [Float] m (Float, [Float])
-bitify' sar cols = CL.map  (selectCols cols) =$=
-                   CL.map  (parse' sar)
--}
-
-
-foldee lsb x (y, zs) = (flip (***) id) . max $ x (inl lsb y)
-                       where inl lsb (ideal, meas) = abs (meas - ideal) / lsb
-{-nonLins :: (Monad m) =>
-  SarADC -> [Int] -> Conduit [Float] m (Float, [Float])
-nonLins sar cols = bitify sar cols $=
-                   CL.fold (flip foldee) (0, [])
-                   where foldee x = (flip (***) id) . max $ x -}
-{-CL.concatMapAccum (\ row acc -> (max acc next_inl, next_row row)) 0 
---                   where next_inl = undefined
---                         next_row = undefined map (pack . show) .
-                                    parse sar         .
-                                    selectCols cols   .
-                                    map (read . unpack)-}
 
 {- processing functions -}
 inSettings  = CSVSettings
@@ -164,7 +191,12 @@ csvToVolts x ys = sourceFile x        $=
                   textFromCL           =$
                   fromCSV  outSettings =$
                   broadcast sinkFile ys
-                   
+csvToNonlins x  = sourceFile x       $=
+                  intoCSV inSettings $=
+                  textToCL           $$
+                  results sarToUse [2*n + 1 | n <- [0..bitDepth sarToUse]] =$
+                  CL.map (liftM snd) =$
+                  inl sarToUse
 main = do
        args <- getArgs
        case args of
@@ -184,7 +216,12 @@ main = do
                                            , "SELECT_V_IN"
                                            , "VALID"
                                            ]
-         ("volts":_) -> runResourceT $ csvToVolts (args !! 1) [args !! 2]
+         ("volts":_) -> runResourceT $ csvToVolts   (args !! 1) [args !! 2]
+         ("inl":_)   -> do 
+                        x <- runResourceT $ csvToNonlins (args !! 1)
+                        putStrLn $ show x
+                        return [()]
+                      
          _           -> putStrLn usage >> return [()]
        where usage = "usage: \n\
 \                            model pwls  infile \n\
