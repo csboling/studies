@@ -10,7 +10,8 @@ def main(bits, fname):
   data = np.genfromtxt(fname, dtype=None, delimiter=' ')
   
   plt.hold(True)
-  vin      = np.dot(data[0:, 0] - 1.2, 2**bits / (2.5 - 1.2))
+  #vin      = np.dot(data[0:, 0] - 1.2, 2**bits / (2.5 - 1.2))
+  vin      = np.dot(data[0:, 0], 2**bits)
   ideal    = data[0:, 1]
   response = data[0:, 2]
   

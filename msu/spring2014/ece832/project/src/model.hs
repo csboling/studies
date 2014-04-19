@@ -12,10 +12,14 @@ import Data.Text (Text, pack, unpack)
 import Data.Bits
 import Data.Maybe
 
-import Control.Monad(liftM)
+import Control.Monad (liftM, join)
 import Control.Applicative
 import Control.Monad.IO.Class (liftIO)
 import Control.Arrow
+
+ifTrue :: Bool -> a -> a -> a
+ifTrue True  x _ = x
+ifTrue False _ y = y
 
 data SarADC  = SarADC 
               { bitDepth :: Int
@@ -24,8 +28,19 @@ data SarADC  = SarADC
               } deriving (Show)
 range     sar = refHi sar - refLo sar
 lsb       sar = (range sar) / 2^^(bitDepth sar)
+
+offsetSar :: SarADC -> Float -> Float
+offsetSar sar = subtract (refLo sar + lsb sar)
+
+scaleSar :: SarADC -> Float -> Float
+scaleSar sar = (/ range sar)
+
 calibrate :: SarADC -> Float -> Float
-calibrate sar = (/ range sar) . subtract (refLo sar + lsb sar)
+calibrate sar = scaleSar sar . offsetSar sar
+
+fitLine sar = scaleSar sar . 
+              subtract (0.5 * lsb sar) .
+              offsetSar sar
 
 unsar :: SarADC -> Float -> Float
 unsar = (*) . lsb
@@ -34,7 +49,7 @@ sarADC :: (Fractional b, Ord b, Integral a) => a -> (t -> b) -> t -> (b, [Bool])
 sarADC depth f t = fst . last &&& map snd . tail $ scanl comp (0, False) [1..depth] 
                    where comp (v, _) i = let next = v + bit i in
                                          (if next < x then next else v, next < x)
-                         bit i    = 2^^(depth-i)
+                         bit i    = 2^(depth-i)
                          x        = 2^^(depth) * f t
 
 
@@ -95,76 +110,46 @@ decode bits = sum <$> (sequence $ zipWith choose bits weights)
                     weights = [ Just (2^i) | i <- [0..depth-1]]
                     depth   = length bits
 
---parse :: (Floating a, Ord a, Show a) => SarADC -> [a] -> [a]
-parse :: SarADC -> [Float] -> [Float]
-parse _   []     = []
-parse sar (t:bs) = maybe [] 
-                         ((t:) . (ideal:) . return)
-                         (decode bs)
-                   where ideal = fst $ sarADC (bitDepth sar) (calibrate sar) t
-
-parse' :: SarADC -> (Float, [Float]) -> (Float, [Float])
-parse' _   (acc, [])     = (acc, [])
-parse' sar (acc, (t:bs)) = maybe (0, []) analyze response
-                           where response = decode bs
-                                 analyze  = (max acc . inl) &&& values
-                                 ideal    = fst $ sarADC 
-                                                  (bitDepth sar) 
-                                                  (calibrate sar) 
-                                                  t
-                                 inl      = (/ lsb sar) . abs . subtract ideal
-                                 values   = (t:) . (ideal:) . return
-
 extract :: (Num a) => SarADC -> [Float] -> Maybe (Float, (Float, a))
 extract _   []       = Nothing
 extract sar (v:bits) = maybe Nothing 
-                             (Just . (v,) . (ideal v,)) 
+                             (Just . (fit,) . (ideal v,)) 
                              (decode bits)
                        where ideal = fst . sarADC (bitDepth sar) (calibrate sar)
+                             fit   = (fitLine sar v)
 
 response :: Maybe (Float, (Float, Float)) -> [Float]
 response Nothing          = []
 response (Just (a,(b,c))) = (a:b:[c])
                        
 next_inl :: 
-  SarADC -> Float -> Maybe (Float, Float) -> Float
-next_inl sar acc = maybe acc (max acc . new_inl) 
-                   where new_inl = (/ lsb sar) . 
-                                   abs . 
+  SarADC -> Float -> Maybe Float -> Float
+next_inl sar acc = maybe acc (max acc . new_inl)
+                   where new_inl = abs . 
                                    uncurry subtract . 
-                                   (unsar sar *** unsar sar)
+                                   (id &&& (/ lsb sar) . unsar sar)
 inl :: (Monad m) =>
-  SarADC -> Sink (Maybe (Float, Float)) m Float
+  SarADC -> Sink (Maybe Float) m Float
 inl sar = CL.fold (next_inl sar) 0
+
+next_dnl ::
+  SarADC -> (Float, Float) -> Maybe (Float, Float) -> (Float, Float)
+next_dnl sar (acc, step) x = maybe stay choose x where
+                             stay = (acc, step)
+                             choose (this, next) = if this == step 
+                                                   then stay 
+                                                   else (diff this, next)
+                             diff   = subtract acc
+dnlSteps :: (Monad m) =>
+  SarADC -> Sink (Maybe (Float, Float)) m (Float, Float)
+dnlSteps sar = CL.fold (next_dnl sar) (0, 0)
 
 results :: (Monad m) =>
   SarADC -> [Int] -> Conduit [Float] m (Maybe (Float, (Float, Float)))
 results sar cols = CL.map (extract sar . selectCols cols)
---                   inl sar
-                       
---                   CL.map (inl sar &&& response sar)
 
-
-{-
-parse'' :: SarADC -> (Float, [Float]) -> [Float] -> (Float, [Float])
-parse'' _   (acc, []) = (acc, [])
-parse'' sar (acc, row) (v:bits) = maybe (acc, rows) analyze response
-                                   where response = decode bits
-                                         analyze  = (max acc . inl) &&& values
-                                         ideal    = fst $ sarADC
-                                                          (bitDepth sar)
-                                                          (calibrate sar)
-                                                          v
-                                         inl      = (/ lsb sar) . abs . subtract ideal
-                                         values   = (v:) . (ideal:) . return
--}
 selectCols :: [Int] -> [a] -> [a]
 selectCols indices = (flip (!!) <$> indices <*>) <$> pure
-
-bitify :: (Monad m) => 
-  SarADC -> [Int] -> Conduit [Float] m [Float]
-bitify sar cols = CL.map $ parse sar . selectCols cols
-
 
 {- processing functions -}
 inSettings  = CSVSettings
@@ -184,18 +169,19 @@ csvToPWLs x y = sourceFile x       $=
                 intoCSV inSettings $$
                 scale              =$
                 split y
-csvToVolts x ys = sourceFile x        $=
-                  intoCSV  inSettings $=
-                  textToCL            $$
-                  bitify sarToUse [2*n + 1 | n <- [0..bitDepth sarToUse]] =$
-                  textFromCL           =$
-                  fromCSV  outSettings =$
+csvToVolts x ys = sourceFile x $=
+                  intoCSV inSettings $=
+                  textToCL           $$
+                  results sarToUse [2*n + 1 | n <- [0..bitDepth sarToUse]] =$
+                  CL.map response     =$
+                  textFromCL          =$
+                  fromCSV outSettings =$
                   broadcast sinkFile ys
 csvToNonlins x  = sourceFile x       $=
                   intoCSV inSettings $=
                   textToCL           $$
                   results sarToUse [2*n + 1 | n <- [0..bitDepth sarToUse]] =$
-                  CL.map (liftM snd) =$
+                  CL.map (liftM (fst . snd)) =$
                   inl sarToUse
 main = do
        args <- getArgs
