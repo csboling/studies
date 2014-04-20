@@ -1,0 +1,48 @@
+\documentclass{beamer}
+
+\usepackage{graphicx}
+%\usepackage[backend=bibtex]{biblatex}
+\usepackage[authoryear]{natbib}
+\usepackage{usebib}
+%\bibliography{references}
+
+\newcommand{\intextcitation}[1]{\citeauthor{#1} \usebibentry{#1}{year}, \usebibentry{#1}{title}}
+
+\title{An 8-Bit ~\mathrm{\mu W} 1.25 kHz SAR ADC} % FIXME
+\author{Sam Boling}
+\date{March 3, 2014}
+\usetheme{Berlin}
+\usecolortheme{seahorse}
+
+\bibinput{references}
+
+\begin{document}
+
+
+\begin{frame}
+%\nobibliography*
+\titlepage
+\end{frame}
+
+\begin{frame}{Specifications}
+  \begin{tabular}{c c c}
+    INL & 0.6016 & \\
+    DNL & 0.1776 & \\
+  \end{tabular}
+\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=\textwidth]{lu-figure}
+    \caption{Generalized architecture of an energy harvesting system,
+             Figure 1 from \intextcitation{lu2011}.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+  \bibliographystyle{plainnat}
+  \bibliography{references}
+\end{frame}
+
+\end{document}
+
