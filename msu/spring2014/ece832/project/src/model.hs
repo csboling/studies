@@ -113,9 +113,10 @@ decode bits = sum <$> (sequence $ zipWith choose bits weights)
 extract :: (Num a) => SarADC -> [Float] -> Maybe (Float, (Float, a))
 extract _   []       = Nothing
 extract sar (v:bits) = maybe Nothing 
-                             (Just . (v,) . (ideal v,)) 
+                             (Just . (fit,) . (ideal v,)) 
                              (decode bits)
                        where ideal = fst . sarADC (bitDepth sar) (calibrate sar)
+                             fit   = fitLine sar v
 
 response :: Maybe (Float, (Float, Float)) -> [Float]
 response Nothing          = []

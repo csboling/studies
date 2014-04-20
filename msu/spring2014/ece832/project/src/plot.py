@@ -10,15 +10,19 @@ def main(bits, fname):
   data = np.genfromtxt(fname, dtype=None, delimiter=' ')
   
   plt.hold(True)
-  #vin      = np.dot(data[0:, 0] - 1.2, 2**bits / (2.5 - 1.2))
-  vin      = np.dot(data[0:, 0], 2**bits)
+  vin      = data[0:, 0]
+  voltline = np.dot(vin, 2**bits)
   ideal    = data[0:, 1]
   response = data[0:, 2]
   
   linecycler = cycle(lines)
-  plt.plot(vin, vin,      label='Input   voltage',  linestyle=next(linecycler))
+  plt.plot(vin, voltline, label='Input   voltage',  linestyle=next(linecycler))
   plt.plot(vin, ideal,    label='Ideal   response', linestyle=next(linecycler))
-  plt.plot(vin, response, label='Circuit response',  linestyle=next(linecycler))
+  plt.plot(vin, response, label='Circuit response', linestyle=next(linecycler))
+
+  plt.title("ADC Response")
+  plt.xlabel("Normalized input voltage")
+  plt.ylabel("Output code")
 
   plt.legend(loc='best')
   plt.show()
