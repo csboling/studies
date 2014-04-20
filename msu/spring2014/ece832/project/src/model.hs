@@ -3,7 +3,7 @@ import Debug.Trace
 import System.Environment
 
 import Data.Conduit
-import Data.Conduit.Binary hiding (mapM_)
+import Data.Conduit.Binary hiding (mapM_, head)
 import qualified Data.Conduit.List as CL
 import Data.CSV.Conduit
 import Data.Traversable (Traversable, traverse)
@@ -113,36 +113,33 @@ decode bits = sum <$> (sequence $ zipWith choose bits weights)
 extract :: (Num a) => SarADC -> [Float] -> Maybe (Float, (Float, a))
 extract _   []       = Nothing
 extract sar (v:bits) = maybe Nothing 
-                             (Just . (fit,) . (ideal v,)) 
+                             (Just . (v,) . (ideal v,)) 
                              (decode bits)
                        where ideal = fst . sarADC (bitDepth sar) (calibrate sar)
-                             fit   = (fitLine sar v)
 
 response :: Maybe (Float, (Float, Float)) -> [Float]
 response Nothing          = []
 response (Just (a,(b,c))) = (a:b:[c])
                        
 next_inl :: 
-  SarADC -> Float -> Maybe Float -> Float
+  SarADC -> Float -> Maybe (Float, Float) -> Float
 next_inl sar acc = maybe acc (max acc . new_inl)
                    where new_inl = abs . 
-                                   uncurry subtract . 
-                                   (id &&& (/ lsb sar) . unsar sar)
+                                   uncurry subtract 
 inl :: (Monad m) =>
-  SarADC -> Sink (Maybe Float) m Float
+  SarADC -> Sink (Maybe (Float, Float)) m Float
 inl sar = CL.fold (next_inl sar) 0
 
 next_dnl ::
-  SarADC -> (Float, Float) -> Maybe (Float, Float) -> (Float, Float)
+  SarADC -> ([Float], Float) -> Maybe (Float, Float) -> ([Float], Float)
 next_dnl sar (acc, step) x = maybe stay choose x where
                              stay = (acc, step)
-                             choose (this, next) = if this == step 
-                                                   then stay 
-                                                   else (diff this, next)
-                             diff   = subtract acc
+                             choose (v, code) = if   code == step 
+                                                then stay 
+                                                else (v : acc, code)
 dnlSteps :: (Monad m) =>
-  SarADC -> Sink (Maybe (Float, Float)) m (Float, Float)
-dnlSteps sar = CL.fold (next_dnl sar) (0, 0)
+  SarADC -> Sink (Maybe (Float, Float)) m ([Float], Float)
+dnlSteps sar = CL.fold (next_dnl sar) ([0], 0)
 
 results :: (Monad m) =>
   SarADC -> [Int] -> Conduit [Float] m (Maybe (Float, (Float, Float)))
@@ -181,8 +178,13 @@ csvToNonlins x  = sourceFile x       $=
                   intoCSV inSettings $=
                   textToCL           $$
                   results sarToUse [2*n + 1 | n <- [0..bitDepth sarToUse]] =$
-                  CL.map (liftM (fst . snd)) =$
-                  inl sarToUse
+                  CL.map (liftM (fst &&& snd . snd)) =$
+                  dnlSteps sarToUse -- inl sarToUse
+
+squash :: (a -> a -> a) -> a -> [a] -> [a]
+squash _ x []     = []
+squash f x (y:ys) = (f x y):(squash f y ys)
+
 main = do
        args <- getArgs
        case args of
@@ -203,14 +205,19 @@ main = do
                                            , "VALID"
                                            ]
          ("volts":_) -> runResourceT $ csvToVolts   (args !! 1) [args !! 2]
-         ("inl":_)   -> do 
-                        x <- runResourceT $ csvToNonlins (args !! 1)
-                        putStrLn $ show x
+         ("nl":_)    -> (runResourceT $ csvToNonlins (args !! 1)) >>= 
+                        putStrLn . ("dnl, inl " ++) . show . nonlins >> 
                         return [()]
                       
          _           -> putStrLn usage >> return [()]
        where usage = "usage: \n\
 \                            model pwls  infile \n\
-\                      or    model volts infile outfile\n"
+\                      or    model volts infile outfile\n\
+\                      or    model nl    infile\n"
+             nonlins = join (***) (maximum . map ((/ lsb sarToUse) . abs)) .
+                       (id &&& scanl1 (+)) . 
+                       map (subtract (lsb sarToUse)) . 
+                       init . tail . squash (flip subtract) 0 . 
+                       fst
 
 
