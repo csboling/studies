@@ -1,0 +1,93 @@
+\documentclass{beamer}
+
+\usepackage{graphicx}
+%\usepackage[backend=bibtex]{biblatex}
+\usepackage[authoryear]{natbib}
+\usepackage{usebib}
+%\bibliography{references}
+
+\newcommand{\intextcitation}[1]{\citeauthor{#1} \usebibentry{#1}{year}, \usebibentry{#1}{title}}
+
+\title{Research and Reading Summary}
+\author{Sam Boling}
+\date{March 3, 2014}
+\usetheme{Berlin}
+\usecolortheme{seahorse}
+
+\bibinput{references}
+
+\begin{document}
+
+
+\begin{frame}
+%\nobibliography*
+\titlepage
+\end{frame}
+
+\begin{frame}{Cognitive Radio}
+  \begin{itemize}
+    \item{Idea: Improve spectrum usage by dynamic frequency/modulation selection}
+    \item{Tune energy harvesting based on available energy}
+    \item{Challenge: ultra-wideband monitoring and communication}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Compressive Sensing}
+  \begin{itemize}
+    \item{The sampling theorem provides a sufficient rather than a
+          necessary condition}
+    \item{If additional structure is known, it may be possible to sample 
+          at $f_s < 2B$}
+    \item{Wireframe analogy \cite{ganguli2012}}
+    \item{Transfers energy cost to reconstruction rather than acquisition}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Compressive Sensing}
+  \begin{itemize}
+    \item{Wish to find $\vec{\alpha}_{N}$ such that 
+          $\vec{x}_{N} = \mathbf{\Psi} \vec{\alpha}$
+          given 
+          $$
+          \vec{y}_{K} = \mathbf{\Phi}_{K \times N}\vec{x}_N 
+                      = \mathbf{\Phi}_{K \times N}
+                        \mathbf{\Psi}_{N \times N}
+                        \vec{\alpha}_N
+          $$
+          where $K \ll N$.}
+     \item{Possible if $\|\vec{\alpha}\|_0 \ll N$.}
+     \item{Importantly, possible for any sparsifying $\Psi$ if $\mathbf{\Phi}$ is random.}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Results}
+  \begin{itemize}
+    \item{\intextcitation{yoo2012}}
+    \item{}
+    \item{\intextcitation{zhang2012}}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{To be investigated}
+  \begin{itemize}
+    \item{Analog tractability of reconstruction algorithms}
+    \item{}
+  \end{itemize}
+\end{frame}
+
+%
+%\begin{frame}{Work}
+%  \begin{itemize}
+%    \item{iEGAS -- sensor stimulation, alarms, storage}
+%    \item{Neural -- complete test harness for Yuning's core}
+%  \end{itemize}
+%\end{frame}
+%
+%\begin{frame}[allowframebreaks]{References}
+%  \bibliographystyle{plainnat}
+%  \bibliography{references}
+%%  \printbibliography
+%\end{frame}
+
+\end{document}
+
