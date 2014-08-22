@@ -1,0 +1,20 @@
+\documentclass{letter}
+
+\usepackage{amsfonts}
+
+\begin{document}
+
+The tangent space $T_p M$ is defined as the vector space of equivalence classes
+of $\gamma : \mathbb{R} \to M$ with $\gamma(0) = p$ 
+given by $\eta = [\gamma^\prime(0)]$, i.e., two curves 
+$\gamma, \tilde{\gamma}$ are equivalent if 
+$\gamma^\prime(0) = \tilde{\gamma}^\prime(0)$.
+
+$$
+T_{*}M \equiv 
+  \sum_{p : M} 
+    \frac{\prod_{\gamma : \mathbb{R} \to M} \gamma(0) =_M p}
+         {\lambda (f, g : \mathbb{R} \to M) .  f^\prime(0) =_M g^\prime(0)}
+$$
+
+\end{document}
