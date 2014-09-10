@@ -394,4 +394,154 @@ $a x a^{-1} \in \ker(f)$.
 \end{enumerate}
 \end{xmpl}
 
+% 9/10/2014
+
+\begin{defn}[Affine Map]
+An \emph{affine map} is a sum of linear maps with a translation. In
+the case $\mathbb{R} \to \mathbb{R}$, the functions $f(x) = ax + b$,
+$a \neq 0$ is affine.
+\end{defn}
+
+\begin{xmpl}[Normal Subgroup]
+Let $G$ be the set of all non-constant \emph{affine} maps 
+$\mathbb{R} \to \mathbb{R}$ with operation $\circ$. That is,
+$$
+G = \{ f : \mathbb{R} \to \mathbb{R} | f(x) = ax + b, 
+                                       a \neq 0,
+                                       a, b \in \mathbb{R}
+    \}.
+$$
+For simplicity, set $L_{a,b}(x) = ax + b$. There are two standard
+subgroups of $G$. 
+
+$A \triangleq \{ f | f(x) = ax, a \neq 0 \} = \{L_{a, 0} | a \neq 0\}$
+is a subgroup of $G$ which is isomorphic to the multiplicative group
+$\mathbb{R}^\ast$.
+
+$T \triangleq \{ f | f(x) = x + b \} = \{ L_{1,b} | b \in \mathbb{R}
+\}$ is a subgroup of $G$. 
+
+These subgroups are normal in $G$. Consider the map 
+$G \to \mathbb{R}^\ast \simeq A$ given by $L_{a,b} \mapsto a$. This is
+a group homomorphism because
+\begin{align*}
+(L_{a,b} \circ L_{a^\prime, b^\prime})(x) 
+ & = L_{a,b}(L_{a^\prime, b^\prime}(x)) \\
+ & = L_{a,b}(ax^\prime + b^\prime) \\
+ & = a(ax^\prime + b) \\
+ & = aa^\prime x + ab^\prime + b \\
+ & = L_{a a^\prime, a b^\prime + b}(x),
+\end{align*}
+so $L_{a,b} \circ L_{a^\prime, b^\prime} = L_{a a^\prime, a b^\prime +
+  b}$, and thus
+$L_{a,b} \circ :_{a^\prime, b^\prime} \mapsto a a^\prime$, so this is
+a group homomorphism. The kernel is then 
+$\{L_{1,b} | b \in \mathbb{R} \} = T$, so $T$ is normal in $G$.
+\end{xmpl}
+
+Note that
+$$
+G \simeq \left\{
+\left.\left(\begin{array}{c c}
+a & b \\ 0 & 1
+\end{array}\right)\right| a, b \in R, a \neq 0
+\right\} < GL_2(\mathbb{R})
+$$
+by the group homomorphism
+$$
+L_{a,b} \mapsto \left(\begin{array}{c c}
+a & b \\ 0 & 1
+\end{array}\right).
+$$
+
+\subsection{Quotient Groups and Isomorphism Theorems}
+
+\begin{defn}[Quotient Group]
+Let $G$ be a group and $H \triangleleft G$, so that $aHa^{-1} = H$,
+$\forall a \in G$, or equivalently $aH = Ha$.
+The \emph{quotient group} is the set of all (left = right) cosets
+$$
+G / H = \{ aH | a \in G \}
+$$
+with a natural operation induced by the operation in the group:
+$$
+aH \cdot bH \triangleq aHbH
+$$
+or for $S, T \subset G$,
+$$
+S \cdot T \{ s \cdot t | s \in S, t \in T \}.
+$$
+This is indeed another coset because, by normality of $H$,
+$aHbH = abHH = abH$. We need to check that it is associative, contains
+identity, and contains all inverses. Similarly there is the
+\emph{canonical homomorphism} $\pi : G \to G/H$ given by 
+$\pi(a) = aH$. $\pi$ is surjective and
+$\ker(\pi) = \{ a \in G | aH = H \} = H$.
+\end{defn}
+
+\begin{theorem}[First Isomorphism Theorem]
+Let $f : G \to G^\prime$ be a group homomorphism. There are two
+associated subgroups $\mathrm{Im}(f) < G^\prime$ and 
+$\ker(f) \triangleleft G$. Then
+$G / \ker(f) \simeq \mathrm{Im}(f)$, with an isomorphism given by
+$a \ker(f) \mapsto f(a)$.
+\end{theorem}
+\begin{proof}
+Set $\bar{f}(a \ker (f)) = f(a)$. We check that $\bar{f}$ is a
+well-defined map $G / \ker(f) \to \mathrm{Im}(f)$ by showing that
+$a \ker f = b \ker f \implies f(a) = f(b)$. This condition however
+implies that 
+$$
+b^{-1} a \in \ker(f) 
+  \implies f(b^{-1} a) = 1
+  \implies f(b)^{-1} f(a) = 1
+  \implies f(a) = f(b).
+$$
+
+Next, we prove $\bar{f}$ is a group homomorphism.
+$$
+\bar{f}(a \ker f b \ker f) 
+  = \bar{f} (a b \ker f) 
+  = f(ab) 
+  = f(a)f(b)
+  = \bar{f}(a \ker f) \bar{f}(b \ker f)
+$$
+since $f$ is a homomorphism.
+
+$\bar{f}$ is surjective by definition since it is onto
+$\mathrm{Im}(f)$.
+
+$$
+\ker(\bar{f}) = \{ a \ker f | \bar{f}(a \ker f) = f(a) = 1 \}
+              = \{ \ker f \},
+$$
+which is a singleton set and thus $\ker(\bar{f})$ is trivial,
+thus $\bar{f}$ is injective.
+\end{proof}
+
+\begin{theorem}[Second Isomorphism Theorem]
+Let $G$ be a group, $K \subset H$, and both $K$ and $H$ normal in
+$G$. Then $K$ is normal in $H$ and we can consider $H / K$, which is
+then a normal subgroup in $G / K$. Then $G / H \simeq (G / K) / (H / K)$.
+\end{theorem}
+\begin{proof}
+$K \triangleleft G \iff \forall g \in G, g K g^{-1} = K$. Since
+$H \subset G$, $h K h^{-1} = K$, so $K \triangleleft H$. Consider the
+canonical maps $\pi_K : G \to G / K$ and
+$\pi_H : G \to G / H$. We claim that there exists a homomorphism
+$\varphi : G / K \to G / H$ given by $\varphi(gK) = gH$, and that
+$\varphi \circ \pi_K = \pi_H$. (Exercise.) Note that $\varphi$ is
+surjective and 
+$$
+\ker(\varphi) 
+  = \{ gK | gH = H \} 
+  = \{ gK | g \in H \}
+  = H / K.
+$$
+Then $H / K$ is normal in $G / K$, as the kernel of a group
+homomorphism, and from the first isomorphism theorem
+$(G / K) / \ker(\varphi) = \mathrm{Im}(\varphi)$
+or $(G / H) / (H / K) \simeq G / H$.
+\end{proof}
+
 \end{document}
