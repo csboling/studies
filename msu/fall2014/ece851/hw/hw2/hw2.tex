@@ -1,0 +1,73 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+
+\title{ECE/ME 851 Homework \#2}
+\date{September 19, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+\begin{enumerate}[(a)]
+  \item{We have that
+        \begin{align*}
+          sI - A &=
+            \left[\begin{array}{c c c}
+              s - \frac{1}{2} & -1    & 0 \\
+              0               & s + 1 & 0 \\
+              0               & 0     & s + 2
+            \end{array}\right],
+          (sI - A)^{-1} &=
+            \left[\begin{array}{c c c}
+              \frac{1}{s - \frac{1}{2}}
+            & -\frac{1}{s+1}\frac{1}{s - \frac{1}{2}}
+            & 0 \\
+              0
+            & \frac{1}{s+1}
+            & 0 \\
+              0
+            & 0
+            & \frac{1}{s+2}
+            \end{array}\right] \\
+          &= \left[\begin{array}{c c c}
+               \frac{1}{s - \frac{1}{2}}
+             &  \frac{2}{3}\left(
+                  \frac{1}{s + 1}
+                 -\frac{1}{s - \frac{1}{2}}\right)
+             & 0 \\
+               0
+             & \frac{1}{s+1}
+             & 0 \\
+               0
+             & 0
+             & \frac{1}{s+2}
+             \end{array}\right],
+        \end{align*}
+        so that
+        \begin{align*}
+          e^{At} &= \mathcal{L}^{-1}\{(sI - A)^{-1}\}
+                 = \left[\begin{array}{c c c}
+                     e^{\frac{t}{2}}
+                   & \frac{2}{3}\left(
+                       e^{-t} - e^{\frac{t}{2}}
+                     \right)
+                   & 0 \\
+                     0 
+                   & e^{-t}
+                   & 0 \\
+                     0
+                   & 0
+                   & e^{-2t}
+                   \end{array}\right].
+        \end{align*}
+       }
+       \item{
+            }
+\end{enumerate}
+
+\end{document}
