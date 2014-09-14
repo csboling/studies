@@ -422,20 +422,25 @@ $T \triangleq \{ f | f(x) = x + b \} = \{ L_{1,b} | b \in \mathbb{R}
 \}$ is a subgroup of $G$. 
 
 These subgroups are normal in $G$. Consider the map 
-$G \to \mathbb{R}^\ast \simeq A$ given by $L_{a,b} \mapsto a$. This is
-a group homomorphism because
+$f : G \to \mathbb{R}^\ast \simeq A$ given by 
+$$
+L_{a,b} \mathrel{\mathop{\mapsto}^{f}} a
+$$. 
+This is a group homomorphism because
 \begin{align*}
 (L_{a,b} \circ L_{a^\prime, b^\prime})(x) 
  & = L_{a,b}(L_{a^\prime, b^\prime}(x)) \\
- & = L_{a,b}(ax^\prime + b^\prime) \\
- & = a(ax^\prime + b) \\
+ & = L_{a,b}(a^\prime x + b^\prime) \\
+ & = a(a^\prime x + b^\prime) + b \\
  & = aa^\prime x + ab^\prime + b \\
  & = L_{a a^\prime, a b^\prime + b}(x),
 \end{align*}
 so $L_{a,b} \circ L_{a^\prime, b^\prime} = L_{a a^\prime, a b^\prime +
   b}$, and thus
-$L_{a,b} \circ :_{a^\prime, b^\prime} \mapsto a a^\prime$, so this is
-a group homomorphism. The kernel is then 
+$$
+L_{a,b} \circ L_{a^\prime, b^\prime} \mathrel{\mathop{\mapsto}^{f}} a a^\prime,
+$$ 
+so this is a group homomorphism. The kernel is then 
 $\{L_{1,b} | b \in \mathbb{R} \} = T$, so $T$ is normal in $G$.
 \end{xmpl}
 
@@ -473,11 +478,21 @@ S \cdot T \{ s \cdot t | s \in S, t \in T \}.
 $$
 This is indeed another coset because, by normality of $H$,
 $aHbH = abHH = abH$. We need to check that it is associative, contains
-identity, and contains all inverses. Similarly there is the
+identity ($H$), and contains all inverses ($(aH)^{-1} = a^{-1}H$). 
+Similarly there is the
 \emph{canonical homomorphism} $\pi : G \to G/H$ given by 
 $\pi(a) = aH$. $\pi$ is surjective and
-$\ker(\pi) = \{ a \in G | aH = H \} = H$.
+$\ker(\pi) = \{ a \in G | aH = H \} = H$, so $\pi$ is an isomorphism.
 \end{defn}
+
+Note that this quotient can also be written as a quotient by an
+equivalence relation $G/\sim$ where
+$$
+a \sim b \triangleq aH = bH
+$$
+or by a function as $G/\pi$.
+
+\subsection{Isomorphism Theorems}
 
 \begin{theorem}[First Isomorphism Theorem]
 Let $f : G \to G^\prime$ be a group homomorphism. There are two
@@ -511,12 +526,17 @@ since $f$ is a homomorphism.
 $\bar{f}$ is surjective by definition since it is onto
 $\mathrm{Im}(f)$.
 
-$$
-\ker(\bar{f}) = \{ a \ker f | \bar{f}(a \ker f) = f(a) = 1 \}
-              = \{ \ker f \},
-$$
-which is a singleton set and thus $\ker(\bar{f})$ is trivial,
-thus $\bar{f}$ is injective.
+\begin{align*}
+\ker(\bar{f}) & = \{ a \ker f | \bar{f}(a \ker f) = f(a) = 1 \} \\
+              & = \{ a \ker f | a \in \ker f \} \\
+              & \simeq \{ \ker f \},
+\end{align*}
+with the isomorphism given by 
+$\left(\pi|_{\ker f}\right)^{-1}$,
+the inverse of the restriction to $\ker f$ 
+of the canonical isomorphism $\pi : G \to G / \ker f$.
+This means by definition that $\ker(\bar{f})$ has the same cardinality
+as a singleton set so it must be trivial, thus $\bar{f}$ is injective.
 \end{proof}
 
 \begin{theorem}[Second Isomorphism Theorem]
@@ -543,5 +563,123 @@ homomorphism, and from the first isomorphism theorem
 $(G / K) / \ker(\varphi) = \mathrm{Im}(\varphi)$
 or $(G / H) / (H / K) \simeq G / H$.
 \end{proof}
+
+\begin{theorem}[Third Isomorphism Theorem]
+Let $H < G$, $K < G$ such that $H$ \emph{normalizes} $K$, i.e.
+$\forall h \in H, h K h^{-1} = K$ or
+$\forall h \in H, h K = K h$. Then
+$$
+H \cap K \triangleleft H, 
+\quad HK < G,
+\quad H / (H \cap K) \simeq HK / K.
+$$
+\end{theorem}
+\begin{proof}
+\begin{itemize}
+  \item[($H \cap K \triangleleft H$.)]{
+        $h \in H$, $\kappa \in H \cap K$. Then
+        $h \kappa h^{-1} \in H$ since $h, \kappa \in H$
+        and $h \kappa h^{-1} \in K$ since $h \in H$, $H$ normalizes
+        $K$.
+        Then $h \kappa h^{-1} \in H \cap K$.
+       }
+  \item[($HK < G$)]{
+        $h_1 \kappa_1 h_2 \kappa_2 
+       = h_1 h_2 \kappa_1^\prime \kappa_2
+       \in HK$, since $H$ normalizes $K$ and thus $Kh = hK$. 
+       This proves $HK$ is closed.
+
+       $(h \kappa)^{-1} = \kappa^{-1} h^{-1} = h^{-1} \kappa \in HK$, since
+       $H$ normalizes $K$ and thus $K h^{-1} = h^{-1} K$.
+
+       Also $K \triangleleft HK$. Indeed, 
+       $$
+       h \kappa \kappa^\prime (h \kappa)^{-1} 
+     = h \kappa \kappa^\prime \kappa^{-1} h^{-1} \in K,
+       $$
+       since $\kappa \kappa^\prime \kappa^{-1} \in K$ and
+       $h K h^{-1} \subset K$.
+       }
+       \item[($H / H \cap K \simeq HK / K$)]{
+             Consider $H \hookarrow HK \to^{\pi}$ that behaves as
+             $$
+             h \mapsto h \cdot 1 = h \mapsto h K.
+             $$
+             Notice that $\varphi = \pi \circ j$ is a homomorphism, and is
+             surjective since $h \kappa K = h K$, and has the kernel
+             $$
+             \ker \varphi = \{ h | hK = K \} \implies
+             \ker \varphi = \{ h \in H | h \in K \} = H \cap K.
+             $$
+             Then $H / \ker \varphi \simeq \mathrm{Im} \varphi$, which
+             is exactly
+             $H / H \cap K \simeq HK / K$.
+            }
+\end{proof}
+
+\begin{defn}[Normalizer]
+Let $G$ be a group, $K < G$. Then the \emph{normalizer}
+$N_K$ of $K$ in G is
+$$
+N_K = \{ g \in G | g K g^{-1} = K \}.
+$$
+\end{defn}
+
+\begin{exer}
+
+\begin{itemize}
+  \item{$K < N_K < G$.}
+  \item{$K \triangleleft N_K$, and in fact $N_K$ is the largest
+      subgroup of $G$ that contains $K$ such that $K$ is normal in
+      that subgroup.}
+\end{itemize}
+
+\end{exer}
+
+\begin{remark}
+The assumption in the 3rd isomorphism theorem can be written $H < N_K$.
+\end{remark}
+
+\subsubsection{Special Case}
+\begin{defn}[Semidirect Product]
+Let $K \triangleleft G$, $H \cap K = \{ 1 \}$, and $HK = G$.
+Then $G$ is the \emph{semidirect product} of $H$ and $K$ and we write
+$G = H \semiprod K$.
+\end{defn}
+
+
+The third isomorphism theorem applies in this situation to give
+$$
+HK / K \simeq H / H \cap K \implies
+G / K  \simeq H / \{ 1 \} \simeq H.
+$$
+
+If $H$ normalizes $K$, then
+$h \in H, k \in K$ gives $h k h^{-1} = k^\prime \in K$. This defnes a
+group homomorphism $\psi : H \to \mathrm{Aut}(K)$ given by
+$\psi(h)(k) = h k h^{-1} \in K$. We call $\psi(h)$ the
+\emph{conjugation} by $h$. Now describe the group operation on 
+$G = HK$, using the operations of $H$ and $K$ and the homomorphism $\psi$.
+
+Take $g_1, g_2 \in G$. Then $g_1 = h_1 k_1$, $g_2 = h_2 k_2$ Is this
+unique? Can we write $g = hk = h^\prime k^\prime$? This would mean
+$$
+hk = h^\prime k^\prime 
+  \implies k = h^{-1} h^\prime k^\prime
+  \implies k k^\prime^{-1} = h^{-1} h^\prime,
+$$
+but since $H \cap K$ is trivial this means
+$hk = h^\prime k^\prime$.
+
+$$g_1 \cdot g_2 = h_1 k_1 h_2 k_2 = h_1 h_2 k_1^\prime k_2$$
+because $k_1 h_2 = h_2 k_1^\prime$ because $kH = Hk$, so
+\begin{align*}
+h_2^{-1} k_1 h_2 = k_1^\prime
+& \implies
+  \psi(h_2^{-1})(k_1) = k_1^\prime \\
+& \implies
+  \psi(h_2)^{-1}(k_1) = k_1^\prime \\
+& \implies g_1 g_2 = h_1 h_2 \psi(h_1)^{-1} (k_1) k_2.
+\end{align*}
 
 \end{document}
