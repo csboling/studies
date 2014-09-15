@@ -574,7 +574,7 @@ H \cap K \triangleleft H,
 \quad H / (H \cap K) \simeq HK / K.
 $$
 \end{theorem}
-\begin{proof}
+\begin{proof} There are three assertions to prove.
 \begin{itemize}
   \item[($H \cap K \triangleleft H$.)]{
         $h \in H$, $\kappa \in H \cap K$. Then
@@ -589,7 +589,7 @@ $$
        \in HK$, since $H$ normalizes $K$ and thus $Kh = hK$. 
        This proves $HK$ is closed.
 
-       $(h \kappa)^{-1} = \kappa^{-1} h^{-1} = h^{-1} \kappa \in HK$, since
+       $(h \kappa)^{-1} = \kappa^{-1} h^{-1} = h^{-1} \kappa^\prime \in HK$, since
        $H$ normalizes $K$ and thus $K h^{-1} = h^{-1} K$.
 
        Also $K \triangleleft HK$. Indeed, 
@@ -601,7 +601,7 @@ $$
        $h K h^{-1} \subset K$.
        }
        \item[($H / H \cap K \simeq HK / K$)]{
-             Consider $H \hookarrow HK \to^{\pi}$ that behaves as
+             Consider $H \hookrightarrow HK \to^{\pi} HK / K$ that behaves as
              $$
              h \mapsto h \cdot 1 = h \mapsto h K.
              $$
@@ -615,6 +615,7 @@ $$
              is exactly
              $H / H \cap K \simeq HK / K$.
             }
+\end{itemize}
 \end{proof}
 
 \begin{defn}[Normalizer]
@@ -626,7 +627,7 @@ $$
 \end{defn}
 
 \begin{exer}
-
+Show that
 \begin{itemize}
   \item{$K < N_K < G$.}
   \item{$K \triangleleft N_K$, and in fact $N_K$ is the largest
@@ -644,7 +645,7 @@ The assumption in the 3rd isomorphism theorem can be written $H < N_K$.
 \begin{defn}[Semidirect Product]
 Let $K \triangleleft G$, $H \cap K = \{ 1 \}$, and $HK = G$.
 Then $G$ is the \emph{semidirect product} of $H$ and $K$ and we write
-$G = H \semiprod K$.
+$G = H \ltimes K$.
 \end{defn}
 
 
@@ -666,7 +667,7 @@ unique? Can we write $g = hk = h^\prime k^\prime$? This would mean
 $$
 hk = h^\prime k^\prime 
   \implies k = h^{-1} h^\prime k^\prime
-  \implies k k^\prime^{-1} = h^{-1} h^\prime,
+  \implies k (k^\prime)^{-1} = h^{-1} h^\prime,
 $$
 but since $H \cap K$ is trivial this means
 $hk = h^\prime k^\prime$.
@@ -679,7 +680,201 @@ h_2^{-1} k_1 h_2 = k_1^\prime
   \psi(h_2^{-1})(k_1) = k_1^\prime \\
 & \implies
   \psi(h_2)^{-1}(k_1) = k_1^\prime \\
-& \implies g_1 g_2 = h_1 h_2 \psi(h_1)^{-1} (k_1) k_2.
+& \implies g_1 g_2 = h_1 h_2 \psi(h_2)^{-1} (k_1) k_2.
 \end{align*}
+
+% 9/15
+
+We can express this construction differently. Start with
+$H, K$ groups and a homomorphism $\psi : H \to \mathrm{Aut}(K)$.
+Consider the direct product 
+$$
+K \times H = \{(k, h) | k \in K, h \in H \}
+$$
+as a set but with the operation
+$$
+(k_1, h_1) \cdot (k_2, h_2) = (k_1 \psi(h_1)(k_2), h_1 h_2).
+$$
+Call this $G$.
+
+\begin{exer}
+Show that $G$ is a group with this operation. This is an alternative
+definition of the semidirect product $K \rtimes_\psi H$. Show also
+that the previously defined $G$ is isomorphic to this. (Exercise 12 in Lang).
+\end{exer}
+
+\begin{xmpl}[Semidirect Products]
+\begin{enumerate}
+  \item{$G = S_3$, the symmetric group in three letters (permutations
+      of $\{1,2,3\}$. We have elements $\sigma = (1 2 3)$ and
+      $\tau = (1 2)$ where these notations indicate $1 \to 2 \to 3 \to
+      1$ and $1 \to 2 \to 1, 3 \to 3$, respectively. Consider
+      $K = \langle \sigma \rangle = \{1, \sigma, \sigma^2\}$ and
+      $H = \langle \tau \rangle = \{1, \tau\}$. Then
+      $$
+      G = \{1, \sigma, \sigma^2, \tau, \tau \sigma, \tau \sigma^2\}
+        = H \ltimes K.
+      $$
+      The conjugation 
+      $\psi : \langle \tau \rangle \to Aut(\langle \sigma \rangle)$
+      is given by
+      $$
+      \psi(\tau)(\sigma) = \tau \sigma \tau^{-1}
+                         = \sigma^2 \tau \tau^{-1} 
+                         = \sigma^2,
+      $$
+      because $\tau \sigma = \sigma^2 \tau$ because
+      $$
+      (1 2) \cdot (1 2 3) = (2 3), \quad
+      (1 2 3) \cdot (1 2 3) \cdot (1 2)
+        = (1 3 2) \cdot (1 2) = (2 3).
+      $$
+      We can also realize that these subgroups are cyclic
+      groups of order 2 and 3, or
+      $$
+      \langle \tau \rangle \simeq \mathbb{Z}_2, \quad
+      \langle \sigma \rangle \simeq \mathbb{Z}_3
+      $$
+      and
+      $$
+      \psi : \mathbb{Z}_2 
+           \to \mathrm{Aut}(\mathbb{Z}_3)
+           =   \mathbb{Z}_3^* \simeq \mathbb{Z}_2 
+      $$
+      so $\psi$ is identity under these identifications.
+      Then we can rewrite 
+      $$S \simeq \mathbb{Z}_3 \rtimes_\psi \mathbb{Z}_2.$$
+      }
+  \item{Let $G = \mathrm{GL}_2(\mathbb{R})$. Consider
+        $K = \mathrm{SL}_2(\mathrm{R})$ and
+        $\mathrm{R}^* = \mathrm{R} - \{ 0 \}.$
+        Recall that 
+        $\mathrm{SL}_2(\mathbb{R}) \triangleleft
+        \mathrm{GL}_2(\mathbb{R})$
+        because $\mathrm{SL}_2 = \ker \det$.
+        We can embed 
+        $\mathbb{R}^* \hookrightarrow \mathrm{GL}_2(\mathbb{R})$
+        by $a \mapsto \left(\begin{array}{c c} a & 0 \\ 0 &
+            1\end{array}\right)$ and call this subgroup $H$.
+
+        Note that $H \cap K = \{ 1 \}$ and
+        $\mathrm{GL}_2(\mathbb{R}) = H K$ because
+        given $A \in \mathrm{GL}_2(\mathbb{R})$ we can write
+        $$
+        A = \left(\begin{array}{c c}
+              \det A & 0 \\ 0 & 1
+            \end{array}\right) \cdot A^\prime
+        $$
+        with $\det A^\prime = 1$.
+
+        $$
+        \psi : \mathbb{R}^*
+           \to \mathrm{Aut}(\mathrm{SL}_2(\mathbb{R})
+        $$
+        is given by
+        $$
+        \psi(a)(A) = 
+          \left(\begin{array}{c c}
+            a & 0 \\ 0 & 1
+          \end{array}\right) \cdot A \cdot
+          \left(\begin{array}{c c}
+            a & 0 \\ 0 & 1
+          \end{array}\right)^{-1}.
+          $$
+       }
+\end{enumerate}
+\end{xmpl}
+
+\subsection{Decomposition of Groups}
+
+\begin{defn}[Tower of Subgroups]
+Let $G$ be a group. A sequence of subgroups
+$$
+G = G_0 > G_1 > \cdots > G_i > \cdots
+$$ 
+will be called a \emph{tower} of subgroups of $G$.
+It is called a \emph{normal tower} if 
+$\forall i, G_{i+1} \triangleleft G_i$, an
+\emph{abelian tower} if it is a normal tower such that
+$G_{i} / G_{i+1}$ is abelian, and a \emph{cyclic tower}
+when $G_{i} / G_{i+1}$ is cyclic.
+\end{defn}
+
+\begin{defn}[Solvable Group]
+A group is called \emph{solvable} if it has a finite
+abelian tower ending in $\{ 1 \}$.
+\end{defn}
+
+This terminology comes from a Galois group being solvable, in which
+case corresponding polynomials can be solved by radicals.
+
+\begin{theorem}[Feit-Thompson]
+  Every finite group of odd order is solvable.
+\end{theorem}
+
+\begin{xmpl}
+\begin{enumerate}
+  \item{Consider the subgroup $G < \mathrm{GL}_3(\mathbb{R})$ given by
+      $$
+      G = \left\{\left.
+          \left(\begin{array}{c c c}
+            a & d & e \\ 0 & b & f \\ 0 & 0 & c
+          \end{array}\right)\right|a, b, c \neq 0\right\},
+      $$
+      the \emph{parabolic subgroup}. $G$ is solvable.
+
+      \begin{proof}
+        Consider $\phi : G 
+                     \to \mathbb{R}^* \times \mathbb{R}^* \times \mathbb{R}^*$
+        given by
+        $$
+        \left(\begin{array}{c c c}
+          a & d & e \\ 0 & b & f \\ 0 & 0 & c
+        \end{array}\right) \mapsto (a,b,c).
+        $$
+        This is a homomorphism (exercise) which is
+        surjective. Take $\ker \varphi = G_1 \triangleleft G$.
+        This $\ker \varphi$ is the matrices which have ones on the
+        diagonal. Then the quotient, by the first isomorphism theorem, is
+        $$
+        G / \ker \varphi 
+          \simeq \mathrm{Im}(\varphi)
+          = \mathbb{R}^* \times \mathbb{R}^* \times \mathbb{R}^*.
+        $$
+        Note that this image is abelian.
+
+        Next take
+        $$
+         G_2 = 
+          \left\{\left.
+          \left(\begin{array}{c c c}
+            1 & 0 & x \\ 0 & 1 & 0 \\ 0 & 0 & 1
+          \end{array}\right)\right| x \in \mathbb{R}\right\}.
+        $$
+        Check that $G_2$ is normal in $G_1$, and that
+        $G_1 / G_2 \simeq \mathbb{R} \times \mathbb{R}$, since it is
+        determined by the two zeroed entries.
+
+        Observe that $G_2 \simeq \mathbb{R}$ by the map taking its
+        top-right element. So we have the abelian tower
+        $$
+        \left(\begin{array}{c c c}
+          a & d & f \\ 0 & b & e \\ 0 & 0 & c
+        \end{array}\right)
+        \triangleright
+        \left(\begin{array}{c c c}
+          1 & d & f \\ 0 & 1 & e \\ 0 & 0 & 1
+        \end{array}\right)
+        \triangleright
+        \left(\begin{array}{c c c}
+          1 & 0 & x \\ 0 & 1 & 0 \\ 0 & 0 & 1
+        \end{array}\right)
+        \triangleright \{ 1 \}.
+        $$
+        This is true for any field.
+      \end{proof}
+    }
+\end{enumerate}
+\end{xmpl}
 
 \end{document}
