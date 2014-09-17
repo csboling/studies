@@ -877,4 +877,147 @@ case corresponding polynomials can be solved by radicals.
 \end{enumerate}
 \end{xmpl}
 
+% 9/17
+
+\begin{prop}
+Let $G$ be a group and $H \triangleleft G$. Then $G$ is solvable if
+and only if both $H$ and the quotient $G / H$ are solvable.
+\end{prop}
+\begin{proof}
+Assume $H, G / H$ are solvable. Then there are towers
+$$
+H = H_0 \triangleright \cdots \triangleright H_n = \{ 1 \}, \quad
+H/H_{i+1} \text{ abelian} 
+$$
+$$
+G/H = K_0 \triangleright \cdots \triangleright K_m = \{ 1 \}, \quad
+K/K_{i+1} \text{ abelian}.
+$$
+Confirm that the inverse image $f^{-1}(K_i)$ of a normal subgroup is
+normal under any group homomorphism $f$. Note that
+$$
+\pi^{-1}(K_i) / \pi^{-1}(K_{i+1}) \simeq K_i / K_{i+1}
+$$
+By restricting $\pi$ we have a surjective map
+$\pi|_{\pi^{-1}(K-I)} : \pi^{-1}(K_i) \to K_i$ with kernel $H$,
+so
+$$
+\pi^{-1}(K_i) / H \simeq K_i.
+$$
+Now
+$$
+K_i / K_{i+1} \simeq (\pi^{-1}(K_i) / H) / (\pi^{-1}(K_{i+1}) / H)
+             \simeq \pi^{_1}(K_i) / \pi^{-1}(K_{i+1}).
+$$
+So $\forall i$, $\pi^{-1}(K_i) / \pi^{-1}(K_{i+1})$ are all abelian.
+
+Next, assume $G$ is solvable and show $H, G/H$ are solvable.
+We may form the tower
+$$
+H \triangleright H \cap G_1 
+  \triangleright H \cap G_2 
+  \triangleright \cdots 
+  \triangleright H \cap G_n = \{ 1 \}
+$$
+since
+\begin{enumerate}
+  \item{
+    $$
+    \forall i . H \cap G_{i+1} \triangleleft H \cap G_i.
+    $$
+    Take $h \in H \cap G_i$ and $g \in H \cap G_{i+1}$.
+    Then $h g h^{-1} \in G_{i+1}$ and $h, g \in H$, so
+    $h g h^{-1} \in H \cap G_{i+1}$.
+  }
+  \item{
+    Construct a homomorphism
+    $$
+    \varphi : H \cap G_i / H \cap G_{i+1} \to G_i / G_{i+1}
+    $$
+    given by 
+    $$
+    \varphi(h \mod H \cap G_{i+1}) \triangleq h \mod G_{i+1},
+    $$
+    which is injective since if $h \in H \cap G_i$,
+    $\varphi(h \mod H \cap G_{i+1}) = 1 \mod G_{i+1}$ then
+    $h \in H \cap G_{i+1}$ so
+    $h \mod H \cap G_{i+1} = 1,$
+    thus $\ker \varphi$ is trivial.
+    Check that this is well-defined (show that it is independent of
+    the representative).
+
+    $\varphi$ gives an isomorphism between 
+    $H \cap G_i / H \cap G_{i+1}$ and a subgroup of the abelian group
+    $G_i / G_{i+1}$, so $H \cap G_i / H \cap G_{i+1}$ is abelian.
+  }
+\end{enumerate}
+Similarly we can show that $G / H$ is solvable (exercise).
+\end{proof}
+
+Let $H \triangleleft G$. Consider the quotient $G / H$. Then we have
+two groups ``smaller'' than the original group. We can then decompose
+our understanding of $G$ by considering $H$ and $G/H$ similarly.
+
+\begin{defn}[Simple Group]
+A group that has no normal proper subgroup is called \emph{simple},
+i.e. if the only normal subgroups of $G$ are $\{1\}$ and $G$.
+\end{defn}
+
+\begin{theorem}[Jordan-H\"older Theorem]
+Let $G$ be a finite group. Suppose 
+$$
+G = G_0 \triangleright G_1 
+        \triangleright \cdots
+        \triangleright G_r = \{1\}
+$$
+and
+$$
+G = H_0 \triangleright H_1 
+        \triangleright \cdots
+        \triangleright H_s = \{1\}
+$$
+are two normal towers such that
+$G_i / G_{i+1}$ and $H_j / H_{j+1}$ are simple groups
+$\forall i, j$. Then $r = s$ and there is a permutation
+on the indices $i \to i^\prime$ such that
+$G_i / G_{i+1} \simeq H_{i^\prime} / H_{i^\prime + 1}, \forall
+i$. This is analogous to prime factorization of positive integers.
+\end{theorem}
+
+\begin{remark}
+Every finite group admits a normal tower ending at $\{ 1 \}$ such that
+the quotients are simple, because a group $G$ is either simple itself
+or has a nontrivial normal subgroup by definition, and thus admits a
+refinement. This procedure will stop eventually because the group is finite.
+\end{remark}
+
+\begin{defn}[Refinement]
+A tower of $G$ is called a \emph{refinement} of another tower of $G$
+when it is obtained by inserting additional subgroups.
+\end{defn}
+
+\begin{defn}[Equivalent Towers]
+Two normal towers of $G$ 
+$$
+G = G_0 \triangleright G_1 
+        \triangleright \cdots
+        \triangleright G_r = \{1\}
+$$
+and
+$$
+G = H_0 \triangleright G_1 
+        \triangleright \cdots
+        \triangleright H_s = \{1\}
+$$
+are \emph{equivalent} if their quotients are isomorphic up to a permutation.
+\end{defn}
+
+\begin{theorem}[Schreier]
+Any two normal towers of $G$ that both end with $\{1\}$ have
+equivalent refinements.
+\end{theorem}
+
+This immediately implies the Jordan-H\"older theorem because a normal
+tower with simple quotients has no nontrivial refinements.
+
 \end{document}
