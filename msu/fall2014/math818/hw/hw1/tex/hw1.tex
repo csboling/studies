@@ -786,8 +786,49 @@ Show that $SL_2(\mathbb{R})$ is perfect.
       written as a product of elements of the commutator subgroup and
       thus belongs to the commutator subgroup itself.
 
-      % FIXME
-      Similarly, if $ad - bc = -1$, then any element of 
+      Similarly, if $ad - bc = -1$, then 
+      \begin{align*}
+       &\left[\begin{array}{r r}
+          1   & 0 \\
+          -ac & 1
+        \end{array}\right]
+        \left[\begin{array}{c c}
+          -a & 0     \\
+           0 & -a^{-1}
+        \end{array}\right]
+        \left[\begin{array}{c c}
+          a & b \\ c & d
+        \end{array}\right]        
+        \left[\begin{array}{c c}
+          1 & \frac{b}{a} \\
+          0 & 1
+        \end{array}\right] \\
+      =&
+        \left[\begin{array}{r r}
+          1   & 0 \\
+          -ac & 1
+        \end{array}\right]
+        \left[\begin{array}{c c}
+          -1 & -\frac{b}{a} \\ -ac & -ad
+        \end{array}\right]
+        \left[\begin{array}{c c}
+          1 & \frac{b}{a} \\
+          0 & 1
+        \end{array}\right] \\
+      =&
+        \left[\begin{array}{r r}
+          1 & -\frac{b}{a} \\ 0 & bc - ad
+        \end{array}\right]
+        \left[\begin{array}{r r}
+          1 & \frac{b}{a} \\ 0 & 1
+        \end{array}\right] \\
+      =&
+        \left[\begin{array}{r r}
+          1 & 0 \\ 0 & bc - ad
+        \end{array}\right] = I.
+      \end{align*}
+        
+      Then any element of 
       $\mathrm{SL}_2(\mathbb{R})$ can be decomposed as a product of
       elements of the commutator subgroup. Therefore 
       $\mathrm{SL}_2(\mathbb{R}) \subset (\mathrm{SL}_2(\mathbb{R}))^c$,
