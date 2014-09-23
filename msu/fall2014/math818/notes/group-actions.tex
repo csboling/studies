@@ -1,0 +1,217 @@
+\documentclass{article}
+
+\include{preamble}
+
+\begin{document}
+
+\section{Group Actions}
+
+\begin{defn}[Group Action]
+Let $G$ be a group, $X$ be a set. Then a 
+\emph{left $G$-action on $X$} is a map
+$G \times X \to X$, written $(g,x) \mapsto g \cdot x$, such that
+\begin{itemize}
+  \item{$\forall x \in X$, $1 \cdot x = x$,}
+  \item{$\forall g_1, g_2 \in G$, $\forall x \in X$, we have
+        $(g_1 g_2) \cdot x = g_1 (g_2 \cdot x)$.
+       }
+\end{itemize}
+\end{defn} 
+
+\begin{xmpl}
+\begin{enumerate}
+  \item{
+        Take $X = G$, $\cdot : G \times G \to G$ to be the group
+        operation (called the \emph{translation action}).
+       }
+  \item{For $X = G$, conjugation $(g, h) \mapsto g h g^{-1}$ is a
+        group action.
+       }
+  \item{Take $G = \mathrm{GL}_n(\mathbb{R})$, $X = \mathbb{R}^n$. For
+        $v \in \mathbb{R}^n$ there is an action $A \cdot v = Av$, the
+        matrix product.
+       }
+  \item{Take $X = \{z \in \mathbb{C} | \mathrm{Im}(z) > 0\}$, so
+        $z = x + iy$ for $x,y \in \mathbb{R}$, $y > 0$ 
+        (the upper-half plane). Take 
+        $G = \mathrm{SL}_2(\mathbb{R})$. The action is given by
+        $$
+        \left[\begin{array}{c c}
+          a & b \\ c & d
+        \end{array}\right] \cdot z
+        = \frac{az + b}{cz + d}.
+        $$
+        We need to check
+        \begin{enumerate}
+          \item{$cz + d \neq 0$,
+               }
+          \item{$\mathrm{Im}\left(\frac{az + b}{cz + d}\right) >
+                0$. (Exercise) This can be done by writing
+                $\mathrm{Im}(w) = w - \bar{w}$.
+               }
+          \item{We have a group action.}
+        \end{enumerate}
+        This group action is very important in number theory.
+      }
+\end{enumerate}
+\end{xmpl}
+
+\begin{remark}
+Giving a $G$-action on $S$ is equivalent to giving a group
+homomorphism $G \to \mathrm{Perm}(S)$. Why is this? Let
+$\cdot : G \times S \to S$ be a group action. Then to this we can
+associate a map $\Phi : G \to \mathrm{Perm}(S)$ by the rule
+$\Phi(g)(x) = g \cdot x$. We can observe that $\Phi(g)$ is a bijection
+since its inverse is given by $\Phi(g^{-1})$. 
+
+Also, starting from $\Phi : G \to \mathrm{Perm}(S)$ we can define
+$G \times S \to S$ by $g \cdot x = \Phi(g)(x)$. Observe that the types
+of this isomorphism are related tensor-hom adjunction.
+\end{remark}
+
+\begin{defn}[Orbit, Stabilizer]
+Fix some $x \in S$. The \emph{orbit} of $x$ is the set
+$$
+G \cdot x = \{ y \in S | \exists g \in G . y = g \cdot x \} 
+          = \{ g \cdot x | g \in G \}.
+$$
+
+The \emph{stabilizer} of $x$ is the set 
+$Gx = \{ g \in G | g \cdot x = x \}$. Observe that 
+$\forall x \in S$, $Gx < G$:
+\begin{align*}
+         & g \cdot x = x \\
+\implies & g^{-1} \cdot (g \cdot x) = g^{-1} \cdot x \\
+\implies & (g^{-1} g) x = g^{-1} x \\
+\implies & x = g^{-1} \cdot x,
+\end{align*}
+so $g^{-1} \cdot x \in G$.
+\end{defn}
+
+\begin{prop}
+Take a group action $G \times S \to S$. There is a bijectionb etween
+the coset $G / Gx$ and the elements of the orbit of $x$, i.e.
+$$
+G / Gx \simeq G \cdot x.
+$$
+\end{prop}
+\begin{proof}
+Consider the map given by
+$$
+gGx \in G / Gx \mapsto g \cdot x \in S,
+$$
+where by definition $g \cdot x$ is in the orbit. This is a
+well-defined map, by which we mean for $g, g^\prime \in G$ such that
+$g \cdot Gx = g^\prime \cdot Gx$, $g^\prime = g \cdot h$, $h \in
+Gx$. Then 
+$$
+g^\prime \cdot x = (g h) \cdot x 
+\implies g^\prime \cdot x = g(hx) = g \cdot x.
+$$
+This is surjective by definition because everything in the orbit is an
+image of the map given. It is injective since $g, g^\prime \in G$ such
+that $g^\prime \cdot x = g \cdot x$ means $g^{-1} \cdot g^\prime) x =
+x$ so $g^{-1} g^\prime \in G x$ and thus $g^\prime \in g G x$.
+\end{proof}
+
+We can therefore ``divide up'' $S$ into $G$-orbits:
+$$
+G = \coprod_{x \in S} G \cdot x
+$$
+We can also say that the $G$-action gives an equivalence relation on
+the set by $x \equiv x^\prime$ when $x^\prime \in G \cdot x$, or
+$x^\prime = g \cdot x$. We also observe that
+$$
+\# S = \sum_{x \text{ a representative}} [G : G \cdot x].
+$$
+For example, apply this to the action of $G$ on itself by conjugation
+$$
+(g, x) \mapsto g x g^{-1}.
+$$
+Take $x \in G$. Then the stabilizer is
+$$
+G x = \{ g \in G | gxg^{-1} = x \}
+    = \{ g \in G | gx = xg \},
+$$
+the \emph{centralizer} of $x$ denoted $C_x$, while the orbit of $x$ in $G$ is
+$$
+\{ y = gxg^{-1} | g \in G \},
+$$
+the \emph{conjugacy class} of $x$ in $G$.
+
+Note that the proposition proved above implies that $G / C_x$ is
+isomorphic to the conjugacy class of $x$, that the number of elements
+in the conjugacy class of $x$ is $[G : C_x]$, and that this number
+always divides the order of the group. 
+
+Observe that if $x \in Z(G)$, then $C_x = G$ or equivalently 
+$[G : C_x] = 1$ and that
+$$
+\# G = \sum_{[G : C_x] > 1} [G : C_x] + \# Z(G).
+$$
+This is sometimes called the \emph{class equation}.
+
+\begin{corol}
+Suppose $\# G = p^n$, for $p$ prime, $n \geq 1$. Such a group is called a
+$p$-group. Then the center $Z(G)$ is nontrivial.
+\end{corol}
+
+\begin{proof}
+The class equation gives
+$$
+p^n = \sum_{[G : C_x] > 1} [G : C_x] + \# Z(G).
+$$
+But notice that each $[G : C_x] > 1$ divides
+$\# G = p^n$, so $[G : C_x] = p^{m_x}$ for some $m_x \geq 1$
+and then
+$$
+p^m = \sum p^{m_x} + \# Z(G),
+$$
+so $p$ divides $\# Z(G)$ and thus $Z(G)$ is nontrivial.
+\end{proof}
+
+\begin{corol}
+If $G$ is a $p$-group then $G$ is solvable.
+\end{corol}
+\begin{proof}
+We want to construct an abelian normal tower ending at $\{ 1 \}$.
+\end{proof}
+Start from the bottom. Since $G$ is a $p$-group, $Z(G) \neq \{1\}$, so
+$$
+\{1\} \triangleleft Z(G) \triangleleft G.
+$$
+Now look at $G^\prime = G / Z(G)$. This is still a $p$-group because
+its order is some factor of the order of $G$, but it is of smaller
+order. Since it is a $p$-group, $Z(G^\prime) \neq \{1\}$. We get
+$$
+\{ 1 \} \triangleleft Z(G^\prime) \triangleleft G^\prime = G / Z(G).
+$$
+This yields
+$$
+\{1\} 
+  \triangleleft Z(G)
+  \triangleleft \pi^{-1}(Z(G^\prime))
+  \triangleleft G.
+$$
+where the quotients are all abelian since they are constructed as
+centers.
+
+Argue by induction on the exponent $n$, where $\# G = p^n$.
+\begin{itemize}
+  \item{ We desire
+  $$
+  \# G = p^n \implies G \text{ solvable}.
+  $$
+  }
+  \item{$n=0$ is trivial.}
+  \item{$n=1$ gives $\# G = p$, so $G$ is cyclic and isomorphic to
+        $\mathbb{Z}_p$, and thus solvable.}
+  \item{Assume the statement for all $n^\prime < n$. Look at
+        $G$. We assume $Z(G) \neq \{ 1 \}$, $G / Z(G) = p^{n^\prime}$ for
+        all $n^\prime < n$. We have from a previous proposition that
+        if $H \triangleleft G$, $H, G/H$ solvable, then $G$ is
+        solvable.
+        }
+\end{itemize}
+
+\end{document}

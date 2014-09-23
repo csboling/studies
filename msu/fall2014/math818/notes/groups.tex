@@ -899,7 +899,7 @@ $$
 \pi^{-1}(K_i) / \pi^{-1}(K_{i+1}) \simeq K_i / K_{i+1}
 $$
 By restricting $\pi$ we have a surjective map
-$\pi|_{\pi^{-1}(K-I)} : \pi^{-1}(K_i) \to K_i$ with kernel $H$,
+$\pi|_{\pi^{-1}(K_i)} : \pi^{-1}(K_i) \to K_i$ with kernel $H$,
 so
 $$
 \pi^{-1}(K_i) / H \simeq K_i.
@@ -1014,8 +1014,74 @@ are \emph{equivalent} if their quotients are isomorphic up to a permutation.
 
 \begin{theorem}[Schreier]
 Any two normal towers of $G$ that both end with $\{1\}$ have
-equivalent refinements.
+equivalent (isomorphic up to permutation) refinements.
 \end{theorem}
+
+\begin{proof}
+Let 
+\begin{align*}
+G &= G_0 \triangleright G_1 \triangleright 
+     \cdots \triangleright G_r = \{ 1\}, \\
+G &= H_0 \triangleright H_1 \triangleright 
+     \cdots \triangleright H_s = \{ 1\}. \\
+\end{align*}
+Consider that
+$$
+H_0 \cap G_i > H_1 \cap G_i > \cdots > H_s \cap G_i = \{1\}.
+$$
+Define $G_{i,j} = G_{i+1}(H_j \cap G_i)$,
+$H_{j,i} = (H_j \cap G_i)H_{j+1}$. Then
+$$
+G_{i+1} \subset G_{i+1} (H_j \cap G_i) \subset G_i
+$$
+for all $i=0,\dots,r$ and $j=0,\dots,s$. 
+
+It can be shown that these
+constructions are both normal towers of $G$ that end in $\{1\}$ and
+have the same number of steps (because we have the same number of
+pairs for each tower). Furthermore $\{G_{i,j}\}$ is a refinement of 
+$\{G_i\}$ and $\{H_{j,i}\}$ is a refinement of $\{H_j\}$.
+
+We claim that there are isomorphisms 
+$G_{i,j} / G_{i,j+1} \simeq H_{j,i} / H_{j, i+1}$. This implies the
+theorem. Let's write it in all its disgusting glory. This says
+$$
+\frac{G_{i+1} (H_j \cap G_i)}{G_{i+1} (H_{j+1} \cap G_i)}
+\simeq
+\frac{(H_j \cap G_i) H_{j+i}}{(H_j \cap G_{i+1}) H_{j+1}}
+$$
+We then want to show that
+$$
+\frac{u(U \cap V)}{u(U \cap v)}
+\simeq
+\frac{U \cap V}{(u \cap V)(U \cap v)}
+\simeq
+\frac{(V \cap U)v}{(V \cap u)v},
+$$
+(see diagram) where
+
+$$
+U = G_i, \quad
+u = G_{i+1}
+V = H_j, \quad
+v = H_{j+1}.
+$$
+
+We proceed by the third isomorphism theorem
+$$
+HK / K \simeq H / (H \cap K)
+$$
+if $H$ normalizes $K$. We set first
+$H = U \cap V$ and $K = u(U \cap v)$, then
+$K = (V \cap u)v$. Check that 
+\begin{itemize}
+  \item{$H$ normalizes $K$,}
+  \item{$HK$ is the numerator we want,}
+  \item{and $H \cap K = (u \cap V)(U \cap v)$.}
+\end{itemize}
+
+This is also called the \emph{Butterfly lemma}.
+\end{proof}
 
 This immediately implies the Jordan-H\"older theorem because a normal
 tower with simple quotients has no nontrivial refinements.
