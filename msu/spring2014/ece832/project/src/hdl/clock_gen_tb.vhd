@@ -26,7 +26,7 @@ architecture SIMULATION of TESTBENCH is
   signal DIGITAL_BITS   : std_logic_vector(DEPTH-1 downto 0);
   signal VALID          : std_logic;
 
-  component clock_generator is
+  component clock_generator_vlog is
     generic
     (
       DEPTH : integer range 1 to 24
@@ -42,18 +42,18 @@ architecture SIMULATION of TESTBENCH is
       SELECT_V_IN    : out std_logic := '1';
       SELECT_V_REF   : out std_logic := '0';
 
-      CMP            : out std_logic := '0';
+--      CMP            : out std_logic := '0';
       BITS           : out std_logic_vector(DEPTH-1 downto 0);
       DIGITAL_BITS   : out std_logic_vector(DEPTH-1 downto 0);
       VALID          : out std_logic
     );
-  end component clock_generator;
+  end component clock_generator_vlog;
 begin
   RESET <= '0' after 50 ns;
   CLOCK <= not CLOCK after 10 ns;
 
   COMPARISON <= '1' when (unsigned(BITS) <= TEST_VALUE) else '0';
-  DUT : clock_generator
+  DUT : clock_generator_vlog
     generic map
     (
       DEPTH => DEPTH
@@ -69,7 +69,7 @@ begin
       SELECT_V_IN    => SELECT_V_IN,
       SELECT_V_REF   => SELECT_V_REF,
 
-      CMP            => CMP,
+--      CMP            => CMP,
       BITS           => BITS,
       DIGITAL_BITS   => DIGITAL_BITS,
       VALID          => VALID
