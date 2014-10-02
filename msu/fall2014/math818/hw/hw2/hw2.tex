@@ -1,0 +1,270 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[lastexercise]{exercise}
+
+\newcounter{Problem}
+\newenvironment{Problem}{\begin{Exercise}[name={Problem},
+                                          counter={Problem}]}
+                        {\end{Exercise}}
+\title{MATH 818 Homework \#2}
+\date{October 6, 2014}
+\author{Sam Boling}
+
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+
+\begin{Problem}
+Start with the data $(K, L, \psi)$ of two groups $K$ and $L$ and a
+group homomorphism $\psi : K \to \mathrm{Aut}(L)$. Show that the
+Cartesian product $L \times K$ becomes a group with operation
+$$
+(l, k) \cdot (l^\prime, k^\prime) = (l\psi(k)(l^\prime), k k^\prime).
+$$
+\end{Problem}
+
+\begin{Answer}
+The product so defined defines a group:
+\begin{itemize}
+  \item[(Associativity)]
+    {Let $l_1, l_2, l_3 \in L$ and $k_1, k_2, k_3 \in K$. Then
+     \begin{align*}
+       (l_1, k_1) \cdot ((l_2, k_2) \cdot (l_3, k_3))
+    &= (l_1, k_1) \cdot
+       (l_2 \psi(k_2) (l_3), k_2 k_3) \\
+    &= (l_1 \psi(k_1)(l_2 \psi(k_2) (l_3)), k_1 k_2 k_3)
+    \end{align*}
+    while
+    \begin{align*}
+      ((l_1, k_1) \cdot (l_2, k_2)) \cdot (l_3, k_3) 
+   &= (l_1 \psi(k_1)(l_2), k_1 k_2) \cdot (l_3, k_3) \\
+   &= (l_1 \psi(k_1)(l_2)
+       \psi(k_1 k_2) (l_3), k_1 k_2 k_3).
+    \end{align*}
+    so the operation is associative in the second component.
+    Furthermore since $\psi(k)$ is a homomorphism for all $k \in K$,
+    \begin{align*}
+     l_1 \psi(k_1)(l_2 \psi(k_2)(l_3))
+  &= l_1 \psi(k_1)(l_2) \psi(k_1)(\psi(k_2)(l_3)) \\
+  &= (l_1 \psi(k_1)(l_2))
+      (\psi(k_1) \circ \psi(k_2))(l_3)\\
+  &= (l_1 \psi(k_1)(l_2))
+      \psi(k_1 k_2)(l_3)
+     \end{align*}
+     and so the first component agrees as well. Therefore the
+     operation is associative.
+    }
+  \item[(Closure)]
+    {
+      Since $k \in K$, $\psi(k) \in \mathrm{Aut}(L)$, so
+      since $l^\prime \in L$ this means $\psi(k)(l^\prime) \in
+      L$. Therefore $l \psi(k) l^\prime \in L$ since $L$ is a group
+      and furthermore $k k^\prime \in K$, so 
+      $(l\psi(k)(l^\prime), k k^\prime) \in L \times K$ and thus the
+      set is closed under this operation.
+    }
+  \item[(Unit)]
+    {
+      Let $1_L$ and $1_K$ be the identity elements of groups $L$ and
+      $K$, respectively, and let $l \in L$, $k \in K$. Then
+      $$
+      (l, k) \cdot (1_L, 1_K)
+    = (l \psi(k)(1_L), k 1_K)
+    = (l 1_L, k 1_K)
+    = (l, k),
+      $$
+      since $\psi(k)$ is a homomorphism $L \to L$ which requires
+      $\psi(1_L) = 1_L$. Furthermore
+      $$
+      (1_L, 1_K) \cdot (l, k)
+    = (1_L \psi(1_K)(l), 1_K k)
+    = (1_L \mathrm{id}(l), 1_K k)
+    = (1_L l, 1_K k)
+    = (l, k)
+      $$
+      since $\psi$ is a homomorphism $K \to \mathrm{Aut}(L)$ which 
+      requires $\psi(1_K) = 1_{\mathrm{Aut}(L)} = \mathrm{id}$.
+
+      Therefore $(1_L, 1_K)$ is an identity for the product so defined.
+    }
+    \item[(Inverses)]
+      {Consider that
+       \begin{align*}
+         (l, k) \cdot (\psi(k^{-1})(l^{-1}), k^{-1})
+      &= (l \psi(k)(\psi(k^{-1})(l^{-1}), k k^{-1}) \\
+      &= (l \psi(k)(\psi(k)^{-1}(l^{-1})), k k^{-1}) \\
+      &= (l (\psi(k) \circ \psi(k)^{-1})(l^{-1}), k k^{-1}) \\
+      &= (l l^{-1}, k k^{-1}) \\
+      &= (1_L, 1_K),
+       \end{align*}
+       and similarly
+       \begin{align*}
+          (\psi(k^{-1})(l^{-1}), k^{-1}) \cdot (l, k)
+       &= (\psi(k^{-1})(l^{-1}) \psi(k^{-1})(l), k^{-1} k) \\
+       &= (\psi(k^{-1})(l^{-1} l), k^{-1} k) \\
+       &= (\psi(k^{-1})(1_L), 1_K) \\
+       &= (1_L, 1_K)
+       \end{align*}
+       so the operation has inverses of this form.
+      }
+\end{itemize}
+Therefore $L \times K$ is a group with this operation.
+\end{Answer}
+
+\pagebreak
+
+\begin{Problem}
+Let $G$ be a group, $H < G$, $N \triangleleft G$. Suppose that 
+$H \cap N = \{ 1 \}$ and that $G = NH$.
+\begin{enumerate}[(a)]
+  \item{Show that the map $N \times H \to G$ given by
+        $(n, h) \mapsto nh$ is a bijection.}
+  \item{Show that the map $H \to \mathrm{Aut}(N)$ given by
+      $h \mapsto c_h$, where $c_h(n) = h n h^{-1}$ is conjugation by
+      $h$, is a group homomorphism.}
+  \item{Observe that 
+        $$
+        n_1 h_1 n_2 h_2 
+      = n_1 h_1 n_2 h_1^{-1} h_1 h_2
+      = n_1 c_{h_1}(n_2) h_1 h_2
+        $$
+        and show that there is a group isomorphism between $G$ and the
+        semidirect product $N \rtimes_c H$ (as in problem 1).}
+\end{enumerate}
+\end{Problem}
+
+\begin{Answer}
+\begin{enumerate}
+  \item{Since $G = NH = \{ nh \mid n \in N, h \in H \}$, 
+        the map $\varphi((n, h)) = nh$ is surjective.
+
+        Next let $(n, h) \in \ker \varphi \subset N \times H$. Then 
+        $nh = 1$, so $n = h^{-1}$ and $h = n^{-1}$. But if
+        $n = h^{-1}$, then since $H$ is a subgroup $n \in H$
+        and thus $n \in N \cap H = \{1\}$. 
+        Similarly if $h = n^{-1}$, then
+        since $N$ is a subgroup $h \in N$ so $h \in N \cap H = \{1\}$.
+        Therefore $(n, h) = (1, 1)$, so $\ker \varphi$ is trivial.
+        Therefore $\varphi is injective$.
+
+        Then $\varphi$ is bijective.
+       }
+  \item{
+    Letting $\chi : H \to \mathrm{Aut}(N)$ be given by
+    $\chi(h) = c_h$, we have
+    \begin{align*}
+     \chi(h h^\prime) =  c_{h h^\prime}(n)
+  &= (h h^\prime) n (h h^\prime)^{-1} \\
+  &= h h^\prime n (h^\prime)^{-1} h^{-1} \\
+  &= h c_{h^\prime}(n) h^{-1}
+  &= c_h (c_{h^\prime} (n)) \\
+  &= (c_h \circ c_{h^\prime})(n) = \chi(h) \chi(h^\prime),
+    \end{align*}
+    so this is a group homomorphism.
+  }
+  \item{
+    The map $\varphi((n, h)) = nh$ was shown in the first problem to
+    give an isomorphism $G \simeq N \times H$.
+
+  }
+\end{enumerate}
+\end{Answer}
+
+\pagebreak
+
+\begin{Problem}
+Suppose that $H$ and $N$ are normal subgroups of a finite group $G$.
+\begin{enumerate}[(a)]
+  \item{Show that $HN = \{ hn \mid h \in H, n \in H \}$ 
+        is a subgroup of $G$.}
+  \item{Now suppose in addition that the orders of $H$ and $N$ are
+      relatively prime, i.e. that $\mathrm{gcd}(|H|,|N|) = 1$. Show
+      that $hn = nh$ for all $h \in H$, $n \in N$, and that $HN$ is
+      isomorphic to the direct product $H \times N$.}
+\end{enumerate}
+\end{Problem}
+
+\begin{Answer}
+\begin{enumerate}[(a)]
+  \item{We show that $HN$ contains the unit and is closed under the
+      group operations.
+  \begin{itemize}
+    \item[(Unit)]
+    {
+      Since $H$ and $N$ are subgroups, $1 \in H$ and $1 \in N$, so
+      $1 = 1 \cdot 1 \in HN$.
+    }
+    \item[(Product)]
+    {
+    }
+  \end{itemize}
+  }
+\end{enumerate}
+\end{Answer}
+
+\pagebreak
+
+\begin{Problem}
+\begin{enumerate}[(a)]
+  \item{Suppose that $Z(G)$ is the center of the group $G$. Prove that if
+      the quotient $G / Z(G)$ is cyclic, then $G$ is abelian.}
+  \item{Prove that every group of order $p^2$, where $p$ is prime, is
+      abelian.}
+  \item{For each prime $p$, give an example of a group of order $p^3$
+      which is not abelian.}
+\end{enumerate}
+\end{Problem}
+
+\begin{Answer}
+\end{Answer}
+
+\pagebreak
+\begin{Problem}
+\begin{enumerate}
+  \item{Suppose that $G$ is a finite group and $H$ a proper subgroup
+      of $G$. Show that there is at least one element of $G$ which is
+      not conjugate to any element of $H$.}
+  \item{Let the group $G$ act on the set $X$ and denote by $G_x$ the
+      stabilizer of $x$. Show that if $y = g \cdot x$, then $G_y = g
+      G_x g^{-1}$.}
+  \item{Suppoes that a finite group $G$ acts on a set $X$ transitively
+      (this means that all elements of $X$ lie in the same
+      $G$-orbit). Assuming that $X$ has at least two elements, show
+      that there is $g \in G$ such that $g \cdot x \neq x$, for all $x
+      \in X$, i.e. such that $g$ ``leaves no point fixed''.}
+\end{enumerate}
+\end{Problem}
+
+\pagebreak
+\begin{Problem}
+Let $G$ be a $p$-group where $p$ is a prime. Suppose that $x$ is an
+element of order $p$ in $G$ such that the subgroup $\langle x \rangle$
+generated by $x$ is normal in $G$. Show that $x$ belongs to the center
+$Z(G)$ of $G$.
+\end{Problem}
+
+\begin{Answer}
+\end{Answer}
+
+\pagebreak
+\begin{Problem}
+\begin{enumerate}[(a)]
+\item{Let $G$ be a finite group and $H$ a subgroup of $G$. Let $Q$ be
+    a $p$-Sylow subgroup of $H$. Show that there is a $p$-Sylow
+    subgroup $P$ of $G$ such that $P \cap H = Q$.}
+\item{Let $G$ be a finite group and $P$ a $p$-Sylow subgroup of
+    $G$. Further let $N$ be a normal subgroup of $G$. Prove that $P
+    \cap N$ is a $p$-Sylow subgroup of $N$.}
+\end{enumerate}
+\end{Problem}
+
+\begin{Answer}
+\end{Answer}
+
+\end{document}

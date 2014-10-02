@@ -1,0 +1,481 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{commath}
+\usepackage{enumerate}
+
+\title{ECE/ME 851 Homework \#4}
+\date{October 3, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+
+\begin{enumerate}[(a)]
+  \item{
+  The system
+  $$
+  A = \left[\begin{array}{c c c c}
+        0    & 1   & 0 & 0  \\
+        3w^2 & 0   & 0 & 2w \\
+        0    & 0   & 0 & 1  \\
+        0    & -2w & 0 & 0
+      \end{array}\right], \quad
+  B = \left[\begin{array}{c c}
+        0 & 0 \\
+        1 & 0 \\
+        0 & 0 \\
+        0 & 1
+      \end{array}\right]
+  $$
+  has
+  \begin{align*}
+  A^2 &= 
+  \left[\begin{array}{c c c c}
+    3w^2 &     0 & 0 & 2w   \\
+    0    & - w^2 & 0 &  0   \\
+    0    & -2w   & 0 &  0   \\
+   -6w^3 &     0 & 0 & -4w^2
+  \end{array}\right], \\
+  A^3 &=
+  \left[\begin{array}{c c c c}
+        0 & -w^2 & 0 &     0 \\
+    -3w^4 &    0 & 0 & -2w^3 \\
+    -6w^3 &    0 & 0 & -4w^2 \\
+        0 & 2w^3 & 0 &     0
+  \end{array}\right],
+  \end{align*}
+  and thus has controllability matrix $\mathcal{C}$ given by
+  \begin{align*}
+  \mathcal{C}
+  &= \left[\begin{array}{c c c c}
+       B & AB & \cdots & A^{n-1} B
+     \end{array}\right] \\
+  &= \left[\begin{array}{c c c c c c c c}
+       0 & 0 &   1 &  0 & 0    & 2w    & -w^2 & 0     \\
+       1 & 0 &   0 & 2w & -w^2 & 0     &    0 & -2w^3 \\
+       0 & 0 &   0 &  1 & -2w  & 0     &    0 & -4w^2 \\
+       0 & 1 & -2w &  0 & 0    & -4w^2 & 2w^3 & 0 
+     \end{array}\right].
+  \end{align*}
+  This has reduced row-echelon form
+  \begin{align*}
+    \mathcal{C} & \sim 
+    \left[\begin{array}{c c c c c c c c}
+      1 & 0 & 0 & 0 & 3w^2 &  0 &    0 &  6w^3 \\
+      0 & 1 & 0 & 0 &    0 &  0 &    0 &     0 \\
+      0 & 0 & 1 & 0 &    0 & 2w & -w^2 &     0 \\
+      0 & 0 & 0 & 1 &  -2w &  0 &    0 & -4w^2
+    \end{array}\right]
+  \end{align*}
+  and so $\mathrm{rank}(\mathcal{C}) = 4$, and the controllability
+  matrix has full row rank and therefore the system is controllable
+  from $u$.   When $y_1 = x_1$, $y_2 = x_3$, we have
+  $$
+  C = \left[\begin{array}{c c c c}
+        1 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0
+      \end{array}\right]
+  $$
+  so the observability matrix is
+  \begin{align*}
+    \mathcal{O} &=
+    \left[\begin{array}{c}
+      C \\ CA \\ CA^2 \\ CA^3
+    \end{array}\right] \\
+  &= \left[\begin{array}{c c c c}
+       1    & 0    & 0 & 0  \\
+       0    & 0    & 1 & 0  \\
+       0    & 1    & 0 & 0  \\
+       0    & 0    & 0 & 1  \\
+       3w^2 & 0    & 0 & 2w \\
+       0    & -2w  & 0 & 0  \\
+       0    & -w^2 & 0 & 0  \\
+     -6w^3  & 0    & 0 & -4w^2
+     \end{array}\right] \\
+  &\sim
+    \left[\begin{array}{c c c c}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0
+    \end{array}\right],
+  \end{align*}
+  so the observability matrix has column rank 4 and thus the system is
+  observable from $y$ in this case.
+  }
+  \item{If the radial thruster $u_1$ fails, then the matrix $B$ is
+        instead
+        $$
+        B = \left[\begin{array}{c c}
+              0 & 0 \\ 0 & 0 \\ 0 & 0 \\ 0 & 1
+            \end{array}\right]
+        $$
+        so that the controllability matrix is
+        \begin{align*}
+        \mathcal{C} &=
+          \left[\begin{array}{c c c c c c c c}
+            0 & 0 & 0 & 0  & 0 & 2w    & 0 & 0 \\
+            0 & 0 & 0 & 2w & 0 & 0     & 0 & -2w^3 \\
+            0 & 0 & 0 & 1  & 0 & 0     & 0 & -4w^2 \\
+            0 & 1 & 0 & 0  & 0 & -4w^2 & 0 & 0
+          \end{array}\right] \\
+        &\sim
+          \left[\begin{array}{c c c c c c c c}
+            0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+          \end{array}\right]
+        \end{align*}
+        which still has rank 4, so the system is still controllable.
+  }
+  \item{Ignoring $y_2$ gives the output mapping
+        $$
+        C = \left[\begin{array}{c c c c}
+            1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 0
+            \end{array}\right]
+        $$
+        and the observability matrix
+        \begin{align*}
+          \mathcal{O} &=
+          \left[\begin{array}{c c c c}
+            1    & 0    & 0 & 0 \\
+            0    & 0    & 0 & 0 \\
+            0    & 1    & 0 & 0 \\
+            3w^2 & 0    & 0 & 2w \\
+            0    & 0    & 0 & 0  \\
+            0    & -w^2 & 0 & 0  \\
+            0    & 0    & 0 & 0
+          \end{array}\right] \\
+        &\sim
+          \left[\begin{array}{c c c c}
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 1 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+          \end{array}\right]
+        \end{align*}
+        which has rank 3. Therefore the system is not controllable
+        from $y_1$ only.
+
+        Ignoring $y_1$ gives the output mapping
+        $$
+        C = \left[\begin{array}{c c c c}
+              0 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0
+            \end{array}\right]
+        $$
+        and the observability matrix
+        \begin{align*}
+          \mathcal{O} &=
+          \left[\begin{array}{c c c c}
+                0 &   0 & 0 &    0 \\
+                0 &   0 & 1 &    0 \\
+                0 &   0 & 0 &    0 \\
+                0 &   0 & 0 &    1 \\
+                0 &   0 & 0 &    0 \\
+                0 & -2w & 0 &    0 \\
+                0 &   0 & 0 &    0 \\
+            -6w^3 &   0 & 0 & -4w^2
+          \end{array}\right] \\
+        &\sim
+          \left[\begin{array}{c c c c}
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0
+          \end{array}\right],
+        \end{align*}
+        which has rank 4. Therefore the system is controllable from
+        $y_2$ only.
+      }
+\end{enumerate}
+
+\section*{Problem \#2}
+\begin{enumerate}[(a)]
+  \item{
+  Given the state equation
+  $$
+  \left[\begin{array}{c}
+    \dot{x}_1 \\ \dot{x}_2
+  \end{array}\right]
+= \left[\begin{array}{r r}
+    -\frac{1}{2} & 0 \\ 0 & -1
+  \end{array}\right]
+  \left[\begin{array}{c}
+    x_1 \\ x_2
+  \end{array}\right]
++ \left[\begin{array}{c}
+    \frac{1}{2} \\ 1
+  \end{array}\right]
+  u
+  $$
+  with
+  $$
+  x(0) = \left[\begin{array}{c}
+    a \\ b
+  \end{array}\right]
+  $$
+  has controllability matrix
+  \begin{align*}
+    \mathcal{C} &=
+    \left[\begin{array}{c c}
+      B & AB
+    \end{array}\right] \\
+  &=
+    \left[\begin{array}{c c}
+      \frac{1}{2} & -\frac{1}{4} \\
+      1           & -1
+    \end{array}\right] \\
+  \end{align*}
+  which has rank 2, so the system is controllable
+  and thus can be driven to the origin in time $T$
+  by the control law
+  \begin{align*}
+    u(t) &=  B^\top e^{A^\top(T - t)} W_R^{-1}(0, T)
+             [x_f - e^{AT} x(0)] \\
+         &= -B^\top e^{A^\top(T - t)} W_R^{-1}(0, T) e^{AT} x(0)
+  \end{align*}
+  where $W_R(0, T)$ is the reachability Gramian.
+
+   We first compute
+   \begin{align*}
+   e^{At} &= \mathcal{L}^{-1}\{(sI - A)^{-1}\} \\
+         &= \mathcal{L}^{-1}\left\{
+             \left[\begin{array}{c c}
+               s + \frac{1}{2} & 0 \\
+               0               & s + 1
+             \end{array}\right]^{-1}\right\} \\
+         &= \mathcal{L}^{-1}\left\{
+             \left[\begin{array}{c c}
+               \frac{1}{s + \frac{1}{2}} & 0 \\
+               0                         & \frac{1}{s + 1}
+             \end{array}\right]\right\} \\
+        &= \left[\begin{array}{c c}
+              e^{-\frac{t}{2}} & 0 \\
+              0             & e^{-t}
+            \end{array}\right]
+   \end{align*}
+   and note that $A = A^\top$ so that $e^{At} = e^{A^\top
+     t}$. Furthermore
+   $$
+   B B^\top = \left[\begin{array}{c c}
+               \frac{1}{4} & \frac{1}{2} \\
+               \frac{1}{2} & 1
+             \end{array}\right]
+   $$
+   so that
+  \begin{align*}
+    W_R(0, T) 
+  &=
+    \int_0^T e^{A(T - \tau)} B B^\top e^{A^\top (T - \tau)} ~d\tau \\
+  &= \int_0^T 
+     \left[\begin{array}{c c}
+       e^{-\frac{(T - \tau)}{2}} & 0 \\ 0 & e^{-(T - \tau)}
+     \end{array}\right]
+     \left[\begin{array}{c c}
+       \frac{1}{4} & \frac{1}{2} \\
+       \frac{1}{2} & 1
+     \end{array}\right]
+     \left[\begin{array}{c c}
+       e^{-\frac{(T - \tau)}{2}} & 0 \\ 0 & e^{-(T - \tau)}
+     \end{array}\right] ~d\tau\\
+  &= \int_0^T 
+     \left[\begin{array}{c c}
+       \frac{1}{4} e^{-(T - \tau)} 
+     & \frac{1}{2} e^{-\frac{3}{2} (T - \tau)} \\
+       \frac{1}{2} e^{-\frac{3}{2} (T - \tau)}
+     & e^{-2(T - \tau)}
+     \end{array}\right] ~d\tau \\
+  &= \left[\begin{array}{c c}
+       \frac{1}{4} e^{-T} \int_0^T e^\tau ~d\tau
+     & \frac{1}{2} e^{-\frac{3}{2} T} \int_0^T e^{\frac{3}{2} T}
+     ~d\tau \\
+       \frac{1}{2} e^{-\frac{3}{2} T} \int_0^T e^{\frac{3}{2} T}
+     ~d\tau
+     & e^{-2T} \int_0^T e^{2\tau} ~d\tau
+     \end{array}\right] \\
+  &= \left[\begin{array}{c c}
+       \frac{1}{4}(1 - e^{-T})
+     & \frac{1}{3}(1 - e^{-\frac{3}{2} T}) \\
+       \frac{1}{3}(1 - e^{-\frac{3}{2} T})
+     & \frac{1}{2}(1 - e^{-\frac{3}{2} T})
+     \end{array}\right].
+ \end{align*}
+ Then we find that
+ \begin{align*}
+ W_R^{-1}(0, T) &=
+ \frac{6e^T}{(e^{T/2} - 1)^3(4e^{T/2} + e^T + 1)}
+ \left[\begin{array}{c c}
+    6(1 + e^{T/2} + e^T + e^{3T / 2})
+ & -4(e^{T/2} + e^T + e^{3T / 2}) \\
+   -4(e^{T/2} + e^T + e^{3T / 2})
+ &  3(e^T + e^{3T / 2})
+ \end{array}\right]
+ \end{align*}
+ and so
+ \begin{align*}
+ u(t) &=
+ \frac{6e^T}{(e^{T/2} - 1)^3(4e^{T/2} + e^T + 1)}
+ \left[\begin{array}{c c}
+   \frac{1}{2} & 1
+ \end{array}\right]
+ \left[\begin{array}{c c}
+   e^{-\frac{T - t}{2}} & 0 \\
+   0                & e^{-(T - t)}
+ \end{array}\right] \\
+&\cdot
+ \left[\begin{array}{c c}
+    6(1 + e^{T/2} + e^T + e^{3T / 2})
+ & -4(e^{T/2} + e^T + e^{3T / 2}) \\
+   -4(e^{T/2} + e^T + e^{3T / 2})
+ &  3(e^T + e^{3T / 2})
+ \end{array}\right]
+ \left[\begin{array}{c c}
+   e^{-\frac{T}{2}} & 0 \\
+   0                & e^{-T}
+ \end{array}\right]
+ \left[\begin{array}{c}
+   a \\ b
+ \end{array}\right] \\
+&= 
+ \frac{6e^T}{(e^{T/2} - 1)^3(4e^{T/2} + e^T + 1)}
+ \left[\begin{array}{c c}
+   \frac{1}{2} e^{-\frac{T - t}{2}}
+ & e^{-(T - t)}
+ \end{array}\right]
+ \left[\begin{array}{c c}
+    6(e^{-T/2} + 1 + e^{T/2} + e^T)
+ & -4(e^{-T/2} + 1 + e^{T/2}) \\
+   -4(e^{-T/2} + 1 + e^{T/2})
+ &  3(1 + e^{T/2})
+ \end{array}\right]
+ \left[\begin{array}{c}
+   a \\ b
+ \end{array}\right] \\
+ &=
+ \frac{6e^T}{(e^{T/2} - 1)^3(4e^{T/2} + e^T + 1)}
+ \left[\begin{array}{c}
+  3e^{t/2}(e^{-T} + e^{-T/2} + 1 + e^{T/2})
+ -4e^t   (e^{-T} + e^{-T/2}) \\
+ -2e^{t/2}(e^{-3T/2} + e^{-T/2} + 1)
+ +3e^t   (e^{-T} + e^{-T/2})
+ \end{array}\right]
+ \left[\begin{array}{c}
+   a \\ b
+ \end{array}\right] \\
+&=
+   \frac{6}{e^{T/2} - 1}
+   \frac{a[  3e^{t/2} (1 + e^{T/2} + e^T + e^{3T/2}) 
+           - 4e^t (1 + e^{T/2} + e^T)
+          ]
+        }{4e^{T/2} + e^T + 1} \\
+&+ \frac{b[- 2e^{t/2} (e^{-T/2} + e^{3T/2} + e^T)
+           + 3e^t    (1 + e^{T/2})
+          ]
+        }{4e^{T/2} + e^T + 1}.
+ \end{align*}
+ % &= \int_0^T
+%    \left[\begin{array}{c c}
+%      e^{\frac{\tau}{4}} 
+%    & \frac{1}{2} e^{\frac{3}{2}\tau} \\
+%      \frac{1}{2}e^{\frac{3}{2}\tau}
+%    & e^{2\tau}
+%    \end{array}\right] ~d\tau \\
+% &= \left[\begin{array}{c c}
+%      4(e^{\frac{T}{4}} - 1)
+%    & \frac{1}{3}(e^{\frac{3}{2} T} - 1) \\
+%      \frac{1}{3}(e^{\frac{3}{2} T} - 1)
+%    & \frac{1}{2}(e^{2T} - 1)
+%    \end{array}\right]
+  % \begin{align*}
+%   u(t) &= B^\top e^{A^\top(T - t)} 
+%           W_C^{-1}(0, T)
+%           [0 - e^{A T} x(0)] \\
+%        &= -B^\top
+%           e^{A^\top (T - t)} W_C^{-1}(0,T) e^{A T}
+%           x(0).
+% \end{align*}
+%   \begin{align*}
+%     W_C(0,T) &= 
+%     \int_0^T e^{A(T - \tau)} B B^\top e^{A^\top(T -  \tau)} ~d\tau \\
+%  &= \int_0^T
+%     \left[\begin{array}{c c}
+%       e^{-\frac{(T - \tau)}{2}} & 0 \\
+%       0                    & e^{-(T - \tau)}
+%     \end{array}\right]
+%     \left[\begin{array}{c c}
+%       \frac{1}{4} & \frac{1}{2} \\
+%       \frac{1}{2} & 1
+%     \end{array}\right]
+%    \left[\begin{array}{c c}
+%       e^{-\frac{(T - \tau)}{2}} & 0 \\
+%       0                    & e^{-(T - \tau)}
+%     \end{array}\right]
+%     ~d\tau \\
+% &= \int_0^T
+%    \left[\begin{array}{c c}
+%      \frac{1}{4}e^{-(T - \tau)}
+%    & \frac{1}{2}e^{-\frac{3}{2}(T - \tau)} \\
+%      \frac{1}{2}e^{-\frac{3}{2}(T - \tau)}
+%    & e^{-2(T - \tau)}
+%    \end{array}\right] ~d\tau \\
+% &= \int_0^T
+%      \left[\begin{array}{c c}
+%        e^{-\frac{T - \tau}{4}} 
+%      & \frac{1}{2} e^{-\frac{3}{2}(T - \tau)} \\
+%        \frac{1}{2} e^{-\frac{3}{2}(T - \tau)} \\
+%      & e^{-2(T - \tau)}
+%      \end{array}\right] ~d\tau \\
+% &= \left[\begin{array}{c c}
+%      \frac{1}{4}(1 - e^{-T})
+%    & \frac{1}{3}(1 - e^{-\frac{3}{2}T}) \\
+%      \frac{1}{3}(1 - e^{-\frac{3}{2}T})
+%    & \frac{1}{2}(1 - e^{-2T})
+%    \end{array}\right]
+%  \end{align*}
+%  and
+%  \begin{align*}
+%  W_C^{-1(0, T) &=
+%
+%  \end{align*}
+%  Then
+%  \begin{align*}
+%    u(t) 
+% &= -\left[\begin{array}{c c}
+%       \frac{1}{2} & 1
+%     \end{array}\right]
+%     \left[\begin{array}{c c}
+%       e^{-\frac{t}{2}} & 0 \\
+%       0             & e^{-t}
+%     \end{array}\right]
+%     \left[\begin{array}{c c}
+%       4(1 - e^{-\frac{T}{4}})
+%     & \frac{1}{3}(1 - e^{-\frac{3}{2}T}) \\
+%       \frac{1}{3}(1 - e^{-\frac{3}{2}T})
+%     & \frac{1}{2}(1 - e^{-2T})
+%     \end{array}\right]
+% \end{align*}
+  }
+  \item{    
+  }
+\end{enumerate}
+
+\end{document}
