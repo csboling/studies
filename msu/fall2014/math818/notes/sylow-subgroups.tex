@@ -1,0 +1,604 @@
+\documentclass{article}
+
+\include{preamble}
+
+\begin{document}
+
+\section{Sylow Theorems}
+Let $p$ be prime and recall that a $p$-group is a group of order
+$p^n$.
+
+\begin{defn}[$p$-Sylow subgroups]
+A subgroup $H$ of $G$ is called a $p$-Sylow subgroup of $G$ if the
+order of $H$ is the largest power of $p$ that divides $|G|$, that is
+$|H| = p^a$ if $|G| = p^a m$, $|H| = p^a$, and $p$ does not divide $m$.
+\end{defn}
+
+\begin{xmpl}
+Let $|G| = 36$. There is a 2-Sylow group of order 4 and a 3-Sylow
+group of order 9. There are no other groups of Sylow type.
+\end{xmpl}
+
+\begin{theorem}[Sylow Theorems]
+  Let $G$ be a finite group, $p$ prime, $p$ divides $|G|$
+  ($n = |G| = p^a n^\prime$, $a \geq 1$, $p$ does not divide $n^\prime$)
+  \begin{enumerate}
+    \item{$G$ has at least one $p$-Sylow subgroup.
+         }
+    \item{All $p$-Sylow subgroups of $G$ for fixed $p$ are conjugate
+          to each other. Also, every $p$-subgroup of $G$ is contained
+          in a $p$-Sylow subgroup. 
+         }
+    \item{The number of $p$-Sylow subgroups is congruent to $1 \mod p$
+          and also divides $|G|$.
+         }
+  \end{enumerate}
+\end{theorem}
+
+\begin{defn}[Group Exponent]
+The \emph{exponent} of a group $G$ is the smallest integer $N \geq 1$
+such that $a^N = 1,$ $\forall a \in G$.
+\end{defn}
+
+\begin{lemma}
+If $G$ is a finite abelian group of order $n$ and $p$ is a prime that
+divides $n$, then $G$ has a an element of order $p$.
+\end{lemma}
+
+\begin{proof}
+First prove that if $N$ is an exponent of $G$ then $|G|$ divides a
+power of $N$. Proceed by induction on $|G|$. Consider $b \in G$, $b
+\neq 1$ and take $H = \langle b \rangle < G$. We have $b^N = 1$, so
+$|b|$ divides $N$ and then $|H|$ divides $N$.
+
+Look at $G / H$. This also has $N$ as an exponent, i.e.
+$(aH)^N = 1 \cdot H$ and $|G / H| < |G|$. From our inductive
+hypothesis we have $|G / H|$ divides a power of $N$. But
+$|H|$ divides $N$ since $H$ is cyclic, and thus 
+$|G| = |G / H| |H|$ which divides $N^a N = N^{a+1}$.
+
+Now suppose $|G| = p^a m$ such that $p$ does not divide $m$
+and that $N$ is the exponent of $G$. Then $|G|$ divides a power of $N$
+and $p$ divides a power of $N$, so $p$ divides $N$ or $N = p
+N^\prime$.
+
+Now pick $x \in G$, $x \neq 1$. We have $x^N = 1$ so $x^{pN^\prime} =
+1$ so $(x^{N^\prime})^p = 1$. Let $y = x^{N^\prime}$. Then $y^p = 1$
+(either the identity or of order $p$) and there is an $x$ such that
+$y = x^{N^\prime}$. We require also that $N^\prime$ is less than the
+exponent of $G$ and therefore does not kill $x$.
+\end{proof}
+
+\begin{proof}[Sylow Theorems]
+We proceed by application of ``counting with group actions''.
+\begin{enumerate}
+  \item{Proceed by induction on $|G|$. Let $n = 1$ or $n = p$. Then
+        the whole group is Sylow.
+
+        Assume all $G^\prime$ with $|G^\prime| < n$ have at least one
+        $p$-Sylow subgroup. There are two cases:
+        \begin{enumerate}
+          \item{$G$ contains a proper subgroup $G^\prime$ with index
+                $[G : G^\prime]$ prime to $p$. Then by Lagrange's
+                theorem, $|G| = [G : G^\prime]|G^\prime|$ so                
+                $|G^\prime| = p^a n^{\prime\prime}$ where $p$ does not
+                divide $n^{\prime\prime}$. But then $|G^\prime| < n$
+                and induction applies to get $H^\prime < G^\prime$
+                with $|H^\prime| = p^a$. Now observe 
+                $H^\prime < G^\prime < G$ and $|H^\prime| = p^a$, so 
+                $H^\prime$ is $p$-Sylow.
+               }
+          \item{Next consider proper subgroups of $G$  with index
+                divisible by $p$. Use the class equation, letting the
+                group $G$ act on itself by conjugation and break it up
+                into orbits (in this case conjugacy classes).                
+                $$
+                |G| = \sum_{x} [G : C_x]
+                    = \sum_{\{x : [G : C_x] > 1\}} [G : C_x] + |Z(G)|
+                $$
+                where $x$ is taken by selecting a representative of
+                each conjugacy class. Under our assumption, since
+                these are indices of proper subgroups they are all
+                divisible by $p$, so then $p$ divides $|Z(G)|$. 
+
+                Now apply the lemma from before to the center, since
+                $Z(G)$ is abelian. Then $\exists y \in Z(G)$ such that
+                $y \neq 1$, $y^p = 1$. Consider
+                $G^\prime = G / \langle y \rangle$, since
+                $\langle y \rangle \triangleleft G$ since $y \in
+                Z(G)$. Then
+                $$
+                \frac{|G^\prime|}{|\langle y \rangle|}
+              = \frac{|G|}{p}
+              = p^{a-1} n^\prime < |G|.
+                $$
+                Note that if $a = 1$, $p$ does not divide $|G^\prime|$,
+                but then $[G : \langle y \rangle] = n^\prime$ which is
+                prime to $p$. But by assumption all proper subgroups
+                are divisible by $p$, and then $\langle y \rangle$
+                cannot be a proper subgroup so 
+                $\langle y \rangle = G$ is $p$-Sylow.
+
+                Then applying the induction hypothesis to $G^\prime$,
+                there exists an $H^\prime < G^\prime$ with 
+                $|H^\prime| = p^{a-1}$. Consider the quotient map
+                $\pi : G \to G / \langle y \rangle$. Then
+                we have $H = \pi^{-1}(H^\prime) \to H^\prime$ and
+                this induces an isomorphism
+                $H / \langle y \rangle \simeq H^\prime$ since
+                $\ker \pi|_{H} = \langle y \rangle$. Then
+                $$
+                |H| = |\langle y \rangle||H^\prime|
+                    = p p^{a-1} = p^a,
+                $$
+                so $H$ is a $p$-Sylow of $G$.
+               }
+          \item{Before theorems 2 and 3, let us make some more
+                comments about group actions. Let $G$ act on a set
+                $X$. We write
+                $$
+                X^G \triangleq \{ x \in X : g \cdot x = x, 
+                                  \forall g \in G \}
+                $$
+                to denote the \emph{fixed points} of the action. For example,
+                the fixed points for a group acting on itself by
+                conjugation are the elements of the center.
+                \begin{lemma}
+                  Suppose $G$ is a $p$-group for some prime $p$ and
+                  $X$ is a finite set. Then 
+                  $$
+                  |X^G| \equiv |X| \mod p.
+                  $$
+                \end{lemma}
+                \begin{proof}
+                  Decompose $X$ into $G$-orbits.
+                  $$
+                  S =    \coprod_{x} G \cdot x
+                  \simeq \coprod_{x} G / G_x,
+                  $$
+                  where $x$ is chosen among representatives of each
+                  orbit. Then
+                  $$
+                  |X| = \sum_x [G : G_x] 
+                      = \sum_{\{x : [G : G_x] > 1\}} [G : G_x] + |X^G|.
+                  $$
+                  Note that orbits with exactly one element are
+                  exactly the fixed points of the action. Since
+                  $G$ is a $p$-group, $[G : G_x]$ is a power of $p$
+                  and so $|X| \equiv |X^G| \mod p$.
+                \end{proof}
+                \begin{corol}
+                  If a $p$-group acts on a set whose cardinality is
+                  prime to $p$, then this action has a fixed point
+                  since
+                  $$
+                  |X^G| \equiv |X| \mod p
+                  $$
+                  so $|X^G|$ cannot be zero since $|X|$ is prime to $p$.
+                \end{corol}
+              }
+          \item{Next take $G$ such that 
+                $|G| = p^a n^\prime = n$, $a \geq 1$. By theorem 1
+                there is a $p$-Sylow $P$ with $|P| = p^a$. Suppose
+                $H < G$ is a $p$-group, $|H| = p^{a^\prime}$. We claim
+                that $H$ is contained in a conjugate of $P$, i.e.
+                $\exists g \in G$ such that $H < g P g^{-1}$.
+
+                Observe that to show that $H$ is contained in $P$, it
+                is enough to show $H$ is contained in the normalizer
+                $N(P)$, i.e. that $H$ normalizes $P$. Assume that
+                $H < N(P)$ is in the normalizer. Then recall from the
+                3rd isomorphism theorem that $H P$ is a subgroup
+                of $G$ and $P \triangleleft HP$, and
+                $H \cap \triangleleft H$. Then
+                $$
+                HP / P \simeq H / (H \cap P)
+                $$
+                and so
+                $$
+                [HP : P] = [H : H \cap P]
+                $$
+                and then $[H : H \cap P]$ divides $|H|$, which is a
+                power of $p$ and thus $[H P : P]$ is a power of $p$.
+                Then $|HP|$ is a power of $p$ such that $|HP| \geq
+                |P|$, but since $P$ is $p$-Sylow then
+                $|P|$ is the highest power of $p$ so the orders match
+                and therefore $HP < P$ implies $H < P$.
+               }
+          \item{
+                We can now show Theorem 2, that when $p$ divides
+                $|G|$, every $p$-subgroup of $G$ is contained in a
+                conjugate of $P$, with $P$ a $p$-Sylow subgroup of
+                $G$. Take $X$ to be the set of all subgroups of $G$
+                that are conjugate to $P$:
+                $$
+                X = \{ g P g^{-1} : g \in G \}.
+                $$
+                Take $H$ to be the $p$-subgroup of the hypothesis. We
+                want to show $H \in X$. Let $H$ act on $X$ by
+                conjugation, so that
+                $$
+                h \cdot (g P g^{-1}) 
+              = h (g P g^{-1}) h^{-1}
+              = hg P (hg)^{-1} \in X.
+                $$
+                Now notice that $X$ is an orbit of the action of $g$
+                on $P$ by conjugation, so
+                $$
+                |X| = [G : G_P] = [G : N(P)],
+                $$
+                because we can produce a map $G / N(P) \to X$ given by
+                $g N(P) \mapsto g P g^{-1}$ which is bijective since
+                conjugation of $N(P)$ does not affect the normalizer.
+
+                Indeed, suppose $g, g^\prime$ such that
+                $g P g^{-1} = g^\prime P (g^\prime)^{-1}$
+                $$P = g^{-1} g^\prime P (g^\prime)^{-1} g
+                    = (g^{-1} g^\prime) P (g^{-1} g^\prime)^{-1}$$
+                so $g^{-1} g^\prime \in N(P)$ so $g^\prime \in g
+                N(P)$, so they belong to the same coset. 
+
+                The orbit of  an element is always in bijection with the quotient by
+                the stabilizer
+                Let $\cdot : G \times X \to X$ be any group
+                action. The orbit
+                $$
+                G \cdot x = \{ g \cdot x : g \in G \}.
+                $$
+                and the stabilizer $G_x = \{ g \in G : g \cdot x = x
+                \}$ and in general
+                $$
+                G / G_x \to G \cdot x
+                $$
+                is bijective by
+                $$
+                g G_x \mapsto g \cdot x.
+                $$
+
+                The action of $G$ on $X$ is transitive and the
+                stabilizer $G_P$ is the normalizer $N(P)$.
+                
+                Furthermore $p$ does not divide $[G : N(P)]$ because
+                $p$ does not divide $[G : P] = \frac{|G|}{|P|}$ and
+                since $P \subset N(P) \subset G$ this means
+                $[G : N(P)] | [G : P]$. Then $|X|$ is prime to $p$.
+                
+                Now apply
+                $$
+                |X| = |X^H| \mod p
+                $$
+                to see that $|X^H|$ is prime to $p$ and so $|X^H| \neq
+                0$, so there is a fixed point. Therefore there exists
+                a conjugate $P^\prime = g P g^{-1}$ of $P$ such that 
+                $\forall h \in H$, $h \cdot P^\prime = P^\prime$, i.e.
+                $h P^\prime h^{-1} = P^\prime$. But this means 
+                $H \subset N(P^\prime)$, and we conclude that
+                $H \subset P^\prime = g P g^{-1}$.
+
+                Then every $p$-subgroup is contained in a 
+                $p$-Sylow, since the conjugate of a $p$-Sylow has the
+                same order and is thus $p$-Sylow. Furthermore all
+                $p$-Sylows are conjugate, since a $p$-Sylow is again a
+                $p$-subgroup and therefore is contained in a conjugate
+                of $P$, i.e. $P^\prime \subset g P g^{-1}$
+                for some $g \in G$. But $|g P g^{-1}| = p^a$ and 
+                $|P^\prime| = p^a$, so $P^\prime = g P g^{-1}$.
+               }
+          \item{Next, prove that the number of $p$-Sylows is congruent
+                to $1 \mod p$.
+
+                We know from Theorem 2 that all $p$-Sylows are
+                conjugate. The number of $p$-Sylows conjugate to a
+                fixed $p$-Sylow $P$ is the number of elements in the
+                orbit of $P$ under the action of conjugation, $[G : N(P)]$.
+                
+                Consider the action of the group $P$ on the set $X$ of
+                all $p$-Sylow subgroups of $G$ by conjugation that
+                maps $g P g^{-1} \mapsto y (g P g^{-1}) y^{-1}$ for
+                some $y \in P$. Since $P$ is a $p$-group, we have
+                $$
+                |X| \equiv |X^P| \mod p,
+                $$
+                where $|X|$ is the number of all $p$-Sylows. But
+                $$
+                X^P = \{ P^\prime :  
+                         \forall y \in P, y P^\prime y^{-1} = P^\prime
+                      \}
+                    = \{ P^\prime : P \subset N(P^\prime) \}
+                    = \{ P^\prime : P \subset P^\prime \}
+                    = \{ P \}.
+                $$
+                Therefore the action has a single fixed point and so
+                $|X| \equiv 1 \mod p$ as desired.
+               }
+        \end{enumerate}
+      }
+  \item{
+       }
+  \item{
+       }
+\end{enumerate}
+\end{proof}
+
+\subsection{Problem \#5}
+Transitive actions
+Let $G = S_n$, $X = \{1, 2, \cdots, n\}$. Then we can get from any
+element to any other element by applying the group action. This is
+what is meant by the action being transitive -- the entire set $X$
+lies on the stabilizer.
+
+\begin{xmpl}
+\begin{enumerate}
+  \item{
+    Show that a group of order 63 is not simple. 
+    $(63 = 3 \cdot 3 \cdot 7)$. Recall that a \emph{simple} group is
+    one with no proper normal subgroups.
+
+    Observe that if there is only one $p$-Sylow (i.e. $N_p = 1$) then
+    there is a normal subgroup of $G$. Why? Let $g \in G$, $P$ be
+    the only $p$-Sylow. Then since all $p$-Sylows are conjugate, let
+    $P^\prime = gPg^{-1}$ be another $p$-Sylow. But $P^\prime = P$ by
+    assumption, so $gPg^{-1} = P$ and thus $P$ is normal.
+
+    We want to show a group of order 63 has a proper normal subgroup.
+    We know that the number of 3-Sylows $N_3$ should have
+    $N_3 \equiv 1 \mod 3$ and $N_3$ divides 63, so $N_3$ divides
+    7. Then $N_3 = 1$ or $N_3 = 7$. We know that the number of
+    7-Sylows $N_7$ should have $N_7 \equiv 1 \mod 7$ and $N_7$ divides
+    63, so $N_7$ divides 9, and thus $N_7 = 1$. Therefore there is a
+    unique 7-Sylow normal in $G$.
+
+    Call this 7-Sylow $H$ ($H \triangleleft G$). Then $|H| = 7$ since
+    this is the highest power of $7$ that divides 63, and since $|H|$
+    is prime this means 
+    $H = \triangleleft a \triangleright \simeq \mathbb{Z}_7$. Then
+    consider $|G / H| = 9$. This is abelian since it has a nontrivial
+    center (since it is a $3$-group). 
+    Then $|Z(G)| = |G|$ or $|G / Z(G)| = p$. But if $|G / Z(G)| = p$ then
+    $G / Z(G)$ is cyclic, so $G$ is abelian.
+
+    This means our group $G$ of order 63 is solvable, since $G / H$ is abelian.
+  }
+  \item{
+    Show that a group of order $56$ is not simple.
+    $|G| = 2^3 \cdot 7$, so $N_7 \equiv 1 \mod 7$ and $N_7$ divides $7
+    \cdot 8$, so either $N_7 = 1$ or $N_7 = 8$. $N_2 \equiv 1 \mod 2$
+    and $N_2$ divides $7 \cdot 8$, so $N_7$ divides 7 and thus $N_7 =
+    1$ or $N_7 = 7$.
+
+    Suppose $N_7 = 8$. These then have $6 \times 8 + 1 = 49$ elements
+    in total. If $H, H^\prime$ are two 7-Sylows with $H \cap H^\prime
+    \neq \{ 1 \}$, then $H = H^\prime$. But $H \simeq \mathbb{Z}_7
+    \simeq H^\prime$, so for any $a \neq 1$ this means $a$ has to
+    generate both $H$ and $H^\prime$ and then $H =
+    H^\prime$. Therefore there are $56 - 49 = 7$ elements left
+    out. There exists a 2-Sylow of order 8 which has to be unique
+    since it just covers the remaining elements.
+
+    We conclude that either $N_7 = 1$ or $N_2 = 1$.
+  }
+  \item{
+    Show that a group of order $pq$, with $p$, $q$ distinct primes, is
+    solvable. 
+
+    Say $p < q$. We have $N_q \equiv 1 mod q$ and $N_q$
+    divides $pq$, so since $p < q$ it is not possible that $N_q =
+    q+1$, $2q + 1$, etc. Then $N_q = 1$, so this is a normal subgroup,
+    call it $H$. Then there is a tower with $G / H \simeq
+    \mathbb{Z}_p$ and $H / \{ 1 \} \simeq \mathbb{Z}_q$, so this tower
+    is abelian.
+
+    Since $H$ is then of prime order, let $H = \langle a \rangle$, $a^q
+    = 1$. Consider a $p$-Sylow $K = \langle b \rangle$, $b^p =
+    1$. Then observe
+    \begin{enumerate}
+      \item{$H \cap K = \{ 1 \}$,}
+      \item{$H \triangleleft K$,}
+      \item{$H K = G$.}
+    \end{enumerate}
+    Since $H$ is normal in $G$, $K$ acts on $H$ by conjugation and we
+    get $\psi : K \to \mathrm{Aut}(H)$ given by 
+    $\psi(k) = \lambda h . k h k^{-1}$. In this particular case we
+    have
+    $$
+    \psi : \mathbb{Z}_p \to \mathrm{Aut}(\mathbb{Z}_q).
+    $$
+    We have $b a b^{-1} \in H = \langle a \rangle$, so
+    $b a b^{-1} = a^i$ and then $ba = a^i b$. Knowing $i$ determines
+    the group $G$:
+    $$
+    G = \{ a^n b^m \mid 0 \leq n < q, 0 \leq m < p \}
+    $$
+    so that
+    $$
+    a^n b^m a^{n^\prime} b^{m^\prime} = a^N b^M.
+    $$
+    We need to know the homomorphism $\psi$.
+
+    We know that
+    $$
+    \mathrm{Aut}(\mathbb{Z}_q) \simeq \mathbb{Z}_q^\ast
+    $$
+    of order $q - 1$. Assume in addition that $q \not{\equiv} 1 \mod
+    p$. Then
+    $$
+    \psi : \mathbb{Z}_p \to \mathrm{Aut}(\mathbb{Z}_q) = \mathbb{Z}_q^\ast
+    $$
+    has to be trivial $(\psi = \mathrm{id})$ since
+    $|\mathrm{Im}(\psi)|$ divides $|\mathbb{Z}_q^\ast| = q-1$ but
+    $\mathrm{Im}(\psi) \simeq \mathbb{Z}_p / \ker \psi$ so that
+    $|\mathrm{Im}(\psi)|$ divides $p$. Since $p$ does not divide $q-1$
+    this means $\mathrm{Im}(\psi) = \{ \mathrm{id} \}$.
+
+    This means $i = 1$ above and so $ab = ba$. Therefore $G$ is abelian.
+  }
+\end{enumerate}
+\end{xmpl}
+
+\begin{prop}
+Let $G$ be a group of order $p \cdot q$, with $p$, $q$ distinct
+primes.
+\begin{enumerate}
+  \item{$G$ is solvable.}
+  \item{If $p < q$, then $G$ is isomorphic to a semidirect product
+        $$
+        G \simeq \mathbb{Z}_p \ltimes \mathbb{Z}_q.
+        $$
+       }
+  \item{If $p < q$ and $p$ does not divide $q - 1$, then
+        $$
+        G \simeq \mathbb{Z}_p \times \mathbb{Z}_q \simeq \mathbb{Z}_{pq},
+        $$
+        so $G$ is cyclic.
+       }
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+  \begin{enumerate}
+    \item{
+      Observe that a unique $q$-Sylow is normal, since
+      $|N_q| \equiv 1 \mod q$ and $N_q$ divides $pq$ so
+      $N_q = 1$.
+
+      Let $Q$ be the $q$-Sylow with $|Q| = q$. Then
+      $Q \simeq \mathbb{Z}_q$, and $|G / Q| = p$, so
+      $G / Q  \simeq \mathbb{Z}_p$. Then there is a normal
+      tower for $G$ with abelian quotients.
+    }
+    \item{
+      Let $P$ be a $p$-Sylow. We observe that
+      $$
+      P \cap Q = \{1\}, \quad
+      Q \triangleleft G, \quad
+      G = PQ
+      $$
+      and so $G = P \ltimes Q$. This product is determined by an
+      associated homomorphism
+      $$
+      \psi : P \to \mathrm{Aut}(Q)
+      $$
+      given by conjugation
+      $$
+      \psi(x)(y) = xyx^{-1}.
+      $$
+    }
+    \item{
+      Under the condition that $p$ does not divide $q - 1$,
+      $\psi$ is trivial, i.e. $\psi(x) = \mathrm{id}$, so
+      $x y x^{-1} = y$, so $xy = yx$.
+
+      This is because $P \simeq \mathbb{Z}_p$,
+      $Q \simeq \mathbb{Z}_q$, so up to isomorphism
+      $$
+      \psi : \mathbb{Z}_p \to \mathrm{Aut}(\mathbb{Z}_q) \simeq
+      \mathbb{Z}_q^\ast
+      $$
+      Then $|\mathrm{Im}(\psi)|$ divides both $p$ and $q - 1$ by the
+      first isomorphism theorem. But since $p$ does not divide $q -
+      1$, this requires that $\mathrm{Im}(\psi) = \{ \mathrm{id} \}$.
+
+      Now write the map
+      $$
+      \phi : P \times Q \to G
+      $$
+      defined by
+      $$
+      \phi((x, y)) = xy,
+      $$
+      which is a group isomorphism since it is invertible and
+      $$
+      \phi((x_1, y_1) \cdot (x_2, y_2)) 
+    = \phi((x_1, y_1) \cdot \phi((x_2, y_2))
+    = x_1 y_1 x_2 y_2
+      $$
+      because $P$ commutes with $Q$ since $\psi$ is trivial.
+
+      Therefore
+      $$
+      G \simeq P \times Q \simeq \mathbb{Z}_p \times \mathbb{Z}_q.
+      $$
+
+      Finally, we use
+      \begin{lemma}
+        If $\mathrm{gcd}(n, m) = 1$, then
+        $\mathbb{Z}_n \times \mathbb{Z}_m \simeq \mathbb{Z}_{nm}$.
+      \end{lemma}
+      \begin{proof}
+        We claim that $a = (1 \mod n, 1 \mod m)$ is a generator of
+        $\mathbb{Z}_n \times \mathbb{Z}_m$. It is enough to show that
+        the order of $a$ is at least $nm$.
+        
+        Take $N \geq 1$ such that $N \cdot a = (0, 0)$. Then
+        $n$ divides $N$ and $m$ divides $N$, so $nm$ divides $N$ since
+        $n$, $m$ are relatively prime. Therefore $N \geq n m$.
+      \end{proof}
+    }
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Burnside's Theorem]
+  A group of order $p^a \cdot q^b$ is solvable.
+\end{theorem}
+
+\begin{prop}
+  Let $G$ be a finite group, $H$ a subgroup of index
+  $[G : H] = p$, where $p$ is the smallest prime that divides
+  $G$. Then $H$ is normal in $G$.
+\end{prop}
+\begin{proof}
+  Consider the normalizer $N(H)$,
+  $$
+  N(H) = \{ g \in G :  gHg^{-1} \subset H \}.
+  $$
+  We have
+  $$
+  H \triangleleft N(H) < G
+  $$
+  and so
+  $$
+  [G : H] = [G : N(H)] [N(H) : H].
+  $$
+  If $N(H) = G$, then $H \triangleleft G$ as desired.
+  Otherwise $N(H) = H$ because
+  $$
+  H < N(H) < G
+  $$
+  and $[G : H] = p$.
+
+  Recall that the number of conjugates of $H$ in $G$ is always equal
+  to the index of the normalizer -- the orbit of an action has the
+  same order as the quotient of a group by the stabilizer:
+  $$
+  [G : N(H)] = [G : H] = p.
+  $$
+  So there are $p$ conjugates of $H$ in $G$. $G$ acts on these by
+  $$
+  \varphi : G \to \mathrm{Perm}(C) = S_p
+  $$
+  where $C$ is the set of conjugates of $H$ in $G$. Then $\varphi$ is
+  a group homomorphism since conjugation is a group action.
+
+  Consider
+  $$
+  K = \ker \varphi \triangleleft G.
+  $$
+  Then $G / K \simeq \mathrm{Im}(\varphi) < S_p$ so
+  $[G : K]$ divides $|S_p| = p!$, and thus $[G : K]$ divides $|G|$.
+  Then $[G:K]$ must divide $p$ as well, so $[G : K] = 1$ or
+  $[G : K] = p$. But also $x \in K = \ker \varphi$ implies
+  $\varphi(x) = \mathrm{id}$, so $x H x^{-1} = H$ and thus
+  $x \in N(H)$. Therefore $K < N(H) = H$, so since 
+  $[G : H] = p$ we get $H = K$. But 
+  $K = \ker \varphi \triangleleft G$ so $H \triangleleft G$ as desired.
+\end{proof}
+
+Group actions often give normal subgroups. A group that acts on a
+small set is usually not simple.
+
+\begin{xmpl}
+  Show that a group of order 
+  $552 = 23 \cdot 24 = 23 \cdot 2^3 \cdot 3$ is not simple. 
+\end{xmpl}
+
+\end{document}
