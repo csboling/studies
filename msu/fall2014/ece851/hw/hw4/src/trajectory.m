@@ -9,13 +9,14 @@ Wr = int(expm(A*(T - tau)) * B * B' * expm(A' * (T - tau)), tau, 0, T);
 u  = B' * expm(A' * (T - s)) * inv(Wr) * (xf - expm(A*T) * x0);
 phi = expm(A*t) * x0 + int(expm(A*(t - s)) * B * u, s, 0, t);
 
-
+set(0, 'DefaultAxesColorOrder',     [0]);
+set(0, 'DefaultAxesLineStyleOrder', {'-',':','--'});
 for Tf=[1, 2, 5]
   tindex = [0:0.01:Tf];
   x = eval(subs(phi, {T, t}, {Tf, tindex}));
 
   h = figure;
-  plot(tindex, x(1,:), tindex, x(2,:));
+  plot(tindex, x(1,:), tindex, x(2,:), 'linestyle', linS{i});
   title(sprintf('ECE 851 Homework #4, Problem #3, T = %d', Tf));
   xlabel('Time (s)');
   ylabel('States');

@@ -6,6 +6,8 @@
 \usepackage{commath}
 \usepackage{enumerate}
 
+\usepackage{graphicx}
+
 \title{ECE/ME 851 Homework \#4}
 \date{October 3, 2014}
 \author{Sam Boling \\ PID A48788119}
@@ -387,7 +389,7 @@
            - 4e^t (1 + e^{T/2} + e^T)
           ]
         }{4e^{T/2} + e^T + 1} \\
-&+ \frac{b[- 2e^{t/2} (e^{-T/2} + e^{3T/2} + e^T)
+&+ \frac{b[- 2e^{T/2} (e^{-T/2} + e^{3T/2} + e^T)
            + 3e^t    (1 + e^{T/2})
           ]
         }{4e^{T/2} + e^T + 1}.
@@ -474,9 +476,29 @@
 %     \end{array}\right]
 % \end{align*}
   }
-  \item{    
+  \item{
+    Plots are attached. When the controller is required to reach the
+    target over shorter timescales, we observe considerable overshoot
+    since a large input is being applied to oppose the system dynamics
+    as quickly as possible. For the case $T = 5$, the trajectory
+    approaches the target in a much more orderly way, avoiding a large
+    deviation away from the target before the system stabilizes.
   }
 \end{enumerate}
+
+\clearpage
+\begin{figure}[h]
+  \includegraphics[width=0.75\textwidth]{problem2-1}
+  \caption{Controlled system trajectory for problem 2, $T = 1$.}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=0.75\textwidth]{problem2-2}
+  \caption{Controlled system trajectory for problem 2, $T = 2$.}
+\end{figure}
+\begin{figure}[h]
+  \includegraphics[width=0.75\textwidth]{problem2-5}
+  \caption{Controlled system trajectory for problem 2, $T = 5$.}
+\end{figure}
 
 \pagebreak
 
@@ -812,11 +834,13 @@ $$
     \end{align*}
   }
   \item{
-    Taking $x_{10} = 2$, $x_{20} = 3$ gives 
-    $$
-    u(t) \approx 4.0394 e^{2(t - 1)} - 2.9377 e^{t - 1}.
-    $$
+    Plots and Matlab code are attached.
   }
 \end{enumerate}
+
+\begin{figure}[h!]
+  \includegraphics[width=\textwidth]{problem4}
+  \caption{Controlled system trajectory for problem 4.}
+\end{figure}
 
 \end{document}
