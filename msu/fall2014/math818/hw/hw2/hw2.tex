@@ -151,7 +151,7 @@ $H \cap N = \{ 1 \}$ and that $G = NH$.
         Similarly if $h = n^{-1}$, then
         since $N$ is a subgroup $h \in N$ so $h \in N \cap H = \{1\}$.
         Therefore $(n, h) = (1, 1)$, so $\ker \varphi$ is trivial.
-        Therefore $\varphi is injective$.
+        Therefore $\varphi$ is injective.
 
         Then $\varphi$ is bijective.
        }
@@ -169,9 +169,30 @@ $H \cap N = \{ 1 \}$ and that $G = NH$.
     so this is a group homomorphism.
   }
   \item{
-    The map $\varphi((n, h)) = nh$ was shown in the first problem to
-    give an isomorphism $G \simeq N \times H$.
-
+    Take $\varphi$ as defined in part (a). We first show that
+    $\varphi$ is a homomorphism:
+    $$
+    \varphi((n_1, h_1) \cdot (n_2, h_2))
+  = \varphi((n_1 n_2, h_1 h_2))
+  = n_1 n_2 h_1 h_2
+    $$
+    
+    Since $\varphi$ is
+    bijective it has an inverse $\varphi^{-1} : NH \to N \times H$, so
+    \begin{align*}
+    \varphi^{-1}(n_1 h_1 n_2 h_2) 
+ &= \varphi^{-1}(n_1 c_{h_1}(n_2) h_1 h_2)
+  = (n_1 c_{h_1}(n_2), h_1 h_2) \\
+ &= (n_1 c(h_1)(n_2), h_1 h_2)
+ &= (n_1, h_1) \cdot (n_2, h_2)
+ &= \varphi^{-1}(n_1 h_1) \varphi^{-1}(n_2 h_2)
+    \end{align*}
+    where the product 
+    $\cdot$ is taken from the group $N \rtimes_c H$. Since $G = NH$,
+    every $g \in G$ has the form $g = nh$ for some $n \in N$ and $h
+    \in H$, so $\varphi^{-1} : G \to N \rtimes_{\psi} H$ is a group
+    homomorphism, and since it is invertible this means
+    $G \simeq N \rtimes_{\psi} H$.
   }
 \end{enumerate}
 \end{Answer}
@@ -202,8 +223,53 @@ Suppose that $H$ and $N$ are normal subgroups of a finite group $G$.
     }
     \item[(Product)]
     {
+      Let $x_1, x_2 \in HN$. Then $x_1 = h_1 n_1$ and $x_2 = h_2 n_2$
+      for some $h_1, h_2 \in H$, $n_1, n_2 \in N$. Therefore
+      \begin{align*}
+        x_1 \cdot x_2 &= h_1 n_1 h_2 n_2 = h_1 h_2 n_1^\prime n_2
+      \end{align*}
+      since $N \triangleleft G$ and thus $n_1 h_2 = h_2 n_1^\prime$
+      for some $n_1^\prime \in N$. But this means $x_1 \cdot x_2 \in HN$ so
+      $HN$ is closed under the group product inherited from $G$.
+    }
+    \item[(Inverses)]
+    {
+      Let $x \in HN$. Then $x = hn$ for some $h \in H$, $n \in N$.
+      Then $x^{-1} = (nh)^{-1} = h^{-1} n^{-1}$. But since $n$ is
+      normal in $G$ and since $h^{-1} \in G$, $h^{-1} n^{-1} =
+      n^\prime h^{-1}$ for some $n^\prime \in N$, and thus
+      $x = n^\prime h^{-1} \in NH$. Therefore the inverse of each
+      element in $NH$ is also in $NH$.      
     }
   \end{itemize}
+  Therefore $NH < G$.
+  }
+  \item
+  {
+    Consider the group action of $N$ on $H$ given by
+    $$
+    . : N \times H \to H, \quad 
+    n . h = n h n^{-1}.
+    $$
+    Then since $H$ is the disjoint union of the orbits $N . h$ of this
+    action, the order of $H$ is
+    \begin{align*}
+    |H| &= \sum_h [N : N . h] = \sum_h \frac{|N|}{|N . h|} \\
+        &= |N| \sum_h \frac{1}{|N . h|}
+    \end{align*}
+    where the sum is taken over representative elements $h \in H$.
+    But $|H|$ and $|N|$ are coprime by assumption, so since $|H|$ divides
+    $|N| \sum_h \frac{1}{|N . h|}$ this means $|H|$ divides
+    $\sum_h \frac{1}{|N . h|}$ Therefore it must be the case that
+    $\sum_h \frac{1}{|N . h|} \geq |H|$, which is only possible if
+    $|N . h| = 1$ for all $h \in H$. But since $N / N_h \simeq N . h$
+    this means $\frac{|N|}{|N_h|} = 1$ for every $h$ and therefore
+    that $N_h = N$, or 
+    $$
+    \{ n \in N \mid n h n^{-1} = h \} = N
+    $$
+    for each $h \in H$, so $n h n^{-1} = h$ for all $n \in N, h \in H$
+    as desired.
   }
 \end{enumerate}
 \end{Answer}
@@ -222,6 +288,73 @@ Suppose that $H$ and $N$ are normal subgroups of a finite group $G$.
 \end{Problem}
 
 \begin{Answer}
+\begin{enumerate}
+  \item{
+    First we observe that the conjugation map 
+    $c : G \to \mathrm{Inn}(G)$ given by 
+    $$
+    c(h)(g) = c_h(g) = h g h^{-1}
+    $$
+    is a group homomorphism.
+    Furthermore, let $x \in \ker c$ so that
+    $c(x) = \mathrm{id}$.
+    Then we have
+    $$
+    x y x^{-1} = c(x)(y) = \mathrm{id}(y) = y
+    $$
+    and thus $x y = y x$ for all $y \in G$, or in other words $x \in
+    Z(G)$. Additionally if $x \in Z(G)$ then $xyx^{-1} = y$ for any 
+    $y \in G$, so $c(x)(y) = y$ and thus $c(x) = \mathrm{id}$, so
+    $x \in \ker c$. This means $\ker c = Z(G)$.
+
+    By the first isomorphism theorem this means
+    $$
+    \mathrm{Inn}(G) 
+  = \mathrm{Im}(c) 
+  \simeq \frac{G}{\ker c}
+  = \frac{G}{Z(G)}
+  \simeq \mathbb{Z}_N
+    $$
+    for some positive integer $N$, since $G / Z(G)$ is cyclic by
+    assumption. This means $\mathrm{Inn}(G) \simeq \mathbb{Z}_N$ or
+    $\mathrm{Inn}(G)$ is cyclic and therefore 
+    $\mathrm{Inn}(G) = \langle c_a \rangle$ for some $a \in G$.
+
+    Next let $C_x$ denote the conjugacy class of $x$ in $G$.
+    We wish to show that the only conjugacy class in $G$
+    is $C_a$. We proceed by induction to show that 
+    $c_a^n(g) = c_a(g)$ for all $n$.
+    \begin{enumerate}
+      \item{
+        Let $n = 1$. Then $c_a^n(g) = c_a(g)$.
+      }
+      \item{
+        Let $c_a^m(g) = c_a(g)$ for all 
+        $m \in \{ 1, 2, \dots, n-1 \}$. Then
+        $$
+        c_a^n(g) = c_a(c_a^{n-1}(g)) = c_a(c_a(g)) = c_a^2(g) = c_a(g).
+        $$
+      }        
+    \end{enumerate}
+    Therefore $c_a^n(g) = c_a(g)$ for any $n$. Now since
+    $\mathrm{Inn}(G)$ is cyclic, for any $x \in G$ we have 
+    $c_x = c_a^n$ for some $n$. Therefore if $g \in C_x$ then
+    $$
+    g = c_x(g) = c_a^n(g) = c_a(g) \in C_a
+    $$
+    and if $g \in C_a$ then
+    $$
+    g = c_a(g) = c_a^n(g) = c_x(g) \in C_x
+    $$
+    so $C_x = C_a$ for any $x \in G$.
+
+    Since $G$ is the disjoint union of the orbits of the group action
+    $c$, his implies that $G = C_a = C_x$ for any $x \in G$ and thus
+    each $x \in G$ commutes with the whole of $G$, so $G$ is abelian.
+  }
+  \item{}
+  \item{}
+\end{enumerate}
 \end{Answer}
 
 \pagebreak
@@ -233,11 +366,12 @@ Suppose that $H$ and $N$ are normal subgroups of a finite group $G$.
   \item{Let the group $G$ act on the set $X$ and denote by $G_x$ the
       stabilizer of $x$. Show that if $y = g \cdot x$, then $G_y = g
       G_x g^{-1}$.}
-  \item{Suppoes that a finite group $G$ acts on a set $X$ transitively
+  \item{Suppose that a finite group $G$ acts on a set $X$ transitively
       (this means that all elements of $X$ lie in the same
       $G$-orbit). Assuming that $X$ has at least two elements, show
       that there is $g \in G$ such that $g \cdot x \neq x$, for all $x
-      \in X$, i.e. such that $g$ ``leaves no point fixed''.}
+      \in X$, 
+      i.e. such that $g$ ``leaves no point fixed''.}
 \end{enumerate}
 \end{Problem}
 
