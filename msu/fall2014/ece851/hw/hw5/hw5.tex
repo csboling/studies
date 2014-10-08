@@ -1,0 +1,365 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{commath}
+\usepackage{enumerate}
+
+\usepackage{graphicx}
+
+\title{ECE/ME 851 Homework \#5}
+\date{October 10, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+\begin{itemize}
+  \item{
+    Given the matrices
+    $$
+    A = \left[\begin{array}{r r r}
+          1 &  0 & 0 \\
+          0 & -1 & 0 \\
+          0 &  0 & 2
+        \end{array}\right], \quad
+    B = \left[\begin{array}{c c}
+          1 & 0 \\
+          0 & 1 \\
+          0 & 0
+        \end{array}\right]
+    $$
+    we see that $A$ has the eigenvalues
+    $$
+    \lambda_1 = -1, \quad
+    \lambda_2 =  1, \quad
+    \lambda_3 =  2.
+    $$
+
+    Solving
+    $$
+    v_i^\top \left[\begin{array}{c c}
+                \lambda_i I - A & B
+              \end{array}\right] = 0
+    $$
+    for each eigenvalue gives
+    \begin{align*}
+      \left[\begin{array}{c c c}
+        \alpha_1 & \beta_1 & \gamma_1
+      \end{array}\right]
+      \left[\begin{array}{c c}
+        -I - A & B
+      \end{array}\right] &=
+      \left[\begin{array}{r r r r r}
+        -2 \alpha_1 & 0 & -3 \gamma_1 & \alpha & \beta
+      \end{array}\right] = 0, \\
+      \left[\begin{array}{c c c}
+        \alpha_2 & \beta_2 & \gamma_2
+      \end{array}\right]
+      \left[\begin{array}{c c}
+        I - A & B
+      \end{array}\right] &=
+      \left[\begin{array}{r r r r r}
+        0 & 2\beta_2 & -\gamma_2 & \alpha_2 & \beta_2
+      \end{array}\right] = 0, \\
+      \left[\begin{array}{c c c}
+        \alpha_3 & \beta_3 & \gamma_3
+      \end{array}\right]
+      \left[\begin{array}{c c}
+        2I - A & B
+      \end{array}\right] &=
+      \left[\begin{array}{r r r r r}
+        \alpha_3 & 3\beta_3 & 0 & \alpha_3 & \beta_3
+      \end{array}\right] = 0,
+    \end{align*}
+    so
+    $\left[\begin{array}{c}
+       0 \\ 0 \\ 1
+     \end{array}\right]$
+    is the only nonzero vector satisfying this equation for any
+    eigenvalue ($\lambda_3$). Therefore $\lambda_3$ is
+    uncontrollable. In this case $A$ has distinct eigenvalues so that
+    \begin{align*}
+    A_3 &= \lim_{s \to \lambda_3} (s - \lambda_3)(sI - A)^{-1} \\
+        &= \lim_{s \to \lambda_3}
+           \left[\begin{array}{c c c}
+             \frac{s-2}{s-1} & 0               & 0 \\
+             0               & \frac{s-2}{s+1} & 0 \\
+             0               & 0               & 1
+           \end{array}\right] \\
+        &= \left[\begin{array}{c c c}
+             0 & 0 & 0 \\
+             0 & 0 & 0 \\
+             0 & 0 & 1
+           \end{array}\right]
+    \end{align*}
+    so that this eigenvalue has the mode
+    $$
+    A_3 e^{\lambda_3 t} =
+    \left[\begin{array}{c c c}
+      0 & 0 & 0 \\
+      0 & 0 & 0 \\
+      0 & 0 & e^{2t}
+    \end{array}\right].
+    $$
+   }
+  \item{
+    Given the matrices
+    $$
+    A = \left[\begin{array}{r r r r}
+           0 &  0 &  1 &  0 \\
+           0 &  0 &  1 &  0 \\
+           0 &  0 &  0 &  0 \\
+           0 &  0 &  0 & -1
+        \end{array}\right], \quad
+    B = \left[\begin{array}{c c}
+          0 & 1 \\
+          0 & 0 \\
+          1 & 0 \\
+          0 & 0
+        \end{array}\right]
+    $$
+    we see that $A$ has the eigenvalues
+    $$
+      \lambda_1 =  0, \quad
+      \lambda_2 =  0, \quad
+      \lambda_3 =  0, \quad
+      \lambda_4 = -1, \quad
+    $$
+    so that we can find
+    \begin{align*}
+      \left[\begin{array}{c c c c}
+        \alpha_1 & \beta_1 & \gamma_1 & \delta_1
+      \end{array}\right]
+      \left[\begin{array}{c c}
+        - A & B
+      \end{array}\right] &=
+      \left[\begin{array}{r r r r r r}
+        0
+      & 0
+      & -\alpha_1-\beta_1
+      & \delta_1
+      & \gamma_1
+      & \alpha_1
+      \end{array}\right] = 0, \\
+      \left[\begin{array}{c c c c}
+        \alpha_4 & \beta_4 & \gamma_4 & \delta_4
+      \end{array}\right]
+      \left[\begin{array}{c c}
+       -I - A & B
+      \end{array}\right] &=
+      \left[\begin{array}{r r r r r r}
+        -\alpha_4
+      & -\beta_4
+      & -\alpha_4-\beta_4-\gamma_4
+      & 0
+      & \gamma_4
+      & \alpha_4
+      \end{array}\right] = 0,
+    \end{align*}
+    so $\lambda_1$, $\lambda_2$, $\lambda_3$ have no uncontrollable
+    modes and the equation for $\lambda_4$ is satisfied by the
+    vector
+    $v_4 =
+     \left[\begin{array}{c}
+       0 \\ 0 \\ 0 \\ 1
+     \end{array}\right]$. Therefore the only uncontrollable
+     eigenvalue for the system is $\lambda_4 = -1$ which has
+     \begin{align*}
+     A_{40} = \lim_{s \to \lambda_4} (s - \lambda_4)(sI - A)^{-1} \\
+        &= \lim_{s \to \lambda_4}
+           \left[\begin{array}{c c c c}
+             \frac{s+1}{s}
+           & 0
+           & \frac{s+1}{s}
+           & 0 \\
+             0
+           & \frac{s+1}{s}
+           & \frac{s+1}{s^2}
+           & 0 \\
+             0
+           & 0
+           & \frac{s+1}{s}
+           & 0 \\
+             0
+           & 0
+           & 0
+           & 1
+           \end{array}\right] \\
+        &= \left[\begin{array}{c c c c}
+             0 & 0 & 0 & 0 \\
+             0 & 0 & 0 & 0 \\
+             0 & 0 & 0 & 0 \\
+             0 & 0 & 0 & 1
+           \end{array}\right]
+     \end{align*}
+     so that the uncontrollable mode of the system is
+     $$
+     A_{40} e^{\lambda_4 t}
+   = \left[\begin{array}{c c c c}
+             0 & 0 & 0 & 0 \\
+             0 & 0 & 0 & 0 \\
+             0 & 0 & 0 & 0 \\
+             0 & 0 & 0 & e^{-t}
+     \end{array}\right].
+     $$
+  }
+\end{itemize}
+
+\pagebreak
+
+\section*{Problem \#2}
+Consider the system given by the matrices
+$$
+A
+= \left[\begin{array}{r r r r}
+     2 &  3 &  2 &  1 \\
+    -2 & -3 &  0 &  0 \\
+    -2 & -2 & -4 &  0 \\
+    -2 & -2 & -2 & -5
+  \end{array}\right], \quad
+B
+= \left[\begin{array}{r}
+    1 \\ -2 \\ 2 \\ -1
+  \end{array}\right], \quad
+C
+= \left[\begin{array}{c c c c}
+    7 & 6 & 4 & 2
+  \end{array}\right]
+$$
+
+\begin{enumerate}[(a)]
+\item{
+  We first find the controllability matrix
+  \begin{align*}
+  \mathcal{C} &=
+  \left[\begin{array}{r r r r}
+     1 & -1 &   1 &  -1 \\
+    -2 &  4 & -10 &  28 \\
+     2 & -6 &  18 & -54 \\
+    -1 &  3 &  -9 &  27
+  \end{array}\right]
+  \end{align*}
+  which has rank 2. We then choose the first two columns since they
+  are linearly independent, and append linearly independent vectors to
+  get the nonsingular transformation matrix and its inverse
+  $$
+  Q = \left[\begin{array}{r r r r}
+        1 & -1 & 0 & 0 \\
+       -2 &  4 & 0 & 0 \\
+        2 & -6 & 1 & 0 \\
+       -1 &  3 & 0 & 1
+      \end{array}\right], \quad
+  Q^{-1} = \left[\begin{array}{r r r r}
+            2 & \frac{1}{2} & 0 & 0 \\
+            1 & \frac{1}{2} & 0 & 0 \\
+            2 &  2          & 1 & 0 \\
+           -1 & -1          & 0 & 1
+          \end{array}\right]
+  $$
+  so that the uncontrollable form is
+  $$
+  \bar{A} = Q^{-1} A Q
+            \left[\begin{array}{r r r r}
+              0 & -3 &  4 &  2 \\
+              1 & -4 &  2 &  1 \\
+              0 &  0 &  0 &  2 \\
+              0 &  0 & -4 & -6
+            \end{array}\right], \quad
+  \bar{B} = Q^{-1} B
+            \left[\begin{array}{c}
+              1 \\ 0 \\ 0 \\ 0
+            \end{array}\right].
+  $$
+  Therefore the eigenvalues of
+  $$
+  \bar{A}_{11} = \left[\begin{array}{r r}
+                  0 & -3 \\ 1 & -4
+                \end{array}\right]
+  $$
+  are the controllable eigenvalues of the system, namely $-1$ and
+  $-3$, while the other eigenvalues $-2$ and $-4$ are uncontrollable.
+}
+\item{
+  We next find the observability matrix to be
+  \begin{align*}
+    \mathcal{O} &=
+    \left[\begin{array}{r r r r}
+       7 &   6 &   4 &  2 \\
+     -10 &  -9 &  -6 & -3 \\
+      16 &  15 &  10 &  5 \\
+     -28 & -27 & -18 & -9
+    \end{array}\right]
+  \end{align*}
+  which has rank 2. We find that the vectors
+  $$
+  \left[\begin{array}{r}
+    0 \\ 1 \\ 0 \\ -3
+  \end{array}\right], \quad
+  \left[\begin{array}{r}
+    0 \\ 0 \\ 1 \\ -2
+  \end{array}\right]
+  $$
+  form a basis for the null space of this matrix,
+  so we can form the transformation matrix by prepending two linearly
+  independent columns to these to obtain
+  $$
+  Q = \left[\begin{array}{r r r r}
+        1 & 0 &  0 &  0 \\
+        0 & 1 &  1 &  0 \\
+        0 & 0 &  0 &  1 \\
+        0 & 0 & -3 & -2
+      \end{array}\right], \quad
+  Q^{-1} = \left[\begin{array}{r r r r}
+            1 & 0 &  0           &  0           \\
+            0 & 1 &  \frac{2}{3} &  \frac{1}{3} \\
+            0 & 0 & -\frac{2}{3} & -\frac{1}{3} \\
+            0 & 0 &  1           &  0
+          \end{array}\right]
+  $$
+  and therefore obtain the nonobservable form
+  $$
+  \bar{A} = Q^{-1} A Q =
+    \left[\begin{array}{r r r r}
+       2 &  3 &  0 &  0 \\
+      -4 & -5 &  0 &  0 \\
+       2 &  2 & -3 &  0 \\
+      -2 & -2 & -2 & -4
+    \end{array}\right], \quad
+  \bar{C} = C Q =
+    \left[\begin{array}{c c c c}
+      7 & 6 & 0 & 0
+    \end{array}\right],
+  $$
+  so that
+  $$
+  \bar{A}_{11}
+= \left[\begin{array}{r r}
+    2 &  3 \\
+   -4 & -5
+  \end{array}\right]
+  $$
+  has observable eigenvalues $-1$ and $-2$ while
+  $$
+  \bar{A}_{22}
+= \left[\begin{array}{r r}
+    -3 &  0 \\
+    -2 & -4
+  \end{array}\right]
+  $$
+  has unobservable eigenvalues $-4$ and $-3$.
+}
+\item{
+  We conclude that only the eigenvalue -1 is controllable and observable.
+}
+\end{enumerate}
+
+\pagebreak
+
+\section*{Problem \#3}
+
+
+\end{document}
