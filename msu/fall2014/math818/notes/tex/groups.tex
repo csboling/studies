@@ -1,10 +1,4 @@
-\documentclass{article}
-
-\include{preamble}
-
-\begin{document}
-
-\section{\S 1.2 -- Groups}
+\section{Groups}
 
 \subsection{Definition}
 
@@ -17,22 +11,26 @@
          }
     \item{$\cdot : G \times G \to G$ is an associative binary operation on $G$,
          }
-    \item{There exists a unique $e \in G$ such that 
-          $e \cdot g = g \cdot e = g, \forall g \in G$,
+    \item{There exists a unique $1 \in G$ such that
+          $1 \cdot g = g \cdot 1 = g, \forall g \in G$,
          }
     \item{For every $g \in G$, there exists a unique $g^{-1} \in G$ such that
           $g \cdot g^{-1} = g^{-1} \cdot g = e$.
          }
   \end{enumerate}
+  The \emph{order} of the group is the cardinality of $G$. The order
+  of an element $a \in G$ is the smallest positive integer $m$ such
+  that $a^m = e$.
 \end{defn}
 
 \begin{xmpl}
+  Some examples of groups:
   \begin{enumerate}
     \item{The integers $\mathbb{Z}$ form a group with $\cdot = +$.}
     \item{The rationals $\mathbb{Q}$ form a group with $\cdot = +$.}
-    \item{The reals except zero $\mathbb{R}^\ast = \mathbb{R} - {0}$ 
+    \item{The reals except zero $\mathbb{R}^\ast = \mathbb{R} - {0}$
           form a group with respect to multiplication.}
-    \item{Given a set $X$, 
+    \item{Given a set $X$,
           $$
           \mathrm{Perm}(X) = \{f : X \to X | f \text{ is bijective}\}
           $$
@@ -42,35 +40,73 @@
            then $\mathrm{Perm}(X) = S_n$, the symmetric group with $n$ letters.
            The order of $S_n$ is $n!$.
           }
-     \item{For $n \geq 1$, the set of $n \times n$ matrices $A$ 
+     \item{For $n \geq 1$, the set of $n \times n$ matrices $A$
            with real entries such that $\det(A) \neq 0$ is a
            group with respect to multiplication of matrices, denoted
-           $GL_n(\mathbb{R})$ (the \emph{general linear group}). 
+           $GL_n(\mathbb{R})$ (the \emph{general linear group}).
            It is closed under this operation since
            $\det(A \cdot B) = \det(A) \det(B) \neq 0$. This product is
            associative since linear maps are associative, and thus so is
-           multiplication of their corresponding matrices. It possesses 
+           multiplication of their corresponding matrices. It possesses
            an identity element $e = I_n$ and inverses
            $A^{-1} = \frac{1}{\det A} A^{\mathrm{adj}}$, where
            the $(i, j)$ element of $A^{\mathrm{adj}}$ is $(-1)^{i + j}$ times
            the minor determinant of the $(n-1) \times (n-1)$ matrix obtained
            by erasing the $j$-th row and the $i$-th column.
+           Recall that in the $2 \times 2$ case
+           $$
+           \left[\begin{array}{c c}
+             a & b \\ c & d
+           \end{array}\right]^{-1}
+         = \frac{1}{ad - bc}
+           \left[\begin{array}{r r}
+             d & -b \\ -c & a
+           \end{array}\right].
+           $$
            }
   \end{enumerate}
 \end{xmpl}
 
 \begin{defn}[Abelian Group]
   \label{def:abelian-group}
-  A group $(G, \cdot)$ is \emph{Abelian} or \emph{commutative} when
+  A group $(G, \cdot)$ is \emph{abelian} or \emph{commutative} when
   $\forall x, y \in G$, $x \cdot y = y \cdot x$.
 \end{defn}
 
-\begin{exer}
+\begin{Problem}
   For $n > 1$, show $\mathrm{GL}_n(\mathbb{R})$ is not abelian.
   For $n > 2$, show $S_n$ is not abelian.
   Hint: It is enough to show that $S_3$ is not abelian because
   $S_n$ is a subgroup of $S_{n+1}$ for all $n$.
-\end{exer}
+\end{Problem}
+
+\begin{Answer}
+Consider the $n \times n$ matrices $A_{ij} = \delta_{i1}$ and
+$B_{ij} = \delta_{1j}$. Then
+\begin{align*}
+(A B)_(ij)
+&= \sum_{k=1}^n A_{ik} B_{kj} = \sum_{k=1}^n \delta_{i1}\delta{1j} \\
+&= \left\{\begin{array}{c c}
+     n, & \quad i = j = 1 \\
+     0, & \quad \text{otherwise}
+\end{array}\right.
+\end{align*}
+while
+\begin{align*}
+(B A)_(ij)
+&= \sum_{k=1}^n B_{ik} A_{kj} = \sum_{k=1}^n \delta_{1k}\delta{k1} \\
+&= 1.
+\end{align*}
+
+In $S_3$ we observe that
+$$
+(1 2 3) (1 2) = (1 3)
+$$
+while
+$$
+(1 2) (1 2 3) = (2 3).
+$$
+\end{Answer}
 
 \begin{defn}[Subgroup]
   \label{def:subgroup}
@@ -86,23 +122,23 @@
 \begin{xmpl}
   \item{$\mathbb{Z} < \mathbb{Q}$ with $+$.}
   \item{$\{A \in \mathrm{GL}_n(\mathbb{R}) | \det A = 1\} < \mathrm{GL}_n(\mathbb{R})$
-        because $\det (A \cdot A^{-1}) = \det I = 1$, 
+        because $\det (A \cdot A^{-1}) = \det I = 1$,
         so $\det(A) = 1 \implies \det(A^{-1}) = 1$. This is the
-        \emph{special linear group} $SL_n(\mathbb{R})$.
+        \emph{special linear group} $\mathrm{SL}_n(\mathbb{R})$.
        }
 \end{xmpl}
 
 \begin{defn}[Direct Product Group]
-  Given groups $G_1, G_2$, 
+  Given groups $G_1, G_2$,
   $$
   G_1 \times G_2 = \{(g_1, g_2) | g_1 \in G_1, g_2 \in G_2 \}
   $$
   is a group, with product given by
   $$
-  (g_1, g_2) \cdot (g_1^\prime, g_2^\prime) 
-  = (g_1 \cdot_1 g_1^\prime, g_2 \cdot_2 g_2^\prime).
+  (g_1, g_2) \cdot (g_1^\prime, g_2^\prime)
+  = (g_1 \cdot_1 g_1^\prime, g_2 \cdot_2 g_2^\prime),
   $$
-  (Exercise.)
+  called the \emph{direct product group}.
 \end{defn}
 
 % 9/5
@@ -124,8 +160,8 @@ $\langle S \rangle \equiv$ the subgroup of $G$ generated by $S$.
 \begin{proof}
 First, every intersection of any family of subgroups of a group is a
 subgroup (Exercise). Observe $S \subset \langle S \rangle$, and also if
-$H^\prime < G$ such that $S \subset H^\prime$ then 
-$\langle S \rangle \subset H^\prime$, since 
+$H^\prime < G$ such that $S \subset H^\prime$ then
+$\langle S \rangle \subset H^\prime$, since
 $\langle S \rangle = \bigcap_{\substack{H < G \\ S \subset H}} H \subset H^\prime$.
 
 Next, to show
@@ -135,13 +171,24 @@ contains $S$, and in fact each subgroup of $G$ that contains $S$ has to
 contain this set, and thus so does their intersection.
 \end{proof}
 
+\begin{Problem}
+Every intersection of a family of subgroups of a group is a subgroup.
+\end{Problem}
+\begin{Answer}
+Let $\{ H_i \}_{i \in I}$ be a family of subgroups and let
+$x, y \in H = \bigcap_{i \in I} H_i$. Then for each $i \in I$,
+$x, y \in H_i$, so $xy \in H_i$ since $H_i$ is a subgroup. But
+$xy \in H_i$ for all $i \in I$ means that $xy \in H$. Similarly $x \in
+H$ gives $x^{-1} \in H$, so $H$ is a subgroup.
+\end{Answer}
+
 \begin{defn}[Generating Set, Cyclic Group]
   \begin{enumerate}
     \item{If for some $S \subset G$, $\langle S \rangle = G$, we say that
           $S$ \emph{generates} $G$.
          }
     \item{If $G$ is generated by a single element $a \in G$, we say $G$ is
-          \emph{cyclic} with generator $A$. Then 
+          \emph{cyclic} with generator $A$. Then
           $$
           G = \langle a \rangle = \{ \dots, a^{-2}, a^{-1}, 1, a, a^2, \dots \}.
           $$
@@ -155,7 +202,7 @@ contain this set, and thus so does their intersection.
 For $G, G^\prime$ groups, a map $f : G \to G^\prime$ is a \emph{homomorphism}
 when $\forall x, y \in G$, $f(x \cdot y) = f(x) \cdot f(y)$. Then
 $$
-f(e) = f(e \cdot e) = f(e) \cdot f(e) 
+f(e) = f(e \cdot e) = f(e) \cdot f(e)
 \implies e^\prime = f(e)^{-1} \cdot f(e) \cdot f(e) = f(e)
 $$
 and
@@ -167,7 +214,7 @@ so a group homomorphism preserves identities and inverses.
 \end{defn}
 
 \begin{prop}
-Given homomorphisms $f : G \to G^\prime$ 
+Given homomorphisms $f : G \to G^\prime$
 and $g : G^\prime \to G^{\prime\prime}$,
 $g \circ f$ is a homomorphism.
 \end{prop}
@@ -189,13 +236,13 @@ f(a \mod n) = e^{\frac{2 \pi i a}{n}}.
 $$
 \end{xmpl}
 
-Consider the automorphisms 
+Consider the automorphisms
 $\mathrm{Aut}(G) = \{f : G \to G | f \text{ is an isomorphism}\}$.
 Then $\mathrm{Aut}(G)$ is a group with $\circ$. This is a subgroup
 of $\mathrm{Perm}(G)$.
 
 \begin{exer}
-What is $\mathrm{Aut}(\mathbb{Z}_n)$? 
+What is $\mathrm{Aut}(\mathbb{Z}_n)$?
 Hint: $f : \mathbb{Z}_n \to \mathbb{Z}_n$ is determined by $f(1 \mod n)$.
 Consider integers prime to $n$.
 \end{exer}
@@ -211,10 +258,10 @@ $\ker(f), \mathrm{Im}(f) < G$.
 \end{prop}
 \begin{proof}
 \begin{align*}
-  x, y \in \ker(f) 
+  x, y \in \ker(f)
     & \implies f(x) = e^\prime, f(y) = e^\prime \\
-    & \implies f(x \cdot y) = f(x) \cdot f(y)   
-                            = e^\prime \cdot e^\prime 
+    & \implies f(x \cdot y) = f(x) \cdot f(y)
+                            = e^\prime \cdot e^\prime
                             = e^\prime          \\
     & \implies x \cdot y \in \ker(f).
 \end{align*}
@@ -227,8 +274,8 @@ $\ker(f)$ is trivial iff. $f$ is injective.
 \end{prop}
 \begin{proof}
 $$
-f(x) = f(y) \iff f(x) f(y)^{-1} = e^\prime 
-            \iff f(xy^{-1}) = e^\prime 
+f(x) = f(y) \iff f(x) f(y)^{-1} = e^\prime
+            \iff f(xy^{-1}) = e^\prime
             \iff xy^{-1} \in \ker(f).
 $$
 Thus if $\ker(f) = \{ e \}$ then $x = y$. The converse is similar.
@@ -236,7 +283,7 @@ Thus if $\ker(f) = \{ e \}$ then $x = y$. The converse is similar.
 
 \begin{xmpl}
 Consider the groups
-$G = \mathrm{GL}_n (\mathbb{R})$, 
+$G = \mathrm{GL}_n (\mathbb{R})$,
 $G^\prime = \mathbb{R}^\ast = \mathbb{R} - \{0\}$ with multiplication.
 $\det$ is a group homomorphism, and $\ker(\det) = SL_n(\mathbb{R})$.
 \end{xmpl}
@@ -254,13 +301,13 @@ for some $a \in G$. A \emph{right coset} is defined similarly.
 \begin{remark}
 \begin{enumerate}
   \item{Two left cosets are either disjoint or identical. Take $aH$,
-        $a^\prime H$ for $a, a^\prime \in G$. Suppose 
-        $aH \cap a^\prime H \neq \varnothing$. Then 
-        $\exists x \in aH \cap a^\prime H$ so that 
-        $x = ah_1 = a^\prime h_2$, $h_1, h_2 \in H$ so 
+        $a^\prime H$ for $a, a^\prime \in G$. Suppose
+        $aH \cap a^\prime H \neq \varnothing$. Then
+        $\exists x \in aH \cap a^\prime H$ so that
+        $x = ah_1 = a^\prime h_2$, $h_1, h_2 \in H$ so
         $a^\prime = a h_1 h_2^{-1} \implies a^\prime \in aH$,
-        so $a^\prime h \in aH \forall h \in H$. Thus 
-        $a^\prime H \subset aH$. Symmetrically 
+        so $a^\prime h \in aH \forall h \in H$. Thus
+        $a^\prime H \subset aH$. Symmetrically
         $aH \subset a^\prime H$.
         Thus $aH = a^\prime H$.
        }
@@ -287,7 +334,7 @@ $H$ in $G$, is denoted $[G:H]$.
 
 \subsubsection{Cyclic Groups}
 \begin{defn}[Cyclic Group]
-$G$ is \emph{cyclic} when $\exists a \in G$ s.t. 
+$G$ is \emph{cyclic} when $\exists a \in G$ s.t.
 $G = \langle a \rangle$.
 \end{defn}
 
@@ -298,7 +345,7 @@ $G = \langle a \rangle$.
 \end{enumerate}
 \end{prop}
 \begin{proof}
-Pick a generator $a$ of $G$, so that 
+Pick a generator $a$ of $G$, so that
 $G = \{ a^n | n \in \mathbb{Z} \}$, and construct a group homomorphism
 $f : \mathbb{Z} \to G$ given by $k \mapsto a^k$. Show if $G$ is
 infinite then $f$ is an isomorphism, and if $|G| = n < \infty$ then
@@ -307,13 +354,13 @@ $k \mod n \mapsto a^k$.
 \end{proof}
 
 \begin{prop}[Corollary of Lagrange's Theorem]
-If $|G| = p$ for some $p$ prime, then $G$ is cyclic and so 
+If $|G| = p$ for some $p$ prime, then $G$ is cyclic and so
 $G \simeq \mathbb{Z}_p$.
 \end{prop}
 \begin{proof}
-$|G| > 1$ so $\exists a \in G. a \neq 1$. Consider 
-$H = \langle a \rangle$. Then $|H|$ divides $|G| = p$ and 
-$|H| \neq 1$, so $|H| = |G|$ and thus $H = G$, so 
+$|G| > 1$ so $\exists a \in G. a \neq 1$. Consider
+$H = \langle a \rangle$. Then $|H|$ divides $|G| = p$ and
+$|H| \neq 1$, so $|H| = |G|$ and thus $H = G$, so
 $G \langle a \rangle$ and $G$ is cyclic. Thus $G \simeq \mathbb{Z}_p$.
 \end{proof}
 
@@ -323,8 +370,8 @@ their order alone -- this is a major goal of group theory.
 \subsection{Normal Subgroups}
 
 \begin{defn}
-Let $H < G$. Then $H$ is called \emph{normal} in $G$ 
-($H \triangleleft G$) when $\forall a \in G$, $aH = Ha$. 
+Let $H < G$. Then $H$ is called \emph{normal} in $G$
+($H \triangleleft G$) when $\forall a \in G$, $aH = Ha$.
 \end{defn}
 
 Equivalently,
@@ -348,7 +395,7 @@ a^{-1} x = x a^{-1} a h = h \} \\
 so we may manipulate cosets algebraically.
 
 \begin{align*}
-           a^{-1} H (a^{-1})^{-1} \subset H 
+           a^{-1} H (a^{-1})^{-1} \subset H
 & \implies a^{-1} H a \subset H  \\
 & \implies H \subset a H a^{-1}, \\
            a^{-1} H a \subset H
@@ -367,12 +414,12 @@ so we may manipulate cosets algebraically.
 \end{remark}
 
 \begin{prop}
-Let $f : G \to G^\prime$ be a group homomorphism. Then 
+Let $f : G \to G^\prime$ be a group homomorphism. Then
 $\ker(f) \triangleleft G$.
 \end{prop}
 \begin{proof}
 Show $a \ker(f) a^{-1} \subset \ker(f), \forall G$.
-Let $x \in \ker(f).$ Then 
+Let $x \in \ker(f).$ Then
 $f(a x a^{-1}) = f(a) f(x) f(a)^{-1} = 1$, so
 $a x a^{-1} \in \ker(f)$.
 \end{proof}
@@ -380,7 +427,7 @@ $a x a^{-1} \in \ker(f)$.
 \begin{xmpl}
 \begin{enumerate}
   \item{$G = \mathrm{\mathrm{GL}}_n(\mathbb{R})$, $\det : G \to \mathbb{R}^\ast$.
-        $\ker(\det) = \mathrm{SL}_n(\mathbb{R}) 
+        $\ker(\det) = \mathrm{SL}_n(\mathbb{R})
                     \triangleleft \mathrm{\mathrm{GL}}_n(\mathbb{R})$.
        }
   \item{The \emph{center} of $G$, $Z(G)$ is defined to be
@@ -388,7 +435,7 @@ $a x a^{-1} \in \ker(f)$.
         Z(G) = \{ z \in G | z g = g z, \forall g \in G \}.
         $$
         $Z(G) \triangleleft G$, since $g Z(G) g^{-1} \subset Z(G)$
-        since $g z g^{-1} = z g g^{-1} = z \in Z(G)$. If 
+        since $g z g^{-1} = z g g^{-1} = z \in Z(G)$. If
         $Z(G) = \{1\}$, then $G$ is said to be \emph{perfect}.
         }
 \end{enumerate}
@@ -403,32 +450,32 @@ $a \neq 0$ is affine.
 \end{defn}
 
 \begin{xmpl}[Normal Subgroup]
-Let $G$ be the set of all non-constant \emph{affine} maps 
+Let $G$ be the set of all non-constant \emph{affine} maps
 $\mathbb{R} \to \mathbb{R}$ with operation $\circ$. That is,
 $$
-G = \{ f : \mathbb{R} \to \mathbb{R} | f(x) = ax + b, 
+G = \{ f : \mathbb{R} \to \mathbb{R} | f(x) = ax + b,
                                        a \neq 0,
                                        a, b \in \mathbb{R}
     \}.
 $$
 For simplicity, set $L_{a,b}(x) = ax + b$. There are two standard
-subgroups of $G$. 
+subgroups of $G$.
 
 $A \triangleq \{ f | f(x) = ax, a \neq 0 \} = \{L_{a, 0} | a \neq 0\}$
 is a subgroup of $G$ which is isomorphic to the multiplicative group
 $\mathbb{R}^\ast$.
 
 $T \triangleq \{ f | f(x) = x + b \} = \{ L_{1,b} | b \in \mathbb{R}
-\}$ is a subgroup of $G$. 
+\}$ is a subgroup of $G$.
 
-These subgroups are normal in $G$. Consider the map 
-$f : G \to \mathbb{R}^\ast \simeq A$ given by 
+These subgroups are normal in $G$. Consider the map
+$f : G \to \mathbb{R}^\ast \simeq A$ given by
 $$
 L_{a,b} \mathrel{\mathop{\mapsto}^{f}} a
-$$. 
+$$.
 This is a group homomorphism because
 \begin{align*}
-(L_{a,b} \circ L_{a^\prime, b^\prime})(x) 
+(L_{a,b} \circ L_{a^\prime, b^\prime})(x)
  & = L_{a,b}(L_{a^\prime, b^\prime}(x)) \\
  & = L_{a,b}(a^\prime x + b^\prime) \\
  & = a(a^\prime x + b^\prime) + b \\
@@ -439,8 +486,8 @@ so $L_{a,b} \circ L_{a^\prime, b^\prime} = L_{a a^\prime, a b^\prime +
   b}$, and thus
 $$
 L_{a,b} \circ L_{a^\prime, b^\prime} \mathrel{\mathop{\mapsto}^{f}} a a^\prime,
-$$ 
-so this is a group homomorphism. The kernel is then 
+$$
+so this is a group homomorphism. The kernel is then
 $\{L_{1,b} | b \in \mathbb{R} \} = T$, so $T$ is normal in $G$.
 \end{xmpl}
 
@@ -478,9 +525,9 @@ S \cdot T \{ s \cdot t | s \in S, t \in T \}.
 $$
 This is indeed another coset because, by normality of $H$,
 $aHbH = abHH = abH$. We need to check that it is associative, contains
-identity ($H$), and contains all inverses ($(aH)^{-1} = a^{-1}H$). 
+identity ($H$), and contains all inverses ($(aH)^{-1} = a^{-1}H$).
 Similarly there is the
-\emph{canonical homomorphism} $\pi : G \to G/H$ given by 
+\emph{canonical homomorphism} $\pi : G \to G/H$ given by
 $\pi(a) = aH$. $\pi$ is surjective and
 $\ker(\pi) = \{ a \in G | aH = H \} = H$, so $\pi$ is an isomorphism.
 \end{defn}
@@ -496,7 +543,7 @@ or by a function as $G/\pi$.
 
 \begin{theorem}[First Isomorphism Theorem]
 Let $f : G \to G^\prime$ be a group homomorphism. There are two
-associated subgroups $\mathrm{Im}(f) < G^\prime$ and 
+associated subgroups $\mathrm{Im}(f) < G^\prime$ and
 $\ker(f) \triangleleft G$. Then
 $G / \ker(f) \simeq \mathrm{Im}(f)$, with an isomorphism given by
 $a \ker(f) \mapsto f(a)$.
@@ -505,9 +552,9 @@ $a \ker(f) \mapsto f(a)$.
 Set $\bar{f}(a \ker (f)) = f(a)$. We check that $\bar{f}$ is a
 well-defined map $G / \ker(f) \to \mathrm{Im}(f)$ by showing that
 $a \ker f = b \ker f \implies f(a) = f(b)$. This condition however
-implies that 
+implies that
 $$
-b^{-1} a \in \ker(f) 
+b^{-1} a \in \ker(f)
   \implies f(b^{-1} a) = 1
   \implies f(b)^{-1} f(a) = 1
   \implies f(a) = f(b).
@@ -515,9 +562,9 @@ $$
 
 Next, we prove $\bar{f}$ is a group homomorphism.
 $$
-\bar{f}(a \ker f b \ker f) 
-  = \bar{f} (a b \ker f) 
-  = f(ab) 
+\bar{f}(a \ker f b \ker f)
+  = \bar{f} (a b \ker f)
+  = f(ab)
   = f(a)f(b)
   = \bar{f}(a \ker f) \bar{f}(b \ker f)
 $$
@@ -531,9 +578,9 @@ $\mathrm{Im}(f)$.
               & = \{ a \ker f | a \in \ker f \} \\
               & \simeq \{ \ker f \},
 \end{align*}
-with the isomorphism given by 
+with the isomorphism given by
 $\left(\pi|_{\ker f}\right)^{-1}$,
-the inverse of the restriction to $\ker f$ 
+the inverse of the restriction to $\ker f$
 of the canonical isomorphism $\pi : G \to G / \ker f$.
 This means by definition that $\ker(\bar{f})$ has the same cardinality
 as a singleton set so it must be trivial, thus $\bar{f}$ is injective.
@@ -551,10 +598,10 @@ canonical maps $\pi_K : G \to G / K$ and
 $\pi_H : G \to G / H$. We claim that there exists a homomorphism
 $\varphi : G / K \to G / H$ given by $\varphi(gK) = gH$, and that
 $\varphi \circ \pi_K = \pi_H$. (Exercise.) Note that $\varphi$ is
-surjective and 
+surjective and
 $$
-\ker(\varphi) 
-  = \{ gK | gH = H \} 
+\ker(\varphi)
+  = \{ gK | gH = H \}
   = \{ gK | g \in H \}
   = H / K.
 $$
@@ -569,7 +616,7 @@ Let $H < G$, $K < G$ such that $H$ \emph{normalizes} $K$, i.e.
 $\forall h \in H, h K h^{-1} = K$ or
 $\forall h \in H, h K = K h$. Then
 $$
-H \cap K \triangleleft H, 
+H \cap K \triangleleft H,
 \quad HK < G,
 \quad H / (H \cap K) \simeq HK / K.
 $$
@@ -584,17 +631,17 @@ $$
         Then $h \kappa h^{-1} \in H \cap K$.
        }
   \item[($HK < G$)]{
-        $h_1 \kappa_1 h_2 \kappa_2 
+        $h_1 \kappa_1 h_2 \kappa_2
        = h_1 h_2 \kappa_1^\prime \kappa_2
-       \in HK$, since $H$ normalizes $K$ and thus $Kh = hK$. 
+       \in HK$, since $H$ normalizes $K$ and thus $Kh = hK$.
        This proves $HK$ is closed.
 
        $(h \kappa)^{-1} = \kappa^{-1} h^{-1} = h^{-1} \kappa^\prime \in HK$, since
        $H$ normalizes $K$ and thus $K h^{-1} = h^{-1} K$.
 
-       Also $K \triangleleft HK$. Indeed, 
+       Also $K \triangleleft HK$. Indeed,
        $$
-       h \kappa \kappa^\prime (h \kappa)^{-1} 
+       h \kappa \kappa^\prime (h \kappa)^{-1}
      = h \kappa \kappa^\prime \kappa^{-1} h^{-1} \in K,
        $$
        since $\kappa \kappa^\prime \kappa^{-1} \in K$ and
@@ -659,13 +706,13 @@ If $H$ normalizes $K$, then
 $h \in H, k \in K$ gives $h k h^{-1} = k^\prime \in K$. This defnes a
 group homomorphism $\psi : H \to \mathrm{Aut}(K)$ given by
 $\psi(h)(k) = h k h^{-1} \in K$. We call $\psi(h)$ the
-\emph{conjugation} by $h$. Now describe the group operation on 
+\emph{conjugation} by $h$. Now describe the group operation on
 $G = HK$, using the operations of $H$ and $K$ and the homomorphism $\psi$.
 
 Take $g_1, g_2 \in G$. Then $g_1 = h_1 k_1$, $g_2 = h_2 k_2$ Is this
 unique? Can we write $g = hk = h^\prime k^\prime$? This would mean
 $$
-hk = h^\prime k^\prime 
+hk = h^\prime k^\prime
   \implies k = h^{-1} h^\prime k^\prime
   \implies k (k^\prime)^{-1} = h^{-1} h^\prime,
 $$
@@ -687,7 +734,7 @@ h_2^{-1} k_1 h_2 = k_1^\prime
 
 We can express this construction differently. Start with
 $H, K$ groups and a homomorphism $\psi : H \to \mathrm{Aut}(K)$.
-Consider the direct product 
+Consider the direct product
 $$
 K \times H = \{(k, h) | k \in K, h \in H \}
 $$
@@ -715,12 +762,12 @@ that the previously defined $G$ is isomorphic to this. (Exercise 12 in Lang).
       G = \{1, \sigma, \sigma^2, \tau, \tau \sigma, \tau \sigma^2\}
         = H \ltimes K.
       $$
-      The conjugation 
+      The conjugation
       $\psi : \langle \tau \rangle \to Aut(\langle \sigma \rangle)$
       is given by
       $$
       \psi(\tau)(\sigma) = \tau \sigma \tau^{-1}
-                         = \sigma^2 \tau \tau^{-1} 
+                         = \sigma^2 \tau \tau^{-1}
                          = \sigma^2,
       $$
       because $\tau \sigma = \sigma^2 \tau$ because
@@ -737,22 +784,22 @@ that the previously defined $G$ is isomorphic to this. (Exercise 12 in Lang).
       $$
       and
       $$
-      \psi : \mathbb{Z}_2 
+      \psi : \mathbb{Z}_2
            \to \mathrm{Aut}(\mathbb{Z}_3)
-           =   \mathbb{Z}_3^* \simeq \mathbb{Z}_2 
+           =   \mathbb{Z}_3^* \simeq \mathbb{Z}_2
       $$
       so $\psi$ is identity under these identifications.
-      Then we can rewrite 
+      Then we can rewrite
       $$S \simeq \mathbb{Z}_3 \rtimes_\psi \mathbb{Z}_2.$$
       }
   \item{Let $G = \mathrm{GL}_2(\mathbb{R})$. Consider
         $K = \mathrm{SL}_2(\mathrm{R})$ and
         $\mathrm{R}^* = \mathrm{R} - \{ 0 \}.$
-        Recall that 
+        Recall that
         $\mathrm{SL}_2(\mathbb{R}) \triangleleft
         \mathrm{GL}_2(\mathbb{R})$
         because $\mathrm{SL}_2 = \ker \det$.
-        We can embed 
+        We can embed
         $\mathbb{R}^* \hookrightarrow \mathrm{GL}_2(\mathbb{R})$
         by $a \mapsto \left(\begin{array}{c c} a & 0 \\ 0 &
             1\end{array}\right)$ and call this subgroup $H$.
@@ -773,7 +820,7 @@ that the previously defined $G$ is isomorphic to this. (Exercise 12 in Lang).
         $$
         is given by
         $$
-        \psi(a)(A) = 
+        \psi(a)(A) =
           \left(\begin{array}{c c}
             a & 0 \\ 0 & 1
           \end{array}\right) \cdot A \cdot
@@ -791,9 +838,9 @@ that the previously defined $G$ is isomorphic to this. (Exercise 12 in Lang).
 Let $G$ be a group. A sequence of subgroups
 $$
 G = G_0 > G_1 > \cdots > G_i > \cdots
-$$ 
+$$
 will be called a \emph{tower} of subgroups of $G$.
-It is called a \emph{normal tower} if 
+It is called a \emph{normal tower} if
 $\forall i, G_{i+1} \triangleleft G_i$, an
 \emph{abelian tower} if it is a normal tower such that
 $G_{i} / G_{i+1}$ is abelian, and a \emph{cyclic tower}
@@ -824,7 +871,7 @@ case corresponding polynomials can be solved by radicals.
       the \emph{parabolic subgroup}. $G$ is solvable.
 
       \begin{proof}
-        Consider $\phi : G 
+        Consider $\phi : G
                      \to \mathbb{R}^* \times \mathbb{R}^* \times \mathbb{R}^*$
         given by
         $$
@@ -837,7 +884,7 @@ case corresponding polynomials can be solved by radicals.
         This $\ker \varphi$ is the matrices which have ones on the
         diagonal. Then the quotient, by the first isomorphism theorem, is
         $$
-        G / \ker \varphi 
+        G / \ker \varphi
           \simeq \mathrm{Im}(\varphi)
           = \mathbb{R}^* \times \mathbb{R}^* \times \mathbb{R}^*.
         $$
@@ -845,7 +892,7 @@ case corresponding polynomials can be solved by radicals.
 
         Next take
         $$
-         G_2 = 
+         G_2 =
           \left\{\left.
           \left(\begin{array}{c c c}
             1 & 0 & x \\ 0 & 1 & 0 \\ 0 & 0 & 1
@@ -887,7 +934,7 @@ and only if both $H$ and the quotient $G / H$ are solvable.
 Assume $H, G / H$ are solvable. Then there are towers
 $$
 H = H_0 \triangleright \cdots \triangleright H_n = \{ 1 \}, \quad
-H/H_{i+1} \text{ abelian} 
+H/H_{i+1} \text{ abelian}
 $$
 $$
 G/H = K_0 \triangleright \cdots \triangleright K_m = \{ 1 \}, \quad
@@ -914,9 +961,9 @@ So $\forall i$, $\pi^{-1}(K_i) / \pi^{-1}(K_{i+1})$ are all abelian.
 Next, assume $G$ is solvable and show $H, G/H$ are solvable.
 We may form the tower
 $$
-H \triangleright H \cap G_1 
-  \triangleright H \cap G_2 
-  \triangleright \cdots 
+H \triangleright H \cap G_1
+  \triangleright H \cap G_2
+  \triangleright \cdots
   \triangleright H \cap G_n = \{ 1 \}
 $$
 since
@@ -934,7 +981,7 @@ since
     $$
     \varphi : H \cap G_i / H \cap G_{i+1} \to G_i / G_{i+1}
     $$
-    given by 
+    given by
     $$
     \varphi(h \mod H \cap G_{i+1}) \triangleq h \mod G_{i+1},
     $$
@@ -946,7 +993,7 @@ since
     Check that this is well-defined (show that it is independent of
     the representative).
 
-    $\varphi$ gives an isomorphism between 
+    $\varphi$ gives an isomorphism between
     $H \cap G_i / H \cap G_{i+1}$ and a subgroup of the abelian group
     $G_i / G_{i+1}$, so $H \cap G_i / H \cap G_{i+1}$ is abelian.
   }
@@ -964,15 +1011,15 @@ i.e. if the only normal subgroups of $G$ are $\{1\}$ and $G$.
 \end{defn}
 
 \begin{theorem}[Jordan-H\"older Theorem]
-Let $G$ be a finite group. Suppose 
+Let $G$ be a finite group. Suppose
 $$
-G = G_0 \triangleright G_1 
+G = G_0 \triangleright G_1
         \triangleright \cdots
         \triangleright G_r = \{1\}
 $$
 and
 $$
-G = H_0 \triangleright H_1 
+G = H_0 \triangleright H_1
         \triangleright \cdots
         \triangleright H_s = \{1\}
 $$
@@ -997,15 +1044,15 @@ when it is obtained by inserting additional subgroups.
 \end{defn}
 
 \begin{defn}[Equivalent Towers]
-Two normal towers of $G$ 
+Two normal towers of $G$
 $$
-G = G_0 \triangleright G_1 
+G = G_0 \triangleright G_1
         \triangleright \cdots
         \triangleright G_r = \{1\}
 $$
 and
 $$
-G = H_0 \triangleright G_1 
+G = H_0 \triangleright G_1
         \triangleright \cdots
         \triangleright H_s = \{1\}
 $$
@@ -1018,11 +1065,11 @@ equivalent (isomorphic up to permutation) refinements.
 \end{theorem}
 
 \begin{proof}
-Let 
+Let
 \begin{align*}
-G &= G_0 \triangleright G_1 \triangleright 
+G &= G_0 \triangleright G_1 \triangleright
      \cdots \triangleright G_r = \{ 1\}, \\
-G &= H_0 \triangleright H_1 \triangleright 
+G &= H_0 \triangleright H_1 \triangleright
      \cdots \triangleright H_s = \{ 1\}. \\
 \end{align*}
 Consider that
@@ -1034,15 +1081,15 @@ $H_{j,i} = (H_j \cap G_i)H_{j+1}$. Then
 $$
 G_{i+1} \subset G_{i+1} (H_j \cap G_i) \subset G_i
 $$
-for all $i=0,\dots,r$ and $j=0,\dots,s$. 
+for all $i=0,\dots,r$ and $j=0,\dots,s$.
 
 It can be shown that these
 constructions are both normal towers of $G$ that end in $\{1\}$ and
 have the same number of steps (because we have the same number of
-pairs for each tower). Furthermore $\{G_{i,j}\}$ is a refinement of 
+pairs for each tower). Furthermore $\{G_{i,j}\}$ is a refinement of
 $\{G_i\}$ and $\{H_{j,i}\}$ is a refinement of $\{H_j\}$.
 
-We claim that there are isomorphisms 
+We claim that there are isomorphisms
 $G_{i,j} / G_{i,j+1} \simeq H_{j,i} / H_{j, i+1}$. This implies the
 theorem. Let's write it in all its disgusting glory. This says
 $$
@@ -1073,7 +1120,7 @@ HK / K \simeq H / (H \cap K)
 $$
 if $H$ normalizes $K$. We set first
 $H = U \cap V$ and $K = u(U \cap v)$, then
-$K = (V \cap u)v$. Check that 
+$K = (V \cap u)v$. Check that
 \begin{itemize}
   \item{$H$ normalizes $K$,}
   \item{$HK$ is the numerator we want,}

@@ -1,19 +1,13 @@
-\documentclass{article}
-
-\include{preamble}
-
-\begin{document}
-
-\section{\S 1.1 -- Monoids}
+\section{Monoids}
 
 \begin{defn}[Monoid]
   \label{def:monoid}
-  Given a set $S$ and a binary operation 
+  Given a set $S$ and a binary operation
   $$
   \cdot : S \times S \to S \equiv (x, y) \mapsto x \cdot y \equiv xy,
   $$
 
-  $(S, \dot)$ is a \emph{monoid} when $\forall x, y, z \in S$
+  $(S, \cdot)$ is a \emph{monoid} when $\forall x, y, z \in S$
   \begin{enumerate}
     \item{$x \cdot (y \cdot z) = (x \cdot y) \cdot z$.}
     \item{$\exists e \in S$ such that $x \cdot e = e \cdot x = x$.}
@@ -30,7 +24,7 @@ such that $x \cdot x^{-1} = e$.
           S = \mathrm{Hom}(X, X) = \{f : X \to X\}, \quad
           \cdot : S \times S \to S \equiv (g, f) \mapsto g \circ f.
           $$
-          Inverses exist for bijective maps 
+          Inverses exist for bijective maps
           $f \circ f^{-1} = \mathrm{id}_S = f^{-1} \circ f$.
          }
     \item{Take a set $X$ and consider $F(X)$, the \emph{free monoid on $X$}.
@@ -41,24 +35,24 @@ such that $x \cdot x^{-1} = e$.
                   $$
                   x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n}
                   $$
-                  for $x_1, \cdots x_n \in X$, $n \geq 1$, 
-                  $a_1, \cdots a_n \in \mathbb{N}$, and 
+                  for $x_1, \cdots x_n \in X$, $n \geq 1$,
+                  $a_1, \cdots a_n \in \mathbb{N}$, and
                   $x_i \neq x_{i+1} \forall i$.
                   Define $\cdot : F(X) \times F(X) \to F(X)$ by
                   \begin{align*}
                     1 \cdot 1 &= 1, \\
-                    1 \cdot x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n} 
+                    1 \cdot x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n}
                     & = x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n} \cdot 1
-                      = x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n}, \\                    
+                      = x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n}, \\
                     (x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n}) \cdot
                     (y_1^{b_1} y_2^{b_2} \cdots y_m^{b_m})
                     & = \left\{
                           \begin{array}{l l}
-                            x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n} 
+                            x_1^{a_1} x_2^{a_2} \cdots x_n^{a_n}
                             y_1^{b_1} y_2^{b_2} \cdots y_m^{b_m},      & x_n \neq y_1 \\
-                            x_1^{a_1} x_2^{a_2} \cdots x_n^{a_{n-1}} 
+                            x_1^{a_1} x_2^{a_2} \cdots x_n^{a_{n-1}}
                             y_1^{a_n + b_1} y_2^{b_2} \cdots y_m^{b_m}, & x_n = y_1.
-                          \end{array} 
+                          \end{array}
                         \right.
                   \end{align*}
                   Exercise: prove $\cdot$ so defined is associative.
@@ -67,5 +61,3 @@ such that $x \cdot x^{-1} = e$.
          }
   \end{enumerate}
 \end{xmpl}
-
-\end{document}

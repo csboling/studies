@@ -1,0 +1,349 @@
+\section{Permutation (Symmetric) Groups}
+Recall that
+$$
+  S_n
+= \mathrm{Perm}(\{1, 2, \dots, n\})
+= \{ f : \{ 1, \dots, n \} \to \{ 1, \dots, n \} \}
+$$
+with the group operation given by composition of maps.
+
+We denote elements of this as, for example
+$$
+  (1432)(57)
+\triangleq
+  (1 \to 4 \to 3 \to 2 \to 1) \circ (5 \to 7 \to 7),
+$$
+where all unlisted elements are kept fixed.
+
+\begin{defn}
+An element of the form $(a_1 a_2 \cdots a_k)$ with
+$a_i \in \{ 1, \dots, n \}$, $a_i$ distinct is called a
+\emph{$k$-cycle}.
+For instance $(1432)$ is a 4-cycle. We will call a 2-cycle
+a \emph{transposition}.
+\end{defn}
+
+Since we have composition of maps as the operation, the calculation of
+the product is done right-to-left:
+$$
+(1243)(412) = (1423).
+$$
+
+\begin{remark}
+Every $k$-cycle is an element of order $k$:
+$$
+(a_1 \cdots a_k)^k = 1.
+$$
+\end{remark}
+
+\begin{prop}
+Every permutation is a product of transpositions.
+\end{prop}
+\begin{proof}
+Consider $S_n$ and perform induction on $n$. The proposition is
+vacuous for $n = 1$ and $n = 2$, so assume it for $S_{n-1}$.
+
+Let $\sigma \in S_n$. We wish to find some $k \in \{1, \dots, n\}$.
+Take $\sigma(k) = n$ or $k = \sigma^{-1}(n)$, since $\sigma$ is
+injective. If $k = n$, then $\sigma(n) = n$, so it only permutes the
+first $n-1$ and then
+$\sigma \in S_{n-1}$. If $k < n$, let $\tau = (kn)$ and take
+$$
+\sigma^\prime = \sigma \tau.
+$$
+Then
+$$
+  \sigma^\prime(n)
+= \sigma (\tau(n))
+= \sigma(k)
+= n
+$$
+so
+$\sigma^\prime$ only permutes the first $n-1$ elements and thus
+$\sigma^\prime \in S_{n-1}$. Then from the inductive hypothesis,
+$\sigma^\prime = \tau_1 \cdots t_m$,
+so $\sigma \tau = \tau_1 \cdots t_m$,
+so
+$$
+\sigma
+= \tau_1 \cdots t_m \tau^{-1}
+= \tau_1 \cdots t_m \tau.
+$$
+\end{proof}
+
+\subsection*{Even and Odd Permutations}
+To every permutation $\sigma \in S_n$, associate a $n \times n$ matrix
+with $w(\sigma){ij} = 1$ where $\sigma(j) = 1$.
+
+\begin{xmpl}
+$$
+w((12)) = \left(\begin{array}{c c}
+            0 & 1 \\ 1 & 0
+          \end{array}\right), \quad
+w((123)) = \left(\begin{array}{c c c}
+             0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0
+           \end{array}\right).
+$$
+Check that $w : S_n \to GL_n(\mathbb{R})$ is a group
+homomorphism. Consider the determinant of $w(\sigma)$,
+$$
+\xi(\sigma) \triangleq \det(w(\sigma)) \in \{1, -1\}.
+$$
+Then there is a group homomorphism $\xi : S_n \to \{ \pm 1 \}$ called
+the \emph{sign of the permutation}. The sign is even when $\xi(\sigma)
+= 1$ (in which case it is a product of an even number of permutations)
+and odd when $\xi(\sigma) = -1$. For a $k$-cycle, the sign is
+given by $(-1)^{k-1}$ and in particular a 2-cycle (transposition) has
+sign $-1$.
+
+Note the circular definition, since the determinant is often defined
+in terms of the sign of a permutation.
+\end{xmpl}
+
+\begin{remark}[Decomposition into Cycles]
+Each $\sigma \in S_n$ can be written essentially uniquely as a product
+of disjoint cycles. This is done by decomposing the permutation into
+orbits. For example,
+$$
+(1 ~ \sigma(1) ~ \sigma^2(1) ~ \cdots ~ \sigma^{k-1}(1))
+$$
+is the orbit of 1 under $\sigma$, since $\sigma^k(1) = 1$ for some $k$.
+Choosing the smallest number $m$ not found in this list we then compute
+$$
+(m ~ \sigma(m) ~ \cdots ~ \sigma^{l-1}(m)),
+$$
+et cetera. By ``essentially'' we mean up to permutation of factors in
+this product, because disjoint cycles commute.
+\end{remark}
+
+\begin{theorem}[Conjugation Formula]
+Let $\sigma \in S_n$ and $(a_1 ~ \cdots ~ a_k)$ be a $k$-cycle.
+The \emph{conjugate of the $k$-cycle by $\sigma$} is given by
+$$
+\sigma(a_1 ~ \cdots ~ a_k)\sigma^{-1}
+= (\sigma(a_1) ~ \cdots ~ \sigma(a_k)).
+$$
+For example
+$$
+(1 ~ 3 ~ 4) (2 ~ 3 ~ 1 ~ 4 ~ 5) (1 ~ 3 ~ 4)^{-1}
+= (2 ~ 4 ~ 3 ~ 1 ~ 5).
+$$
+\end{theorem}
+
+\begin{corol}
+\begin{enumerate}
+  \item{
+    All $k$-cycles for a fixed $k$ are conjugate elements in $S_n$.
+  }
+  \item{
+    The conjugacy classes in $S_n$ are in 1-1 correspondence to
+    ``partitions of the number $n$''. By this we mean for instance in
+    $S_5$, the conjugacy classes have representatives
+    $$
+    \mathrm{id} = (1), \quad
+    (1 ~ 2),           \quad
+    (1 ~ 2 ~ 3),       \quad
+    \cdots
+    $$
+    and
+    $$
+    (1 ~ 2) (3 ~ 4), \quad
+    (1 ~ 2 ~ 3)(4 ~ 5)
+    $$
+    since for instance
+    $$
+    \sigma (1~2) (3~4) \sigma^{-1}
+  = \sigma (1~2) \sigma^{-1} \sigma (34) \sigma^{-1}
+  = (\sigma(1) ~ \sigma(2))(\sigma(3) ~ \sigma(4)).
+    $$
+    Note that including unwritten elements e.g. $(3)$ we have a
+    correspondence between these and the partitions of $n$:
+    $$
+    1 + 1 + 1 + 1 + 1
+  = 2 + 1 + 1 + 1
+  = 3 + 1 + 1
+  = 4 + 1
+  = 5
+  = 2 + 2 + 1
+  = 3 + 2.
+    $$
+    $$
+    (14325)(12)(14325)^{-1}
+    $$
+
+  }
+\end{enumerate}
+\end{corol}
+
+\begin{prop}
+If $n \geq 5$, $S_n$ is not solvable. In the context of Galois theory,
+this can be used to show that polynomials of order 5 or greater have
+no closed form solution.
+\end{prop}
+
+\begin{proof}
+We claim that given $N < H < S_n$, $N \triangleleft
+H$ such that $H / N$ is abelian,
+if $H$ contains all 3-cycles, then so does $N$.
+
+Take $i, j, k, r, s \in \{1, \dots, n\}$ all distinct. This is
+possible since $n \geq 5$.
+
+Consider the 3-cycles $\sigma = (i~j~k)$, $\tau = (k~r~s)$. The
+commutator is given by
+$$
+  \sigma \tau \sigma^{-1} \tau^{-1}
+= (i~r~s)(r~k~s) = (r~k~i).
+$$
+Observe that if $\sigma, \tau \in H$ then
+$\sigma \tau \sigma^{-1} \tau^{-1} \in N$ since $H / N$ is abelian and
+so $\sigma \tau \sigma^{-1} \tau^{-1} = 1 mod N$.
+
+Start with any 3-cycle $(r~k~i)$. Find $j$, $s$ disjoint from
+$\{r, k, i\}$ and observe that since $H$ contains all 3-cycles,
+$(i~j~k) = \sigma$, $(k~r~s) = \tau$ are in $H$. Then
+$$
+\sigma \tau \sigma^{-1} \tau^{-1} = (r~k~i) \in N.
+$$
+
+Suppose $S_n$ is solvable. Then we have a tower
+$$
+S_n =                G_0
+      \triangleright G_1
+      \triangleright \cdots
+      \triangleright G_m = \{1\}
+$$
+with $G_i / G_{i+1}$ abelian. Apply the claim inductively to $H =
+G_i$, $N = G_{i+1} \triangleleft G_i = H$. For $i = 0$,
+$G_0 = S_n$ which contains all 3-cycles. By induction $G_i$ contains
+all 3-cycles. But this implies $G_m = \{ 1 \}$ contains all 3-cycles,
+which is impossible. Therefore $S_n$ is not solvable.
+\end{proof}
+
+\begin{defn}[]
+The set of all even permutations in $S_n$ is a subgroup called the
+alternating group $A_n = \ker (\xi : S_n \to \{ \pm 1 \})$. In fact
+$A_n \triangleleft S_n$ of index 2.
+\end{defn}
+
+\begin{theorem}
+For all $n$, $n \neq 4$, $A_n$ is a simple group.
+\end{theorem}
+\begin{proof}
+$A_2 = \{1\}$, $A_3 = \{1, \sigma, \sigma^2 \simeq \mathbb{Z}_3$ where
+$\sigma$ is the 3-cycle $(1~2~3)$.
+
+First, some properties of $A_n$ for $n \geq 5$.
+\begin{enumerate}
+  \item{
+    $A_n$ is generated by 3-cycles.
+    Recall that $A_n$ consists of products of an even number of
+    transpositions, i.e. $\sigma = (i~j)(r~s)$. In the case when
+    $\{i,j\}$ is disjoint from $\{r,s\}$ then
+    $$
+    (i~j)(r~s) = (i~j~r)(j~r~s).
+    $$
+    If they are the same, then $(i~j)(r~s) = 1$.
+    Otherwise assume for instance $j = r$. Then
+    $$
+    (i~j)(j~s) = (i~j~s).
+    $$
+  }
+  \item{
+  }
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}
+$\forall n \neq 4$, the alternating group (the subgroup of $S_n$ of even
+permutations) is simple.
+\end{theorem}
+\begin{proof}
+We know that $A_n$ is generated by 3-cycles and that all 3-cycles are
+conjugate to each other in $A_n$. Let $(ijk)$, $(i^\prime j^\prime
+k^\prime)$ be two 3-cycles. Then from the conjugation formula
+$$
+\exists \gamma \in S_n . \gamma(ijk)\gamma^{-1} = (i^\prime j^\prime k^\prime),
+$$
+so it is enough to find $\gamma$ with $\gamma(i) = i^\prime$,
+$\gamma(j) = j^\prime$, $\gamma(k) = k^\prime$.
+
+If $\varepsilon(\gamma) =  1$, then $\gamma \in A_n$ as desired.
+If $\varepsilon(\gamma) = -1$, then since $n \geq 5$ we can choose $r,
+s$ disjoint from $i,j,k$ and consider $\tau = (rs)$. Now set
+$\gamma^\prime = \gamma \tau$, so
+$$
+  \gamma^\prime (ijk) (\gamma^\prime)^{-1}
+= \gamma \tau (ijk) \tau^{-1} \gamma^{-1}
+= \gamma (ijk) \gamma^{-1}.
+$$
+But
+$$
+  \varepsilon(\gamma^\prime)
+= \varepsilon(\gamma)\varepsilon(\tau) = (-1)(-1) = 1
+$$
+as desired.
+
+Let $N$ be a normal subgroup of $A_n$ and assume $N \neq \{ 1 \}$. We
+will show that $N = A_n$. It is enough to show that $N$ contains one
+3-cycle.
+Then since $N$ is normal, $N$ contains all 3-cycles since it contains
+all its conjugates. Since by (1), 3-cycles generate $A_n$, so we
+conclude that $N = A_n$. We want to find a 3-cycle in $N$. Pick
+$\sigma \in N$, $\sigma \neq $, with the maximum number of ``fixed
+points'' $i \in \{ 1, \dots, n \}$ such that $\sigma(i) = i$. We claim
+that $\sigma$ has to be a 3-cycle.
+
+Write $\sigma$ as a product of disjoint cycles. There are two
+possibilities: that the decomposition of $\sigma$ is a product of
+transpositions, in which case since $\sigma \in A_n$ and so $\sigma$
+is even, the decomposition will be
+$$
+\sigma = \cdots (ij)(rs) \cdots
+$$
+for $i,j,r,s$ disjoint.  Since $n \geq 5$, there exists a $k$ disjoint
+from $\{i,j,r,s\}$. Consider $\tau = (rsk)$ and the commutator
+$$
+\sigma^\prime = \sigma \tau \sigma^{-1} \tau^{-1}.
+$$
+Observe
+\begin{enumerate}
+  \item{
+    $\sigma^\prime \in N.$. Indeed
+    $$
+    \sigma^\prime = \sigma (\tau \sigma^{-1} \tau^{-1}) \in N
+    $$
+    since $\sigma \in N$ and $\tau \sigma^{-1} \tau^{-1} \in N$
+    because $\sigma \in N$ and $N$ is normal.
+  }
+  \item{
+    $\sigma^\prime(i) = i$, $\sigma^\prime(j) = j$. We have
+    \begin{align*}
+      \sigma^\prime
+        &= \sigma \tau \sigma^{-1} \tau^{-1} \\
+        &= (\cdots (ij)(rs) \cdots)(rsk)(\cdots (ij)(rs) \cdots)^{-1}(rks).
+    \end{align*}
+    so $\sigma^\prime(i) = i$, $\sigma^\prime(j) = j$.
+  }
+  \item{
+    $\sigma^\prime$ has at least one more fixed point than $\sigma$,
+    since now $i, j$ are fixed points and we may have lost fixed point
+    $k$. This contradicts our definition of $\sigma$, since $\sigma$
+    is chosen to have the maximum number of fixed points.
+  }
+\end{enumerate}
+
+The second case is that there is at least one cycle of length $\geq 3$
+in the disjoint cycle decomposition of $\sigma$. We claim that
+$\sigma$ has to be a 3-cycle. If not, then $\sigma$ must move at
+least five elements $i,j,k,r,s$ since a 4-cycle is not even.
+Consider $\tau = (krs)$ and $\sigma^\prime = \sigma \tau \sigma^{-1}
+\tau^{-1} \in N$. Observe that $\sigma^\prime(i) = i$, so
+$\sigma^\prime$ fixes more points than $\sigma$ (contradiction). This
+is because
+$$
+(\cdots(ijk)\cdots)(rsk)(\cdots(ijk)\cdots)^{-1}(rsk)^{-1}
+$$
+so $j$ is fixed.
+
+\end{proof}

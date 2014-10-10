@@ -1,13 +1,7 @@
-\documentclass{article}
-
-\include{preamble}
-
-\begin{document}
-
 \section{Group Actions}
 
 \begin{defn}[Group Action]
-Let $G$ be a group, $X$ be a set. Then a 
+Let $G$ be a group, $X$ be a set. Then a
 \emph{left $G$-action on $X$} is a map
 $G \times X \to X$, written $(g,x) \mapsto g \cdot x$, such that
 \begin{itemize}
@@ -16,7 +10,7 @@ $G \times X \to X$, written $(g,x) \mapsto g \cdot x$, such that
         $(g_1 g_2) \cdot x = g_1 (g_2 \cdot x)$.
        }
 \end{itemize}
-\end{defn} 
+\end{defn}
 
 \begin{xmpl}
 \begin{enumerate}
@@ -32,8 +26,8 @@ $G \times X \to X$, written $(g,x) \mapsto g \cdot x$, such that
         matrix product.
        }
   \item{Take $X = \{z \in \mathbb{C} | \mathrm{Im}(z) > 0\}$, so
-        $z = x + iy$ for $x,y \in \mathbb{R}$, $y > 0$ 
-        (the upper-half plane). Take 
+        $z = x + iy$ for $x,y \in \mathbb{R}$, $y > 0$
+        (the upper-half plane). Take
         $G = \mathrm{SL}_2(\mathbb{R})$. The action is given by
         $$
         \left[\begin{array}{c c}
@@ -62,7 +56,7 @@ homomorphism $G \to \mathrm{Perm}(S)$. Why is this? Let
 $\cdot : G \times S \to S$ be a group action. Then to this we can
 associate a map $\Phi : G \to \mathrm{Perm}(S)$ by the rule
 $\Phi(g)(x) = g \cdot x$. We can observe that $\Phi(g)$ is a bijection
-since its inverse is given by $\Phi(g^{-1})$. 
+since its inverse is given by $\Phi(g^{-1})$.
 
 Also, starting from $\Phi : G \to \mathrm{Perm}(S)$ we can define
 $G \times S \to S$ by $g \cdot x = \Phi(g)(x)$. Observe that the types
@@ -72,12 +66,12 @@ of this isomorphism are related tensor-hom adjunction.
 \begin{defn}[Orbit, Stabilizer]
 Fix some $x \in S$. The \emph{orbit} of $x$ is the set
 $$
-G \cdot x = \{ y \in S | \exists g \in G . y = g \cdot x \} 
+G \cdot x = \{ y \in S | \exists g \in G . y = g \cdot x \}
           = \{ g \cdot x | g \in G \}.
 $$
 
-The \emph{stabilizer} of $x$ is the set 
-$Gx = \{ g \in G | g \cdot x = x \}$. Observe that 
+The \emph{stabilizer} of $x$ is the set
+$Gx = \{ g \in G | g \cdot x = x \}$. Observe that
 $\forall x \in S$, $Gx < G$:
 \begin{align*}
          & g \cdot x = x \\
@@ -103,9 +97,9 @@ $$
 where by definition $g \cdot x$ is in the orbit. This is a
 well-defined map, by which we mean for $g, g^\prime \in G$ such that
 $g \cdot Gx = g^\prime \cdot Gx$, $g^\prime = g \cdot h$, $h \in
-Gx$. Then 
+Gx$. Then
 $$
-g^\prime \cdot x = (g h) \cdot x 
+g^\prime \cdot x = (g h) \cdot x
 \implies g^\prime \cdot x = g(hx) = g \cdot x.
 $$
 This is surjective by definition because everything in the orbit is an
@@ -142,9 +136,9 @@ the \emph{conjugacy class} of $x$ in $G$.
 Note that the proposition proved above implies that $G / C_x$ is
 isomorphic to the conjugacy class of $x$, that the number of elements
 in the conjugacy class of $x$ is $[G : C_x]$, and that this number
-always divides the order of the group. 
+always divides the order of the group.
 
-Observe that if $x \in Z(G)$, then $C_x = G$ or equivalently 
+Observe that if $x \in Z(G)$, then $C_x = G$ or equivalently
 $[G : C_x] = 1$ and that
 $$
 \# G = \sum_{[G : C_x] > 1} [G : C_x] + \# Z(G).
@@ -188,7 +182,7 @@ $$
 $$
 This yields
 $$
-\{1\} 
+\{1\}
   \triangleleft Z(G)
   \triangleleft \pi^{-1}(Z(G^\prime))
   \triangleleft G.
@@ -234,7 +228,7 @@ the group order $|G|$.
 \end{xmpl}
 
 \begin{prop}
-Let $G$ be a group, $H < G$ such that $[G : H] = 2$. 
+Let $G$ be a group, $H < G$ such that $[G : H] = 2$.
 Then $H \triangleleft G$.
 \end{prop}
 \begin{proof}
@@ -242,16 +236,16 @@ We have $H \triangleleft N(H) < G$. Then
 $[G : H] = [G : N(H)][N(H) : H]$ (exercise, by looking at the possible
 cosets like in Lagrange's theorem).
 But $[G : H] = 2$. So then either $H = N(H)$ or $G = N(H)$ since 2 is
-prime. In the latter case we are done because this implies 
+prime. In the latter case we are done because this implies
 $H \triangleleft G$. We then want to rule out $H = N(H)$.
 
-If $H = N(H)$ then 
+If $H = N(H)$ then
 $$
 \# \mathrm{Orb}(H) = [G : N(H)] = [G : H] = 2,
 $$
 so $\mathrm{Orb}(H) = \{H, H^\prime \}$ for some $H^\prime$ conjugate
-to $H$. Then the conjugation action permutes $\mathrm{Orb}(H)$, so 
-we have a map 
+to $H$. Then the conjugation action permutes $\mathrm{Orb}(H)$, so
+we have a map
 $$
 \varphi : G \to \mathrm{Perm}(\{H, H^\prime\}) = S_2 = \{(1), (1 2)\}
 $$
@@ -265,7 +259,7 @@ $K < N(H)$.
 
 Therefore
 \begin{itemize}
-  \item{$K \triangleleft G$ and $[G : K] = 2$ since 
+  \item{$K \triangleleft G$ and $[G : K] = 2$ since
         $G/K \simeq \mathrm{Im}(\varphi) = S_2$,}
   \item{$K < N(H)$,}
   \item{$H = N(H) < G, [G : H] = 2$,}
@@ -274,7 +268,7 @@ so $K < N(H) = H < G$ and thus $H = N(H) = K$ and
 $K \triangleleft G$ since it is the kernel of a homomorphism.
 This is formally a contradiction since we assume $H = N(H)$.
 
-Alternatively, $H < K$ and so for $h \in H$, 
+Alternatively, $H < K$ and so for $h \in H$,
 $h H h^{-1} = H$ so $H \triangleleft K$.
 \end{proof}
 
@@ -282,6 +276,3 @@ $h H h^{-1} = H$ so $H \triangleleft K$.
 Let $H < G$ such that $[G : H] = p$ is the smallest prime number that
 divides the order of the group. Then $H \triangleleft G$.
 \end{exer}
-
-
-\end{document}
