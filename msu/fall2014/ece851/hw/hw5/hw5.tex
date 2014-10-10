@@ -261,19 +261,23 @@ $$
           \end{array}\right]
   $$
   so that the uncontrollable form is
-  $$
-  \bar{A} = Q^{-1} A Q
+  \begin{align*}
+  \bar{A} &= Q^{-1} A Q =
             \left[\begin{array}{r r r r}
               0 & -3 &  4 &  2 \\
               1 & -4 &  2 &  1 \\
               0 &  0 &  0 &  2 \\
               0 &  0 & -4 & -6
-            \end{array}\right], \quad
-  \bar{B} = Q^{-1} B
+            \end{array}\right], \\
+  \bar{B} &= Q^{-1} B =
             \left[\begin{array}{c}
               1 \\ 0 \\ 0 \\ 0
-            \end{array}\right].
-  $$
+            \end{array}\right], \\
+  \bar{C} &= C Q =
+            \left[\begin{array}{r r r r}
+              1 & -1 & 4 & 2
+            \end{array}\right]
+  \end{align*}
   Therefore the eigenvalues of
   $$
   \bar{A}_{11} = \left[\begin{array}{r r}
@@ -321,19 +325,23 @@ $$
           \end{array}\right]
   $$
   and therefore obtain the nonobservable form
-  $$
-  \bar{A} = Q^{-1} A Q =
+  \begin{align*}
+  \bar{A} &= Q^{-1} A Q =
     \left[\begin{array}{r r r r}
        2 &  3 &  0 &  0 \\
       -4 & -5 &  0 &  0 \\
        2 &  2 & -3 &  0 \\
       -2 & -2 & -2 & -4
-    \end{array}\right], \quad
-  \bar{C} = C Q =
+    \end{array}\right], \\
+  \bar{B} &= Q^{-1} B =
+    \left[\begin{array}{r}
+      1 \\ -1 \\ -1 \\ 2
+    \end{array}\right], \\
+  \bar{C} &= C Q =
     \left[\begin{array}{c c c c}
       7 & 6 & 0 & 0
-    \end{array}\right],
-  $$
+    \end{array}\right]
+  \end{align*}
   so that
   $$
   \bar{A}_{11}
@@ -361,5 +369,124 @@ $$
 
 \section*{Problem \#3}
 
+Let $Q_C$ and $Q_O$ denote the transformations taking the system to
+uncontrollable form $A_O, B_O, C_O$ and unobservable form $A_C, B_C,
+C_C$. Then
+\begin{align*}
+   C e^{At} B
+&= C e^{Q_C A_C Q_C^{-1} t} Q_C B_C
+ = C Q_C e^{A_C t} Q_C^{-1} Q_C B_C
+ = C Q_C e^{A_C t} B_C \\
+&= C Q_C e^{A_C t}
+   \left[\begin{array}{c}
+     B_{C1} \\ 0
+   \end{array}\right]
+ = C Q_C
+   \left[\begin{array}{c}
+     e^{A_{C1} t} B_{C1} \\ 0
+   \end{array}\right],
+ \end{align*}
+which indicates that only $e^{A_{C1} t}$ affects the result, and
+\begin{align*}
+   C e^{At} B
+&= C_O Q_O^{-1} e^{Q_O A_O Q_O^{-1} t} B
+ = C_O Q_O^{-1} Q_O e^{A_O t} Q_O^{-1} B
+ = C_O e^{A_O t} Q_O^{-1} B \\
+&= \left[\begin{array}{c c}
+     C_{O1} & 0
+   \end{array}\right]
+   e^{A_O t} Q_O^{-1} B
+ = \left[\begin{array}{c c}
+     C_{O1} e^{A_{01} t} & 0
+   \end{array}\right] Q_O^{-1} B,
+\end{align*}
+which indicates that only $e^{A_{O1} t}$ affects the result. Therefore
+only modes present in both $e^{A_{C1} t}$ and $e^{A_{O1} t}$, i.e.,
+the controllable and observable modes, appear in $C e^{At} B$.
+The transfer function of the system is given by
+$$
+H(s) = C (sI - A)^{-1} B = C \mathcal{L}\{e^{At}\} B
+$$
+and the impulse response by
+$$
+\mathcal{L}^{-1}\{H(s)\} = C e^{At} B,
+$$
+so these functions also only contain the modes present in both
+$e^{A_{C1} t}$ and $e^{A_{O1} t}$.
+
+\pagebreak
+
+\section*{Problem \#4}
+\begin{enumerate}[(a)]
+  \item{
+    The system
+    $$
+    A = \left[\begin{array}{r r r}
+          -4 &  3 &  2 \\
+           2 & -6 &  1 \\
+           1 &  2 & -8
+        \end{array}\right], \quad
+    B = \left[\begin{array}{c}
+          1 \\ 2 \\ 3
+        \end{array}\right]
+    $$
+    has controllability matrix
+    \begin{align*}
+      \mathcal{C} &=
+      \left[\begin{array}{r r r}
+        1 &   8 & -91 \\
+        2 &  -7 &  39 \\
+        3 & -19 & 146
+      \end{array}\right]
+    \end{align*}
+    which has full rank and so
+    \begin{align*}
+    \mathcal{C}^{-1} &=
+    \left[\begin{array}{r r r}
+      2.0970 & -4.1866 & 2.4254 \\
+      1.3060 & -3.1269 & 1.6493 \\
+      0.1269 & -0.3209 & 0.1716
+    \end{array}\right]
+    \end{align*}
+    which has $n$-th row
+    $$
+    q = \left[\begin{array}{r r r}
+          0.1269 & -0.3209 & 0.1716 \\
+        \end{array}\right]
+    $$
+    and so transformation matrix
+    \begin{align*}
+    P &= \left[\begin{array}{c}
+           q \\ qA \\ qA^2
+         \end{array}\right] \\
+      &= \left[\begin{array}{r r r}
+            3 &   -19 &   146 \\
+           96 &   415 & -1181 \\
+         -735 & -4564 & 10055
+         \end{array}\right].
+    \end{align*}
+  }
+  \item{
+    This transformation then produces the controller form
+    \begin{align*}
+    A_c &= P A P^{-1} =
+    \left[\begin{array}{r r r}
+         0 &   1 &   0 \\
+         0 &   0 &   1 \\
+      -113 & -94 & -18
+    \end{array}\right], \\
+    B_c &= \left[\begin{array}{c}
+           0 \\ 0 \\ 1
+          \end{array}\right].
+    \end{align*}
+  }
+  \item{
+    The characteristic polynomial can be written down from the
+    elements of the last row of the control canonical form, namely
+    $$
+    \det (sI - A_c) = s^3 + 18s^2 + 94s + 113.
+    $$
+  }
+\end{enumerate}
 
 \end{document}
