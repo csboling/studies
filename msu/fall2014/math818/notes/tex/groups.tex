@@ -374,6 +374,11 @@ for some $a \in G$. A \emph{right coset} is defined similarly.
 
 Properties of cosets:
 \begin{enumerate}
+  \item{When $h \in H$, we have $hH = H$. If $g \in hH$ then
+        $g = h h^\prime \in H$ so $g \in H$. If $h \in H$ then
+        $h = h^\prime (h^\prime)^{-1} h \in h^\prime H$ for any
+        $h^\prime \in H$.
+       }
   \item{Two left cosets are either disjoint or identical. Take $aH$,
         $a^\prime H$ for $a, a^\prime \in G$. Suppose
         $aH \cap a^\prime H \neq \varnothing$. Then
@@ -408,6 +413,15 @@ Some results about subgroup indices:
         order of $G$ (Lagrange's theorem).}
 \end{enumerate}
 \end{corol}
+
+As an important consequence of the last point, note that if $H$ and
+$K$ are subgroups then $H \cap K$ is a subgroup of both $H$ and
+$K$. Suppose that a group $G$ has two subgroups
+$P_1$, $P_2$ of identical prime order $p$. Then Lagrange's theorem says that
+$|P_1 \cap P_2|$ divides $p$, so either
+$P_1 \cap P_2 = \{ 1 \}$ or $P_1 \cap P_2 = p$. That is, two
+subgroups of identical prime order are either identical or disjoint
+except for the identity.
 
 \begin{proof}
 
@@ -604,6 +618,37 @@ Equivalently,
   \item{$\forall a \in G, a H a \subset a H$}
 \end{itemize}
 \begin{proof}
+
+Starting from the original definition:
+\begin{itemize}
+  \item{
+    Suppose $\forall a \in G$, $a H = H a$. Let $g \in a H a^{-1}$. Then
+    $g = a h a^{-1} = h^\prime a a^{-1} = h^\prime \in H$, so $a H a^{-1} \subset H$.
+    Let $h \in H$. Then $h = h a a^{-1} = a h^\prime a^{-1}$, so $h \in a H a^{-1}$.
+  }
+  \item{
+    The forward implication from the first bullet to the second is clear.
+
+    Suppose $\forall a \in G, a H a^{-1} \subset H$, and let $h \in H$. Then
+    $a^{-1} h a \in a^{-1} H a \subset H$, so $a^{-1} h a \in H$, and then
+    $h = a (a^{-1} h a) a^{-1} \in a H a^{-1}$, so $H \subset a H a^{-1}$.
+  }
+  \item{
+    Suppose $\forall a$, $a H a^{-1} \subset H$, and let $ah \in aH$. Then
+    $a h a^{-1} \in a H a \subset H$, so $a h a^{-1} \in H$. Then
+    $ah = (aha^{-1})a \in Ha$, so $aH \subset Ha$.
+  }
+%  \item{Suppose $\forall a$, $aH \subset Ha$. First take $g \in Ha$ so that
+%        $g = ha$ and note that
+%        $$
+%        a^{-1} g = a^{-1} h a = h^\prime a^{-1} a = h^\prime
+%        $$
+%        so that $g = a h^\prime$, and therefore $g \in aH$. Therefore we have
+%        $aH = Ha$.
+%
+%        Next let $g \in aHa$ so $g = aha$. Then $g = a a h^
+\end{itemize}
+\end{proof}
 %ote that, for instance
 %begin{align*}
 % H & = \{ x \in G | \exists h \in H . x = a h \}
@@ -658,7 +703,7 @@ $a x a^{-1} \in \ker(f)$.
         $$
         $Z(G) \triangleleft G$, since $g Z(G) g^{-1} \subset Z(G)$
         since $g z g^{-1} = z g g^{-1} = z \in Z(G)$. If
-        $Z(G) = \{1\}$, then $G$ is said to be \emph{perfect}.
+        $Z(G) = \{1\}$, then $G$ is said to be \emph{centerless}.
         }
 \end{enumerate}
 \end{xmpl}
@@ -773,8 +818,11 @@ $a \ker(f) \mapsto f(a)$.
 \begin{proof}
 Set $\bar{f}(a \ker (f)) = f(a)$. We check that $\bar{f}$ is a
 well-defined map $G / \ker(f) \to \mathrm{Im}(f)$ by showing that
-$a \ker f = b \ker f \implies f(a) = f(b)$. This condition however
-implies that
+$a \ker f = b \ker f \implies f(a) = f(b)$. Take
+$a \ker f = b \ker f$ so that for all $k \in \ker f$ we have
+$a k = b k^\prime$ for some $k^\prime$. But since $f$ is a homomorphism
+we must have $f(1) = 1$ so that $1 \in \ker f$, and thus we have
+$b^{-1} a = k^\prime \in \ker f$. Then
 $$
 b^{-1} a \in \ker(f)
   \implies f(b^{-1} a) = 1
@@ -784,7 +832,7 @@ $$
 
 Next, we prove $\bar{f}$ is a group homomorphism.
 $$
-\bar{f}(a \ker f b \ker f)
+\bar{f}(a \ker f \cdot b \ker f)
   = \bar{f} (a b \ker f)
   = f(ab)
   = f(a)f(b)
@@ -792,18 +840,14 @@ $$
 $$
 since $f$ is a homomorphism.
 
-$\bar{f}$ is surjective by definition since it is onto
-$\mathrm{Im}(f)$.
+$\bar{f}$ is surjective by definition: let $y \in \mathrm{Im} f$. Then $y = f(x)$
+for some $x \in G$, so $y = \bar{f}(x \ker f)$. Furthermore
 
 \begin{align*}
-\ker(\bar{f}) & = \{ a \ker f | \bar{f}(a \ker f) = f(a) = 1 \} \\
-              & = \{ a \ker f | a \in \ker f \} \\
-              & \simeq \{ \ker f \},
+\ker(\bar{f}) & = \{ a \ker f \mid \bar{f}(a \ker f) = f(a) = 1 \} \\
+              & = \{ a \ker f \mid a \in \ker f \} \\
+              & = \{ \ker f \},
 \end{align*}
-with the isomorphism given by
-$\left(\pi|_{\ker f}\right)^{-1}$,
-the inverse of the restriction to $\ker f$
-of the canonical isomorphism $\pi : G \to G / \ker f$.
 This means by definition that $\ker(\bar{f})$ has the same cardinality
 as a singleton set so it must be trivial, thus $\bar{f}$ is injective.
 \end{proof}
@@ -819,18 +863,30 @@ $H \subset G$, $h K h^{-1} = K$, so $K \triangleleft H$. Consider the
 canonical maps $\pi_K : G \to G / K$ and
 $\pi_H : G \to G / H$. We claim that there exists a homomorphism
 $\varphi : G / K \to G / H$ given by $\varphi(gK) = gH$, and that
-$\varphi \circ \pi_K = \pi_H$. (Exercise.) Note that $\varphi$ is
-surjective and
+$\varphi \circ \pi_K = \pi_H$.
+
+We show first that $\varphi \circ \pi_K = \pi_H$. We have
+$$
+(\varphi \circ \pi_K)(g) = \varphi(gK) = gH = \pi_H(g),
+$$
+and thus $\varphi = \pi_H \circ \pi_K^{-1}$, so $\varphi$ is a
+composition of isomorphisms and therefore an isomorphism itself.
+
+We observe next that
 $$
 \ker(\varphi)
   = \{ gK | gH = H \}
   = \{ gK | g \in H \}
   = H / K.
 $$
-Then $H / K$ is normal in $G / K$, as the kernel of a group
-homomorphism, and from the first isomorphism theorem
-$(G / K) / \ker(\varphi) = \mathrm{Im}(\varphi)$
-or $(G / H) / (H / K) \simeq G / H$.
+Therefore
+$\ker \varphi = H / K$, so by the first isomorphism theorem
+$$
+       (G / K) / (H / K)
+=      (G / K) / \ker \varphi
+\simeq \mathrm{Im} \varphi
+=      G / H.
+$$
 \end{proof}
 
 \begin{theorem}[Third Isomorphism Theorem]
@@ -850,7 +906,9 @@ $$
         $h \kappa h^{-1} \in H$ since $h, \kappa \in H$
         and $h \kappa h^{-1} \in K$ since $h \in H$, $H$ normalizes
         $K$.
-        Then $h \kappa h^{-1} \in H \cap K$.
+        Then $h \kappa h^{-1} \in H \cap K$, so $\forall h$
+        $h (H \cap K) h^{-1} \subset H \cap K$ or equivalently
+        $H \cap K \triangleleft H$.
        }
   \item[($HK < G$)]{
         $h_1 \kappa_1 h_2 \kappa_2
@@ -863,8 +921,8 @@ $$
 
        Also $K \triangleleft HK$. Indeed,
        $$
-       h \kappa \kappa^\prime (h \kappa)^{-1}
-     = h \kappa \kappa^\prime \kappa^{-1} h^{-1} \in K,
+       (h \kappa) \kappa^\prime (h \kappa)^{-1}
+     = h (\kappa \kappa^\prime \kappa^{-1}) h^{-1} \in K,
        $$
        since $\kappa \kappa^\prime \kappa^{-1} \in K$ and
        $h K h^{-1} \subset K$.
@@ -877,8 +935,9 @@ $$
              Notice that $\varphi = \pi \circ j$ is a homomorphism, and is
              surjective since $h \kappa K = h K$, and has the kernel
              $$
-             \ker \varphi = \{ h | hK = K \} \implies
-             \ker \varphi = \{ h \in H | h \in K \} = H \cap K.
+             \ker \varphi = \{ h \in H \mid hK = K \}
+                          = \{ h \in H \mid h \in K \}
+                          = H \cap K.
              $$
              Then $H / \ker \varphi \simeq \mathrm{Im} \varphi$, which
              is exactly
@@ -891,11 +950,11 @@ $$
 Let $G$ be a group, $K < G$. Then the \emph{normalizer}
 $N_K$ of $K$ in G is
 $$
-N_K = \{ g \in G | g K g^{-1} = K \}.
+N_K = \{ g \in G \mid g K g^{-1} = K \}.
 $$
 \end{defn}
 
-\begin{exer}
+\begin{Problem}
 Show that
 \begin{itemize}
   \item{$K < N_K < G$.}
@@ -903,8 +962,35 @@ Show that
       subgroup of $G$ that contains $K$ such that $K$ is normal in
       that subgroup.}
 \end{itemize}
+\end{Problem}
 
-\end{exer}
+\begin{Answer}
+Certainly for $k, k^\prime \in K$ we have
+$$
+k K k^{-1} = (k k^\prime)K(k k^\prime)^{-1} = k^{-1} K k = K
+$$
+so $K < N_K$. Let $n_1, n_2 \in N_K$. Then
+$$
+n_1 n_2 k = n_1 k^\prime n_2 = k^{\prime\prime} n_1 n_2
+$$
+so $n_1 n_2 \in N_K$. Let $n \in N_K$. Then
+$$
+n^{-1} k = (k^{-1} n)^{-1} = (n k^\prime)^{-1} = (k^\prime)^{-1} n^{-1}
+$$
+so $n^{-1} \in N_K$. Since additionally $1$ commutes with all elements
+and therefore is in the normalizer, we conclude that $K < N_K < G$.
+
+$K \triangleleft N_K$ since for any
+$n k n^{-1} \in n K n^{-1}$ we have
+$$
+n k n^{-1} = n n^{-1} k^\prime = k^\prime \in K
+$$
+so $n K n^{-1} \subset K$.
+
+Next let $H < G$ be any subgroup such that $K \triangleleft H$.
+Let $h \in H$. Then $h K = K h$, so $h \in N_K$. Then
+$H \subset N_K$.
+\end{Answer}
 
 \begin{remark}
 The assumption in the 3rd isomorphism theorem can be written $H < N_K$.
@@ -912,17 +998,19 @@ The assumption in the 3rd isomorphism theorem can be written $H < N_K$.
 
 \subsubsection{Special Case}
 \begin{defn}[Semidirect Product]
-Let $K \triangleleft G$, $H \cap K = \{ 1 \}$, and $HK = G$.
+Let $H < G$, $K \triangleleft G$, $H \cap K = \{ 1 \}$, and $HK = G$.
 Then $G$ is the \emph{semidirect product} of $H$ and $K$ and we write
-$G = H \ltimes K$.
-\end{defn}
+$G = H \ltimes K$ with the triangle pointing at $K$ to remember that
+$K \triangleleft G$ (not that $K \triangleleft H$, since indeed we do
+not have $K < H$ in our assumptions).
 
-
-The third isomorphism theorem applies in this situation to give
+Since $K \triangleleft G$ we have $N_K = G$, so $H < N_K$ and
+the third isomorphism theorem applies to give
 $$
 HK / K \simeq H / H \cap K \implies
 G / K  \simeq H / \{ 1 \} \simeq H.
 $$
+\end{defn}
 
 If $H$ normalizes $K$, then
 $h \in H, k \in K$ gives $h k h^{-1} = k^\prime \in K$. This defnes a
@@ -955,7 +1043,8 @@ h_2^{-1} k_1 h_2 = k_1^\prime
 % 9/15
 
 We can express this construction differently. Start with
-$H, K$ groups and a homomorphism $\psi : H \to \mathrm{Aut}(K)$.
+$H, K$ groups as given before
+and a homomorphism $\psi : H \to \mathrm{Aut}(K)$.
 Consider the direct product
 $$
 K \times H = \{(k, h) | k \in K, h \in H \}
@@ -966,11 +1055,18 @@ $$
 $$
 Call this $G$.
 
-\begin{exer}
+\begin{Problem}
 Show that $G$ is a group with this operation. This is an alternative
 definition of the semidirect product $K \rtimes_\psi H$. Show also
-that the previously defined $G$ is isomorphic to this. (Exercise 12 in Lang).
-\end{exer}
+that the previously defined $G$ is isomorphic to this. (Exercise 12 in
+Lang).
+\end{Problem}
+
+\begin{Answer}
+This is covered by Problems \#1 and \#2 in Homework \#2
+-- the isomorphism is given by $(k, h) \mapsto kh$
+which is a homomorphism because of the assumption that $H < N_K$.
+\end{Answer}
 
 \begin{xmpl}[Semidirect Products]
 \begin{enumerate}
@@ -1012,7 +1108,9 @@ that the previously defined $G$ is isomorphic to this. (Exercise 12 in Lang).
       $$
       so $\psi$ is identity under these identifications.
       Then we can rewrite
-      $$S \simeq \mathbb{Z}_3 \rtimes_\psi \mathbb{Z}_2.$$
+      $$
+      S_3 \simeq \mathbb{Z}_3 \rtimes_\psi \mathbb{Z}_2.
+      $$
       }
   \item{Let $G = \mathrm{GL}_2(\mathbb{R})$. Consider
         $K = \mathrm{SL}_2(\mathrm{R})$ and
@@ -1153,33 +1251,55 @@ Let $G$ be a group and $H \triangleleft G$. Then $G$ is solvable if
 and only if both $H$ and the quotient $G / H$ are solvable.
 \end{prop}
 \begin{proof}
+
+We show the reverse implication first.
+\begin{itemize}
+\item[($\impliedby$)]
+{
 Assume $H, G / H$ are solvable. Then there are towers
 $$
 H = H_0 \triangleright \cdots \triangleright H_n = \{ 1 \}, \quad
-H/H_{i+1} \text{ abelian}
+H_i/H_{i+1} \text{ abelian}
 $$
 $$
 G/H = K_0 \triangleright \cdots \triangleright K_m = \{ 1 \}, \quad
-K/K_{i+1} \text{ abelian}.
+K_i/K_{i+1} \text{ abelian}.
 $$
 Confirm that the inverse image $f^{-1}(K_i)$ of a normal subgroup is
-normal under any group homomorphism $f$. Note that
+normal under any group homomorphism $f$. Let $x \in f^{-1}(N)$ for
+some homomorphism $f : G \to G^\prime$ and some $N \triangleleft
+G^\prime$. We have that
+$$
+  f(g x g^{-1})
+= f(g) f(x) f(g)^{-1}
+= f(g) f(g)^{-1} n = n \in N
+$$
+and so $g x g^{-1} \in f^{-1}(N)$. Therefore
+$g f^{-1}(N) g = f^{-1}(N)$.
+
+Note that
 $$
 \pi^{-1}(K_i) / \pi^{-1}(K_{i+1}) \simeq K_i / K_{i+1}
 $$
-By restricting $\pi$ we have a surjective map
+since by restricting $\pi$ we have a surjective map
 $\pi|_{\pi^{-1}(K_i)} : \pi^{-1}(K_i) \to K_i$ with kernel $H$,
 so
 $$
 \pi^{-1}(K_i) / H \simeq K_i.
 $$
-Now
+Now since $H \triangleleft G$ and as just shown
+$\pi^{-1}(K_i) \triangleleft G$, we apply the second isomorphism
+theorem to see
 $$
 K_i / K_{i+1} \simeq (\pi^{-1}(K_i) / H) / (\pi^{-1}(K_{i+1}) / H)
-             \simeq \pi^{_1}(K_i) / \pi^{-1}(K_{i+1}).
+             \simeq \pi^{-1}(K_i) / \pi^{-1}(K_{i+1}).
 $$
-So $\forall i$, $\pi^{-1}(K_i) / \pi^{-1}(K_{i+1})$ are all abelian.
-
+So $\forall i$, $\pi^{-1}(K_i) / \pi^{-1}(K_{i+1})$ are all abelian,
+and since $\pi^{-1}(K_i) \triangleleft G$ we have therefore formed
+an abelian tower.
+}
+\item[($\implies$)]
+{
 Next, assume $G$ is solvable and show $H, G/H$ are solvable.
 We may form the tower
 $$
@@ -1195,13 +1315,14 @@ since
     \forall i . H \cap G_{i+1} \triangleleft H \cap G_i.
     $$
     Take $h \in H \cap G_i$ and $g \in H \cap G_{i+1}$.
-    Then $h g h^{-1} \in G_{i+1}$ and $h, g \in H$, so
-    $h g h^{-1} \in H \cap G_{i+1}$.
+    Then since $g \in G_{i+1} \triangleleft G_i$ and
+    $h \in G_i$ we have $h g h^{-1} \in G_{i+1}$ and
+    $h, g \in H$, so $h g h^{-1} \in H \cap G_{i+1}$.
   }
   \item{
     Construct a homomorphism
     $$
-    \varphi : H \cap G_i / H \cap G_{i+1} \to G_i / G_{i+1}
+    \varphi : (H \cap G_i) / (H \cap G_{i+1}) \to G_i / G_{i+1}
     $$
     given by
     $$
@@ -1221,6 +1342,8 @@ since
   }
 \end{enumerate}
 Similarly we can show that $G / H$ is solvable (exercise).
+}
+\end{itemize}
 \end{proof}
 
 Let $H \triangleleft G$. Consider the quotient $G / H$. Then we have
@@ -1274,7 +1397,7 @@ G = G_0 \triangleright G_1
 $$
 and
 $$
-G = H_0 \triangleright G_1
+G = H_0 \triangleright H_1
         \triangleright \cdots
         \triangleright H_s = \{1\}
 $$

@@ -13,6 +13,17 @@ Let $|G| = 36$. There is a 2-Sylow group of order 4 and a 3-Sylow
 group of order 9. There are no other groups of Sylow type.
 \end{xmpl}
 
+\begin{defn}[Conjugate Subgroup]
+Two subgroups $H_1$ and $H_2$ of a group $G$ are \emph{conjugate} if
+there is a $g \in G$ such that $g H_1 g^{-1} = H_2$, i.e., elements of
+$H_1$ and elements of $H_2$ occupy the same conjugacy class.
+That is, there is an inner automorphism $c_g \in \mathrm{Inn}(G)$ such
+that the restriction $c_g : H_1 \to G$ is bijective onto $H_2$, or
+equivalently if $H_2$ belongs to the orbit $G . H_1$ of the action of
+$G$ on subgroups of $G$ by conjugation, i.e. $H_2 \in
+\mathrm{Orb}(H_1)$ in the previous notation.
+\end{defn}
+
 \begin{theorem}[Sylow Theorems]
   Let $G$ be a finite group, $p$ prime, $p$ divides $|G|$
   ($n = |G| = p^a n^\prime$, $a \geq 1$, $p$ does not divide $n^\prime$)
@@ -345,11 +356,11 @@ lies on the stabilizer.
     Call this 7-Sylow $H$ ($H \triangleleft G$). Then $|H| = 7$ since
     this is the highest power of $7$ that divides 63, and since $|H|$
     is prime this means
-    $H = \triangleleft a \triangleright \simeq \mathbb{Z}_7$. Then
-    consider $|G / H| = 9$. This is abelian since it has a nontrivial
-    center (since it is a $3$-group).
-    Then $|Z(G)| = |G|$ or $|G / Z(G)| = p$. But if $|G / Z(G)| = p$ then
-    $G / Z(G)$ is cyclic, so $G$ is abelian.
+    $H = \langle a \rangle \simeq \mathbb{Z}_7$. Then
+    consider $|G / H| = 9$. This is a $3$-group and thus has a
+    nontrivial center.
+    Then $|Z(H)| = |H|$ or $|H / Z(H)| = 3$. But if $|H / Z(H)| = 3$ then
+    $H / Z(H)$ is cyclic, so $H$ is abelian.
 
     This means our group $G$ of order 63 is solvable, since $G / H$ is abelian.
   }
@@ -357,8 +368,8 @@ lies on the stabilizer.
     Show that a group of order $56$ is not simple.
     $|G| = 2^3 \cdot 7$, so $N_7 \equiv 1 \mod 7$ and $N_7$ divides $7
     \cdot 8$, so either $N_7 = 1$ or $N_7 = 8$. $N_2 \equiv 1 \mod 2$
-    and $N_2$ divides $7 \cdot 8$, so $N_7$ divides 7 and thus $N_7 =
-    1$ or $N_7 = 7$.
+    and $N_2$ divides $7 \cdot 8$, so $N_2$ divides 7 and thus $N_2 =
+    1$ or $N_2 = 7$.
 
     Suppose $N_7 = 8$. These then have $6 \times 8 + 1 = 49$ elements
     in total. If $H, H^\prime$ are two 7-Sylows with $H \cap H^\prime
