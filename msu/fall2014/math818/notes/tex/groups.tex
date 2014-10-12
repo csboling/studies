@@ -11,7 +11,7 @@
          }
     \item{$\cdot : G \times G \to G$ is an associative binary operation on $G$,
          }
-    \item{There exists a unique $1 \in G$ such that
+    \item{There exists a unique $1 \in G$ (sometimes denoted $e$) such that
           $1 \cdot g = g \cdot 1 = g, \forall g \in G$,
          }
     \item{For every $g \in G$, there exists a unique $g^{-1} \in G$ such that
@@ -183,6 +183,7 @@ H$ gives $x^{-1} \in H$, so $H$ is a subgroup.
 \end{Answer}
 
 \begin{defn}[Generating Set, Cyclic Group]
+  We define what is meant by a generator.
   \begin{enumerate}
     \item{If for some $S \subset G$, $\langle S \rangle = G$, we say that
           $S$ \emph{generates} $G$.
@@ -219,13 +220,29 @@ and $g : G^\prime \to G^{\prime\prime}$,
 $g \circ f$ is a homomorphism.
 \end{prop}
 
+\begin{proof}
+We have
+$$
+(g \circ f)(xy) = g(f(x)f(y))
+                = g(f(x))g(f(y))
+                = (g \circ f)(x) (g \circ f)(y)
+$$
+\end{proof}
+
 \begin{defn}[Group Isomorphism]
 A bijective group homomorphism is called a \emph{group isomorphism}.
-Then the inverse map $f^{-1} : G^\prime \to G$ is also a group isomorphism.
+Then the inverse map $f^{-1} : G^\prime \to G$ is also a group
+isomorphism since each $x^\prime \in G^\prime$ is given by $x^\prime = f(x)$
+for some $x \in G$, so
+$$
+f^{-1}(x^\prime y^\prime) = f^{-1}(f(x)f(y))
+                      = f^{-1}(f(xy))
+                      = x y
+                      = f^{-1}(x^\prime) f^{-1}(y^\prime).
+$$
 We say that groups $G, G^\prime$ are isomorphic if there exists an isomorphism
 between them. We write $G \simeq G^\prime$.
 \end{defn}
-
 \begin{xmpl}
 For $n \geq 2$, $\mathbb{Z}_n = \{ 0, 1, \dots, n-1 \}$ (the integers mod $n$)
 with addition
@@ -234,6 +251,20 @@ are isomorphic, with an isomorphism $f$ given by
 $$
 f(a \mod n) = e^{\frac{2 \pi i a}{n}}.
 $$
+We verify that
+\begin{align*}
+f((a \mod n) + (b \mod n))
+ &= f(a + b \mod n)
+  = e^{\frac{2 \pi i (a + b)}{n}} \\
+ &= e^{\frac{2 \pi i a}{n}} e^{\frac{2 \pi i b}{n}} \\
+ &= f(a \mod n) f(b \mod n)
+\end{align*}
+and that since $0 \leq a \leq n-1$, the argument
+$0 \leq \frac{2 pi a}{n} < 2\pi$ so
+with an appropriate choice of branch cut we have
+$$
+f^{-1}(z) = \frac{n}{2 \pi i} \log z \mod n.
+$$
 \end{xmpl}
 
 Consider the automorphisms
@@ -241,11 +272,47 @@ $\mathrm{Aut}(G) = \{f : G \to G | f \text{ is an isomorphism}\}$.
 Then $\mathrm{Aut}(G)$ is a group with $\circ$. This is a subgroup
 of $\mathrm{Perm}(G)$.
 
-\begin{exer}
+\begin{Problem}
 What is $\mathrm{Aut}(\mathbb{Z}_n)$?
 Hint: $f : \mathbb{Z}_n \to \mathbb{Z}_n$ is determined by $f(1 \mod n)$.
 Consider integers prime to $n$.
-\end{exer}
+\end{Problem}
+
+\begin{Answer}
+We note that since
+$$
+f(m) = f\left(\sum_{k=1}^m 1\right) = \sum_{k=1}^m f(1) = m \cdot f(1),
+$$
+any homomorphism $f : \mathbb{Z}_n \to \mathbb{Z}_n$ is determined by
+its action on $1$. Furthermore, for such an endomorphism to have an
+inverse $g$ which is a homomorphism, we muust have that
+$$
+g(f(1)) = g\left(\sum_{k=1}^{f(1)} 1\right)
+        = \sum_{k=1}^{f(1)} g(1)
+        = f(1) \cdot g(1),
+$$
+and therefore we require that $g(1)$ is the multiplicative inverse of
+$f(1)$. But the units in $\mathbb{Z}_n$ are exactly the integers
+coprime to $n$, since the condition that $m$ coprime to $n$ is
+equivalent to the existence of an integer $y$ such that $my \equiv 1
+\mod n$,
+so $f(1)$ must be coprime to $n$ for any automorphism
+$f : \mathbb{Z}_n \to \mathbb{Z}_n$.
+
+Sidenote: Consider the group action
+$\varphi : \mathbb{Z}_+ \to \mathrm{Perm}(\mathbb{Z})$ given by
+$\varphi(n) x = x \bmod n$. Note that the kernel of $\varphi(n)$
+is the set of all $x \in \mathbb{Z}_+$ such that $x \bmod n = 0$,
+i.e. the multiples of $n$ or the ideal $n \mathbb{Z}$. Then from the
+first isomorphism theorem we know that
+$$
+\mathbb{Z} / n \mathbb{Z}
+=      \ker \varphi(n)
+\simeq \mathrm{Im} \varphi(n)
+=      \{0, 1, 2, \dots, n-1\}
+=      \mathbb{Z}_n.
+$$
+\end{Answer}
 
 \begin{defn}
 Let $f: G \to G^\prime$ be a group homomorphism. Then the \emph{kernel} of
@@ -270,22 +337,25 @@ and $e \in ker(f)$ since homomorphisms preserve identity.
 \end{proof}
 
 \begin{prop}
-$\ker(f)$ is trivial iff. $f$ is injective.
+$\ker f$ is trivial iff. $f$ is injective.
 \end{prop}
 \begin{proof}
 $$
 f(x) = f(y) \iff f(x) f(y)^{-1} = e^\prime
             \iff f(xy^{-1}) = e^\prime
-            \iff xy^{-1} \in \ker(f).
+            \iff xy^{-1} \in \ker f.
 $$
-Thus if $\ker(f) = \{ e \}$ then $x = y$. The converse is similar.
+Thus if $\ker f = \{ e \}$ then $x = y$. For the converse, let $f$ be
+injective, and let $x \neq e$. Then $f(x) \neq f(e) = e$, so
+$f(x) \notin \ker f$. Therefore $\ker f = \{ e \}$.
 \end{proof}
 
 \begin{xmpl}
 Consider the groups
 $G = \mathrm{GL}_n (\mathbb{R})$,
 $G^\prime = \mathbb{R}^\ast = \mathbb{R} - \{0\}$ with multiplication.
-$\det$ is a group homomorphism, and $\ker(\det) = SL_n(\mathbb{R})$.
+$\det$ is a group homomorphism, and
+$\ker(\det) = \mathrm{SL}_n(\mathbb{R})$.
 \end{xmpl}
 
 \subsection{Cosets}
@@ -299,6 +369,8 @@ for some $a \in G$. A \emph{right coset} is defined similarly.
 \end{defn}
 
 \begin{remark}
+
+Properties of cosets:
 \begin{enumerate}
   \item{Two left cosets are either disjoint or identical. Take $aH$,
         $a^\prime H$ for $a, a^\prime \in G$. Suppose
@@ -306,7 +378,7 @@ for some $a \in G$. A \emph{right coset} is defined similarly.
         $\exists x \in aH \cap a^\prime H$ so that
         $x = ah_1 = a^\prime h_2$, $h_1, h_2 \in H$ so
         $a^\prime = a h_1 h_2^{-1} \implies a^\prime \in aH$,
-        so $a^\prime h \in aH \forall h \in H$. Thus
+        so $a^\prime h \in aH$, $\forall h \in H$. Thus
         $a^\prime H \subset aH$. Symmetrically
         $aH \subset a^\prime H$.
         Thus $aH = a^\prime H$.
@@ -315,14 +387,17 @@ for some $a \in G$. A \emph{right coset} is defined similarly.
          all cosets have the same cardinality as $H$.
        }
 \end{enumerate}
+
 \end{remark}
 
-\begin{defn}[Group Index]
-The number of left cosets of $H$ in $G$, called the \emph{index} of
-$H$ in $G$, is denoted $[G:H]$.
+\begin{defn}[Subgroup Index]
+The number of left cosets of a subgroup $H$ in $G$, called the \emph{index} of
+$H$ in $G$, is denoted $[G:H]$. The order of a group may alternatively
+be defined as the index of its trivial subgroup $[G : 1]$.
 \end{defn}
 
 \begin{corol}
+Some results about subgroup indices:
 \begin{enumerate}
   \item{$G$ is the disjoint union of all its left cosets.}
   \item{If $G$ is finite (meaning the underlying set is finite), then
@@ -332,6 +407,140 @@ $H$ in $G$, is denoted $[G:H]$.
 \end{enumerate}
 \end{corol}
 
+\begin{proof}
+
+\begin{enumerate}
+  \item{
+    Let $H < G$.
+    Clearly each coset of a subgroup $H < G$ is a subset of $G$, and
+    likewise so is their union Let
+    $g \in G$. Then $g = g \cdot 1$, but $1 \in H$ since $H$ is a
+    subgroup. Therefore $g \in gH$, so
+    $G = \cup_{g \in G} gH$.
+    As shown above the cosets of $H$
+    are pairwise disjoint, so this means $G = \coprod_{g \in G} gH$
+    where $g$ is a representative of each coset.
+  }
+  \item{
+    Lagrange's theorem and the more general formula
+    $$
+    [G : K] = [G : H] [H : K]
+    $$
+    (which is as above when $K = \{ 1 \}$) can be proved by showing
+    that for coset decompositions
+    $$
+    H = \coprod_i x_i K, \quad
+    G = \coprod_j y_j H
+    $$
+    we have
+    $$
+    G = \coprod_{i,j} y_j x_i K,
+    $$
+    where $x_i \in H$, $y_j \in G$, i.e. we wish to show that
+    the representatives $y_j x_i$ of cosets of $K$ in $G$ are
+    disjoint.
+
+    Suppose
+    $$
+    y_j x_i K = y_{j^\prime} x_{i^\prime} K.
+    $$
+    Then since $K \subset H$ and $x_i, x_{i^\prime} \in H$,
+    $y_j x_i K = y_j H$ and
+    $y_{j^\prime} x_{i^\prime} K = y_{j^\prime} H$, so
+    $y_j H = y_{j^\prime} H$. But by assumption $G$ is decomposed as a
+    disjoint union of cosets of $H$ with $y_j$, $y_{j^\prime}$ as
+    represenatives, so these cosets can only
+    be the same if $y_j$ and $y_{j^\prime}$ are the same
+    representative, i.e. $y_j = y_{j^\prime}$. Then multiplying
+    through our original equation on the left gives
+    $x_i K = x_{i^\prime} K$, and so by the same argument this means
+    $x_i = x_{i^\prime}$. Therefore we have
+    $$
+    y_j x_i K = y_{j^\prime} x_{i^\prime} K
+    \implies
+    y_j x_i = y_{j^\prime} x_{i^\prime}
+    $$
+    which means that $y_j x_i$ are disjoint representatives of the
+    coset decomposition for $K$ in $G$, as desired.
+
+    It follows that
+    $$
+    G = \coprod_{i,j} y_j x_i K
+      = \coprod_j y_j \left( \coprod_i x_i K \right),
+    $$
+    where the inner coproduct is over $[H : K]$ elements and the
+    outer coproduct is over $[G : H]$, so it follows that the total
+    number of elements $[G : K]$ in this coset decomposition is
+    $[G : H][H : K]$.
+  }
+  \item{
+    We can now furthermore show that $|S_n| = n!$ by
+    induction. Since $S_1 = \{ \mathrm{id} \}$ we have
+    $S_1 = 1$. Let $H < S_n$ be the set of permutations that hold $n$
+    fixed. This is the set of permutations of $n-1$ letters so
+    $|H| = |S_{n-1}|$. Now for $i \in \{1, \dots, n\}$ let $\sigma_i$
+    be any permutation such that $\sigma_i(n) = i$.
+
+    Let $\sigma \in S_n$ such that $\sigma(n) = k$. Then we observe that
+    $$
+    \tau(x) =
+    \left\{\begin{array}{c c}
+      n,                    & \quad x =    n \\
+      \sigma_k^{-1}\sigma(x) & \quad x \neq n
+    \end{array}\right.
+    $$
+    leaves $n$ fixed and so $\tau \in H$, and furthermore that
+    $$
+    \sigma_k \tau(x) =
+    \left\{\begin{array}{c c}
+      \sigma_k(n) = k = \sigma(n),               & \quad x = n \\
+      \sigma_k\sigma_k^{-1}\sigma(x) = \sigma(x), & \quad x \neq n
+    \end{array}\right. = \sigma(x)
+    $$
+    so $\sigma = \sigma_k \tau \in \sigma_k H$. Therefore
+    $S_n \subset \cup_{i=1}^n \sigma_i H$.
+
+    Furthermore let $\sigma_i H = \sigma_j H$ for some $i, j$. Then
+    for some $\tau, \tau^\prime \in H$ we have
+    $\sigma_i \tau = \sigma_j \tau^\prime$. Then
+    $\sigma_i \tau (n) = \sigma_i (n)$ and
+    $\sigma_j \tau^\prime (n) = \sigma_j (n)$
+    since elements of $H$ leave $n$ fixed, so
+    $\sigma_i(n) = \sigma_j(n)$. But $\sigma_i$ and $\sigma_j$ fix all
+    elements other than $n$ and so this means $\sigma_i =
+    \sigma_j$. Therefore $\sigma_i H$ and $\sigma_j H$ are either
+    disjoint or equal.
+
+    We conclude that
+    $$
+    S_n = \coprod_{i=1}^n \sigma_i H
+    $$
+    and so
+    $$
+    |S_n| = n |H| = n |S_{n-1}|.
+    $$
+    Therefore $|S_n| = n!$.
+
+    Note that this argument is equivalent to counting by
+    group actions, since we can instead regard each $\sigma_i$
+    as a group action
+    $\sigma : \mathbb{Z_n} \to S_n = \mathrm{Perm}(S)$ where
+    $\sigma(i)$ is the transposition of the $n$-th element with the
+    $i$-th.
+    $$
+    |S| = \sum_{i=1}^n |\mathbb{Z}_n . i|
+        = \sum_{i=1}^n [\mathbb{Z}_n : (\mathbb{Z}_n)_i]
+    $$
+    where
+    $$
+    (\mathbb{Z}_n)_i = \{ m \in \mathbb{Z}_n \mid \sigma(m)(i) = i \}
+                    =
+    $$
+  }
+\end{enumerate}
+
+\end{proof}
+
 \subsubsection{Cyclic Groups}
 \begin{defn}[Cyclic Group]
 $G$ is \emph{cyclic} when $\exists a \in G$ s.t.
@@ -339,6 +548,7 @@ $G = \langle a \rangle$.
 \end{defn}
 
 \begin{prop}
+Cyclic groups are isomorphic to groups of integers.
 \begin{enumerate}
   \item{If $G$ is infinite cyclic, then $G \simeq \mathbb{Z}$.}
   \item{If $G$ is finite cyclic, then $G \simeq \mathbb{Z}_{|G|}$.}
@@ -347,10 +557,19 @@ $G = \langle a \rangle$.
 \begin{proof}
 Pick a generator $a$ of $G$, so that
 $G = \{ a^n | n \in \mathbb{Z} \}$, and construct a group homomorphism
-$f : \mathbb{Z} \to G$ given by $k \mapsto a^k$. Show if $G$ is
-infinite then $f$ is an isomorphism, and if $|G| = n < \infty$ then
-$f$ gives an isomorphism $\bar{f} : \mathbb{Z}_n \to G$ given by
-$k \mod n \mapsto a^k$.
+$f : \mathbb{Z} \to G$ given by $k \mapsto a^k$. If $G$ is
+infinite then $f$ is an isomorphism -- it is surjective since
+$G = \langle a \rangle$ and injective since $G$ is infinite, so $a^k =
+1$ iff. $k = 0$ and therefore $\ker f$ is trivial.
+
+If $|G| = n < \infty$ then
+there is instead an isomorphism $\bar{f} : \mathbb{Z}_n \to G$ given by
+$k \mod n \mapsto a^k$. This is a group homomorphism since
+$$
+\bar{f}(k + l \mod n) = a^{k}a^{l} = f(k)f(l),
+$$
+surjective since $G = \{ 1, a, \dots, a^{k-1}\}$, and injective since
+$$a^k = 1 \iff \exists m . k = mk \equiv 0 \mod n.$$
 \end{proof}
 
 \begin{prop}[Corollary of Lagrange's Theorem]
@@ -358,10 +577,11 @@ If $|G| = p$ for some $p$ prime, then $G$ is cyclic and so
 $G \simeq \mathbb{Z}_p$.
 \end{prop}
 \begin{proof}
-$|G| > 1$ so $\exists a \in G. a \neq 1$. Consider
-$H = \langle a \rangle$. Then $|H|$ divides $|G| = p$ and
+$|G| > 1$ so $\exists a \in G$ s.t. $a \neq 1$. Consider
+$H = \langle a \rangle$. Then since $H < G$,
+$|H|$ divides $|G| = p$ and
 $|H| \neq 1$, so $|H| = |G|$ and thus $H = G$, so
-$G \langle a \rangle$ and $G$ is cyclic. Thus $G \simeq \mathbb{Z}_p$.
+$G = \langle a \rangle$ and $G$ is cyclic. Thus $G \simeq \mathbb{Z}_p$.
 \end{proof}
 
 This fact allows us to classify some groups (up to isomorphism) from

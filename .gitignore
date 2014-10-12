@@ -1,13 +1,14 @@
+# LaTeX output files
+*.nav
+*.snm
+*.toc
+*.fmt
 *.bbl
 *.blg
 *.aux
 *.pdf
 _region_*
 auto/
-
-*.nav
-*.snm
-*.toc
 
 *.png
 *.PNG
