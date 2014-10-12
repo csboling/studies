@@ -297,7 +297,9 @@ coprime to $n$, since the condition that $m$ coprime to $n$ is
 equivalent to the existence of an integer $y$ such that $my \equiv 1
 \mod n$,
 so $f(1)$ must be coprime to $n$ for any automorphism
-$f : \mathbb{Z}_n \to \mathbb{Z}_n$.
+$f : \mathbb{Z}_n \to \mathbb{Z}_n$. This fact of modular arithmetic
+follows from the identity $\mathrm{gcd}(m, n) = mx + by$ for some
+integers $x$ and $y$.
 
 Sidenote: Consider the group action
 $\varphi : \mathbb{Z}_+ \to \mathrm{Perm}(\mathbb{Z})$ given by
@@ -602,29 +604,29 @@ Equivalently,
   \item{$\forall a \in G, a H a \subset a H$}
 \end{itemize}
 \begin{proof}
-Note that, for instance
-\begin{align*}
-a H & = \{ x \in G | \exists h \in H . x = a h \}
-\end{align*}
-so that
-\begin{align*}
-a^{-1} a H & = \{ x^\prime \in G | \exists x \in a H . x^\prime =
-a^{-1} x = x a^{-1} a h = h \} \\
-          & = H,
-\end{align*}
-so we may manipulate cosets algebraically.
-
-\begin{align*}
-           a^{-1} H (a^{-1})^{-1} \subset H
-& \implies a^{-1} H a \subset H  \\
-& \implies H \subset a H a^{-1}, \\
-           a^{-1} H a \subset H
-& \implies a^{-1} h a \in H \\
-& \implies a (a^{-1} h a) a^{-1} \in a H a^{-1} \\
-& \implies \forall h \in H . h \in a H a^{-1} \\
-& \implies H \subset a H a^{-1}.
-\end{align*}
-\end{proof}
+%ote that, for instance
+%begin{align*}
+% H & = \{ x \in G | \exists h \in H . x = a h \}
+%end{align*}
+%o that
+%begin{align*}
+%^{-1} a H & = \{ x^\prime \in G | \exists x \in a H . x^\prime =
+%^{-1} x = x a^{-1} a h = h \} \\
+%         & = H,
+%end{align*}
+%o we may manipulate cosets algebraically.
+%
+%begin{align*}
+%          a^{-1} H (a^{-1})^{-1} \subset H
+% \implies a^{-1} H a \subset H  \\
+% \implies H \subset a H a^{-1}, \\
+%          a^{-1} H a \subset H
+% \implies a^{-1} h a \in H \\
+% \implies a (a^{-1} h a) a^{-1} \in a H a^{-1} \\
+% \implies \forall h \in H . h \in a H a^{-1} \\
+% \implies H \subset a H a^{-1}.
+%end{align*}
+%end{proof}
 
 \begin{remark}
 \begin{enumerate}
