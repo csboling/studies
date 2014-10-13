@@ -73,7 +73,7 @@ $$
 
 \subsection*{Even and Odd Permutations}
 To every permutation $\sigma \in S_n$, associate a $n \times n$ matrix
-with $w(\sigma){ij} = 1$ where $\sigma(j) = 1$.
+with $w(\sigma)_{ij} = \delta_i^{\sigma(j)}$.
 
 \begin{xmpl}
 $$
@@ -84,7 +84,7 @@ w((123)) = \left(\begin{array}{c c c}
              0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0
            \end{array}\right).
 $$
-Check that $w : S_n \to GL_n(\mathbb{R})$ is a group
+Check that $w : S_n \to \mathrm{GL}_n(\mathbb{R})$ is a group
 homomorphism. Consider the determinant of $w(\sigma)$,
 $$
 \xi(\sigma) \triangleq \det(w(\sigma)) \in \{1, -1\}.

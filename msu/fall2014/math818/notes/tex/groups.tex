@@ -417,10 +417,11 @@ Some results about subgroup indices:
 As an important consequence of the last point, note that if $H$ and
 $K$ are subgroups then $H \cap K$ is a subgroup of both $H$ and
 $K$. Suppose that a group $G$ has two subgroups
-$P_1$, $P_2$ of identical prime order $p$. Then Lagrange's theorem says that
-$|P_1 \cap P_2|$ divides $p$, so either
-$P_1 \cap P_2 = \{ 1 \}$ or $P_1 \cap P_2 = p$. That is, two
-subgroups of identical prime order are either identical or disjoint
+$P_1$, $P_2$ of prime orders $p_1, p_2$. Then Lagrange's theorem says that
+$|P_1 \cap P_2|$ divides $p_1$ and divides $p_2$. If $p_1 \neq p_2$
+then this means $P_1 \cap P_2$ is trivial. If $p_1 = p_2$ then either
+$P_1 \cap P_2$ is trivial or $P_1 \cap P_2 = P_1 = P_2$.
+That is, two subgroups of prime order are either identical or disjoint
 except for the identity.
 
 \begin{proof}
