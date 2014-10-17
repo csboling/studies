@@ -1,0 +1,223 @@
+\section{Abelian Groups}
+
+\subsection{Direct Product}
+\begin{defn}[Direct Product]
+Let $I$ be a set, and $\forall i \in I$ let $G_i$ be a group. Then we
+have the \emph{direct product} $\prod_{i \in I} G_i$ as a set is the
+set of all families $(g_i)_{i \in I}$ with $g_i \in G_i$. The group
+operation is given by
+$$
+(g_i)_{i \in I} \cdot (g_i^\prime)_{i \in I}
+= (g_i \cdot g_i^\prime)_{i \in I}.
+$$
+\end{defn}
+This group is equipped with homomorphisms
+$$
+\mathrm{pr}_j : \prod_{i \in I} G_i \to G_j,
+$$
+the \emph{projection on the $j$ component} given by
+$$
+(g_i)_{i \in I} \mapsto g_j.
+$$
+
+\begin{prop}
+$\prod_{i \in I} G_i$ satisfies the following \emph{universal
+  property}: given a group $H$ and a family of group homomorphisms
+$\varphi_i : H \to G_i$, $\forall i \in I$, there is a unique
+homomorphism $\varphi : H \to \prod_{i \in I} G_i$ such that
+$\varphi_i = \mathrm{pr}_i \circ \varphi$. This may be written
+
+$$
+\begindc{\commdiag}[500]
+\obj(0,1)[h]{$H$}
+\obj(2,1)[p]{$\prod_{i \in I} G_i$}
+\obj(2,0)[g]{$G_i$}
+\mor{h}{p}{$\varphi$}[\atright, \dashArrow]
+\mor{p}{g}{$\mathrm{pr}_i$}
+\mor{h}{g}{$\varphi_i$}
+\enddc
+$$
+\end{prop}
+\begin{proof}
+Define
+$$
+\varphi(h) = (\varphi_i(h))_{i \in I} \in \prod_{i \in I} G_i.
+$$
+\end{proof}
+
+For abelian groups recall that we denote the operation by $+$ and the
+identity by $0_i$.
+
+\begin{defn}[Direct Sum]
+Let $G_i$ be a family of abelian groups. The \emph{direct sum}
+$\oplus_{i \in I} G_i$ is the subgroup of the direct product consisting
+of families $(g_i)_{i \in I}$ such that for all but a finite number of
+indices $i \in I$, $g_i = 0_i$.
+\end{defn}
+
+\begin{xmpl}
+Let $I = \{ 1, 2, \dots \}$. Let $G_i = \mathrm{Z}$ for all $i$. Then
+we have
+$$
+\prod_{i \in \mathbb{Z_+}} \mathbb{Z}
+  = \{(n_1, n_2, \dots) \mid n_i \in \mathbb{Z}\}
+$$
+while
+$$
+\bigoplus_{i \in \mathbb{Z_+}} \mathbb{Z}
+  = \{(n_1, n_2, \dots, n_j, 0, 0, \dots ) \mid n_i \in \mathbb{Z}\}.
+$$
+\end{xmpl}
+
+The direct sum $\oplus_{i \in I} G_i$ is equipped with homomorphisms
+$\mathrm{inj}_i : G_i \to \oplus_{i \in I} G_i$ given by
+$\mathrm{inj}_i(g_i) = (\dots, 0, g_i, 0, \dots)$.
+
+\begin{prop}[Universal property of the direct sum]
+Suppose $G$ is an abelian group and
+$f_i : G_i \to G$ is a group homomorphism for each $i \in I$. Then
+there is a group homomorphism $f : \oplus_{i \in I} G_i \to G$ such
+that $\forall i \in I$,
+$$
+f( (\dots, 0, g_i, 0, \dots) ) = f_i(g_i).
+$$
+i.e. $f \circ \mathrm{inj}_i = f_i$. $f$ is uniquely determined by
+this property.
+\end{prop}
+
+This property can also be phrased by the diagram
+$$
+\begindc{\commdiag}[500]
+\obj(0,1)[h]{$H$}
+\obj(2,1)[p]{$\bigoplus_{i \in I} G_i$}
+\obj(2,0)[g]{$G_i$}
+\mor{p}{h}{$\varphi$}[\atright, \dashArrow]
+\mor{g}{p}{$\mathrm{inj}_i$}
+\mor{g}{h}{$\varphi_i$}
+\enddc
+$$
+
+\begin{xmpl}
+Given $f_1 : G_1 \to G$ and $f_2 : G_2 \to G$ we have
+$f: G_1 \oplus G_2 \to G$ given by
+$f((g_1, g_2)) = f_1(g_1) + f_2(g_2)$. This is only a group
+homomorphism for $G$ abelian since we require
+\begin{align*}
+  f((g_1, g_2)(h_1, h_2))
+&= f((g_1 h_1, g_2 h_2))
+ = f_1(g_1 h_1) + f_2(g_2 h_2) \\
+&= f_1(g_1) + f_1(h_1) + f_2(g_2) + f_2(h_2)
+ = f_1(g_1) + f_2(g_2) + f_1(h_1) + f_2(h_2) \\
+&= f((g_1, g_2)) + f((h_1, h_2)).
+\end{align*}
+More generally
+$$
+f((g_i)_{i \in I}) = \sum_{i \in I} f_i(g_i).
+$$
+The reason this is well-defined is since $g_i = 0_i$ and therefore
+$f_i(g_i) = 0$ for all but a finite number of $g_i$. This cannot be
+defined on the direct product unless $I$ is a finite set, in which
+case there is no distinction between the direct sum and the direct
+product. The reason this is unique is that
+$$
+(g_1, g_2) = (g_1, 0) + (0, g_2)
+$$
+so that
+$$
+f((g_1, g_2)) = f((g_1, 0)) + f((0, g_2)) = f_1(g_1) + f_2(g_2).
+$$
+\end{xmpl}
+
+\subsection{Free abelian groups}
+Consider the direct sum
+$$
+\bigoplus_{i \in I} \mathbb{Z} \triangleq \mathbb{Z}[I]
+$$
+where $I$ is any set.
+
+\begin{defn}[Free Abelian Group]
+An abelian group $A$ is called \emph{free} if there is a set $S$ such
+that
+$$
+A \simeq \mathbb{Z}[I].
+$$
+\end{defn}
+
+\begin{defn}[(Equivalent)]
+An abelian group $A$ is free if there is a subset (called a \emph{basis})
+$\{ e_i \}_{i \in I}$ of $A$ such that every element $a \in A$ can be
+written \emph{uniquely} as a linear combination
+$$
+a = \sum_{i \in I} n_i e_i,
+$$
+where $n_i \in \mathbb{Z}$ and all but a finite number of $n_i$ are 0.
+Here $n_i e_i$ denotes $n_i-fold$ group
+operations of $e_i$ on itself.
+
+This is equivalent to the above definition. Observe that
+$\mathbb{Z}[I]$ has a ``canonical'' basis given by
+$e_i = \mathrm{inj}_i(1)$ and that giving a basis of $A$ is now
+equivalent to giving an isomorphism
+$\varphi : \mathbb{Z}[I] \xlongrightarrow{\sim} A$ given by a basis
+$$
+\{\varphi(e_i)\}_{i \in I}.
+$$
+That is, given a basis $\{ a_i \}_{i \in I}$ a basis of $A$, define
+$\varphi \mathbb{Z}[I] \to A$ by
+$$
+\varphi((n_i)) = \sum_{i \in I} n_i a_i.
+$$
+\end{defn}
+
+\begin{prop}[Universal Property of Free Abelian Groups]
+Let $I$ be a set and let
+$\mathbb{Z}[I] = \oplus_{i \in I} \mathbb{Z}$.
+Suppose we are given an abelian group $A$ and a set map
+$f : I \to A$. There is a unique group homomorphism
+$\tilde{f} : \mathbb{Z}[I] \to A$ such that
+$\tilde{f}(e_i) = f(i)$, $\forall i$.
+\end{prop}
+
+\begin{proof}
+Define
+$$
+\tilde{f}\left(\sum_{i \in I} n_i e_i\right)
+= \sum_{i \in I} n_i f(i).
+$$
+\end{proof}
+
+\begin{theorem}
+Suppose $A$ is a free abelian group. Let $B$ be a subgroup of $A$.
+Then $B$ is also free.
+\end{theorem}
+
+\begin{lemma}
+Let $f : A \to A^\prime$ be a group homomorphism of abelian
+groups. Suppose $f$ is surjective and $A^\prime$ is free. Then there
+is a group homomorphism $g : A^\prime \to A$ such that
+$f \circ g = \mathrm{id}_A$.
+\end{lemma}
+\begin{proof}
+Since $A^\prime$ is free it has a basis $\{ a_i^\prime \}_{i \in
+  I}$. Since $f$ is surjective, we have $a_i^\prime = f(a_i)$ for some
+$a_i \in A$. Consider $g : A^\prime \to A$ given by
+$$
+g\left(\sum_{i \in I} n_i a_i^\prime\right) = \sum_{i \in I} n_i a_i.
+$$
+Then
+$$
+(f \circ g)\left(\sum_{i \in I} n_i a_i^\prime\right)
+= f\left(\sum_{i \in I} n_i a_i\right)
+= \sum_{i \in I} n_i f(a_i)
+= \sum_{i \in I} n_i a_i^\prime.
+$$
+since $f$ is a homomorphism. Check that $g$ is a homomorphism also.
+
+We can think of this as analogous to producing a map
+$\mathbb{R} \to \mathbb{R}^2$ from a surjective map in the opposite
+direction -- the map we produce corresponds to projection of a line
+$L \in \mathbb{R}^2$ onto a non-parallel line.
+\end{proof}
+
+\begin{proof}
+\end{proof}
