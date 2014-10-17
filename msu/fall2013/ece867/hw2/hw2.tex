@@ -1,0 +1,206 @@
+\documentclass{article}
+
+\title{ECE 867 - Homework \#2}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 1}
+Let $X$, $Y$, and $Z$ form a Markov chain: $X \to Y \to Z$. Each of these
+random variables may take a different number of states. In particular, let
+$Y \in \{1, 2, \dots, N\}$. $Y$ may have any distribution.
+\begin{enumerate}[label=(alph*)]
+  \item{Derive an upper bound for the mutual information $I(X;Z)$ in terms
+        of the number of elements $N_y$ of $Y$, as a function of $N_y$ only.
+       }
+  \item{What happens to $I(X;Z)$ when $N_y = 1$?}
+\end{enumerate}
+\horline
+Since $X \to Y \to Z$, $I(X;Z) \leq I(X;Y)$ and $I(X;Z) \leq I(Y;Z)$.
+$$
+I(X;Y) = H(Y) - H(Y|X) \leq \log N_y - H(Y|X) \leq \log N_y,
+$$
+since $H(Y|X) \geq 0$. Thus $I(X;Z) \leq \log N_y$. When $N_y = 1$, 
+$I(X;Z) = 0$ -- no information is conveyed by a random variable $Y$ that 
+always takes the same value.
+
+\section*{Problem 2}
+Let $X$ be a random variable with entropy $H(X)$ and $m$ possible outcomes,
+so that $X \in \{1, 2, \dots, m\}$. Further, let
+$$
+P[X=i] \geq P[X=j], \forall j \neq i.
+$$
+Naturally, if one wants to "guess" $X$, then one would choose the most
+probable outscome $X=i$. In this scenario, the probability of error is
+$P_e = 1 - P[X=i]$. In other words, we always use the guess $Y = i$.
+
+Use Fano's inequality to derive a lower bound for the probability of error
+$P_e$ in terms of $m$ and $H(X)$.
+\horline
+Fano's inequality gives
+$$
+H(Y|X) \leq h_b(P_e) + P_e \log (m - 1),
+$$
+but $H(Y|X) \leq H(Y)$, and since
+$$
+H(Y) = -\sum_y p(y) \log p(y) = -p(i) \log p(i) = 0,
+$$
+this means $H(Y) = 0$, so by nonnegativity of entropy $H(Y|X) = 0$. Then
+\begin{align*}
+-h_b(P_e) \leq P_e \log (m - 1) \\
+-\frac{h_b(P_e)}{P_e} \leq \log (m-1) \\
+\frac{h_b(P_e)}{P_e} \geq -\log (m-1)
+\end{align*}
+or $\frac{h_b(P_e)}{P_e} \geq \frac{1}{m-1}$, assuming $m > 1$. If $m = 1$
+then trivially $P_e = 0$.
+
+\section*{Problem 3}
+Derive the chain rule for the relative entropy:
+$$D(p(x,y) \| q(x,y)) = D(p(x) \| q(x)) + D(p(y|x) \| q(y|x))$$
+Can this result be extended to a larger number of random variables?
+\horline
+For countably many random variables $X_1, X_2, \dots$,
+\begin{align*}
+&D(p(x_1, x_2, \dots) \| q(x_1, x_2, \dots)) \\
+  =& \sum_{x_1 \in \mathcal{X}_1, x_2 \in \mathcal{X}_2, \dots}
+    p(x_1, x_2, \dots) \log \frac{p(x_1, x_2, \dots)}{q(x_1, x_2, \dots)}\\
+  =& \sum_{x_1 \in \mathcal{X}_1, x_2 \in \mathcal{X}_2, \dots}
+     p(x_2, x_3, \dots | x_1) p(x_1) 
+       \log \frac{p(x_2, x_3, \dots | x_1)p(x_1)}
+                 {q(x_2, x_3, \dots | x_1)q(x_1)} \\
+  =& \sum_{x_1 \in \mathcal{X}_1, x_2 \in \mathcal{X}_2, \dots}
+     p(x_2, x_3, \dots | x_1) p(x_1) 
+       \log \frac{p(x_2, x_3, \dots | x_1)}
+                 {q(x_2, x_3, \dots | x_1)} \\
+  +& \sum_{x_1 \in \mathcal{X}_1, x_2 \in \mathcal{X}_2, \dots}
+     p(x_2, x_3, \dots | x_1) p(x_1) 
+       \log \frac{p(x_1)}{q(x_1)} \\
+  =& \sum_{x_1 \in \mathcal{X}_1, x_2 \in \mathcal{X}_2, \dots}
+       p(x_1, x_2, \dots) \log 
+       \frac{p(x_2, x_3, \dots | x_1)}{q(x_2, x_3, \dots | x_1)}\\
+  +& \sum_{x_1 \in \mathcal{X}_1} p(x_1) \log \frac{p(x_1)}{q(x_1)} 
+       \sum_{x_2 \in \mathcal{X}_2, x_3 \in \mathcal{X}_3, \dots} 
+         p(x_2, x_3, \dots | x_1) \\
+  =&  D(p(x_2, x_3, \dots | x_1) 
+    \| q(x_2, x_3, \dots | x_1)) + D(p(x_1) \| q(x_1)),
+\end{align*}
+confirming the identity for countably many variables.
+
+\section*{Problem 4}
+Show that for a stationary random process $X_n$, the entropy-per-symbol rate
+is a non-increasing function of $n$. In other words, show the following is
+true:
+$$
+\frac{1}{n+1} H(X_1, X_2, \dots, X_{n+1}) \leq 
+  \frac{1}{n} H(X_1, X_2, \dots, X_n)
+$$
+\horline
+Note that
+\begin{align*}
+H(X_1, X_2, \dots, X_{n+1}) 
+&= H(X_1, X_2, \dots, X_{n}) + H(X_{n+1} | X_1, \dots, X_n)\\
+&= H(X_1, X_2, \dots, X_{n}) + H_{X^{(n+1)}}^{|}.
+\end{align*}
+Since for a stationary process $H_{X^{(k)}}^{|}$ is a non-increasing 
+function of $k$, $H_{X^{(n+1)}}^{|} \leq H_{X^{(i)}}^{|}$ for any 
+$i=1,2,\dots,n$, so $nH_{X^{(n+1)}}^{|} \leq \sum_{i=1}^n H_{X^{(i)}}^{|}$.
+But this means we have
+\begin{align*}
+H(X_1, X_2, \dots, X_{n+1}) 
+  &\leq H(X_1, X_2, \dots, X_{n}) 
+     + \frac{1}{n}\sum_{i=1}^n H_{X^{(i)}}^{|} \\
+  &=    H(X_1, X_2, \dots, X_{n}) + \frac{1}{n}H(X_1, X_2, \dots, X_{n}) \\
+  &= \frac{n+1}{n} H(X_1, X_2, \dots, X_{n}),
+\end{align*}
+so
+$$
+\frac{1}{n+1} H(X_1, X_2, \dots, X_{n+1}) 
+  \leq \frac{1}{n}H(X_1, X_2, \dots, X_n).
+$$
+
+\section*{Problem 5}
+For a stationary random process $X_n$, show the following is true:
+$$
+H(X_n | X_1, X_2, \dots, X_{n-1}) 
+  = H(X_n | X_{n+1}, X_{n+2}, \dots, X_{2n-1})
+$$
+In other words, the conditional entropy based on observing the past is the
+same as the conditional entropy based on observing the future.
+\horline
+Since the process is stationary, a positive time shift of $n$ samples gives
+\begin{align*}
+H(X_n | X_1, X_2, \dots, X_{n-1}) &= H(X_{2n} | X_{n+1}, \dots, X_{2n-1})
+\\&= -\sum_{x_{n+1}, \dots, x_{2n} \in \mathcal{X}}
+       p(x_{n+1}, \dots, x_{2n}) \log p(x_{2n} | x_{n+1}, \dots x_{2n-1}) \\
+ &= -\sum_{x_{n+1}, \dots, x_{2n} \in \mathcal{X}}
+      p(x_{n+1}, \dots, x_{2n}) 
+        \log\frac{p(x_{n+1}, \dots, x_{2n-1})}{p(x_{2n})} \\
+ &= -\sum_{x_{n+1}, \dots, x_{2n} \in \mathcal{X}}
+      p(x_{n+1}, \dots, x_{2n})
+         \log\frac{p(x_{n+1}, \dots x_{2n-1})}{p(x_{n})} \\
+ &= -\sum_{x_{n+1}, \dots, x_{2n} \in \mathcal{X}}
+      p(x_{n+1}, \dots, x_{2n})
+        \log p(x_n | x_{n+1}, \dots, x_{2n-1}),
+\end{align*}
+and since all the distributions are the same (and hence the alphabets) 
+these indices may be rewritten to give the expansion for 
+$H(X_n | X_{n+1}, X_{n+2}, \dots, X_{2n-1})$.
+
+\section*{Problem 6}
+For the problem above, can we conclude the following about any stationary
+random process $X_n$:
+$$
+H(X_0 | X_n) = H(X_{2n} | X_n)
+$$
+In other words, given an observation $X_n$ at the present time index $n$,
+does the entropy at a certain time distance in the past $H(X_0 | X_n)$ 
+equal the entropy at the same time-distance into the future 
+$H(X_{2n} | X_n)$?
+\horline
+We see that
+\begin{align*}
+H(X_0 | X_n) &= H(X_0, X_n) - H(X_n)\\
+H(X_{2n} | X_n) &= H(X_{2n}, X_n) - H(X_n)
+\end{align*}
+
+\section*{Problem 7}
+Let $X^n = (X_1, X_2, \dots, X_n)$ be a sequence of binary random variables
+with the following constraint: $X^n$ can only have an even number of ones
+for any given $n$. Hence, for a given $n$, the number of possible outcomes
+for $X^n$ is $2^{n-1}$. Furthermore, for each $X^n$, all outcomes
+(i.e., with an even number of ones) are equally likely. Evaluate the 
+following information measures:
+\begin{align*}
+  H(X^{(n)}) &= H(X_1, X_2, \dots, X_n) \\
+  H(X_n | X^{(n-1)}) &= H(X_n | X_1, X_2, \dots, X_{n-1}) \\
+  H(X_n | X^{(n-2)}) &= H(X_n | X_1, X_2, \dots, X_{n-2}) \\
+  I(X_{n-1} ; X_n | X^{(n-2)}) = I(X_{n-1}; X_n | X_1, X_2, \dots X_{n-2}) 
+\end{align*}
+\horline
+We are given that $H(X^{(n)})$ has a uniform distribution on an alphabet of
+size $2^{n-1}$, so 
+$$H(X^{(n)}) = \log 2^{n-1} = n-1.$$
+This gives
+\begin{align*}
+H(X_n | X^{(n-1)}) 
+  &= H(X_1, \dots, X_{n-1}, X_n) - H(X^{(n-1)}) = H(X^{(n)}) - H(X^{(n-1)})
+\\&= n-1 - (n-2) = 1, \\
+H(X_n | X^{(n-2)}) &= H(X_1, \dots, X_{n-2}, X_n) - H(X^{(n-2)}) \\
+\end{align*}
+
+
+\end{document}
+

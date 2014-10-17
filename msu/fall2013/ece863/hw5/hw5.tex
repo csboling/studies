@@ -1,0 +1,365 @@
+\documentclass{article}
+
+\title{ECE 863 - Homework \#3}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 10.1}
+For any $k \in \{1, 2, \dots, i-1\}$ and any $\Delta \in \mathbb{Z}$,
+we see that
+\begin{align*}
+  f_{\underline{x}[n_1] \cdots \underline{x}[n_k]}(x_1, \dots, x_k) &=
+   \overbrace{\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty}}^{i-k}
+     f_{\underline{x}[n_1]\cdots\underline{x}[n_i]}(x_1, \dots, x_i)
+      ~dx_1 \cdots ~dx_i \\
+&= \overbrace{\int_{-\infty}^{\infty} \cdots \int_{-\infty}^{\infty}}^{i-k}
+     f_{\underline{x}[n_1 + \Delta]\cdots\underline{x}[n_i + \Delta]} 
+     (x_1, \dots, x_i) ~dx_1 \cdots ~dx_i
+\end{align*}
+since $\underline{x}$ is stationary to order $i$. But
+$$
+ \overbrace{\int_{-\infty}^{\infty} \int_{-\infty}^{\infty}}^{i-k}
+   f_{\underline{x}[n_1 + \Delta]\cdots\underline{x}[n_i + \Delta]} 
+   (x_1, \dots, x_i) ~dx_1 \cdots ~dx_i
+ = f_{\underline{x}[n_1 + \Delta]\cdots\underline{x}[n_k + \Delta]}
+   (x_1, \dots, x_k),
+$$
+so $\underline{x}$ is stationary to order $k$ for any 
+$k \in \{1, 2, \dots, i-1\}.$
+
+
+\section*{Problem 10.3}
+The properties for autocorrelation:
+\begin{itemize}
+  \item{
+    $$
+    r_{\underline{x}}[n_1, n_2] 
+      = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+        x_1 x_2 f_{\underline{x}[n_1]\underline{x}[n_2]}(x_1,x_2) 
+        ~dx_1 ~dx_2.
+    $$
+    Since $\underline{x}$ is real-valued and since the range of
+    $f_{\underline{x}[n_1]\underline{x}[n_2]}$ is $[0,1]$ the integrand is 
+    real over the domain of integration and therefore the integral 
+    $r_{\underline{x}}[n_1, n_2]$ is real if it exists.
+  }
+  \item
+  {
+  \begin{align*}
+  r_{\underline{x}}[n_1, n_2] 
+    &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+      x_1 x_1 f_{\underline{x}[n_1]\underline{x}[n_1]}(x_1, x_1) 
+      ~dx_1 ~dx_2 \\ 
+    &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+      x_1^2 f_{\underline{x}[n_1]\underline{x}[n_1]}(x_1, x_1) ~dx_1 ~dx_1,
+  \end{align*}
+  and since $\underline{x}$ is real, $(\underline{x}(\zeta))^2 \geq 0$ for 
+  any $\zeta \in \mathcal{S}_{\underline{x}}$. Therefore the integrand is
+  nonnegative over the whole domain of integration, so the integral 
+  $r_{\underline{x}}[n_1, n_2]$ is 
+  nonnegative if it exists.
+  }
+  \item
+  {For a real random process $\underline{x}$, 
+   $r_{\underline{x}}[n_1, n_2]$ is an inner product over a vector field 
+   whose underlying field is $\mathbb{R}$ and is therefore symmetric.
+  }
+  \item{
+  \begin{align*}
+  |r_{\underline{x}}[n_1, n_2]| &= 
+    \left|\int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+      x_1 x_2 f_{\underline{x}[n_1] \underline{x}[n_2]}(x_1, x_2) 
+       ~dx_1 ~dx_2 \right| \\ 
+   &= \left|\int_{-\infty}^{\infty} 
+      (x_1 \sqrt{f_{\underline{x}[n_1] \underline{x}[n_2]}(x_1, x_2)})
+      (x_2 \sqrt{f_{\underline{x}[n_1] \underline{x}[n_2]}(x_1, x_2)}) 
+      ~dx_1 ~dx_2\right|\\
+   &\leq 
+    \sqrt{\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} 
+    \left|x_1 
+          \sqrt{f_{\underline{x}[n_1] \underline{x}[n_2]}(x_1, x_2)}
+    \right|^2 
+     ~dx_1 ~dx_2} \\
+   &\cdot
+    \sqrt{\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+    \left|x_2 
+          \sqrt{f_{\underline{x}[n_1] \underline{x}[n_2]}(x_1, x_2)}
+    \right|^2 
+     ~dx_1 ~dx_2}
+  \end{align*}
+  by the Schwarz inequality, and since $\underline{x}$ is real this means
+  \begin{align*}
+  r[n_1, n_2] &\leq
+    \sqrt{\int_{-\infty}^{\infty}\int_{-\infty}^{\infty} 
+    x_1^2 f_{\underline{x}[n_1] \underline{x}[n_2]}(x_1, x_2)
+     ~dx_1 ~dx_2} \\
+    & \cdot
+    \sqrt{\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+    x_2^2 f_{\underline{x}[n_1] \underline{x}[n_2]}(x_1, x_2)
+     ~dx_1 ~dx_2} \\
+   &= \sqrt{r_{\underline{x}}[n_1,n_1]r_{\underline{x}}[n_2,n_2]}.
+  \end{align*}
+  }
+  \item{
+  Writing $r_{\underline{x}}[n_1, n_2]$ as the inner product
+  $\langle x[n_1], x[n_2] \rangle$, which is symmetric in the real case,
+  we see that
+  $$
+     \langle x[n_1] + x[n_2], x[n_1] + x[n_2] \rangle 
+   =  \langle x[n_1], x[n_1] \rangle  
+   + 2\langle x[n_1], x[n_2] \rangle 
+   +  \langle x[n_2], x[n_2] \rangle
+  $$
+  and therefore
+  $$
+     2r_{\underline{x}}[n_1, n_2] 
+   = \|x[n_1] + x[n_2]\|^2 - \|x[n_1]\|^2 - \|x[n_2]\|^2
+  $$
+  so
+  \begin{align*}
+     2|r_{\underline{x}}[n_1, n_2]| 
+  &=    \left|\|x[n_1] + x[n_2]\|^2 - \|x[n_1]\|^2 - \|x[n_2]\|^2\right| \\
+  &=    \left|\|x[n_1]\|^2 + \|x[n_2]\|^2 - \|x[n_1] + x[n_2]\|^2\right| \\
+  &\leq \left|\|x[n_1]\|^2 + \|x[n_2]\|^2\right| \\
+  &=    r_{\underline{x}}[n_1, n_1] + r_{\underline{x}}[n_2, n_2]
+  \end{align*}
+  since $r_{\underline{x}}[n,n] \geq 0$. Therefore 
+  $|r_{\underline{x}}[n_1, n_2] 
+  \leq \frac{1}{2}\left[r_{\underline{x}}[n_1, n_1] 
+                      + r_{\underline{x}}[n_2, n_2]\right]$.
+  }
+  \item
+  {
+    We have that
+    $$
+    |r_{\underline{x}}[n_1,n_2]| \leq 
+    \frac{1}{2}[r_{\underline{x}}[n_1,n_1] + r_{\underline{x}}[n_2,n_2]],
+    $$
+    but if $\underline{x}$ is WSS, we may set $\eta = n_a - n_b$ 
+    and write $r_{\underline{x}}[n_1,n_2] = r_{\underline{x}}[\eta]$,
+    $r_{\underline{x}}[n_1,n_1] = r_{\underline{x}}[n_2,n_2] 
+    = r_{\underline{x}}[0]$. Then 
+    $$
+    |r_{\underline{x}}[n_1,n_2]| \leq 
+    r_{\underline{x}}[0]
+    $$
+    as desired.
+  }
+  \item
+  {
+    $$
+    r_{\underline{x}}[\eta] = r_{\underline{x}}[n_1,n_2]
+                            = r_{\underline{x}}[n_2,n_1]
+                            = r_{\underline{x}}[-\eta]
+    $$
+    if $\underline{x}$ is real.
+  }
+\end{itemize}
+It follows immediately that $c_{\underline{x}}[n_1,n_2]$ is real,
+$c_{\underline{x}}[n_1,n_1] \geq -\mu_{\underline{x}}^2$, and
+$c_{\underline{x}}[n_1,n_2] = c_{\underline[x]}{n_2,n_1}$. From the Schwarz
+inequality as above, we see that
+\begin{align*}
+|c_{\underline{x}}[n_1,n_2]| &\leq 
+  \sqrt{
+   \langle x[n_1] - \mu_{\underline{x}}[n_1], 
+           x[n_1] - \mu_{\underline{x}}[n_1]\rangle}
+  \sqrt{
+   \langle x[n_2] - \mu_{\underline{x}}[n_2], 
+           x[n_2] - \mu_{\underline{x}}[n_2]\rangle}\\
+   &= \sqrt{c[n_1,n_1]c[n_2,n_2]}
+\end{align*}
+and taking $\underline{x}[n] = \underline{y}[n] - \mu_{\underline{y}}[n]$ 
+for an arbitrary random process $\underline{y}$ shows that
+$$
+|c_{\underline{x}}[n_1,n_2]| 
+  \leq \frac{1}{2}[c_{\underline{x}}[n_1,n_1] 
+                +  c_{\underline{x}}[n_2,n_2]]
+$$
+as well.
+
+\section*{Problem 10.4}
+We see that
+\begin{align*}
+c_{\underline{x}}[n_1, n_2] 
+  &= \mathcal{E}\left\{
+     (x[n_1] - \mu_{\underline{x}}[n_1])
+     (x[n_2] - \mu_{\underline{x}}[n_2])\right\} \\
+  &= \mathcal{E}\left\{
+     x[n_1]x[n_2] 
+   - \mu_{\underline{x}}[n_2]x[n_1]
+   - \mu_{\underline{x}}[n_1]x[n_2]
+   + \mu_{\underline{x}}[n_1]\mu_{\underline{x}}[n_2]\right\} \\
+  &= \mathcal{E}\left\{x[n_1]x[n_2]\right\}
+   - \mathcal{E}\left\{\mu_{\underline{x}}[n_2]x[n_1]\right\}
+   - \mathcal{E}\left\{\mu_{\underline{x}}[n_1]x[n_2]\right\}
+   + \mathcal{E}\left\{
+       \mu_{\underline{x}}[n_1]\mu_{\underline{x}}[n_2]\right\}.
+\end{align*}
+But
+$$
+\mathcal{E}\left\{\mu_{\underline{x}}[n_1]x[n_2]\right\} =
+\int_{-\infty}^{\infty} \mu_{\underline{x}}[n_1] 
+                        x f_{\underline{x}[n_1]}(x) ~dx =
+  \mu_{\underline{x}}[n_1]\mu_{\underline{x}}[n_2]
+$$
+and $\mathcal{E}\left\{\mu_{\underline{x}}[n_1]
+                       \mu_{\underline{x}}[n_2]\right\}
+     = \mu_{\underline{x}}[n_1]\mu_{\underline{x}}[n_2]$, so this means
+$$
+c_{\underline{x}}[n_1, n_2] 
+ = r_{\underline{x}}[n_1,n_2]
+ - \mu_{\underline{x}}[n_1]
+   \mu_{\underline{x}}[n_2].
+$$
+
+\section*{Problem 10.5}
+\begin{enumerate}
+  \item{
+    We see that
+    $$
+    \mathcal{E}\left\{\underline{\overline{m}}_x^{\mathcal{N}_+}\right\}
+  = \mathcal{E}\left\{
+      \frac{1}{|\mathcal{N}_+|}\sum_{n \in \mathcal{N}_+} x[n; \zeta]
+    \right\}
+  = \frac{1}{|\mathcal{N}_+|} \sum_{n \in \mathcal{N}_+} 
+      \mathcal{E}\left\{x[n; \zeta]\right\} = \mu_{\underline{x}},
+    $$
+    so this is an unbiased estimator (because we have used the one-sided
+    sample mean).
+  }
+  \item
+  {
+  If $n_a \leq 0$, this sample mean will include erroneous samples in the
+  average, biasing the estimation unless the true expected mean
+  $\mu_{\underline{x}}$ includes the non-positive indexed points as well.
+  }
+\end{enumerate}
+
+\section*{Problem 10.6}
+\begin{align*}
+\mathcal{E}\left\{\underline{\overline{r}}_x[n;\zeta]\right\}
+ &= \mathcal{E}\left\{\lim_{\mathcal{N} \to \pm \infty} 
+  \frac{1}{|\mathcal{N}|}\sum_{n \in \mathcal{N}}
+    x[n]x[n-\eta]\right\} \\
+ &= \lim_{\mathcal{N} \to \pm \infty} \frac{1}{|\mathcal{N}|}
+    \sum_{n \in \mathcal{N}} \mathcal{E}\left\{x[n]x[n-\eta]\right\} \\
+ &= \lim_{\mathcal{N} \to \pm \infty} \frac{1}{|\mathcal{N}|}
+    \sum_{n \in \mathcal{N}} r_{\underline{x}}[\eta] = 
+    r_{\underline{x}}[\eta],
+\end{align*}
+so this is an unbiased estimator for the correlation. 
+
+\section*{Problem 10.7}
+Since utterances of the same syllable may have different durations,
+their means may be different, so speech is not ergodic in the mean. 
+Similarly, the process is not wide-sense stationary, and so we have not
+defined what it means to be ergodic in the correlation.
+
+\section*{Problem 10.8}
+For a wide-sense stationary process, the mean is stationary so the 
+autocorrelation and autocovariance are related by a constant. Since the
+expectation is a linear operator, this means that if one of these statistics
+is ergodic, so is the other.
+
+If the process is not WSS then we have not defined what it means to be 
+ergodic in the correlation or covariance.
+
+\section*{Problem 10.9}
+If a process is strict-sense stationary, then for any $N \in \mathbb{Z}_+$
+it is stationary to order $N$. Therefore it is stationary to order 2.
+
+If a process $\underline{x}$ is 2nd-order stationary, then 
+$  f_{\underline{x}[n_1]\underline{x}[n_2]} 
+ = f_{\underline{x}[n_1+\Delta]\underline{x}[n_2+\Delta]}$
+for any $n_1, n_2, \Delta$, so 
+$r_{\underline{x}}[n_1,n_2] = r_{\underline{x}}[n_1 + \Delta, n_2 + \Delta]$
+and $\mu_{\underline{x}}[n_1] = \mu_{\underline{x}}[n_1 + \Delta]$ 
+$\forall n_1, n_2, \Delta$. Therefore the process is wide-sense stationary.
+
+Example 1028.1 provides a counterexample to the hypothesis that wide-sense
+stationarity implies 2nd order stationarity.
+
+
+
+\section*{Problem 10.10}
+Trivially, if the random process is everywhere zero, it is WSS. A random
+process that takes nonzero values for $n > 0$ is not wide-sense 
+stationary, since its autocorrelation depends on both the spacing between
+sample points and whether the sample points have nonnegative time indices.
+In this case the process is still locally WSS for $n \leq 0$, but may or
+may not be asymptotically WSS.
+
+\section*{Problem 10.11}
+\begin{enumerate}
+  \item
+  {
+  \begin{align*}
+  r_{\underline{y}}[n_1,n_2] &= \mathcal{E}\left\{
+    (x[n_1] - x[n_1 - n_0])(x[n_2] - x[n_2 - n_0])\right\} \\
+  &= \mathcal{E}\{
+     x[n_1]x[n_2] - x[n_1]x[n_2-n_0] \\ 
+  &- x[n_2]x[n_1-n_0] 
+   + x[n_1-n_0]x[n_2-n_0]\} \\
+  &= r_{\underline{x}}[n_1,n_2] - r_{\underline{x}}[n_1, n_2-n_0]\\
+  &- r_{\underline{x}}[n_2,n_1-n_0] + r_{\underline{x}}[n_1-n_0,n_2-n_0].
+  \end{align*}
+  Since $\underline{x}$ is WSS, we let $\eta = n_1 - n_2$ and then see that
+  this means
+  $$
+  r_{\underline{y}}[\eta] 
+    = 2r_{\underline{x}} 
+    - r_{\underline{x}}[n_0 + \eta]
+    - r_{\underline{x}}[n_0 - \eta].
+  $$
+  Furthermore
+  $$
+  \mathcal{E}\left\{y[n]\right\} 
+    = \mu_{\underline{x}}[n] - \mu_{\underline{x}}[n-n_0]
+    = \mu_{\underline{x}}-\mu_{\underline{x}} = 0,
+  $$
+  so $\underline{y}$ is WSS.
+  }
+  \item
+  {
+  $$
+  r_{\underline{z}}[n_1,n_2] 
+    = \mathcal{E}\left\{x[n_1]x[n_2]x[n_1-n_0]x[n_2-n_0\right\},
+  $$
+  so $\underline{z}$ might be WSS. Note that this means
+  \begin{align*}
+  r_{\underline{z}}[n_1,n_2]
+    = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}
+      \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} &
+      x_1 x_{10} x_2 x_{20} \\
+      &f_{\underline{x}[n_1]\underline{x}[n_1-n_0]
+         \underline{x}[n_2]\underline{x}[n_2-n_0]}(x_1, x_{10}, x_2, x_{20})\\
+   &  ~dx_1 ~dx_{10} ~dx_2 ~dx_{20},
+  \end{align*}
+  and if $\underline{x}$ is 4th-order stationary then
+  $$
+    f_{\underline{x}[n_1]\underline{x}[n_1-n_0]
+       \underline{x}[n_2]\underline{x}[n_2-n_0]} =
+    f_{\underline{x}[n_1]\underline{x}[n_1]
+       \underline{x}[n_2]\underline{x}[n_2]} 
+  $$
+  and thus the correlation depends only on the spacing.
+  }
+\end{enumerate}
+
+\end{document}

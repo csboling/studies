@@ -1,0 +1,487 @@
+\documentclass{article}
+
+\title{ECE 863 - Homework \#1}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 8.18}
+Modify the third application in Example 901.1 so that the r.v. maps the 
+waveform outcome to the quantization \textit{error}, rather than the 
+quantized value. How are $\mathcal{S}_{\underline{x}}$ and 
+$\mathcal{A}_{\underline{x}}$ modified? In particular, do they remain
+finite? Is the r.v. "just a formality" in this case?
+\horline
+In the case where $\underline{x}$ gives the quantization error, it maps each
+sample $s \in \mathbb{R}$ to a real number $s-q$ indicating the difference 
+between $s$ and the quantized value $q \in \mathcal{Q}_B$ such that 
+$q = \mathrm{round}(s)$. This difference is 0 if $s = round(s)$ but may be
+as high as $\frac{1}{2}$ or as low as $-\frac{1}{2}$ if the fractional part
+of $s$ is exactly $\frac{1}{2}$. In safe operation, the new sample space is
+therefore the interval 
+$S_{\underline{x}} = \left[-\frac{1}{2}, \frac{1}{2}\right]$ in safe 
+operation of the ADC. However, if the sample $s$ takes values outside the
+range of values the ADC can represent (i.e. $s < q_0$ or $s > q_{2B-1}$),
+the ADC will saturate to the $q_0$ or $q_{2B-1}$ level and the error may 
+grow indefinitely. If this is possible then 
+$S_{\underline{x}} = \mathbb{R}$. In either case the random value is not a
+mere formality, since it maps real numbers nonlinearly to their quantization
+errors.
+
+\pagebreak
+
+\section*{Problem 8.19}
+Random variable $\underline{x}$ is defined over a probability space 
+$\mathcal{P} = (\mathcal{S}, \mathcal{A}, P)$. 
+\begin{enumerate}[label=(\alph*)]
+  \item{If $\mathcal{S}$ consists of discrete elements only 
+($\mathcal{S} \equiv \dot{\mathcal{S}}$), argue that $\underline{x}$ may be
+discrete, continuous, or a mixed r.v.
+       }
+  \item{If $\mathcal{S}$ consists of countable elements only 
+($\mathcal{S} \equiv \tilde{\mathcal{S}}$), argue that $\underline{x}$ may 
+be discrete, continuous, or a mixed r.v.
+       }
+  \item{If $\mathcal{S}$ consists of both discrete and continuous elements
+($\mathcal{S} \equiv \dot{\mathcal{S}} \cup \tilde{\mathcal{S}}$), argue 
+that $\underline{x}$ may be discrete or mixed r.v., but that it may not be 
+purely continuous.
+       }
+\end{enumerate}
+\horline
+\begin{enumerate}[label=(\alph*)]
+  \item{If $\underline{x}$ is discrete, we may assign a probability to each
+        $x \in \mathcal{S}_{\underline{x}}$ such that $P(x)$ is either zero
+        (if $\underline{x}^{-1}(x) = \varnothing$) or a countable sum of
+        probabilities $P(s_i)$ for some $s_i \in \dot{\mathcal{S}}$. If
+        $\mathcal{S}_{\underline{x}}$ consists of a countable number of 
+        intervals $I_i$ then $\mathcal{S}_{\underline{x}}$ is uncountable
+        and we may choose $C_i$ such that 
+        $\int_{x \in I_i} C_i ~dx = P(s_i)$. If $\mathcal{S}$ is a countable
+        collection of intervals and point sets, we may apply the same
+        approaches to the intervals and the point sets and arrive at a
+        well-posed probability measure for 
+        $\dot{\mathcal{S}}_{\underline{x}} \cup 
+         \tilde{\mathcal{S}}_{\underline{x}}$.
+       }
+  \item{If $\mathcal{S}_{\underline{x}}$ is a point set then it is discrete
+        and for any $x \in \mathcal{S}_{\underline{x}}$ we may assign
+        $P_{\underline{x}}(x) = \int_{x \in \underline{x}^{-1}(x)} p(x)~dx$
+        where $p(x)$ is the probability density function defined over 
+        $\tilde{\mathcal{S}}$. A collection of intervals may be chosen
+        such that each has a measure equal to the measure of some subset
+        of $\mathcal{S}$, up to a constant multiple to ensure that the
+        integral over all $\mathcal{S}_{\underline{x}}$ is 1. Point sets 
+        may 
+        also be assigned probabilities equal to integrals of some countable
+        collection of subsets of $\mathcal{S}$ 
+        and an interval may be assigned a probability equal to the integral
+        over the rest of $\mathcal{S}$, providing a mixed example.
+       }
+  \item{If $\underline{x}$ is discrete or mixed, we may assign probability 
+        measures as described in the previous problem sections. 
+
+        Suppose $\underline{x}$ is purely uncountable. Let 
+        $y \in \dot{\mathcal{S}}$ so that $P(\{y\}) \neq 0$. Then 
+        $\underline{x}(y) \in \mathcal{S}_x$, so it must be possible to
+        assign the probability measure to $\{\underline{x}(y)\}$ given by
+        $$
+        P_{\underline{x}}(\{\underline{x}(y)\}) 
+          = P(\{\zeta \in \underline{x}^{-1}(\underline{x}(y)))
+          = P(\{y\}) \neq 0.
+        $$
+        But $\mathcal{S_{\underline{x}}}$ is uncountable and 
+        $\{\underline{x}(y)\}$ is a discrete set, so 
+        $P_{\underline{x}}(\{\underline{x}(y)\})$ must be zero, which is a
+        contradiction. Therefore $\underline{x}$ may not be purely 
+        uncountable.
+        }
+        
+\end{enumerate}
+
+\section*{Problem 9.2}
+According to the United States Census Bureau, a U.S. citizen born in the
+decade 1978-1987 is likely to have a birthday in specific months with the 
+probabilities shown.  An experiment consists of selecting a person at random
+from the cited U.S. population group and noting the month of the person's
+birth. The sample space is therefore $\mathcal{S} = \{$ January, February, 
+$\dots$, December. $\}$.
+\begin{enumerate}[label=(\alph*)]
+  \item{Let $\underline{x}$ be the r.v. which maps an outcome to the 
+integer representing the order of the month in the calendar year.
+    \begin{enumerate}[label=(\roman*)]
+      \item{Is $\underline{x}$ a discrete, continuous, or mixed r.v.?}
+      \item{Specify the p.m.f. for r.v. $\underline{x}$.}
+      \item{Plot the c.d.f. for r.v. $\underline{x}$ for all 
+            $x \in \mathbb{R}$.}
+    \end{enumerate}
+      }
+  \item{Let $\underline{y}$ be the r.v. which maps an outcome to the number
+of letters in the month's name.
+    \begin{enumerate}[label=(\roman*)]
+      \item{Is $\underline{y}$ a discrete, continuous, or mixed r.v.?}
+      \item{Specify the p.m.f. for r.v. $\underline{y}$.}
+      \item{Plot the c.d.f. for r.v. $\underline{y}$, for all 
+            $y \in \mathbb{R}$.}
+    \end{enumerate}
+       }
+  \item{The following mapping is alleged to be a valid r.v.: $\underline{z}$
+        maps a given month to both the integer order of the month (like 
+        r.v. $\underline{x}$) AND to the number of letters in the month's 
+        name (like r.v. $\underline{y}$). Comment on whether the mapping
+        $\underline{z}$ can truly be a r.v.
+       }
+\end{enumerate}
+\horline
+\begin{enumerate}[label=(\alph*)]
+  \item{$\underline{x}$ is discrete. Its p.m.f. is given by
+        $$
+        f_{\underline{x}}(x) = \left\{ \begin{array}{l l}
+          0.0809, & x = 1  \\
+          0.0757, & x = 2  \\
+          0.0834, & x = 3  \\
+          0.0792, & x = 4  \\
+          0.0825, & x = 5  \\
+          0.0818, & x = 6  \\
+          0.0887, & x = 7  \\
+          0.0897, & x = 8  \\
+          0.0882, & x = 9  \\
+          0.0856, & x = 10 \\
+          0.0805, & x = 11 \\
+          0.0839, & x = 12 
+        \end{array}\right.
+        $$
+        Its c.d.f. is shown below.
+        \begin{figure}
+          \centering\includegraphics[width=0.5\textwidth]{hw2p9-2-a-iii}
+        \end{figure}
+       }
+  \item{The number of letters in the months are
+        \begin{tabular}{l l}
+        January   & 7\\
+        February  & 8\\
+        March     & 5\\
+        April     & 5\\
+        May       & 3\\
+        June      & 4\\
+        July      & 4\\
+        August    & 6\\
+        September & 9\\
+        October   & 7\\
+        November  & 8\\
+        December  & 8
+        \end{tabular}
+        so the p.d.f. is given by
+        $$ 
+        f_{\underline{y}}(x) = \left\{ \begin{array}{l l}
+          \frac{1}{4},  & x = 8     \\
+          \frac{1}{6},  & x = 4,5,7 \\
+          \frac{1}{12}, & x = 3,6,9 \\
+        \end{array}\right.
+        $$
+        The c.d.f. is plotted below.
+        \begin{figure}
+          \centering\includegraphics[width=0.5\textwidth]{hw2p9-2-b-iii}
+        \end{figure}
+        }
+  \item{Let $z = \underline{z}(m)$ for some month $m$. Then $z = (x,y)$, 
+        where $x = \underline{x}(m)$ and $y = \underline{y}(m)$. Then
+        $$
+        P(\underline{z} = z) = P(\underline{x} = x, \underline{y} = y)
+          = P\left(\left\{\zeta \in S | 
+              \zeta \in \underline{x}^{-1}(x) \wedge
+              \zeta \in \underline{y}^{-1}(y)\right\}\right),
+        $$
+        so this is a random variable -- a random vector. 
+       }
+\end{enumerate}
+
+\section*{Problem 9.3}
+An astronomy observatory has an antenna array which is 100 meters long. For
+the purposes of this analysis, we consider only the longitudinal dimension
+of the array which is measured in meters from the leftmost edge. With a 
+major storm moving into the area, engineers are concerned about the 
+potential for lightning strikes on the array. In a risk assessment, it is
+assumed that lightning strikes the array with certainty, with any point
+along the 100 m width equally likely to be the point of contact. Let r.v.
+$\underline{x}$ model the point of contact with the antenna array.
+\begin{enumerate}[label=(\roman*)]
+  \item{Is $\underline{x}$ a discrete, continuous, or mixed r.v.?}
+  \item{Plot the p.d.f. for r.v. $\underline{x}$ for all $x \in \mathbb{R}$.
+        \begin{figure}
+          \centering\includegraphics[width=0.5\textwidth]{hw2p9-3-ii}
+        \end{figure}
+       }
+  \item{Plot the c.d.f. for r.v. $\underline{x}$ for all $x \in \mathbb{R}$.
+        \begin{figure}
+          \centering\includegraphics[width=0.5\textwidth]{hw2p9-3-iii}
+        \end{figure}
+       }
+\end{enumerate}
+\horline
+\begin{enumerate}[label=(\roman*)]
+  \item{$\underline{x}$ is a continuous r.v.}
+\end{enumerate}
+
+\section*{Problem 9.4}
+A r.v. $\underline{x}$ has the c.d.f.
+$$
+F_{\underline{x}}(x) = \min\{1, N^x\}, x \in \mathbb{R}
+$$
+for some integer $N > 0$.
+\begin{enumerate}[label=(\roman*)]
+  \item{Determine whether $F_{\underline{x}}$ satisfies the extremal 
+        properties of a c.d.f., (i.e., proper limits as $x \to -\infty$
+        and as $x \to \infty$), and the monotonicity property.
+       }
+  \item{Find an expression for the p.d.f., $f_{\underline{x}}(x)$, if it
+        exists.}
+  \item{Use $F_{\underline{x}}(x)$ to find 
+        $P(-K < \underline{x} \leq -K + 1)$, 
+        $P(-K \leq \underline{x} \leq -K + 1)$,
+        $P(K \leq x \leq K + 1)$, and
+        $P(K \leq \underline{x} \leq K + 1)$,
+        for some integer $K > 0$.
+       }
+  \item{Use $f_{\underline{x}}(x)$ to find the probabilities in part (c).}
+\end{enumerate}
+\horline 
+\begin{enumerate}[label=(\roman*)]
+  \item{If $N = 1$, then $F_{\underline{x}}(x) = 1, \forall x$. This has 
+        behaved limits and is nondecreasing. If $N > 1$, then 
+        $F_{\underline{x}}(x) = 1$ for $x \geq 0$, and 
+        $$
+        \lim_{x \to -\infty} N^x = 0.
+        $$
+        Therefore this has behaved limits and is nondecreasing.}
+  \item{If $N = 1$, the derivative is 0, so the "probability measure" 
+  $f_{\underline{x}}(x)$ is ill-posed. Otherwise, the derivative of
+  $$
+  F_{\underline{x}}(x) = \left\{\begin{array}{l l}
+     N^x, & x < 0 \\
+     1,   & x \geq 0
+  \end{array}\right.
+  $$
+  is given by
+  $$
+  f_{\underline{x}}(x) = \left\{\begin{array}{l l}
+    N^x \ln N, & x < 0 \\
+    0,         & x > 0
+  \end{array}\right.
+  $$
+  and does not exist at 0.}
+  \item{We have
+  \begin{align*}
+  P(-K \leq \underline{x} \leq -K + 1) &=
+  N^{-K+1} - N^{-K} = N^{-K}(N - 1),\\
+  P(K \leq x \leq K + 1) &=
+    N^{K+1} - N^K = N^K (N - 1),
+  \end{align*}
+  and the c.d.f. evaluated for the half-open intervals
+  gives the same result.
+  }
+  \item{
+  If $K \neq 1$, then the first two probabilities are as above and
+  $P(K < \underline{x} \leq K + 1) = P(K \leq \underline{x} \leq K+1) = 0$.
+  If $K = 1$,
+  $P(-K < \underline{x} \leq -K+1)$ and $P(-K \leq \underline{x} \leq -K+1)$
+  cannot be found from the p.d.f. 
+  }
+\end{enumerate}
+
+\section*{Problem 9.5}
+A r.v. $\underline{x}$ has the p.d.f.
+$$
+f_{\underline{x}}(x) = \left\{ 
+  \begin{array}{l l}
+    C(x - x^2), & 0 \leq x < a \\
+    0,          & \mbox{otherwise}
+  \end{array} 
+\right.
+$$
+\begin{enumerate}[label=(\roman*)]
+  \item{If $C = 6$, find $a$.}
+  \item{Find the c.d.f. for r.v. $\underline{x}$, $F_{\underline{x}}(x)$.}
+  \item{Use the p.d.f. to find $P(0.5 \leq \underline{x} \leq 0.6)$.}
+  \item{Use the c.d.f. to solve (c).}
+\end{enumerate}
+\horline
+\begin{enumerate}[label=(\roman*)]
+  \item{We require that
+       \begin{align*}
+       P(\mathcal{S}) &= 6\int_{0}^{a} (x - x^2) ~dx 
+                       = 6\left[\frac{x^2}{2} - \frac{x^3}{3}\right]_0^a\\
+                      &= \left.3x^2 - 2x^3\right|_0^a 
+                       = \left.x^2(3 - 2x)\right|_0^a = 1,
+       \end{align*}
+       so $a^2(3 - 2a) = 1$. This polynomial has roots at $-\frac{1}{2}$ 
+       and 1, and we are given $0 \leq a$. Therefore $a = 1$.
+       }
+  \item{The c.d.f. is given by 
+       $$
+       F_{\underline{x}}(x) = \int_{-\infty}^x f_{\underline{x}}(u) du
+                            = \left\{\begin{array}{l l}
+                              0,           & x < 0 \\
+                              Cx^2(\frac{1}{2} - \frac{x}{3}), 
+                                 & 0 \leq x \leq a \\
+                              1,           & x > a
+                              \end{array}\right.
+       $$
+       since this is the range over which the function is increasing.
+       }
+  \item{The p.d.f. gives
+       \begin{align*}
+       P(0.5 \leq x \leq 0.6) & = \int_{0.5}^{0.6} f_{\underline{x}}(x)~dx
+         = C(0.6^2(\frac{1}{2} - \frac{0.6}{3})
+          - 0.5^2(\frac{1}{2} - \frac{1}{6})) \\
+        &= C(0.36 \dot 0.3 - \frac{1}{12}) C(0.980 - \frac{1}{12}).
+       \end{align*}}
+  \item{The c.d.f. finds the same probability.}
+\end{enumerate}
+
+\section*{Problem 9.14}
+Let $\underline{l}$ and $\underline{\varepsilon}$ be Laplacian and 
+exponential r.v.'s, respectively, with means $\mu_{\underline{l}}$ and
+$\mu_{\underline{\varepsilon}}$. If $F_{\underline{y}}$ denotes the c.d.f.
+for a general r.v. $\underline{y}$:
+\begin{enumerate}[label=(\roman*)]
+  \item{Find $F_{\underline{l}}(\mu_{\underline{l}})$ and 
+        $F_{\underline{\varepsilon}}(\mu_{\underline{\varepsilon}})$.}
+  \item{Comment on the result in light of the "shapes" of the two 
+        distributions.}
+\end{enumerate}
+\horline
+\begin{enumerate}[label=(\roman*)]
+  \item{The c.d.f. $F_{\underline{l}}(x)$ depends on the p.d.f. 
+        $f_{\underline{l}}(x)$, and $f_{\underline{l}}(\mu_{\underline{l}})
+          = \frac{\beta}{2}\exp(-\beta|\mu_{\underline{l}} 
+               - \mu_{\underline{l}}) = \frac{\beta}{2}.$ This gives
+        that $F_{\underline{l}}(\mu_{\underline{l}}) = \frac{1}{2}$.
+  
+        The c.d.f. $F_{\underline{\varepsilon}}(x)$ depends on the p.d.f.
+        $f_{\underline{\varepsilon}}(x)$, and 
+        $f_{\underline{\varepsilon}}(\mu_{\underline{\varepsilon}}) =
+          \lambda e^{-1} u(x)$, so 
+        $F_{\underline{\varepsilon}}(\mu_{\underline(\varepsilon)}) =
+          u(x) - \frac{[u(x)]^2}{e} = u(x)\left(1 - \frac{1}{e}\right)$.
+       }
+\end{enumerate}
+
+\section*{Problem 9.19}
+\begin{enumerate}[label=(\roman*)]
+  \item{Sketch the conditional p.d.f.s 
+        $f_{\underline{y}}(y | \underline{x} = 0)$ and
+        $f_{\underline{y}}(y | \underline{x} = 1)$ on the same "$y$" axis.
+       }
+  \item{Find an expression for the probability of error, $P_e$, defined as
+        the probability that we decide $\underline{x} = 1$ and in fact 
+        $\underline{x} = 0$ OR we decide $\underline{x} = 0$ and in fact
+        $\underline{x} = 1$.}
+  \item{If $\tau = 0$ and $\beta = 0.5$, find the false alarm probability,
+        defined as the probability that we decide $\underline{x} = 1$ given
+        that $\underline{x} = 0$.}
+  \item{Define the r.v. $\underline{s}_N = \sum_{i=1}^N \underline{x}_i$. If
+        $N = 10^6$ and $\beta \approxeq 10^{-3}$, estimate the probability
+        that $\underline{s}_N = 2$.}
+\end{enumerate}
+\horline
+\begin{enumerate}[label=(\roman*)]
+  \item{\begin{figure}
+        \centering\includegraphics[width=0.5\textwidth]{hw2p9-19-a}
+        \end{figure}}
+  \item{
+       If $\underline{u}$ is the uniform random variable describing
+       the noise when a 0 is sent and $\underline{g}$ is the Gaussian
+       random variable describing the noise when a 1 is sent, then
+       \begin{align*}
+       P_e &= P(\underline{y} >    \tau, \underline{x} = 0)
+           + P(\underline{y} \leq \tau, \underline{x} = 1) \\
+           &- P(\underline{y} > \tau \wedge \underline{y} \leq \tau,
+                \underline{x} = 0 \wedge \underline{x} = 1) \\
+           &= P(\underline{y} >    \tau, \underline{x} = 0)
+           + P(\underline{y} \leq \tau, \underline{x} = 1) \\
+           &= P(\underline{x} + \underline{v} > \tau \wedge
+                \underline{x} = 0)
+            + P(\underline{x} + \underline{v} \leq \tau \wedge
+                \underline{x} = 1) \\
+           &= P(\underline{x} + \underline{v} > \tau 
+                | \underline{x} = 0)P(\underline{x} = 0)
+            + P(\underline{x} + \underline{v} \leq \tau
+                | \underline{x} = 1)P(\underline{x} = 1) \\
+           &= \beta P(0 + \underline{u} > \tau) 
+            + (1 - \beta)P(1 + \underline{g} \leq \tau) \\
+           &= \beta \int_{\tau}^{0.5} ~du 
+            + (1 - \beta)\int_{-0.5}^\tau (1 + f_{\underline{g}}(g)) ~dg\\
+           &= \beta \left[u\right]_{\tau}^{0.5}
+            + (1 - \beta)\left[\int_{-0.5}^\tau ~dg 
+               - F_{\underline{g}}(\tau) 
+               + F_{\underline{g}}(-0.5)\right] \\
+           &= \beta(0.5 - \tau) + (1-\beta)(\tau + 0.5 
+                                           - F_{\underline{g}}(\tau)) \\
+           &= 0.5\beta - \beta\tau + (\tau - \beta\tau) + (0.5 - 0.5\beta)
+            + (\beta - 1) F_{\underline{g}}(\tau) \\
+           &= 0.5 - 2\beta\tau + (\beta - 1)F_{\underline{g}}(\tau).
+       \end{align*}
+       }
+   \item{
+     $$
+     P_F = P(\underline{x} + \underline{v} > \tau | \underline{x} = 0) 
+        = \int_\tau^{0.5} du = 0.5 - \tau,
+     $$
+     as above.
+    }
+    \item{
+     $\underline{x}$ is given by a Bernoulli distribution, so the sum
+     $\underline{s}_N$ is simply the binomial
+     $$
+     \underline{s}_{N}(k) =
+       \left(\begin{array}{c}N\\k\end{array}\right)
+       \beta^k (1 - \beta)^{N-k}
+     $$
+     Since $N = 10^6$ is large, we may approximate this by a Poisson
+     distribution with $\lambda = N\beta \approx 10^3$, so 
+     $$
+     f_{\underline{s}_N}(2) \approx \frac{\lambda^2}{2}e^{-\lambda}
+                            = \frac{10^6}{2e^{10^3}}.  
+     $$
+     }
+\end{enumerate}
+
+\section*{Problem 9.20}
+Verify that for r.v. $\underline{x}$, 
+$$
+\sigma_{\underline{x}}^2 = 
+  \mathcal{E}\left\{(\underline{x} - \mu_{\underline{x}})^2\right\} = 
+  \mathcal{E}\left\{\underline{x}^2\right\} - \mu_{\underline{x}}^2.
+$$
+\horline
+\begin{align*}
+\mathcal{E}\left\{(\underline{x} - \mu_{\underline{x}})^2\right\} &=
+  \int_{-\infty}^\infty \left(f_{\underline{x}}(x)(x
+                        - \mu_{\underline{x}})^2\right)
+   = \int_{-\infty}^\infty \left(f_{\underline{x}}(x)
+           (x^2 - 2x \mu_{\underline{x}} + \mu_{\underline{x}}^2)\right) \\ 
+  &= \int_{-\infty}^\infty f_{\underline{x}}(x) x^2 ~dx 
+   - 2\mu_{\underline{x}} \int_{-\infty}^\infty f(x) x ~dx
+   + \mu_{\underline{x}}^2 \int_{-\infty}^\infty f(x) ~dx \\
+  &= \mathcal{E}\{\underline{x}^2\} 
+   - 2\mu_{\underline{x}} \mathcal{E}\{\underline{x}\}
+   + \mu_{\underline{x}}^2 
+   = \mathcal{E}(\underline{x}^2) - \mu_{\underline{x}}^2
+\end{align*}
+
+\end{document}
