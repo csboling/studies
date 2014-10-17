@@ -1,0 +1,612 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{commath}
+\usepackage{enumerate}
+
+\title{ECE/ME 851 Homework \#3}
+\date{September 26, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+\begin{enumerate}[(a)]
+\item{
+Since $\tilde{x} = P x$, we have
+$x = P^{-1} \tilde{x}$ and so
+$\dot{x} = P^{-1} \dot{\tilde{x}}$.
+Then we make the transformation
+\begin{align*}
+\dot{x} &= A x + B u \\
+P^{-1}\dot{\tilde{x}} &= A P^{-1} \tilde{x} + B u \\
+\dot{\tilde{x}} &= P A P^{-1} \tilde{x} + P B u
+\end{align*}
+so that $\tilde{A} = P A P^{-1}$ and $\tilde{B} = P B$ and furthermore
+\begin{align*}
+  y &= C x = C P^{-1} \tilde{x}
+\end{align*}
+so $\tilde{C} = C P^{-1}$. Then since $A = P^{-1} \tilde{A} P$, we can
+express $\tilde{A}$ as a Jordan matrix for $A$.
+
+Using the matrices
+$$
+  A =
+  \left[\begin{array}{r r r r}
+     0 &  1 &  0 &  0 \\
+     3 &  0 &  0 &  2 \\
+     0 &  0 &  0 &  1 \\
+     0 & -2 &  0 &  0
+  \end{array}\right], \quad
+  B =
+  \left[\begin{array}{c c}
+     0 &  0 \\
+     1 &  0 \\
+     0 &  0 \\
+     0 &  1 
+  \end{array}\right], \quad
+  C =
+  \left[\begin{array}{c c c c}
+     1 &  0 &  1 &  0
+  \end{array}\right]
+$$
+
+we find the eigenvalues of $A$ as
+\begin{align*}
+\det (sI - A)
+&= \left|\begin{array}{r r r r}
+      s & -1 & 0 &  0 \\
+     -3 &  s & 0 & -2 \\
+      0 &  0 & s & -1 \\
+      0 &  2 & 0 &  s
+  \end{array}\right|
+ = s\left|\begin{array}{r r r}
+      s & -1 &  0 \\
+     -3 &  s & -2 \\
+      0 &  2 &  s
+    \end{array}\right| \\
+&= s\left(
+     s\left|\begin{array}{r r}
+        s & -2 \\ 2 & s
+      \end{array}\right|
+   +  \left|\begin{array}{r r}
+        -3 & -2 \\ 0 & s
+      \end{array}\right|\right) \\
+&= s(s(s^2 +4) + (-3s))
+ = s(s^3 + s) = s^2(s^2 + 1),
+\end{align*}
+so the matrix $A$ has eigenvalues 0, 0, and $\pm i$. Next we find the
+true eigenvectors by setting
+\begin{align*}
+   0 
+&= Av
+ = \left[\begin{array}{c}
+     v_2 \\ 3v_1 + 2v_4 \\ v_4 \\ -2v_2
+   \end{array}\right]
+\implies
+  v = \left[\begin{array}{c}
+        0 \\ 0 \\ v_3 \\ 0
+      \end{array}\right], \\
+   0
+&= (A - iI)v
+ = \left[\begin{array}{c}
+     -i v_1 + v_2 \\
+      3 v_1 - i v_2 + 2 v_4  \\
+     -i v_3 + v_4 \\
+     -2 v_2 - i v_4
+   \end{array}\right]
+\implies
+  v = \left[\begin{array}{c}
+        -\frac{i}{2} v_3 \\
+        \frac{1}{2} v_3 \\
+        v_3 \\
+        i v_3
+      \end{array}\right],       
+\end{align*}
+so eigenvectors are
+$$
+\left[\begin{array}{c}
+0 \\ 0 \\ 1 \\ 0
+\end{array}\right], \quad
+\left[\begin{array}{c}
+-\frac{i}{2} \\ \frac{1}{2} \\ 1 \\ i
+\end{array}\right], \quad
+\left[\begin{array}{c}
+\frac{i}{2} \\ \frac{1}{2} \\ 1 \\ -i
+\end{array}\right]
+$$
+since eigenvectors with complex entries must appear as
+conjugates. The eigenvalue 0 has multiplicity 2 and the corresponding
+eigenspace has dimension 1, so we find a generalized eigenvector for
+this eigenvalue by solving
+$$
+\left[\begin{array}{c}
+  0 \\ 0 \\ 1 \\ 0  
+\end{array}\right]
+= Av
+$$
+to find
+$$
+\left[\begin{array}{r}
+  -\frac{2}{3} \\ 0 \\ x_3 \\ 1
+\end{array}\right]
+$$
+and therefore a matrix of generalized eigenvectors is given by
+$$
+P^{-1} =
+\left[\begin{array}{r r r r}
+  0 & -\frac{2}{3} & -\frac{i}{2} & \frac{i}{2} \\
+  0 & 0            &  \frac{1}{2} &  \frac{1}{2} \\
+  1 & 1            &  1           &  1 \\
+  0 & 1            &  i           &  -i
+\end{array}\right]
+$$
+so
+$$
+P = \left[\begin{array}{r r r r}
+  6 & -2 & 1 &   3 \\
+ -6 &  0 & 0 &  -3 \\
+  3 &  1 & 0 &  2i \\
+-3i &  1 & 0 & -2i
+\end{array}\right]
+$$
+and taking $\tilde{A} = P A P^{-1}$ to be the corresponding Jordan
+matrix we have
+\begin{align*}
+\tilde{A} &=
+\left[\begin{array}{r r r r}
+0 & 1 &  0 &  0 \\
+0 & 0 &  0 &  0 \\
+0 & 0 &  i &  0 \\
+0 & 0 &  0 & -i
+\end{array}\right], \\
+\tilde{B} &= PB 
+= \left[\begin{array}{r r}
+    -2 & 3 \\ 0 & -3 \\ 1 & 2i \\ 1 & -2i
+  \end{array}\right], \\
+\tilde{C} &= CP^{-1}
+= \left[\begin{array}{r r r r}
+    1 & -\frac{1}{3} & 1 - \frac{i}{2} & 1 + \frac{i}{2}
+  \end{array}\right].
+\end{align*}
+}
+\item{
+Since the transfer function is independent of state representation,
+we have
+$$
+H(s) = \tilde{C} (sI - \tilde{A})^{-1} \tilde{B}
+$$
+Then we note that
+\begin{align*}
+(sI - A)^{-1} &=
+\left[\begin{array}{c c c c}
+s & -1 &    0   &  0 \\
+0 &  s &    0   &  0 \\
+0 &  0 &  s - i &  0 \\
+0 &  0 &    0   & s + i
+\end{array}\right]^{-1} 
+= \left[\begin{array}{r r r r}
+    \frac{1}{s} & \frac{1}{s^2} & 0               & 0 \\
+    0           & \frac{1}{s}   & 0               & 0 \\
+    0           & 0             & \frac{1}{s - i} & 0 \\
+    0           & 0             & 0               & \frac{1}{s+i}
+  \end{array}\right], \\
+\tilde{C}(sI - \tilde{A})^{-1} &=
+  \left[\begin{array}{c}
+      \frac{1}{s} \\
+      \frac{1}{s^2} - \frac{1}{3s} \\
+      \left(1 - \frac{i}{2}\right)\frac{1}{s - i} \\
+      \left(1 + \frac{i}{2}\right)\frac{1}{s + i}
+    \end{array}\right]^\top, \\
+\tilde{C}(sI - \tilde{A})^{-1}\tilde{B} &=
+\left[\begin{array}{c}
+  -\frac{2}{s} 
+ + \frac{1 - \frac{i}{2}}{s-i}
+ + \frac{1 + \frac{i}{2}}{s+i} \\
+   \frac{3}{s}
+ - \frac{3}{s^2}
+ - \frac{1}{s}
+ + \frac{2i + 1}{s-i}
+ + \frac{-2i + 1}{s+i}
+\end{array}\right]^\top
+= \left[\begin{array}{c}
+ \frac{2s + 1}{s^2 + 1} - \frac{2}{s} \\
+ \frac{2s - 4}{s^2 + 1} + \frac{2}{s} - \frac{3}{s^2}
+\end{array}\right].
+\end{align*}
+}
+\end{enumerate}
+
+\pagebreak
+
+\section*{Problem \#2}
+The general solution for the discrete-time equation is given by
+\begin{align*}
+x(k) &= A^k x(0) + \sum_{j=0}^{k-1} A^{k - (j+1)}Bu(j),
+\end{align*}
+so taking $x(k) = x(0) \theta(k)$, where $\theta(k)$ is the unit step
+function, we have
+\begin{align*}
+x(0) \theta(k) &= A^k x(0)
+      + \sum_{j=0}^{k-1} A^{(k-1) - j} B u(j) \\
+     &= A^k x(0)
+      + (f \ast u)(k-1),
+\end{align*}
+where $f(k) = A^k B$ and $\ast$ denotes convolution. Then taking a
+$z$-transform we have
+\begin{align*}
+\frac{z}{z-1}x(0) &=
+  \mathcal{Z}\{A^k\}x(0)
++ \mathcal{Z}\{(f \ast u)(k - 1)\} \\
+&= z(zI - A)^{-1} x(0)
+ + z^{-1}\mathcal{Z}\{(f \ast u)(k)\} \\
+&= z(zI - A)^{-1} x(0)
+ + z^{-1}\mathcal{Z}\{f(k)\} U(z) \\
+&= z(zI - A)^{-1} x(0)
+ + z^{-1}z(zI - A)^{-1} B U(z)
+\end{align*}
+so that
+\begin{align*}
+\frac{z}{z-1}(zI - A)x(0) &=
+  zx(0) + BU(z) \\
+B U(z) 
+&= \left[\frac{z}{z-1}(zI - A) - zI\right]x(0) \\
+&= \left[\left(\frac{z}{z-1} - 1\right)zI 
+       - \frac{z}{z-1}A\right] x(0)\\
+&= \left[\frac{z - (z-1)}{z-1}zI 
+       - \frac{z}{z-1} A\right] x(0) \\
+&= \left[\frac{z}{z-1}(I - A)\right]x(0) \\
+&= \mathcal{Z}\{\theta(k)\} (I - A) x(0),
+\end{align*}
+so we have
+$$
+B u(k) = (I - A) x(0) \theta(k).
+$$
+When $B$ is a vector, we then have
+$$
+u(k) = \frac{1}{\| B \|^2} B^\top (I - A) x(0) \theta(k).
+$$
+In the case
+$$
+A = \left[\begin{array}{r r}
+      2 & 0 \\ 0 & -1
+    \end{array}\right], \quad
+B = \left[\begin{array}{c}
+      1 \\ 1
+    \end{array}\right], \quad
+x(0) = \left[\begin{array}{r}
+        -2 \\ 1
+       \end{array}\right]
+$$
+this gives
+$$
+\frac{1}{2} 
+\left[\begin{array}{c c} 
+  1 & 1
+\end{array}\right]
+\left[\begin{array}{c c}
+  -1 & 0 \\ 0 & 2
+\end{array}\right]
+\left[\begin{array}{r}
+  -2 \\ 1
+\end{array}\right] \theta(k)
+= 2 \theta(k).
+$$
+
+\pagebreak
+
+\section*{Problem \#3}
+
+\begin{enumerate}[(a)]
+\item{
+The matrix
+$$
+A 
+= \left[\begin{array}{r r r r}
+    0       &       1 & 0       & 0      \\
+    -0.1910 & -0.0536 & 0.0910  & 0.0036 \\
+    0       & 0       & 0       & 1      \\
+    0.0910  & 0.0036  & -0.1910 & -0.0536
+  \end{array}\right]
+$$
+has eigenvalues
+\begin{align*}
+& \lambda_1 = -0.0286 + 0.53027i,
+& \lambda_2 = -0.0286 - 0.53027i, \\
+& \lambda_3 = -0.025  + 0.31524i,
+& \lambda_4 = -0.025  - 0.31524i
+\end{align*}
+and eigenvectors
+\begin{align*}
+& v_1 
+= \left[\begin{array}{c}
+    -0.62451 \\
+     0.01786 - 0.33116i \\
+     0.62451 \\
+    -0.01786 + 0.33116i
+  \end{array}\right],
+& v_2
+= \left[\begin{array}{c}
+    -0.62451 \\
+     0.01786 + 0.33116i \\
+     0.62451 \\
+    -0.01786 - 0.33116i
+  \end{array}\right], \\
+& v_3 
+= \left[\begin{array}{c}
+    0.67420 \\
+    -0.01685 + 0.21253i \\
+    0.67420 \\
+    -0.01685 + 0.21253i
+  \end{array}\right],
+& v_4 
+= \left[\begin{array}{c}
+    0.67420 \\
+    -0.01685 - 0.21253i \\
+    0.67420 \\
+    -0.01685 - 0.21253i
+  \end{array}\right].
+\end{align*}
+Since the system has distinct eigenvalues, its modes may be written as
+\begin{align*}
+A_1 = v_1 w_1^\top 
+&= \left[\begin{array}{c c c c}
+     0.25 - 0.013484i 
+   &        0.471461i 
+   &-0.25 + 0.013484i
+   &        0.471461i \\
+            0.132952i
+   & 0.25 + 0.013484i
+   &        0.132952i
+   &-0.25 - 0.013484i \\
+    -0.25 + 0.013484i 
+   &        0.471461i
+   & 0.25 - 0.013484i 
+   &        0.471461i \\
+            0.132952i 
+   &-0.25 - 0.013484i 
+   &        0.132952i 
+   & 0.25 + 0.013484i
+   \end{array}\right], \\
+A_2 = v_2 w_2^\top 
+&= \left[\begin{array}{c c c c}
+     0.25 + 0.013484i 
+  &         0.471461i 
+  & -0.25 - 0.013484i 
+  &         0.471461i \\
+            0.132952i 
+  &  0.25 - 0.013484i 
+  &         0.132952i 
+  & -0.25 + 0.013484i \\
+            0.013484i 
+  &         0.471461i 
+  &  0.25 + 0.013484i 
+  &         0.471461i \\
+            0.132952i 
+  & -0.25 + 0.013484i 
+  &         0.132952i 
+  &  0.25 - 0.013484i
+   \end{array}\right], \\
+A_3 = v_3 w_3^\top 
+&= \left[\begin{array}{c c c c}
+    0.25 - 0.019826i 
+ &         0.793052i 
+ &  0.25 - 0.019826i 
+ &         0.793052i
+           0.079305i \\
+ &  0.25 + 0.019826i 
+ &         0.079305i 
+ &  0.25 + 0.019826i \\
+    0.25 - 0.019826i 
+ &         0.793052i 
+ &  0.25 - 0.019826i 
+ &         0.793052i \\
+           0.079305i 
+ &  0.25 + 0.019826i 
+ &         0.079305i 
+ &  0.25 + 0.019826i
+   \end{array}\right], \\
+A_4 = v_4 w_4^\top 
+&= \left[\begin{array}{c c c c}
+    0.25 + 0.019826i 
+ &         0.793052i 
+ &  0.25 + 0.019826i 
+ &         0.793052i \\
+           0.079305i 
+ &  0.25 - 0.019826i 
+ &         0.079305i 
+ &  0.25 - 0.019826i \\
+    0.25 + 0.019826i 
+ &         0.793052i 
+ &  0.25 + 0.019826i 
+ &         0.793052i \\
+           0.079305i 
+ &  0.25 - 0.019826i 
+ &         0.079305i 
+ &  0.25 - 0.019826i
+   \end{array}\right], \\
+\end{align*}
+where the $w_i$ are the left eigenvectors of $A$ found from the
+inverse of the matrix possessing the eigenvectors $v_i$ as columns.
+
+A plot of the system's evolution with the given initial condition is
+attached.
+}
+\end{enumerate}
+
+\pagebreak
+
+\section*{Problem \#4}
+\begin{enumerate}[(a)]
+  \item{
+  The matrix
+  $$
+  A  = \left[\begin{array}{r r r r}
+          2 &  3 &  2 &  1 \\
+         -2 & -3 &  0 &  0 \\
+         -2 & -2 & -4 &  0 \\
+         -2 & -2 & -2 & -5
+       \end{array}\right]
+  $$
+  has distinct eigenvalues
+  $$
+  \lambda_1 = -1, \quad
+  \lambda_2 = -2, \quad
+  \lambda_3 = -4, \quad
+  \lambda_4 = -3
+  $$
+  and corresponding eigenvectors
+  $$
+  v_1 = \left[\begin{array}{r}
+          -1 \\ 1 \\ 0 \\ 0
+        \end{array}\right], \quad
+  v_2 = \left[\begin{array}{r}
+          -1 \\ 2 \\ -1 \\ 0
+        \end{array}\right], \quad
+  v_3 = \left[\begin{array}{r}
+           0 \\ 0 \\  1 \\ -2
+        \end{array}\right], \quad
+  v_4 = \left[\begin{array}{r}
+           0 \\ 1 \\ -2 \\ 1
+        \end{array}\right], 
+  $$
+  so the transformation matrix is written
+  $$
+  P = \left[\begin{array}{r r r r}
+        -1 & -1 &  0 &  0 \\
+         1 &  2 &  0 &  1 \\
+         0 & -1 &  1 & -2 \\
+         0 &  0 & -2 &  1
+      \end{array}\right]
+  $$
+  so that
+  $$
+  P^{-1} = \left[\begin{array}{r r r r}
+            6 &  3 &  2 &  1 \\
+           -2 &  1 &  0 &  0 \\
+           -2 & -2 &  0 &  0 \\
+           -2 & -2 & -2 & -1
+         \end{array}\right]
+  $$
+  and we have
+  \begin{align*}
+  A &= P \tilde{A} P^{-1} \\
+    &= \left[\begin{array}{r r r r}
+        -1 & -1 &  0 &  0 \\
+         1 &  2 &  0 &  1 \\
+         0 & -1 &  1 & -2 \\
+         0 &  0 & -2 &  1
+      \end{array}\right]
+      \left[\begin{array}{r r r r}
+        -1 &  0 &  0 &  0 \\
+         0 & -2 &  0 &  0 \\
+         0 &  0 & -4 &  0 \\
+         0 &  0 &  0 & -3
+      \end{array}\right]
+      \left[\begin{array}{r r r r}
+        -4 &  -3 &  -2 &  -1 \\
+         3 &   3 &   2 &   1 \\
+        -1 &  -1 &  -1 &  -1 \\
+        -2 &  -2 &  -2 &  -1
+      \end{array}\right]
+  \end{align*}
+  so that
+  \begin{align*}
+  e^{At} &= P \Lambda P^{-1} \\
+  &= 
+      \left[\begin{array}{r r r r}
+        -1 & -1 &  0 &  0 \\
+         1 &  2 &  0 &  1 \\
+         0 & -1 &  1 & -2 \\
+         0 &  0 & -2 &  1
+      \end{array}\right]
+      \left[\begin{array}{r r r r}
+        e^{-t} &  0     & 0      & 0 \\
+         0    & e^{-2t} & 0      & 0 \\
+         0    &  0     & e^{-4t} & 0 \\
+         0    &  0     & 0      & e^{-3t}
+      \end{array}\right]
+      \left[\begin{array}{r r r r}
+        -4 &  -3 &  -2 &  -1 \\
+         3 &   3 &   2 &   1 \\
+        -1 &  -1 &  -1 &  -1 \\
+        -2 &  -2 &  -2 &  -1
+      \end{array}\right] \\
+  &= \left[\begin{array}{c c c c}
+       4 e^{-t} - 3e^{-2t}
+     & 3 e^{-t} - 3e^{-2t}
+     & 2 e^{-t} - 2e^{-2t}
+     & e^{-t}   - e^{-2t} \\
+       -4e^{-t} + 6e^{-2t} - 2e^{-3t}
+     & -3e^{-t} + 6e^{-2t} - 2e^{-3t}
+     & -2e^{-2t} + 4e^{-3t} 
+     & 2e^{-4t} - e^{-3t} \\
+       -3e^{-2t} + 4e^{-3t}
+     & -3e^{-2t} + 4e^{-3t}
+     & -2e^{-2t} + 4e^{-3t}
+     & -e^{-2t}  + 2e^{-3t} \\
+       2e^{-4t}  - 2e^{-3t}
+     & 2e^{-4t}  - 2e^{-3t}
+     & 2e^{-4t}  - 2e^{-3t}
+     & 2e^{-4t}  -  e^{-3t}
+     \end{array}\right].
+  \end{align*}
+}
+\item
+{
+  We have that $e^{At} = \mathcal{L}\{(sI - A)^{-1}\}$, so by the
+  inverse Laplace transform
+  $$
+  (sI - A)^{-1} = \left[\begin{array}{c c c c}
+    \frac{4}{s + 1} - \frac{3}{s + 2}
+  & \frac{3}{s + 1} - \frac{3}{s + 2}
+  & \frac{2}{s + 1} - \frac{2}{s + 2}
+  & \frac{1}{s + 1} - \frac{1}{s + 2} \\
+   -\frac{4}{s + 1} + \frac{6}{s + 2} - \frac{2}{s + 3}
+  &-\frac{3}{s + 1} + \frac{6}{s + 2} - \frac{2}{s + 3}
+  &-\frac{2}{s + 2} + \frac{4}{s + 3} 
+  &-\frac{2}{s + 4} - \frac{1}{s + 3} \\
+   -\frac{3}{s + 2} + \frac{4}{s + 3}
+  &-\frac{3}{s + 2} + \frac{4}{s + 3}
+  &-\frac{2}{s + 2} + \frac{4}{s + 3}
+  &-\frac{1}{s + 2} + \frac{2}{s + 3} \\
+    \frac{2}{s + 4} - \frac{2}{s + 3}
+  & \frac{2}{s + 4} - \frac{2}{s + 3}
+  & \frac{2}{s + 4} - \frac{2}{s + 3}
+  & \frac{2}{s + 4} - \frac{1}{s + 3}
+  \end{array}\right].
+  $$
+  Then
+  \begin{align*}
+  H(s) &= C(sI - A)^{-1}B \\
+       &= \left[\begin{array}{c}
+            \frac{4}{s+1} 
+          + \frac{3}{s+2} 
+          - \frac{4}{s+3} 
+          + \frac{4}{s+4} \\
+            \frac{3}{s+1}
+          + \frac{3}{s+3}
+          + \frac{4}{s+4} \\
+            \frac{14}{s+1}
+          - \frac{34}{s+2}
+          + \frac{36}{s+3}
+          + \frac{4}{s+4} \\
+            \frac{7}{s+1}
+          - \frac{11}{s+2}
+          - \frac{8}{s+4}
+        \end{array}\right]^\top B \\
+     &= \frac{19}{s+1} - \frac{54}{s+2} + \frac{62}{s+3} + \frac{12}{s+4}.
+   \end{align*}
+}
+\item
+{
+  Since the eigenvalues of the state dynamics matrix $A$ are all real
+  and strictly negative, the system is internally asymptotically
+  stable and therefore BIBO stable.
+}
+\end{enumerate}
+
+\end{document}

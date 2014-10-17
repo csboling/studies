@@ -1,0 +1,284 @@
+\documentclass{article}
+
+\title{ECE 875 - Homework \#6}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{rotating}
+
+\renewcommand*{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand*{\Im}{\operatorname{\mathfrak{Im}}}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#3.9}
+The photoelectric measurement gives
+$$
+\phi_{Bn} = 0.65 ~\mathrm{V}
+$$
+while the C-V line intercept gives
+$$
+\psi_{bi} = V_{\mathrm{intercept}} + \frac{kT}{q} =  0.5 + 0.0259  ~\mathrm{V}.
+$$
+But from the C-V measurement approach,
+\begin{align*}
+\phi_{Bn} &= \psi_{bi} + \phi_n + \frac{kT}{q} - \Delta \phi \\
+          &= \psi_{bi} 
+           + \frac{kT}{q}\ln\frac{N_C}{N_D}
+           + \frac{kT}{q}
+           - \Delta \phi \\
+\phi_{Bn} - \psi_{bi} + \Delta \phi &= \frac{kT}{q}\left(\ln\frac{N_C}{N_D} + 1\right) \\
+\frac{N_C}{N_D} &= \exp\left(\frac{\phi_{Bn} - \psi_{bi} + \Delta \phi}
+                                  {\frac{kT}{q}}\right) \\
+N_D &= N_C \exp\left(-\frac{\phi_{Bn} - \psi_{bi} + \Delta \phi}{\frac{kT}{q}}\right).
+\end{align*}
+
+Neglecting the image force lowering term $\Delta \phi$ at first,
+the doping concentration can then be found as
+\begin{align*}
+N_D &\approx (2.8 \times 10^{19} ~\mathrm{cm}^{-3}) 
+             \exp\left(-\frac{0.124 ~\mathrm{V}}{0.0259 ~\mathrm{V}}\right) \\
+    &= 2.33 \times 10^{17} ~\mathrm{cm}^{-3},
+\end{align*}
+which gives a maximum electric field of
+\begin{align*}
+E_m &= \sqrt{\frac{2 q N_D}{\varepsilon_s}\left(\psi_{bi} - \frac{kT}{q}\right)} \\
+    &= \sqrt{\frac{2 (1.6 \times 10^{-19} ~\mathrm{C})
+                     (2.33 \times 10^{17} ~\mathrm{cm}^{-3})}
+                  {(11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
+             \left(0.5259 - 0.0259 ~\mathrm{V}\right)} \\
+    &= 1.86 \times 10^{5} ~\mathrm{V} ~\mathrm{cm}^{-1}
+\end{align*}
+and thus an image charge lowering of
+\begin{align*}
+\Delta \phi &= \sqrt{\frac{q E_m}{4 \pi \varepsilon_s}} \\
+            &= \sqrt{\frac{(1.6 \times 10^{-19} ~\mathrm{C})
+                           (5.31 \times 10^{4} ~\mathrm{V})}
+                    {(11.9 \cdot 8.85 \times 10^{-14})}} \\
+            &= 0.0476 ~\mathrm{V}.
+\end{align*}
+Repeating the computation with this $\delta \phi$ value, and iterating this
+process until $N_D$ changes by no more than $1 \times 10^{14}$ between iterations,
+we get the following values:
+
+
+\begin{tabular}{c | c c c} 
+iteration & $\Delta \phi ~(\mathrm{V})$ & $N_D (\mathrm{cm}^{-3}$ & $E_m (\mathrm{V}~\mathrm{cm}^{-1}$ \\
+1         & 0             & $2.32 \times 10^{17}$ & $1.88 \times 10^5$ \\
+2         & 0.0456        & $3.69 \times 10^{16}$ & $7.49 \times 10^4$ \\
+3         & 0.03          & $7.27 \times 10^{16}$ & $1.05 \times 10^5$ \\
+4         & 0.036         & $5.87 \times 10^{16}$ & $9.44 \times 10^4$ \\
+5         & 0.037         & $6.31 \times 10^{16}$ & $9.79 \times 10^4$ \\
+6         & 0.0344        & $6.16 \times 10^{16}$ & $9.67 \times 10^4$ \\
+7         & 0.0342        & $6.21 \times 10^{16}$ & $9.71 \times 10^4$ \\
+8         & 0.0343        & $6.19 \times 10^{16}$ & $9.70 \times 10^4$ \\
+9         & 0.0342        & $6.19 \times 10^{16}$ & $9.70 \times 10^4$
+\end{tabular}
+
+Thus we see that the donor concentration is about $N_D = 6.19 \times 10^{16} ~\mathrm{cm}^{-3}$.
+
+\section*{Problem \#4.1}
+\begin{enumerate}
+  \item{To make the silicon surface intrinsic requires 
+        \begin{align*}
+        q\psi_s &= E_i - E_f \\
+        \psi_s &= \frac{1}{q}(E_i - E_f) = \frac{kT}{q} \ln \frac{N_A}{n_i} \\
+               &= (0.0259 ~\mathrm{V}) \ln \frac{5 \times 10^{17}}{9.65 \times 10^9} \\
+               &= 0.46 ~\mathrm{V}
+        \end{align*}
+        The applied voltage to achieve this surface potential is  
+        \begin{align*}
+        V &= \psi_s + V_i = \psi_s + \frac{|Q_s|d}{\varepsilon_i} \\
+          &= \psi_s + \frac{d}{\varepsilon_i}
+                      \left|\frac{\sqrt{2}\varepsilon_s kT}{q L_D} 
+                            F\right|
+        \end{align*}
+        and under the weak inversion condition we may approximate 
+        $$
+        F \approx \sqrt{\beta \psi_s} 
+          = \sqrt{(38.6 ~\mathrm{V}^{-1})(0.46 ~\mathrm{V})} = 4.21
+        $$
+        and find the Debye length as
+        \begin{align*}
+        L_D &= \sqrt{\frac{\varepsilon_s}{q N_A \beta}} \\
+            &= \sqrt{\frac{11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}}
+                         {(1.6 \times 10^{-19} ~\mathrm{C})
+                          (5 \times 10^{17} ~\mathrm{cm}^{-3})
+                          (38.6 ~\mathrm{V}^{-1})}} \\
+            &= 5.84 \times 10^{-7} ~\mathrm{cm}
+        \end{align*}
+         so
+        \begin{align*}
+        V &= \psi_s + \frac{d}{\varepsilon_i}
+                      \left|\frac{\sqrt{2}\varepsilon_s kT}{q L_D} 
+                            F\right| \\
+          &= \psi_s + d\frac{kT}{q} \frac{\varepsilon_s}{\varepsilon_i}
+                      \left|\frac{\sqrt{2}F}{L_D}\right| \\
+          &= 0.46 ~\mathrm{V} + (10 \times 10^{-7} ~\mathrm{cm})
+                    (0.0259 ~\mathrm{V})
+                    \frac{11.9}{3.9} 
+                    \left|\frac{\sqrt{2} \cdot 4.21}
+                               {5.84 \times 10^{-7} ~\mathrm{cm}}\right| \\
+          &= 1.27 ~\mathrm{V}.
+        \end{align*}
+       }
+  \item{The silicon is in strong inversion at the threshold voltage
+        \begin{align*}
+          V_T &= \frac{|Q_s|}{C_i} + 2 \psi_{Bp} \\
+              &= \frac{\sqrt{2 \varepsilon_s q N_A (2 \psi_{Bp})}}{C_i} + 2\psi_{Bp} \\
+              &= \frac{d}{\varepsilon_i}\sqrt{2 \varepsilon_s q N_A (2 \psi_{Bp})} + 2\psi_{Bp} \\
+              &= \frac{10 \times 10^{-7}}
+                      {3.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}} \\
+              &\cdot \sqrt{2(11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})
+                        (1.6 \times 10^{-19} ~\mathrm{C})} \\
+              &\cdot \sqrt{
+                        (5 \times 10^{17} ~\mathrm{cm}^{-3})
+                        (2 \cdot 0.46 ~\mathrm{V})}
+               + 2 \cdot 0.46 ~\mathrm{V} \\
+              &= 2.06 ~\mathrm{V}.
+        \end{align*}
+       }
+\end{enumerate}
+
+\pagebreak
+
+\section*{Problem \#4.2}
+Plotted in figure \ref{fig:prob4pt2}.
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{prob4pt2plot}
+  \caption{Surface charge plot for problem \#4.2. \label{fig:prob4pt2}}
+\end{sidewaysfigure}
+
+\section*{Problem \#4.5}
+$$N_A = 10^{16} ~\mathrm{cm}^{-3}, d = 10 ~\mathrm{nm}, V_G = 1.77 ~\mathrm{V}$$
+
+$\psi_{Bp}$ is given by
+\begin{align*}
+\psi_{Bp} &= kT \ln \frac{N_A}{n_i} = (0.0259 ~\mathrm{V})
+                                      \ln \frac{10^{16} ~\mathrm{cm}^{-3}}
+                                               {9.65 \times 10^9 ~\mathrm{cm}^{-3}} 
+                                    = 0.36 ~\mathrm{V},
+\end{align*}
+so we compute
+\begin{align*}
+          V_T &= \frac{|Q_s|}{C_i} + 2 \psi_{Bp} \\
+              &= \frac{\sqrt{2 \varepsilon_s q N_A (2 \psi_{Bp})}}{C_i} + 2\psi_{Bp} \\
+              &= \frac{d}{\varepsilon_i}\sqrt{2 \varepsilon_s q N_A (2 \psi_{Bp})} + 2\psi_{Bp} \\
+              &= \frac{10 \times 10^{-7}}
+                      {3.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}} \\
+              &\cdot \sqrt{2(11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})
+                        (1.6 \times 10^{-19} ~\mathrm{C})} \\
+              &\cdot \sqrt{
+                        (10^{16} ~\mathrm{cm}^{-3})
+                        (2 \cdot 0.36 ~\mathrm{V})}
+               + 2 \cdot 0.36 ~\mathrm{V} \\
+              &= 0.87 ~\mathrm{V} < V_G,
+\end{align*}
+so the capacitor is in strong inversion. Then we have
+\begin{align*}
+V_G &= \frac{|Q_s|}{C_i} + \frac{2kT}{q}\ln\frac{N_A}{n_i} \\
+|Q_s| &= C_i\left(V_G - \frac{2kT}{q}\ln \frac{N_A}{n_i}\right) \\
+      &= \frac{\varepsilon_i}{d}
+         \left(V_G - \frac{2kT}{q}\ln\frac{N_A}{n_i}\right) \\
+      &= \frac{3.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}}
+              {10 \times 10^{-7} ~\mathrm{cm}}
+         \left(1.77 - 2 (0.0259 ~\mathrm{V})\ln\frac{10^{16}}{9.65 \times 10^9}\right) \\
+      &= 7.75 \times 10^{-7} ~\mathrm{C}~\mathrm{cm}^{2}.
+\end{align*}
+
+
+%We can find the proportionality constant $\alpha$
+%relating the expression $F\left(\beta \psi_s, \frac{n_{p0}}{p_{p0}}\right)$ in the weak
+%and strong inversion regions by setting
+%\begin{align*}
+%\sqrt{\beta 2 \psi_{Bp}} &= \alpha \exp\left(\frac{q}{2kT} 2\psi_{Bp}\right) \\
+%\sqrt{\beta \frac{2 kT}{q} \ln \frac{N_A}{n_i}} &= \alpha \exp\left(\ln \frac{N_A}{n_i}\right) \\
+%\alpha &= \frac{n_i}{N_A}\sqrt{2 \ln \frac{N_A}{n_i}} \\
+%       &= \frac{9.65 \times 10^{9}}{10^{16}}\sqrt{2 \ln \frac{10^{16}}{9.65 \times 10^{9}}} \\
+%       &= 5.08 \times 10^{-6}.
+%\end{align*}
+%Then we have
+%\begin{align*}
+%V_G &= \frac{|Q_s|}{C_i} + \frac{2 kT}{q}\ln \frac{N_A}{n_i} \\
+%    &= \frac{d}{\varepsilon_i} 
+%       \frac{\sqrt{2} \varepsilon_s kT}{q L_D} 
+%       F\left(\beta \psi_s, \frac{n_{p0}}{p_{p0}}\right) \\
+%    &= \frac{d}{\varepsilon_i} 
+%       \frac{\sqrt{2} \varepsilon_s kT}{q L_D} 
+%       \alpha\frac{N_A}{n_i} \\
+%    &= \frac{10 \times 10^{-7} ~\mathrm{cm}}{3.9 \varepsilon_0}
+%       \frac{\sqrt{2} 11.9 \varepsilon_0 (0.0259 ~\mathrm{V})}
+%            {}
+%\end{align*}
+%since the Debye length is
+%\begin{align*}
+%L_D &= \sqrt{\frac{\varepsilon_s}{q N_A \beta}} \\
+%    &= \sqrt{\frac{11.9 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}}
+%                  {(1.6 \times 10^{-19} ~\mathrm{C})
+%                   (10^{16} ~\mathrm{cm}^{-3})
+%                   (38.6 ~\mathrm{V}^{-1})}} \\
+%    &= 
+%\end{align*}
+
+%The charge per unit area in the inversion region in an ideal MOS capacitor
+%is given by
+%\begin{align*}
+%Q_s &= \pm \frac{\sqrt{2}\varepsilon_s kT}
+%                {q L_D}
+%           F\left(\beta \psi_s, \frac{n_{p0}}{p_{p0}}\right) \\
+%    &= 
+%\end{align*}
+%where the Debye length is
+%\begin{align*}
+%        L_D &= \sqrt{\frac{\varepsilon_s}{q N_A \beta}} \\
+%            &= \sqrt{\frac{11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}}
+%                         {(1.6 \times 10^{-19} ~\mathrm{C})
+%                          (10^{16} ~\mathrm{cm}^{-3})
+%                          (38.6 ~\mathrm{V}^{-1})}} \\
+%            &= 
+%        \end{align*}
+
+\pagebreak
+\section*{Problem \#4.6}
+The minimum capacitance on the CV curve under high-frequency condition is
+\begin{align*}
+C_{min} &= \frac{\varepsilon_i \varepsilon_s}{\varepsilon_s d + \varepsilon_i W_{Dm}} \\
+\end{align*}
+where
+\begin{align*}
+W_{Dm} &\approx \sqrt{\frac{4 \varepsilon_s kT \ln (N_A / n_i)}{q^2 N_A}} \\
+       &=       \sqrt{\frac{4 (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})
+                              (0.0259 ~\mathrm{V})
+                              \ln\left(\frac{10^{16}}{9.65 \times 10^{9}}\right)}
+                           {(1.6 \times 10^{-19} ~\mathrm{C})
+                            (10^{16} ~\mathrm{cm}^{-3})}} \\
+       &= 3.07 \times 10^{-5} ~\mathrm{cm}
+\end{align*}
+so
+\begin{align*}
+C_{min} &= \frac{3.9 \cdot 11.9}{11.9 (8 \times 10^{-7} ~\mathrm{cm}) 
+                             +   3.9  (3.07 \times 10^{-5} ~\mathrm{cm})}
+           (8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}) \\
+        &= 3.25 \times 10^{-8} ~\mathrm{F} = 32.5 ~\mathrm{nF}.
+\end{align*}
+\end{document}

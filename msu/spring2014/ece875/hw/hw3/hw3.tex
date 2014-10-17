@@ -1,0 +1,285 @@
+\documentclass{article}
+
+\title{ECE 875 - Homework \#3}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\renewcommand*{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand*{\Im}{\operatorname{\mathfrak{Im}}}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1.10}
+Calculate the average kinetic energy of electrons in the conduction band of 
+an $n$-type non-degenerate semiconductor. The density of states is given by
+Eq. 14.
+\horline
+The average kinetic energy in the conduction band is defined as
+$$
+\frac{\int_{E_C}^{E_C + \Delta E} (E - E_C) ~dn(E)}
+     {\int_{E_C}^{E_C + \Delta E} dn(E)},
+$$
+where
+$$
+n = \int_{E_C}^{E_C + \Delta E} dn(E) 
+  = \int_{E_C}^{E_C + \Delta E} N(E) F(E) ~dE,
+$$
+so the kinetic energy $K$ is
+\begin{align*}
+K &= \frac{1}{n}\int_{E_C}^{E_C + \Delta E} (E - E_C) N(E) F(E) ~dE \\
+  &= \frac{1}{n}\int_{E_C}^{E_C + \Delta E} 
+             (E - E_C) 
+             M_C \frac{\sqrt{2}}{\pi^2}
+                 \frac{m_{de}^{3/2}(E - E_C)^{1/2}}{\hslash^3}
+                 \frac{1}{1 + \exp[(E - E_F)/kT]} ~dE \\
+  &= \frac{\sqrt{2} M_C m_{de}^{3/2}}{\pi^2 \hslash^3 n}
+     \int_{E_C}^{E_C + \Delta E} 
+        \frac{(E - E_C)^{3/2}}
+             {1 + \exp[((E - E_C) + (E_C - E_F))/kT]} ~dE.
+\end{align*}
+Letting $\eta = \frac{E - E_C}{kT}$ gives $d\eta = \frac{dE}{kT}$ and
+thus $dE = kT ~d\eta$, giving
+\begin{align*}
+K &=  \frac{\sqrt{2} M_C m_{de}^{3/2}}{\pi^2 \hslash^3 n}
+   \int_{0}^{\frac{\Delta E}{kT}} 
+     \frac{(kT)^{5/2}\eta^{3/2}}{1 + \exp[\eta - \eta_F]} ~d\eta
+\end{align*}
+where $\eta_F = \frac{E_F - E_C}{kT}$.
+But the number of electrons $n$ in the conduction band is given by
+\begin{align*}
+n &= N_C \frac{2}{\sqrt{\pi}} F_{1/2}\left(\frac{E_F - E_C}{kT}\right) \\
+  &= \frac{2 \cdot 2 M_C}{\sqrt{\pi}} 
+    \left(\frac{2 \pi m_{de} kT}{h^2}\right)^{3/2} 
+    F_{1/2}(\eta_F) \\
+  &= M_C m_{de}^{3/2} (kT)^{3/2} \sqrt{2}2^3 \pi h^{-3}
+    F_{1/2}(\eta_F)
+\end{align*}
+so
+$$
+\pi^2 \hslash^3 n = \sqrt{2} M_C m_{de}^{3/2} (kT)^{3/2} 
+                    (2\pi\hslash)^3 (2 \pi \hslash)^{-3}
+                    F_{1/2}(\eta_F)
+                  = \sqrt{2} M_C m_{de}^{3/2} (kT)^{3/2}
+                    F_{1/2}(\eta_F)
+$$
+so the integral above becomes
+$$
+K = \frac{kT}{F_{1/2}(\eta_F)}
+   \int_{0}^{\frac{\Delta E}{kT}}
+   \frac{\eta^{3/2}}{1 + \exp[\eta - \eta_F]}~d\eta
+ = \frac{kT}{F_{1/2}(\eta_F)}
+   \int_{0}^{\infty}
+   \frac{\eta^{3/2}}{1 + \exp[\eta - \eta_F]}~d\eta
+$$
+when $\Delta E$ is large. But 
+$\exp(\eta - \eta_F) = \exp\left(\frac{E - E_F}{kT}\right)$,
+so in the hot approximation at 300K $\exp(\eta - \eta_F) \gg 1$.
+Then 
+\begin{align*}
+K &= \frac{kT}{F_{1/2}(\eta_F)}
+     \int_{0}^{\infty}
+     \frac{\eta^{3/2}}{1 + \exp[\eta - \eta_F]}~d\eta  \\
+  &= kT \frac{\int_{0}^{\infty}
+     \frac{\eta^{3/2}}{1 + \exp[\eta - \eta_F]}~d\eta}
+          {\int_{0}^{\infty}
+            \frac{\eta^{1/2}}{1 + \exp[\eta - \eta_F]}~d\eta}  \\
+  &\approx kT \frac{\int_{0}^{\infty}
+     \frac{\eta^{3/2}}{\exp[\eta - \eta_F]}~d\eta}
+          {\int_{0}^{\infty}
+            \frac{\eta^{1/2}}{\exp[\eta - \eta_F]}~d\eta}  \\
+  &= kT \frac{e^{\eta_F}\int_{0}^{\infty}
+     \frac{\eta^{3/2}}{\exp[\eta]}~d\eta}
+          {e^{\eta_F}\int_{0}^{\infty}
+            \frac{\eta^{1/2}}{\exp[\eta]}~d\eta}  \\
+  &= kT \frac{\Gamma\left(\frac{3}{2} + 1\right)}
+             {\Gamma\left(\frac{1}{2} + 1\right)} \\
+  &= kT \frac{\Gamma\left(\frac{1}{2} + 2\right)}
+             {\Gamma\left(\frac{1}{2} + 1\right)}.
+\end{align*}
+But
+$$
+\Gamma\left(\frac{1}{2} + n\right) = \frac{(2n)!\sqrt{\pi}}{4^n n!}
+$$
+so
+$$
+\Gamma\left(\frac{1}{2} + 2\right) = \sqrt{\pi} \frac{4!}{4^2 2!} 
+                                   = \sqrt{\pi} \frac{3}{4} \sqrt{\pi}
+$$
+and
+$$
+\Gamma\left(\frac{1}{2} + 1\right) = \sqrt{\pi} \frac{2!}{4^1 1!}
+                                   = \sqrt{\pi} \frac{1}{2}
+$$
+so
+$$
+K = \frac{3}{2} kT.
+$$
+
+\section*{Problem \#1.11}
+Show that
+$$
+N_{D}^{+} = N_D \left[1 + 2 \exp\left(\frac{E_F - E_D}{kT}\right)\right]^{-1}
+$$
+[Hint: The probability of occupancy is
+$$
+F(E) = \left[1 + \frac{h}{g} \exp\left(\frac{E - E_F}{kT}\right)\right]^{-1}
+$$
+where $h$ is the number of electrons that can physically occupy the level 
+$E$, and $g$ is the number of electrons that can be accepted by the level,
+also called the ground-state degeneracy of the donor impurity level ($g=2$).]
+\horline
+The local energy level near a donor atom can be occupied by one electron, but
+may accept an electron of either spin, so the coefficient 
+$\frac{h}{g} = \frac{1}{2}$. The probability that a donor is ionized is equal
+to the probability that this energy level is unoccupied, or $1 - F(E_D)$. 
+Thus the ionized concentration for donors is
+\begin{align*}
+  N_D^+ = N_D (1 - F(E_D)) 
+  &= N_D\left[1 - 
+     \frac{1}
+          {1 + \frac{1}{2}\exp\left(\frac{E_D - E_F}{kT}\right)}\right] \\
+  &= N_D\left[1 - \frac{2 \exp\left(\frac{E_F - E_D}{kT}\right)}
+                       {2 \exp\left(\frac{E_F - E_D}{kT}\right) + 1}\right] \\
+  &= N_D\left[\frac{2 \exp\left(\frac{E_F - E_D}{kT}\right) + 1 
+                  - 2 \exp\left(\frac{E_F - E_D}{kT}\right)}
+                   {1 + 2 \exp \left(\frac{E_F - E_D}{kT}\right)}\right] \\
+  &= N_D\left[1 + 2 \exp \left(\frac{E_F - E_D}{kT}\right)\right]^{-1}.
+\end{align*}
+
+
+\section*{Problem \#1.16}
+Gold in Si has two energy levels in the bandgap: $E_C - E_A = 0.54$ eV,
+$E_D - E_V = 0.29$ eV. Assume the third level $E_D - E_V = 0.35$ eV is
+inactive. (a) What will be the state of charge of the gold levels in Si
+doped with high concentration of boron atoms? Why? (b) What is the effect
+of gold on electron and hole concentrations?
+\horline
+\begin{enumerate}[label=(\Roman*)]
+  \item{The acceptor level in boron will receive an electron from the donor
+        level in gold at 0.29 eV, placing it at -1, so the donor gold level 
+        will be at +1 and the acceptor gold level will be at 0 to preserve
+        charge neutrality. This happens because the valence electron from the 
+        donor level in gold can enter the nearby, lower-energy state in boron.
+       }
+  \item{Each gold atom will produce one positively ionized gold atom that can 
+        accept an electron, so the hole concentration will increase.
+       }
+\end{enumerate}
+
+\section*{Problem \#1.18}
+For an $n$-type silicon sample doped with $2.86 \times 10^{16}$ cm$^{-3}$
+phosphorous atoms, find the ratio of the neutral to ionized donors at 300 K.
+($E_C - E_D) = 0.045$ eV.
+\horline
+Given that
+$$
+N_D^+ = \frac{N_D}{1 + 2 \exp \left(\frac{E_F - E_D}{kT}\right)}
+$$
+we see that
+$$
+\frac{N_D}{N_D^+} = 1 + 2 \exp \left(\frac{E_F - E_D}{kT}\right) 
+                  = 1 + 2 \exp \left(\frac{(E_C - E_D) - (E_C - E_F)}{kT}\right), 
+$$
+where
+$$
+E_C - E_F = kT \ln \left(\frac{N_C}{n}\right)
+$$
+so
+$$
+\frac{N_D}{N_D^+} = 1 + 2 \exp \left(\frac{E_C - E_D}{kT}\right) 
+                          \exp \left(-\ln\left(\frac{N_C}{n}\right)\right)
+                  = 1 + \frac{2 n}{N_C} \exp \left(\frac{E_C - E_D}{kT}\right)
+$$
+where
+$$
+\frac{2n}{N_C} = \frac{2 \cdot 2.86 \times 10^{16}}{2.8 \times 10^{19}} 
+  \approx 2.04 \times 10^{-3}
+$$
+and
+$$
+\frac{E_C - E_D}{kT} = \frac{0.045}{300 \cdot 1.38 \times 10^{-23}} 
+  \approx 1.09 \times 10^{19}
+$$
+so
+$$
+\frac{N_D}{N_D^+} \approx 2.22 \times 10^16.
+$$
+
+\pagebreak
+\section*{Problem \#1.25}
+The recombination rate is given by Eq. 92. Under low injection condition, $U$
+can be expressed as $(p_n - p_{no})/\tau_r$, where $\tau_r$ is the 
+recombination lifetime. If $\sigma_n = \sigma_p = \sigma_o$, 
+$n_{no} = 10^{15}$ cm$^{-3}$, and 
+$\tau_{ro} \equiv (v_{th} \sigma_o N_t)^{-1}$, find the values of 
+$(E_t - E_i)$ at which the recombination lifetime $\tau_r$ becomes
+$2 \tau_{ro}$.
+\horline
+
+Equation 92 gives
+$$
+U = \frac{\sigma_n \sigma_p v_{th} N_t (pn - n_i^2)}
+         {\sigma_n [n + n_i \exp \left(\frac{E_t - E_i}{kT}\right)]
+        + \sigma_p [p + n_i \exp \left(\frac{E_i - E_t}{kT}\right)]}
+$$
+and under the given assumptions $U = \frac{p_n - p_{no}}{\tau_r}$ so
+\begin{align*}
+\frac{p_n - p_{no}}{\tau_r} 
+  &= \frac{\sigma_o v_{th} N_t (pn - n_i^2)}
+         {n + p + \exp\left(\frac{E_t - E_i}{kT}\right)
+                + \exp\left(\frac{-(E_t - E_i)}{kT}\right)} \\
+  &= \frac{\tau_{ro}^{-1} (pn - n_i^2)}
+          {n + p + 2n_i \cosh \left(\frac{E_t - E_i}{kT}\right)}
+\end{align*}
+when $\frac{\tau_{ro}}{\tau_{r}} = 2$, so
+$$
+p - p_{no} = \Delta p 
+           = \frac{2 (pn - n_i^2)}
+                  {n + p + 2n_i \cosh \left(\frac{E_t - E_i}{kT}\right)}.
+$$
+Assuming the semiconductor in question is silicon or gallium arsenide,
+$n_{no} \gg n_i \geq 10^{10}$, and in the low injection condition 
+$n \approx n_{no} \gg \Delta p \gg p_{no}$, so since 
+$p = p_{no} + \Delta p$ (the doping concentration of holes on the n-type
+side of the junction plus the concentration of holes moving from the
+p-type material) and $p_{no} = \frac{n_i^2}{n_{no}}$, we see that
+\begin{align*}
+pn - n_i^2 &= n_{no} (p_{no} + \Delta p) - n_i^2 \\
+           &= n_{no} (\frac{n_i^2}{n_{no}} + \Delta p) - n_i^2 \\
+           &= n_{no} \Delta p.
+\end{align*}
+
+Then we have
+$$
+\Delta p \approx \frac{2 n_{no} \Delta p}{n_{no} + p + 2n_i \cosh \left(\frac{E_t - E_i}{kT}\right)}
+$$
+or
+$$
+p + 2n_i \cosh \left(\frac{E_t - E_i}{kT}\right) = n_{no}
+$$
+and since $p = p_{no} + \Delta p$ and $\Delta p \gg p_{no}$, $p \approx \Delta p \ll n_{no}$ so
+\begin{align*}
+2 n_i \cosh\left(\frac{E_t - E_i}{kT}\right) &= n_{no} \\
+\cosh\left(\frac{E_t - E_i}{kT}\right) &= \frac{n_{no}}{2 n_i} \\
+E_t - E-i &= kT \cosh^{-1}\left(\frac{n_{no}}{2 n_i}\right) \\
+  &\approx 300(1.38 \times 10^{-23})\cosh^{-1}\left(\frac{10^{15}}{2 \cdot 9.65 \times 10^9}\right) \\
+  &\approx 4.78 \times 10^{-20} \mathrm{J} \approx 0.30 \mathrm{eV}
+\end{align*}
+in silicon at 300K.
+
+\end{document}

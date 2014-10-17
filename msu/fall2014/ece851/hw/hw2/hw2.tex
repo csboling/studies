@@ -1,0 +1,593 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{commath}
+\usepackage{enumerate}
+
+\title{ECE/ME 851 Homework \#2}
+\date{September 19, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+\begin{enumerate}[(a)]
+  \item{We have that
+        \begin{align*}
+          sI - A &=
+            \left[\begin{array}{c c c}
+              s - \frac{1}{2} & 1    & 0 \\
+              0               & s + 1 & 0 \\
+              0               & 0     & s + 2
+            \end{array}\right], \\
+          (sI - A)^{-1} &=
+            \left[\begin{array}{c c c}
+              \frac{1}{s - \frac{1}{2}}
+            & -\frac{1}{s+1}\frac{1}{s - \frac{1}{2}}
+            & 0 \\
+              0
+            & \frac{1}{s+1}
+            & 0 \\
+              0
+            & 0
+            & \frac{1}{s+2}
+            \end{array}\right] \\
+          &= \left[\begin{array}{c c c}
+               \frac{1}{s - \frac{1}{2}}
+             &  \frac{2}{3}\left(
+                  \frac{1}{s + 1}
+                 -\frac{1}{s - \frac{1}{2}}
+                \right)
+             & 0 \\
+               0
+             & \frac{1}{s+1}
+             & 0 \\
+               0
+             & 0
+             & \frac{1}{s+2}
+             \end{array}\right],
+        \end{align*}
+        so that
+        \begin{align*}
+          e^{At} &= \mathcal{L}^{-1}\{(sI - A)^{-1}\}
+                 = \left[\begin{array}{c c c}
+                     e^{\frac{t}{2}}
+                   & \frac{2}{3}\left(
+                       e^{-t} - e^{\frac{t}{2}}
+                     \right)
+                   & 0 \\
+                     0 
+                   & e^{-t}
+                   & 0 \\
+                     0
+                   & 0
+                   & e^{-2t}
+                   \end{array}\right].
+        \end{align*}
+       }
+       \item{The characteristic polynomial of $A$ is
+             \begin{align*}
+               \det (zI - A) &=
+               \left|\begin{array}{c c c}
+                 z - \frac{1}{2} & 1     & 0 \\
+                 0               & z + 1 & 0 \\
+                 0               & 0     & z + 2
+               \end{array}\right| =
+               \left(z - \frac{1}{2}\right)(z + 1)(z+2)
+             \end{align*}
+             which has roots 
+             $$
+             \lambda_1 = \frac{1}{2}, \quad 
+             \lambda_2 = -1, \quad
+             \lambda_3 = -2
+             $$ 
+             and thus has distinct real eigenvalues. Next we compute
+             \begin{align*}
+               (A - \lambda_1 I) &= 
+               \left[\begin{array}{r r r}
+                 0 & -1           & 0            \\
+                 0 & -\frac{3}{2} & 0            \\
+                 0 & 0            & -\frac{5}{2}
+               \end{array}\right]
+             \sim
+               \left[\begin{array}{r r r}
+                 0 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1
+               \end{array}\right], \\
+               (A - \lambda_2 I) & =
+               \left[\begin{array}{r r r}
+                 \frac{3}{2}  & -1 &  0 \\
+                 0            & 0  &  0 \\
+                 0            & 0  & -1
+               \end{array}\right]
+             \sim
+               \left[\begin{array}{r r r}
+                 1 & -\frac{2}{3} & 0 \\
+                 0 & 0            & 0 \\
+                 0 & 0            & 1
+               \end{array}\right], \\
+             (A - \lambda_3 I) & =
+             \left[\begin{array}{r r r}
+               \frac{5}{2} & -1 & 0  \\
+               0           &  1 & 0  \\
+               0           &  0 & 0 
+             \end{array}\right]
+             \sim
+             \left[\begin{array}{r r r}
+               1 & 0 & 0  \\
+               0 & 1 & 0  \\
+               0 & 0 & 0 
+             \end{array}\right]. \\             
+             \end{align*}
+             We then find
+            \begin{align*}
+              & 0
+              = (A - \lambda_1 I)v_1
+              = (A - \lambda_1 I)
+                \left[\begin{array}{c}
+                  \alpha_1 \\ \beta_1 \\ \gamma_1
+                \end{array}\right] \\
+              \implies &
+              0 =
+                \left[\begin{array}{c} 
+                  0 \\ \beta_1 \\ \gamma_1
+                \end{array}\right]
+              \implies 
+                \beta_1 = \gamma_1 = 0 \\
+              \implies &
+                v_1 = 
+                \left[\begin{array}{c}
+                  \alpha_1 \\ 0 \\ 0
+                \end{array}\right], \\
+              & 0
+              = (A - \lambda_2 I)v_2 
+              = (A - \lambda_2 I)
+                \left[\begin{array}{c}
+                  \alpha_2 \\ \beta_2 \\ \gamma_2
+                \end{array}\right] \\
+              \implies &
+              0 =
+                \left[\begin{array}{c}
+                  \alpha_2 - \frac{2}{3} \beta_2 \\
+                  0 \\
+                  \gamma_2
+                \end{array}\right]
+              \implies \gamma_2 = 0, \beta_2 = \frac{3}{2} \alpha_2 \\
+              \implies &
+              v_2 = 
+              \left[\begin{array}{r}
+                \alpha_2 \\ \frac{3}{2}\alpha_2 \\ 0
+              \end{array}\right], \\
+              & 0 
+              = (A - \lambda_3 I)v_1
+              = (A - \lambda_3 I)
+                \left[\begin{array}{c}
+                  \alpha_3 \\ \beta_3 \\ \gamma_3
+                \end{array}\right] \\
+              \implies &
+              0 =
+              \left[\begin{array}{c}
+                \alpha_3 \\ \beta_3 \\ 0
+              \end{array}\right]
+              \implies
+              \alpha_3 = \beta_3 = 0 \\
+              \implies &
+              v_3 =
+              \left[\begin{array}{c}
+                0 \\ 0 \\ \gamma_3
+              \end{array}\right],
+            \end{align*}
+             so a basis of eigenvectors is given by
+             $$
+               v_1 = \left[\begin{array}{c}
+                       1 \\ 0 \\ 0
+                     \end{array}\right], \quad
+               v_2 = \left[\begin{array}{c}
+                       1 \\ \frac{3}{2} \\ 0
+                     \end{array}\right], \quad
+               v_3 = \left[\begin{array}{c}
+                       0 \\ 0 \\ 1
+                     \end{array}\right].
+             $$
+             We then form the matrix $P$ as
+             \begin{align*}
+             P &= \left[\begin{array}{c c c}
+                  v_1 & v_2 & v_3 
+                  \end{array}\right]
+                = \left[\begin{array}{c c c}
+                  1 & 1 & 0 \\ 0 & \frac{3}{2} & 0 \\ 0 & 0 & 1
+                  \end{array}\right]
+             \end{align*}
+             so that
+             \begin{align*}
+             P^{-1} &= \left[\begin{array}{r r r}
+                        1 & -\frac{2}{3} & 0 \\ 
+                        0 & \frac{2}{3}  & 0 \\
+                        0 & 0            & 1
+                      \end{array}\right]
+             \end{align*}
+             and then
+             \begin{align*}
+             e^{At} 
+             &= P \Lambda P^{-1} \\
+             &= \left[\begin{array}{c c c}
+                  1 & 1           & 0 \\
+                  0 & \frac{3}{2} & 0 \\ 
+                  0 & 0           & 1
+                \end{array}\right]
+                \left[\begin{array}{c c c}
+                  e^{\lambda_1 t} & 0            & 0 \\
+                  0            & e^{\lambda_2 t} & 0 \\
+                  0            & 0            & e^{\lambda_3 t}
+                \end{array}\right]
+                \left[\begin{array}{r r r}
+                   1 & -\frac{2}{3} & 0 \\
+                   0 & \frac{2}{3}  & 0 \\
+                   0 & 0            & 1
+                \end{array}\right] \\
+            &= \left[\begin{array}{c c c}
+                 1 & 1           & 0 \\
+                 0 & \frac{3}{2} & 0 \\ 
+                 0 & 0           & 1
+               \end{array}\right]
+               \left[\begin{array}{r r r}
+                 e^{\lambda_1 t}
+               & - \frac{2}{3} e^{\lambda_1 t} 
+               & 0 \\
+                 0
+               & \frac{2}{3}e^{\lambda_2} t
+               & 0 \\
+                 0
+               & 0
+               & e^{\lambda_3 t}
+              \end{array}\right] \\
+           &= \left[\begin{array}{c c c}
+                e^{\lambda_1 t}
+              & \frac{2}{3}
+                  \left(-e^{\lambda_1 t}
+                      + e^{\lambda_2 t}
+                  \right)
+              & 0 \\
+                0
+              & e^{\lambda_2 t}
+              & 0 \\
+                0
+              & 0
+              & e^{\lambda_3 t}
+              \end{array}\right] \\
+            &=
+            \left[\begin{array}{c c c}
+              e^{\frac{t}{2}}
+              & \frac{2}{3}\left(
+                  e^{-t} - e^{\frac{t}{2}}
+                \right)
+              & 0 \\
+                0 
+              & e^{-t}
+              & 0 \\
+                0
+              & 0
+              & e^{-2t}
+            \end{array}\right].
+            \end{align*}
+        }
+\end{enumerate}
+
+\pagebreak
+
+\section*{Problem \#2}
+
+The characteristic polynomial of $A$ is given by
+\begin{align*}
+\det (zI - A) &=
+\left|\begin{array}{c c c c}
+z - 2 & 0     & 0     & 0 \\
+0     & z - 2 & 1     & 0 \\
+0     & 0     & z - 2 & 0 \\
+1     & 0     & 0     & z - 2
+\end{array}\right|
+=
+(z - 2)
+\left|\begin{array}{c c c}
+z - 2 & 1     & 0 \\
+0     & z - 2 & 0 \\
+0     & 0     & z - 2
+\end{array}\right| \\
+&=
+(z - 2)^4,
+\end{align*}
+so the eigenvalue $\lambda = 2$ has arithmetic multiplicity
+4. Furthermore the matrix
+\begin{align*}
+(A - \lambda I) =
+\left[\begin{array}{c c c c}
+0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0
+\end{array}\right]
+\end{align*}
+has rank 2, so this eigenvalue has geometric multiplicity 2.
+Eigenvectors can then by found by solving
+\begin{align*}
+& 0 = (A - \lambda I)x =
+  \left[\begin{array}{c c c c}
+    0 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 0 \\
+    1 & 0 & 0 & 0
+  \end{array}\right]
+  \left[\begin{array}{c}
+    \alpha \\ \beta \\ \gamma \\ \delta
+  \end{array}\right] \\
+\implies &
+0 =
+  \left[\begin{array}{c}
+    0 \\ \gamma \\ 0 \\ \alpha
+  \end{array}\right]
+\implies
+  \alpha = \gamma = 0 \\
+\implies &
+  x = \left[\begin{array}{c}
+    0 \\ \beta \\ 0 \\ \delta
+  \end{array}\right],
+\end{align*}
+so $A$ admits eigenvectors
+$$
+v_1 = \left[\begin{array}{c}
+  0 \\ 1 \\ 0 \\ 0
+\end{array}\right], \quad
+v_2 = \left[\begin{array}{c}
+  0 \\ 0 \\ 0 \\ 1
+\end{array}\right].
+$$
+Next we solve
+\begin{align*}
+& v_1 = (A - \lambda I) v_3 =
+\left[\begin{array}{c c c c}
+0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 
+\end{array}\right]
+\left[\begin{array}{c}
+\alpha \\ \beta \\ \gamma \\ \delta
+\end{array}\right] \\
+\implies &
+\left[\begin{array}{c}
+0 \\ 1 \\ 0 \\ 0
+\end{array}\right]
+= \left[\begin{array}{c}
+  0 \\ \gamma \\ 0 \\ \alpha
+\end{array}\right]
+\implies
+\alpha = 0, \gamma = 1 \\
+\implies &
+v_3 = \left[\begin{array}{c}
+  0 \\ \beta \\ 1 \\ \delta
+\end{array}\right], \\
+& v_2 = (A - \lambda I) v_4 =
+\left[\begin{array}{c c c c}
+0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 
+\end{array}\right]
+\left[\begin{array}{c}
+\alpha \\ \beta \\ \gamma \\ \delta
+\end{array}\right] \\
+\implies &
+\left[\begin{array}{c}
+0 \\ 0 \\ 0 \\ 1
+\end{array}\right]
+= \left[\begin{array}{c}
+  0 \\ \gamma \\ 0 \\ \alpha
+\end{array}\right]
+\implies \alpha = 1, \gamma = 0 \\
+\implies &
+v_4 = \left[\begin{array}{c}
+1 \\ \beta \\ 0 \\ \delta
+\end{array}\right],
+\end{align*}
+so $A$ admits generalized eigenvectors
+$$
+v_3 = \left[\begin{array}{r r}
+0 \\ -1 \\ 1 \\ 0
+\end{array}\right], \quad
+v_4 = \left[\begin{array}{c c}
+1 \\ 0 \\ 0 \\ 0
+\end{array}\right].
+$$
+
+Ordering these vectors so that the eigenvectors are paired with their
+associated generalized eigenvectors, we write the state transformation matrix
+$$
+P 
+= \left[\begin{array}{r r r r}
+v_1 & v_3 & v_1 & v_4
+\end{array}\right]
+= \left[\begin{array}{r r r r}
+0 &  0 & 0 & 1 \\
+1 & -1 & 0 & 0 \\
+0 &  1 & 0 & 0 \\
+0 &  0 & 1 & 0
+\end{array}\right]
+$$
+so we have
+$$
+P^{-1} = \left[\begin{array}{c c c c}
+0 & 1 & 1 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0
+\end{array}\right]
+$$
+and thus the Jordan form
+$$
+J = P^{-1} A P
+  = \left[\begin{array}{c c c c}
+      2 & 1 & 0 & 0 \\
+      0 & 2 & 0 & 0 \\
+      0 & 0 & 2 & 1 \\
+      0 & 0 & 0 & 2
+    \end{array}\right].
+$$
+
+\pagebreak
+
+\section*{Problem \# 3}
+
+Letting
+$$
+A = \left[\begin{array}{c c}
+      -1 & 0 \\ 0 & 1
+    \end{array}\right], \quad
+B = \left[\begin{array}{c}
+       1 \\ 1
+    \end{array}\right]
+$$
+the general solution is given by
+\begin{align*}
+x(t) &= x(0) + \int_0^t e^{A(t - \tau)} Bu(t) \dif \tau \\
+     &= x(0) + \int_0^t e^{A(t - \tau)} B \dif \tau,
+\end{align*}
+since $u(t) = 1$ for $t \geq 0$. The matrix $e^{At}$ can then be
+computed by first finding
+\begin{align*}
+(s I - A) 
+&= \left[\begin{array}{c c}
+     s + 1 & 0     \\
+     0     & s - 1
+\end{array}\right], \\
+(s I - A)^{-1} 
+&= \frac{1}{\det (s I - A)}
+   \left[\begin{array}{c c}
+     s - 1 & 0 \\
+     0     & s + 1
+   \end{array}\right]
+ = \frac{1}{(s+1)(s-1)}
+   \left[\begin{array}{c c}
+     s - 1 & 0 \\
+     0     & s + 1
+   \end{array}\right] \\
+&=
+   \left[\begin{array}{c c}
+     \frac{1}{s + 1} & 0 \\
+     0               & \frac{1}{s - 1}
+   \end{array}\right],
+\end{align*}
+so
+\begin{align*}
+e^{A t} 
+&= \mathcal{L}^{-1}\{(s I - A)^{-1}\}
+ = \left[\begin{array}{c c}
+     e^{-t} & 0 \\ 0 & e^{t}
+   \end{array}\right].
+\end{align*}
+Then
+$$
+e^{A(t - \tau)}B 
+= \left[\begin{array}{c c}
+    e^{-(t - \tau)} & 0 \\ 0 & e^{t - \tau}
+  \end{array}\right]
+  \left[\begin{array}{c}
+    1 \\ 1
+  \end{array}\right]
+= \left[\begin{array}{c}
+    e^{-t}e^{\tau} \\ e^{t}e^{-\tau}
+  \end{array}\right]
+$$
+so
+\begin{align*}
+\int_0^t e^{A(t - \tau)} B ~\dif \tau
+&= \left[\begin{array}{c c}
+     e^{-t}\int_0^t e^\tau \dif \tau & 0 \\
+     0                              & e^t \int_0^t e^{-\tau} \dif \tau
+   \end{array}\right]
+ = \left[\begin{array}{c c}
+     e^{-t}(e^t - 1) \\
+     e^{t}(1 - e^{-t})
+   \end{array}\right] \\
+&= \left[\begin{array}{c}
+     1 - e^{-t} \\
+     e^{t} - 1
+   \end{array}\right],
+\end{align*}
+so for $x(0) = \left[\begin{array}{c} 1 \\ 0 \end{array}\right]$,
+$$
+x(t) 
+= \left[\begin{array}{c}
+    2 - e^{-t} \\ e^t - 1
+  \end{array}\right]
+$$
+and for other initial conditions
+$$
+x(t) 
+= \left[\begin{array}{c}
+    a + 1 - e^{-t} \\
+    b - 1 + e^t
+  \end{array}\right].
+$$
+
+Thus $x_1(t)$ will asymptotically approach $a + 1$ and
+$x_2(t)$ will diverge.
+
+\pagebreak
+
+\section*{Problem \#4}
+With
+$$
+A = \left[\begin{array}{r r r}
+      -1 & 1 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 2
+    \end{array}\right], \quad
+B = 0, \quad
+C = \left[\begin{array}{c c c}
+      1 & 1 & 1
+    \end{array}\right],
+$$
+we have
+\begin{align*}
+s I - A 
+&= \left[\begin{array}{c c c}
+     s + 1 & -1    & 0 \\
+     0     & s + 1 & 0 \\
+     0     & 0     & s - 2
+   \end{array}\right], \\
+(s I - A)^{-1}
+&= \left[\begin{array}{c c c}
+     \frac{1}{s + 1} & \frac{1}{(s+1)^2} & 0 \\
+     0               & \frac{1}{s + 1}   & 0 \\
+     0               & 0                 & \frac{1}{s-2}
+   \end{array}\right], \\
+e^{At} = \mathcal{L}^{-1} \{ (s I - A)^{-1} \}
+&= \left[\begin{array}{c c c}
+     e^{-t} & t e^{-t} & 0 \\
+     0     & e^{-t}   & 0 \\
+     0     & 0       & e^{2t}
+   \end{array}\right].
+\end{align*}
+Then the system response is given by
+\begin{align*}
+y(t) &= Ce^{A(t - t_0)}x_0 
+      + C\int_0^t e^{A(t - s)} Bu(s) \dif s
+      + Du(t) \\
+     &= \left[\begin{array}{c c c}
+          1 & 1 & 1
+        \end{array}\right]
+        \left[\begin{array}{c c c}
+          e^{-t} & t e^{-t} & 0 \\
+          0     & e^{-t}   & 0 \\
+          0     & 0       & e^{2t}
+        \end{array}\right]
+        \left[\begin{array}{c}
+          x_1(0) \\ x_2(0) \\ x_3(0)
+        \end{array}\right] \\
+      &= e^{-t}x_1(0) + (t + 1)e^{-t}x_2(0) + e^{2t}x_3(0),
+\end{align*}
+and since it is not possible to choose any constant $c$ such that
+$c(t+1)e^{-t} = te^{-t}$ for all $t \geq 0$, no initial condition can
+be chosen as desired.
+
+\end{document}

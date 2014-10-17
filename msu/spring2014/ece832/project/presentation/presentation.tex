@@ -1,0 +1,80 @@
+\documentclass{beamer}
+
+\usepackage{graphicx}
+%\usepackage[backend=bibtex]{biblatex}
+\usepackage[authoryear]{natbib}
+\usepackage{usebib}
+%\bibliography{references}
+
+\newcommand{\intextcitation}[1]{\citeauthor{#1} \usebibentry{#1}{year}, \usebibentry{#1}{title}}
+
+\title{An 8-Bit $~\mathrm{\mu W}$ 1.25 kHz SAR ADC} % FIXME
+\author{Sam Boling\\
+        ECE 832 - Analog Integrated Circuit Design}
+\date{March 3, 2014}
+\usetheme{Berlin}
+\usecolortheme{seahorse}
+
+%\bibinput{references}
+
+\begin{document}
+
+
+\begin{frame}
+%\nobibliography*
+\titlepage
+\end{frame}
+
+\begin{frame}{Specifications}
+  \begin{center}
+  \begin{tabular}{c c}
+    Resolution                & 8 bits\\
+    Sample rate               & 1.25 kS / s \\
+    Static power dissipation  & \\
+    Dynamic power dissipation & \\
+    INL                       & 0.6016 \\
+    DNL                       & 0.1776 \\
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+% TODO
+%\begin{frame}
+%  \begin{figure}
+%    \includegraphics[width=\textwidth]{system-arch}
+%    \caption{Top-level system structure.}
+%  \end{figure}
+%\end{frame}
+
+%\begin{frame}
+%  \begin{figure}
+%    \includegraphics[width=\textwidth]{complete-schematic}
+%    \caption{Complete system-level schematic.}
+%  \end{figure}
+%\end{frame}
+
+%\begin{frame}
+%  \begin{figure}
+%    \includegraphics[width=\textwidth]{response}
+%    \caption{(Top to bottom) ADC analog input, DAC searching operation, 
+%             comparator output, and latched digital output changing to
+%             produce code .} % FIXME
+%  \end{figure}
+%\end{frame}
+
+\begin{frame}
+  \begin{figure}
+    \includegraphics[width=\textwidth]{closeup}
+    \caption{Closeup of ADC response comparing input voltage ramp,
+             ideal ADC response, and true ADC response following
+             offset and scale calibration.}
+  \end{figure}
+\end{frame}
+
+%\begin{frame}[allowframebreaks]{References}
+%  \bibliographystyle{plainnat}
+%  \bibliography{references}
+%\end{frame}
+
+\end{document}
+

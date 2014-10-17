@@ -1,0 +1,239 @@
+\documentclass{article}
+
+\title{ECE 875 - Homework \#6}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{rotating}
+
+\renewcommand*{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand*{\Im}{\operatorname{\mathfrak{Im}}}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#2.4}
+
+Mark the point 0.2 $\mathrm{\mu m}$ from the junction as $x = w$, the given 
+doping concentrations as $N_{D2} = 10^{16}$ and $N_{D3} = 10^{15}$, and note that
+\begin{align*}
+E(w)      &= E(0) + \frac{q N_{D2} w}{\varepsilon_s}, \\
+E(W_{dn}) &= E(w) + \frac{q N_{D3} (W_{dn} - w)}{\varepsilon_s}
+\end{align*}
+so
+$$
+E(0) = -\frac{q}{\varepsilon_s}(N_{D2} w + N_{D3} (W_{dn} - w)).
+$$
+Next, we have that
+$$
+\psi_{bi} = -\int_{-W_{dp}}^{W_{dn}} E(x) ~dx 
+          \approx -\int_{0}^{W_{dn}} E(x) ~dx
+$$
+since the junction is one-sided, and since the shape of the electric field is
+known we can compute this integral geometrically as the area of two triangles
+and a rectangle:
+\begin{align*}
+\psi_{bi} &= -\left\{\frac{1}{2}(W_{dn} - w)E(w) 
+                  + w E(w) 
+                  + \frac{1}{2} w (E(0) - E(w))\right\} \\
+          &= -\left\{\frac{1}{2} W_{dn} E(w) 
+                  - \frac{1}{2} w E(w) 
+                  + w E(w) 
+                  + \frac{1}{2} w E(0)
+                  - \frac{1}{2} w E(w)\right\} \\
+          &= -\frac{1}{2}(W_{dn} E(w) + w E(0)).
+\end{align*}
+
+Next, we note that the energy $q \psi_{bi}$ is the size of the gap between 
+the conduction band in the second (less-doped) $n$-type region and the 
+conduction band in the $p^{+}$ region. From the band diagram it is observed 
+that this can also be expressed as $q\psi_{bi} = q\psi_{12} - q\psi_{23}$, 
+where we have labelled the $p^{+}$ region as region 1, the first $n$-type 
+region as region 2, and the second $n$-type region as region 3, and used 
+q $\psi_{ab}$ to denote the energy gap between the conduction band in region
+$a$ and region $b$. Next we observe that 
+$$
+q\psi_{12} = (E_{i1} - E_{F}) + (E_{F} - E_{i2}),
+q\psi_{23} = (E_{i2} - E_{F}) - (E_{i3} - E_{F}).
+$$
+But since region 1 is a heavily doped $p^{+}$ region, this means
+$$
+E_{i1} - E_{F} \approx E_{i1} - E_{V} 
+               \approx \frac{1}{2} E_{g}
+               \approx 0.66 ~\mathrm{eV}.
+$$
+Therefore
+$$
+q\psi_{12} = \frac{1}{2} E_{g} + kT \ln \frac{N_{D1}}{n_i}
+           \approx 0.66 ~\mathrm{eV}
+          + (0.259 ~\mathrm{eV}) \ln \frac{10^{16}}{9.65 \times 10^{9}}
+           \approx 4.25 ~\mathrm{eV}
+$$
+and
+$$
+q\psi_{23} = kT \ln \frac{N_{D1}}{n_i} 
+           - kT \ln \frac{N_{D2}}{n_i}
+           \approx
+             (0.259 ~\mathrm{eV})\left(\ln\frac{10^{16}}{9.65 \times 10^{9}}
+                                     - \ln\frac{10^{15}}{9.65 \times 10^{9}}\right) 
+           \approx 0.60 ~\mathrm{eV}
+$$
+so
+$$
+q \psi_{bi} = q\psi_{12} - q\psi_{23} \approx 3.65 ~\mathrm{eV}
+$$
+so
+$$
+\psi_{bi} = 3.65 ~\mathrm{V}.
+$$
+Then we can combine the equations to see
+\begin{align*}
+\psi_{bi} &= -\frac{1}{2}(W_{dn} E(w) + w E(0)) \\
+          &= -\frac{1}{2}\left[W_{dn}\left(E(0) + \frac{q N_{D2} w}{\varepsilon_s}\right)
+                             + w E(0)\right] \\
+          &= -\frac{1}{2}\left[W_{dn}\left(\frac{q N_{D2} w}{\varepsilon_s}
+                             - \frac{q}{\varepsilon_s}(N_{D2} w + N_{D3}(W_{dn} - w))\right)
+                             - \frac{w q}{\varepsilon_s}(N_{D2} w + N_{D3}(W_{dn} - w))\right] \\
+          &= -\frac{q}{2\varepsilon_s}\left[N_{D2} W_{dn} w
+                                          - N_{D2} W_{dn} w
+                                          - N_{D3} W_{dn}^2
+                                          + N_{D3} W_{dn} w
+                                          - N_{D2} w^2 
+                                          - N_{D3} W_{dn} w
+                                          + N_{D3} w^2\right] \\
+          &= -\frac{q}{2\varepsilon_s}\left[(N_{D3} - N_{D2}) w^2 - N_{D3} W_{dn}^2\right] \\
+\frac{2 \varepsilon_s \psi_{bi}}{q} &= (N_{D2} - N_{D3}) w^2 + N_{D3} W_{dn}^2 \\
+W_{dn} &= \sqrt{\frac{2 \varepsilon_s \psi_{bi}}{q N_{D3}} 
+                + \left(1 - \frac{N_{D2}}{N_{D3}}\right) w^2} \\
+       &\approx \sqrt{\frac{2 (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})
+                              (3.65 ~\mathrm{V})}
+                           {(1.6 \times 10^{-19} ~\mathrm{C})
+                            (10^{15} ~\mathrm{cm}^{-3})}
+                     + (1 - 10)(0.2 \times 10^{-4} ~\mathrm{cm})^2} \\
+       &\approx 2.27 ~\mathrm{\mu m}
+\end{align*}
+and so
+\begin{align*}
+E(0) &= -\frac{q}{\varepsilon_s} (N_{D2} w + N_{D3} (W_{dn} - w)) \\
+     &= -\frac{1.6 \times 10^{-19} ~\mathrm{C}}
+              {8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1}}
+              ((10^{16} ~\mathrm{cm}^{-3})(0.2 \times 10^{-4} ~\mathrm{cm}) \\
+           &+  (10^{15} ~\mathrm{cm}^{-3})
+               ((2.27 \times 10^{-4} ~\mathrm{cm}) - (0.2 \times 10^{-4} ~\mathrm{cm}))) \\
+     &\approx -7.36 \times 10^{5} \frac{\mathrm{V}}{\mathrm{m}}.
+\end{align*}
+
+\section*{Problem \#3.1}
+Note that
+\begin{align*}
+q \psi_{bi} &= q \phi_{Bn} - q \phi_n = q \phi_{Bn} - (E_C - E_F) \\
+            &= q \phi_{Bn} - kT \ln\frac{N_D}{n_i} 
+\end{align*}
+so
+$$
+\psi_{bi} = \phi_{Bn} - \frac{kT}{q} \ln\frac{N_C}{N_D}
+$$
+and since
+$$
+W_D = \sqrt{\frac{2 \varepsilon_s}{q N_D} 
+            \left(\psi_{bi} - \frac{kT}{q}\right)},
+$$
+this means the quantities required to plot the band diagrams are as given in 
+the following table.
+                              
+\begin{tabular}{c | c c}
+$N_D ~(\mathrm{cm}^{-3})$ & $\psi_{bi} ~(\mathrm{V})$ & $W_D ~(\mathrm{cm})$ \\
+\hline
+$10^{15}$ & 0.64 & $9.36 \times 10^{-5}$ \\
+$10^{17}$ & 0.76 & $1.02 \times 10^{-5}$ \\
+$10^{18}$ & 0.82 & $3.37 \times 10^{-6}$
+\end{tabular}
+
+This results in the energy band diagrams in figure \ref{fig:prob3-1}.
+Note that when the doping concentration exceeds the material's effective
+mass density of states the conduction band in the semiconductor falls to
+an energy level below the Fermi level of the junction.
+
+\begin{sidewaysfigure}
+  \centering
+  \includegraphics[width=\textheight]{prob3-1-plots}
+  \caption{Energy band diagrams for problem \#3.1. \label{fig:prob3-1}}
+\end{sidewaysfigure}
+
+\section*{Problem \#3.8}
+\begin{enumerate}
+  \item{The built-in potential is given by the intercept of the line on the 
+        plot so that $\psi_{bi} = V_{F} \approx .6 ~\mathrm{V}$ in this case.
+        The slope of the line is approximately 
+        $2.3 \times 10^{-10} ~\mathrm{cm}^{4} ~\mathrm{pF}^{-2} ~\mathrm{V}^{-1}
+        = 2.3 \times 10^{-10}\cdot (10^{12})^2 ~\mathrm{cm}^4 ~\mathrm{F}^{-2} ~\mathrm{V}^{-1}$ so the doping
+        concentration can be found as
+        \begin{align*}
+        N_D &= \frac{2}{q \varepsilon_s}\left[
+               -\frac{1}{\frac{d}{dV}\left(\frac{1}{C^2}\right)}\right] \\
+            &= \frac{2}{(1.6 \times 10^{-19} ~\mathrm{C})
+                        (12.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
+               \frac{1}{2.3 \times 10^{14} ~\mathrm{cm}^4 ~\mathrm{F}^{-2}~\mathrm{V}^{-1}} \\
+            &= 4.76 \times 10^{16} ~\mathrm{cm}^{-3} 
+       \end{align*}
+       and thus
+       \begin{align*}
+         \phi_{n} &= \frac{E_{C} - E_{F}}{q} = \frac{kT}{q} \ln \frac{N_C}{N_D} \\
+                  &= (0.0259 ~\mathrm{V}) \ln \frac{4.7 \times 10^{17}}{4.76 \times 10^{16}} \\
+                  &= 0.059 ~\mathrm{V}.
+       \end{align*}
+       The barrier height is
+       \begin{align*}
+         \phi_{Bn} &= \phi_n + \psi_{bi} + \frac{kT}{q} + \Delta \phi 
+       \end{align*}
+       where the lowering potential $\Delta \phi$ is given by
+       $$
+       \Delta \phi = \sqrt{\frac{q E_m}{4 \pi \varepsilon_s}} 
+                   = \sqrt{\frac{q^2 N_D W_D}{4 \pi \varepsilon_s^2}}
+       $$
+       and
+       \begin{align*}
+       W_{D} &= \sqrt{\frac{2 \varepsilon_s}{q N_D}\left(\psi_{bi} - \frac{kT}{q}\right)} \\
+             &= \sqrt{\frac{2 (12.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
+                           {(1.6 \times 10^{-19} ~\mathrm{C})
+                            (4.76 \times 10^{16} ~\mathrm{cm}^{-3})}
+                           (0.6 - 0.0259 ~\mathrm{V})} \\
+             &\approx .131 ~\mathrm{\mu m},
+       \end{align*}
+       so
+       $$
+       \Delta \phi = \sqrt{\frac{(1.6 \times 10^{-19} ~\mathrm{C})^2 
+                                 (4.76 \times 10^{16} ~\mathrm{cm}^{-3})
+                                 (1.31 \times 10^{-5}  ~\mathrm{cm})}
+                                {4 \pi (12.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})^2}} \approx 0.03 ~\mathrm{V}.
+       $$
+       Then 
+       $$
+       \phi_{Bn} \approx 0.059 + 0.6 + 0.0259 + 0.03 \approx 0.71 ~\mathrm{V}.
+       $$
+   }
+   \item{The difference between this result and the effective barrier height 
+         is $0.71 - 0.707 = 0.003 ~\mathrm{V}$, giving the lowering potential 
+         $\Delta \phi$ under bias condition.
+        }
+\end{enumerate}
+
+
+\end{document}

@@ -1,0 +1,115 @@
+\documentclass{article}
+
+\title{ECE 875 - Homework \#5}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\renewcommand*{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand*{\Im}{\operatorname{\mathfrak{Im}}}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#2.2}
+Note that
+$$
+\frac{d}{dV} \left(\frac{1}{C_D^2}\right) 
+  = -\frac{2}{q \varepsilon_S N },
+$$
+so
+\begin{align*}
+\frac{1}{N} &= -\frac{q \varepsilon_s}
+                {2}
+             \frac{d}{dV}
+             \left(\frac{1}{C_D^2}\right) \\ 
+  &= -\frac{(1.6 \times 10^{-19} ~\mathrm{C})
+           (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
+          {2}
+      \frac{(-75 \times 10^{24} ~\mathrm{F}^{-2})}
+           {(0.95 ~\mathrm{V})} \\
+  &= 6.65 \times 10^{-6} ~\mathrm{cm}^{-1}
+\end{align*}
+so the donor concentration is
+$$
+N_D = \frac{N}{A^2} 
+  = \frac{(1.5 \times 10^{-6} ~\mathrm{cm}^{-1})}
+         {10^{-10} ~\mathrm{cm}^2}
+  = 1.5 \times 10^{15} ~\mathrm{cm}^{-3}.
+$$
+Furthermore
+$$
+\psi_{bi} = V_0 + \frac{2 k T}{q},
+$$
+where $V_0$ is the point where the extension of the line $\frac{1}{C_D^2}$
+crosses the $V$ axis. Since this is an abrupt junction and the $p$ side is
+heavily doped, the majority of the depletion region is on the $n$ side, so
+noting that
+\begin{align*}
+W_n &= W_D - W_{Dp} = \sqrt{\frac{2 \varepsilon_s (\psi_{bi} - V_{bias})}{q N_D}} - W_{Dp}\\
+    &\approx \sqrt{\frac{2 \cdot (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})
+                         ((0.95 + \frac{2 \cdot 0.0259 ~\mathrm{eV}}{1 ~\mathrm{e}} - (-1))~\mathrm{V})}
+                        {(1.6 \times 10^{-19} ~\mathrm{C})
+                         (1.5 \times 10^{15} ~\mathrm{cm}^{-3})}} \\
+    &- (0.07 \times 10^{-4} ~\mathrm{cm}) \\
+    &\approx 1.26 \times 10^{-4} ~\mathrm{cm}.
+\end{align*}
+
+\section*{Problem \#2.3}
+\begin{enumerate}
+  \item{
+         Observe first that the maximum electric field $\mathscr{E}_{max}$ will
+         be the same as if the entire junction were linearly graded and thus had
+         a depletion width of $2 W_{Dp}$, so
+         \begin{align*}
+         \mathscr{E}_{max} &= -\frac{q a (2W_{Dp})^2}{8 \varepsilon_s} \\
+                           &= -\frac{q a W_{Dp}^2}{2 \varepsilon_s} \\
+                           &= -\frac{(1.6 \times 10^{-19} ~\mathrm{C})
+                                     (10^{19} ~\mathrm{cm}^{-4})
+                                     (0.8 \times 10^{-4} ~\mathrm{cm})^2}
+                                    {2 (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{C}~\mathrm{V}^{-1}~\mathrm{cm}^{-1})} \\
+                           &= -4.86 \times 10^{3} ~\mathrm{V}~\mathrm{cm}^{-1}.
+         \end{align*}
+         Since the electric field at the boundary of the depletion region 
+         is zero,
+         $$ 
+         \mathscr{E}(W_{Dn}) = -\varepsilon_{max} + \frac{q N_D W_{Dn}}{\varepsilon_s} = 0
+         $$
+         so
+         \begin{align*}
+         W_{Dn} &= \frac{|\mathscr{E}_{max}| \varepsilon_s}{N_D q} \\
+                &= \frac{(4.86 \times 10^{3}  ~\mathrm{V}~\mathrm{cm}^{-1})
+                         (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{C}~\mathrm{V}^{-1}~\mathrm{cm}^{-1})}
+                        {(3 \times 10^{14} ~\mathrm{cm}^{-3})
+                         (1.6 \times 10^{-19} ~\mathrm{C})} \\
+                &= 1.07 \times 10^{-4} ~\mathrm{cm}.
+         \end{align*}
+         Then
+         $$
+         W_{D} = W_{Dp} + W_{Dn} = (0.8 \times 10^{-4} ~\mathrm{cm}) +(1.07 \times 10^{-4} ~\mathrm{cm}) = 1.87 \times 10^{-4} ~\mathrm{cm}
+         $$
+         and
+         $$
+         \psi_{bi} = \frac{|\mathscr{E}_{max}|}{2} W_D = 
+                     \frac{(4.86 \times 10^{3} ~\mathrm{V}~\mathrm{cm}^{-1})}{2}
+                     (1.87 \times 10^{-4} ~\mathrm{cm}) = 0.45 ~\mathrm{V}.
+         $$
+       }
+  \item{\includegraphics[width=\textheight, angle=90]{fig2-3-b}}
+\end{enumerate}
+
+\end{document}

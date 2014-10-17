@@ -1,0 +1,320 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+
+\title{ECE/ME 851 Homework \#1}
+\date{September 12, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+
+Writing the node-voltage equation at the positive terminal of the
+nonlinear resistor gives
+\begin{align*}
+i_R(t) + C\dot{v_R}(t) + \frac{v_R(t)}{R} - v_i(t) & = 0, \\
+\end{align*}
+where $R = C = 1$, so
+\begin{align*}
+1.5[v_R(t)]^3 + \dot{v_R}(t) + v_R(t) & = v_i(t)
+\end{align*}
+or
+\begin{align*}
+\dot{v_R}(t) & = -1.5 [v_R(t)]^3 - v_R(t) + v_i(t) = f(t, v_R, v_i).
+\end{align*}
+
+Letting $f(t, v_R, v_i) = 0$ for the nominal value $v_i = 14$ gives
+$$
+1.5[v_R(t)]^3 + v_R(t) = 14,
+$$
+and thus equilibrium solutions 
+$$\tilde{v_R} = 2, -1 \pm i \sqrt{\frac{11}{3}}$$
+The only real-valued equilibrium point is then at $\tilde{v_R} = 2$.
+
+Taking the Jacobian of the right-hand side $f(t, v_R, v_i)$ gives
+\begin{align*}
+\left[\begin{array}{c c}
+  \left.\frac{\partial f}{\partial v_R}\right|_{v_R = \tilde{v_R}} 
+& \left.\frac{\partial f}{\partial v_i}\right|_{v_i = \tilde{v_i}}
+\end{array}\right]
+&=
+\left[\begin{array}{c c}
+  \left[-4.5 [v_R(t)]^2 - 1\right]_{v_R = \tilde{v_R}} 
+& \left[1\right]_{v_i = \tilde{v_i}}
+\end{array}\right]. \\
+\end{align*}
+To linearize the system, we write
+\begin{align*}
+\dot{v_R}(t) 
+  &=
+     \dot{\tilde{v_R}}
+   + \dot{v_{R,\delta}} \\
+  &= f(t, 
+       \tilde{v_R} + v_{R,\delta},
+       \tilde{v_i} + v_{i,\delta}) \\
+  &=
+     \dot{\tilde{v_{R}}}
+   + \left.\frac{\partial f}{\partial v_R}\right|_{v_R = \tilde{v_R}}
+       (v_R - \tilde{v_R})
+   + \left.\frac{\partial f}{\partial v_i}\right|_{v_i = \tilde{v_i}}
+       (v_i - \tilde{v_i})
+   + O(v_{R,\delta}^2) + O(v_{R,i}^2) \\
+  &\approx
+    \dot{\tilde{v_{R}}}
+     + \left.\frac{\partial f}{\partial v_R}\right|_{v_R = \tilde{v_R}}
+         (v_R - \tilde{v_R})
+     + \left.\frac{\partial f}{\partial v_i}\right|_{v_i = \tilde{v_i}}
+         (v_i - \tilde{v_i})
+\end{align*}
+so that
+\begin{align*}
+\dot{v_{R,\delta}} 
+  &\approx
+     \left.\frac{\partial f}{\partial v_R}\right|_{v_R = \tilde{v_R}}
+       (v_{R,\delta})
+   + \left.\frac{\partial f}{\partial v_i}\right|_{v_i = \tilde{v_i}}
+       v_{i,\delta} \\
+  &= (-4.5 \tilde{v_R}^2 - 1)v_{R,\delta}
+   + v_{i,\delta} \\
+  &= (-4.5 \cdot 4 - 1)v_{R,\delta} + v_{i,\delta} \\
+  &= -19 v_{R, \delta} + v_{i, \delta}.
+\end{align*}
+%\begin{align*}
+%v_{R,\delta}(0) &= v_R(0) - \tilde{v_R}(0)
+%\end{align*}
+
+\pagebreak
+
+\section*{Problem \#2}
+We have
+\begin{align*}
+  M \ddot{y}_1 &= -K_1 y_1 +K (y_2 - y_1) +B (\dot{y}_2 - \dot{y}_1) + f_1 , \\
+  M \ddot{y}_2 &= -K (y_2 - y_1) -B (\dot{y}_2 - \dot{y}_1) -K_1 y_2 - f_2
+\end{align*}
+so assigning
+\begin{align*}
+x_1 &= y_1 , \\
+x_2 &= y_2 , \\
+x_3 &= \dot{y}_1 , \\
+x_4 &= \dot{y}_2 , \\
+u_1 &= f_1 , \\
+u_2 &= f_2 ,
+\end{align*}
+we see that
+\begin{align*}
+\dot{x}_1 &= \dot{y}_1  = x_3 , \\
+\dot{x}_2 &= \dot{y}_2  = x_4 , \\
+\dot{x}_3 &= \ddot{y}_1 = -\frac{1}{M_1}\left( K_1 + K \right) x_1
+                        +  \frac{K}{M_1} x_2
+                        -  \frac{B}{M_1} x_3
+                        +  \frac{B}{M_1} x_4
+                        +  \frac{1}{M_1} u_1, \\
+\dot{x}_4 &= \ddot{y}_2 = \frac{K}{M_2} x_1
+                        - \frac{1}{M_2} \left( K + K_1 \right) x_2
+                        + \frac{B}{M_2} x_3
+                        - \frac{B}{M_2} x_4 
+                        - u_2.
+\end{align*}
+
+Then the state equation $x = Ax + Cu$ can be written as
+
+\begin{align*}
+\left[\begin{array}{c}
+x_1 \\ x_2 \\ x_3 \\ x_4
+\end{array}\right] &=
+\left[\begin{array}{c c c c}
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+-\frac{K_1 + K}{M_1}
+  & \frac{K}{M_1}
+  & -\frac{B}{M_1}
+  & \frac{B}{M_1} \\
+\frac{K}{M_2} 
+\  & -\frac{K + K_1}{M_2} 
+  & \frac{B}{M_2}
+  & -\frac{B}{M_2} 
+\end{array}\right]
+\left[\begin{array}{c}
+x_1 \\ x_2 \\ x_3 \\ x_4
+\end{array}\right]
++ \left[\begin{array}{c c}
+\frac{1}{M_1} & 0 \\ 0 & -1 \\ 0 & 0 \\ 0 & 0
+\end{array}\right]
+\left[\begin{array}{c}
+u_1 \\ u_2
+\end{array}\right].
+\end{align*}
+
+Taking the output to by $z = y_1 - y_2 = x_1 - x_2$, the output equation is then
+\begin{align*}
+\left[\begin{array}{c}
+z
+\end{array}\right]
+&=
+\left[\begin{array}{c c c c}
+-1 & 0 & 1 & 0
+\end{array}\right]
+\left[\begin{array}{c}
+x_1 \\ x_2 \\ x_3 \\ x_4
+\end{array}\right]
++
+\left[\begin{array}{c c}
+0 & 0
+\end{array}\right]
+\left[\begin{array}{c}
+u_1 \\ u_2
+\end{array}\right].
+\end{align*}
+
+\section*{Problem \#3}
+
+\begin{enumerate}[(a)]
+  \item{The circuit is governed by the differential equation
+        \begin{align*}
+          v(t) & = L[s(t)]\dot{i}(t) + Ri(t) \\
+               & = \frac{L}{s(t)} \dot{i}(t) + Ri(t) & \implies \\
+          \frac{1}{L}s(t) v(t) 
+             & = \dot{i}(t) + \frac{R}{L} s(t) i(t) & \implies \\
+          \dot{i}(t) & = s(t) \left(\frac{1}{L} v(t) - \frac{R}{L} i(t)\right),
+        \end{align*}
+        while the free-body diagram on the steel ball yields the equation
+        \begin{align*}
+          \ddot{s}(t) = \ddot{x_2}(t) 
+            & = \frac{1}{M}\left(-Mg + F\right) \\
+            & = \frac{K}{M} \left(\frac{i(t)}{s(t)}\right)^2  - g.
+        \end{align*}
+
+        This can be rewritten as a first-order system by setting
+        $$
+              x_1(t) = i(t), 
+        \quad x_2(t) = s(t),
+        \quad x_3(t) = \dot{s}(t)
+        \quad u(t)   = v(t)
+        $$
+        so that
+        \begin{align*}
+          \dot{x_1}(t) 
+          &= -\frac{R}{L} x_1(t) x_2(t) + \frac{1}{L} x_2(t) u(t) 
+           = f_1(t, x_1, x_2, x_3, u)\\
+          \dot{x_2}(t) =
+          &= x_3 = f_2(t, x_1, x_2, x_3, u)\\
+          \dot{x_3}(t)
+          &= \frac{K}{M}\left(\frac{x_1}{x_2}\right)^2 - g
+           = f_3(t, x_1, x_2, x_3, u).
+        \end{align*}
+       }
+  \item{ If $v(t) = v_e$ and 
+         $\dot{x_1}(t) = \dot{x_2}(t) =  \dot{x_3}(t) = 0, \forall t$, 
+         then we have the equations
+         \begin{align*}
+         R \tilde{x_1} \tilde{x_2} &= \tilde{x_2} v_{eq},\\
+         \frac{K}{M}\left(\frac{\tilde{x_1}}{\tilde{x_2}}\right)^2 = g
+         \end{align*}
+         which gives
+         \begin{align*}
+         \tilde{x_1} &= \frac{v_{eq}}{R}, \\
+         \tilde{x_2} &= \sqrt{\frac{K}{gM}} \tilde{x_1}
+                      = \sqrt{\frac{K}{gM}}\frac{v_{eq}}{R}.
+         \end{align*}
+       }
+       \item{ Computing the Jacobian of the system of equations given
+              in (a) at the equilibrium point found in (b) gives
+           \begin{align*}
+              \mathbf{A}
+              &= \left[\begin{array}{c c c}
+                 \frac{\partial f_1}{\partial x_1}
+              &  \frac{\partial f_1}{\partial x_2}
+              &  \frac{\partial f_1}{\partial x_3} \\
+                 \frac{\partial f_2}{\partial x_1}
+              &  \frac{\partial f_2}{\partial x_2}
+              &  \frac{\partial f_2}{\partial x_3} \\
+                 \frac{\partial f_3}{\partial x_1}
+              &  \frac{\partial f_3}{\partial x_2}
+              &  \frac{\partial f_3}{\partial x_3}
+                 \end{array}\right]_{\substack{x_1 = \tilde{x_1} \\
+                                               x_2 = \tilde{x_2} \\
+                                               x_3 = \tilde{x_3} \\
+                                               u   = \tilde{u}}} \\
+              &= \left[\begin{array}{c c c}
+                   -\frac{R}{L} x_2 
+                 & -\frac{R}{L} x_1 + \frac{1}{L} u
+                 & 0 \\
+                   0 & 0 & 1 \\
+                   \frac{2K}{M}\frac{x_1}{x_2^2}
+                 & -\frac{2K}{M}\frac{x_1^2}{x_2^3}
+                 & 0
+                 \end{array}\right]_{\substack{x_1 = \tilde{x_1} \\
+                                               x_2 = \tilde{x_2} \\
+                                               x_3 = \tilde{x_3} \\
+                                               u   = \tilde{u}}} \\
+                 &= \left[\begin{array}{c c c}
+                      -\frac{v_{eq}}{L}\sqrt{\frac{K}{gM}}
+                    & -\frac{v_{eq}}{L} + \frac{v_{eq}}{L}
+                    & 0 \\
+                    0 & 0 & 1 \\
+                    \frac{2K}{M}\frac{v_{eq}}{R}\frac{gM}{K}
+                    \left(\frac{R}{v_{eq}}\right)^2
+                  & -\frac{2K}{M}\left(\frac{v_{eq}}{R}\right)^2
+                     \left(\frac{k}{gM}\right)^{-3/2}
+                     \left(\frac{R}{v_{eq}}\right)^3
+                  & 0
+                 \end{array}\right] \\
+               &= \left[\begin{array}{c c c}
+                   -\frac{v_{eq}}{L}\sqrt{\frac{K}{M}} & 0 & 0 \\
+                   0 & 0 & 1 \\
+                   \frac{2 R g}{v_{eq}} 
+                & -\frac{2 R g^{3/2}}{v_{eq}}\left(\frac{K}{M}\right)^{-1/2}
+                & 0
+                  \end{array}\right], \\
+              \mathbf{B} &= \left[\begin{array}{c}
+                            \frac{\partial f_1}{\partial u} \\
+                            \frac{\partial f_2}{\partial u} \\
+                            \frac{\partial f_3}{\partial u}
+                            \end{array}\right]_{\substack{x_1 = \tilde{x_1} \\
+                                               x_2 = \tilde{x_2} \\
+                                               x_3 = \tilde{x_3} \\
+                                               u   = \tilde{u}}} 
+                         = \left[\begin{array}{c}
+                            \frac{1}{L} x_2 \\ 0 \\ 0
+                            \end{array}\right]_{\substack{x_1 = \tilde{x_1} \\
+                                               x_2 = \tilde{x_2} \\
+                                               x_3 = \tilde{x_3} \\
+                                               u   = \tilde{u}}} 
+                         = \left[\begin{array}{c}
+                            \frac{v_{eq}}{RL} \sqrt{\frac{K}{gM}} \\
+                            0 \\ 0
+                            \end{array}\right].
+              \end{align*}
+The linearized state space equation can then be written as
+\begin{align*}
+\dot{\mathbf{x}} &= \mathbf{A}\mathbf{x} + \mathbf{B}u \\
+\end{align*}
+or
+\begin{align*}
+\left[\begin{array}{c}
+\dot{x_1} \\ \dot{x_2} \\ \dot{x_3}
+\end{array}\right] &=
+\left[\begin{array}{c c c}
+                   -\frac{v_{eq}}{L}\sqrt{\frac{K}{M}} & 0 & 0 \\
+                   0 & 0 & 1 \\
+                   \frac{2 R g}{v_{eq}} 
+                & -\frac{2 R g^{3/2}}{v_{eq}}\left(\frac{K}{M}\right)^{-1/2}
+                & 0
+                  \end{array}\right]
+\left[\begin{array}{c}
+x_1 \\ x_2 \\ x_3
+\end{array}\right]
++
+\left[\begin{array}{c}
+      \frac{v_{eq}}{RL} \sqrt{\frac{K}{gM}} \\ 0 \\ 0
+\end{array}\right] u.
+\end{align*}
+}
+\end{enumerate}
+
+\end{document}
