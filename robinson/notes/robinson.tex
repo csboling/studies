@@ -1,0 +1,67 @@
+\documentclass{letter}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\begin{document}
+  \section*{Exercise 3.2}
+  Using attachments for the real line
+  $$
+  \cdots \longleftarrow \{n\} \longrightarrow \{(n, n+1)\} \longleftarrow \{n+1\} \longrightarrow \cdots
+  $$
+  assign stalks
+  $$
+  \cdots \longleftarrow \mathbb{R}^3 \longrightarrow \mathbb{R}^2 
+         \longleftarrow \mathbb{R}^3 \longrightarrow \cdots
+  $$
+  so that
+  $$
+  \overbrace{\longleftarrow}^{(y, m_1, m_2)_n \mapsto \left(\frac{1}{2}(m_1)_n + y, (m_1)_n\right)}
+  \mathbb{R}^{3}_n
+  \overbrace{\longrightarrow}^{(y, m_1, m_2)_n \mapsto \left(\frac{1}{2}(m_2)_n + y, (m_2)_n\right)}
+  \mathbb{R}^{2}_{(n, n+1)}
+  \overbrace{\longleftarrow}^{(y, m_1, m_2)_{n+1} \mapsto \left(\frac{1}{2}(m_1)_{n+1} + y, (m_1)_{n+2}\right)}
+  \mathbb{R}^{3}_{n+1}
+  $$
+  that is, each attachment map is either of the form
+  $$
+  \left[\begin{array}{c}
+  y + \frac{1}{2}m_2 \\ m_2
+  \end{array}\right] =
+  \left[\begin{array}{c c c}
+  1 & 0 & \frac{1}{2} \\
+  0 & 0 & 1
+  \end{array}\right]
+  \left[\begin{array}{c}
+  y \\ m_1 \\ m_2
+  \end{array}\right]
+  $$
+  or
+  $$
+  \left[\begin{array}{c c c}
+  1 & \frac{1}{2} & 0 \\
+  0 & 0 & 1
+  \end{array}\right]
+  $$
+  Then to go from
+  $$
+  (y, m_1, m_2)_n \mapsto (y, m_1, m_2)_{n+1}
+  $$
+  uses the map 
+  $\mathscr{S}(n+1 \rightsquigarrow (n, n+1))^{-1}_{(m_1)_n} \circ 
+     \mathscr{S}(n \rightsquigarrow (n, n+1))$
+  where
+  $$
+  S(n+1 \rightsquigarrow (n,n+1))^{-1}_{(m_1)_n}
+    :       (\frac{1}{2} (m_2)_{n+1} + y_{n+1}, (m_2)_{n+1}) 
+    \mapsto (y, (m_1)_n, (m_2)_{n+1})
+  $$
+ 
+  \section*{Exercise 3.4} 
+                  (-1, 1, 1)
+  (y, m_1, m_2)    -> (-y, m_1, m_2)
+     |                     |
+     v                     v
+  (m_1/2 + y, m_1) -> (m_1/2 + y, m_1
+                   id
+\end{document}
