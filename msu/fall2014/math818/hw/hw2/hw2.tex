@@ -309,67 +309,19 @@ Suppose that $H$ and $N$ are normal subgroups of a finite group $G$.
 \begin{Answer}
 \begin{enumerate}[(a)]
   \item{
-    First we observe that the conjugation map
-    $c : G \to \mathrm{Inn}(G)$ given by
-    $$
-    c(h)(g) = c_h(g) = h g h^{-1}
-    $$
-    is a group homomorphism.
-    Furthermore, let $x \in \ker c$ so that
-    $c(x) = \mathrm{id}$.
-    Then we have
-    $$
-    x y x^{-1} = c(x)(y) = \mathrm{id}(y) = y
-    $$
-    and thus $x y = y x$ for all $y \in G$, or in other words $x \in
-    Z(G)$. Additionally if $x \in Z(G)$ then $xyx^{-1} = y$ for any
-    $y \in G$, so $c(x)(y) = y$ and thus $c(x) = \mathrm{id}$, so
-    $x \in \ker c$. This means $\ker c = Z(G)$.
-
-    By the first isomorphism theorem this means
-    $$
-    \mathrm{Inn}(G)
-  = \mathrm{Im}(c)
-  \simeq \frac{G}{\ker c}
-  = \frac{G}{Z(G)}
-  \simeq \mathbb{Z}_N
-    $$
-    for some positive integer $N$, since $G / Z(G)$ is cyclic by
-    assumption. This means $\mathrm{Inn}(G) \simeq \mathbb{Z}_N$ or
-    $\mathrm{Inn}(G)$ is cyclic and therefore
-    $\mathrm{Inn}(G) = \langle c_a \rangle$ for some $a \in G$.
-
-    Next let $C_x$ denote the conjugacy class of $x$ in $G$.
-    We wish to show that the only conjugacy class in $G$
-    is $C_a$. We proceed by induction to show that
-    $c_a^n(g) = c_a(g)$ for all $n$.
-    \begin{enumerate}
-      \item{
-        Let $n = 1$. Then $c_a^n(g) = c_a(g)$.
-      }
-      \item{
-        Let $c_a^m(g) = c_a(g)$ for all
-        $m \in \{ 1, 2, \dots, n-1 \}$. Then
-        $$
-        c_a^n(g) = c_a(c_a^{n-1}(g)) = c_a(c_a(g)) = c_a^2(g) = c_a(g).
-        $$
-      }
-    \end{enumerate}
-    Therefore $c_a^n(g) = c_a(g)$ for any $n$. Now since
-    $\mathrm{Inn}(G)$ is cyclic, for any $x \in G$ we have
-    $c_x = c_a^n$ for some $n$. Therefore if $g \in C_x$ then
-    $$
-    g = c_x(g) = c_a^n(g) = c_a(g) \in C_a
-    $$
-    and if $g \in C_a$ then
-    $$
-    g = c_a(g) = c_a^n(g) = c_x(g) \in C_x
-    $$
-    so $C_x = C_a$ for any $x \in G$.
-
-    Since $G$ is the disjoint union of the orbits of the group action
-    $c$, his implies that $G = C_a = C_x$ for any $x \in G$ and thus
-    each $x \in G$ commutes with the whole of $G$, so $G$ is abelian.
+    Let $Z = Z(G)$, and suppose $G / Z$ is cyclic. Then for any
+    $g \in G$, there exists an $aZ \in G / Z$ such that
+    $gZ = (aZ)^n = a^n Z$ (since $Z$ is normal) for some $n$, so that
+    $g = a^n z$ for some $z \in Z$. Then we have
+    \begin{align*}
+    gh &= a^m z a^n z^\prime
+        = a^{m + n} z z^\prime \\
+       &= z^\prime a^{m + n} z
+        = z^\prime a^{n + m} z
+        = z^\prime a^n a^m z \\
+       &= a^n z^\prime a^m z = h g,
+    \end{align*}
+    so $G$ is abelian.
   }
   \item{
     Let $G$ be a group of order $p^2$. Then since $[G : C_x]$ divides
@@ -509,61 +461,24 @@ Suppose that $H$ and $N$ are normal subgroups of a finite group $G$.
 \begin{Answer}
   \begin{enumerate}[(a)]
     \item{
-      Consider the group actions
-      $\psi_G : G \to \mathrm{Perm}(G)$ and
-      $\psi_H : H \to \mathrm{Perm}(G)$ given by conjugation
-      so that
+      We wish to show that
       $$
-      \psi_G(g_1)(g_2) = g_1 g_2 g_1^{-1}, \quad
-      \psi_H(h)(g) = h g h^{-1}.
+      G \neq U = \bigcup_{g \in G} g H g^{-1},
       $$
-      Equivalently consider these as
-      $._G : G \times G \to G$ and $._H : H \times G \to G$, respectively.
-      We can then decompose both $G$ and $H$ into their orbits so that
+      the union of all conjugates of $H$ in $G$. Since this conjugation is
+      a group action with its stabilizer given by the normalizer
+      $N(H)$, there are $[G : N(H)]$ such conjugates. If $|N(H)| = |G|$
+      then this means $H$ is the only conjugate so $H = U$, in which
+      case $G \neq U$ since $H$ is a proper subgroup by assumption.
+
+      Otherwise, we have more than one conjugate, and since each
+      conjugate must have identity as a common element, and since all
+      conjugates are of the same order $|g H g^{-1}| = |H|$, this means
+      $|U| < [G : N(H)]|H|$. Therefore
       $$
-      G = \coprod_{x \in R_G} G ._G x, \quad
-      H = \coprod_{x \in R_H} H ._H x,
+      |U| < [G : N(H)]|H| \leq [G : H] |H| = |G|
       $$
-      where $R_G$ and $R_H$ are sets of representative elements from
-      conjugacy classes of $G$ and $H$, respectively.
-      We then see that
-      \begin{align*}
-        G &= \coprod_{x \in R_G} G ._G x \\
-          &= \coprod_{x \in R_G} \{ h x h^{-1} \mid h \in H \} \\
-          &= \coprod_{x \in R_G} \left(
-               \{ h x h^{-1} \mid h \in H \}
-               \cup
-               \{ g x g^{-1} \mid g \in G - H \}
-             \right) \\
-          &= \left(\coprod_{x \in R_G}
-               \{ g x g^{-1} \mid g \in G - H \}
-             \right)
-             \cup
-             \left(\coprod_{x \in R_G}
-               \{ h x h^{-1} \mid h \in H \}
-             \right) \\
-          &= \left(\coprod_{x \in R_G}
-               \{ g x g^{-1} \mid g \in G - H \}
-             \right)
-             \cup
-             \left(\coprod_{x \in R_G}
-               H ._H x
-             \right) \\
-          &= \left(\coprod_{x \in R_G}
-               \{ g x g^{-1} \mid g \in G - H \}
-             \right)
-             \cup H,
-      \end{align*}
-      so that
-      $$
-      |G| - |H| = \sum_{x} \{ g x g^{-1} \mid g \in G - H \}.
-      $$
-      But by assumption $H$ is a proper subset of $G$, so
-      $|G| - |H| > 0$ and therefore there are elements
-      of $G$ which do not lie in the
-      orbit $H ._G x = \{ h x h^{-1} \mid h \in H \}$ for any
-      $x \in G$. Therefore there is a $g \in G$
-      not conjugate to any $h \in H$, as desired.
+      since $[G : N(H)] \leq [G : H]$ because $H \subset N(H)$.
     }
     \item{
       We write
@@ -598,8 +513,8 @@ Suppose that $H$ and $N$ are normal subgroups of a finite group $G$.
       element then this means $|G_{x_0}| < |G|$, in which case
       $G_{x_0}$ is a proper normal subgroup. Therefore from part (a)
       there is an element of $G$ which is not conjugate to $G_{x_0}$
-      and therefore cannot lie in $G_X$. Since $x$ was chosen
-      arbitrarily this is true for every element of $X$.
+      and therefore cannot lie in $G_x$. Since $x$ was chosen
+      arbitrarily this is true for every element of $X$, as desired.
     }
   \end{enumerate}
 \end{Answer}
@@ -632,33 +547,6 @@ Decomposing the set $S$ into its orbits under this action we have
 and since $|S| = p$ this is only possible if $[G : G_{x^i}] = 1$ for
 each $i \in \{ 1, \dots, p \}$, which means $[G : G_x] = 1$ and
 therefore $gx = xg$ for all $g \in G$. Therefore $x \in Z(G)$.
-
-
-%Since $G$ is a $p$-group, let $|G| = p^m$ for some positive integer $m$.
-%We wish to show that
-%$|G . x| = [G : G_x] = 1$ and therefore that $x \in Z(G)$.
-%
-%Since $x^p = 1$, $|\langle x \rangle|$ divides $p$,
-%and since $p$ is prime this means either
-%$|\langle x \rangle| = 1$ or
-%$|\langle x \rangle| = p$.
-%If
-%$|\langle x \rangle| = 1$
-%then $\langle x \rangle = \{ 1 \}$,
-%so $x = 1$  and $1 \in Z(G)$, as desired.
-%
-%Otherwise, $|\langle x \rangle| = p$. Then since
-%$\langle x \rangle$ is normal, it is equal
-%to its normalizer so that
-%$$
-%  |\mathrm{Orb}(\langle x \rangle)|
-%= [G : N(\langle x \rangle)]
-%= [G : \langle x \rangle]
-%= |G| / |\langle x \rangle|
-%= p^m / p
-%= p^{m-1},
-%$$
-%where $\mathrm{Orb}(H)$ is the set of all subgroups conjugate to $H$.
 \end{Answer}
 
 \pagebreak
@@ -676,92 +564,29 @@ therefore $gx = xg$ for all $g \in G$. Therefore $x \in Z(G)$.
 \begin{Answer}
 \begin{enumerate}[(a)]
   \item{
-    If $Q$ is a $p$-Sylow of $H$, then $Q$ is a $p$-subgroup of $G$,
-    so it is contained in a $p$-Sylow of $G$ (Theorem 6.4(i) in Lang).
-    Let $P$ be this $p$-Sylow of $G$. Then $P$ is a $p$-Sylow of $G$,
-    and $Q \subset P$ and $Q \subset H$, so $Q \subset P \cap H$.
-
-    Let $|P| = p^n$, $|Q| = p^m$ so that $|H| = p^m k$,
-    where $p$ does not divide $k$,
-    since $Q$ is a $p$-Sylow in $H$. Then $[H : Q] = k$, so we have
-    $$
-    [P : Q] = [P : H][H : Q] = [P : H]k.
-    $$
-    But $[P : H]$ divides $|P| = p^n$ and
-    $[P : Q] = \frac{p^n}{p^m} = p^{n - m}$, so this is only possible
-    if $[P : H] = p^l$ for some power $l$. Then since
-    $P \cap H \subset H$,
-    $[P : P \cap H] \geq [P : H]$, so $[P : P \cap H] = p^{n - m}$
-    and thus $[P : P \cap H] = [P : Q]$. Then we have
-    $$
-    [P : P \cap H] = [P : Q] = [P : P \cap H] [P \cap H : Q],
-    $$
-    so $[P \cap H : Q] = 1$ and thus $|P \cap H| = |Q|$. But since
-    $Q \subset P \cap H$ this means $Q = P \cap H$ as desired.
+    Since $Q$ is a $p$-subgroup of $G$, $Q$ is contained in $p$-Sylow
+    $P$ of $G$. Then notice that $|P \cap H|$ divides $|H|$, so
+    $P \cap H$ is a $p$-group of $H$. But $Q < P < P \cap H$,
+    so $Q < P \cap H < H$. But since $Q$ is a $p$-Sylow of $H$ it is
+    of maximal order, so since $P \cap H$ is a $p$-group this means
+    $P \cap H = Q$.
   }
   \item{
-    Let $|P| = p^n$. $P \cap N$ is a subgroup since both $P$ and $N$
-    are, and therefore the product (inverse) of elements of $P \cap N$ is
-    contained in $P$ since the individuals are and is likewise
-    contained in $N$ and thus is contained in $P \cap N$.
-
-    Since $N$ is normal, the normalizer $N(N) = G$, so $P \subset
-    N(N)$. Therefore the hypothesis of the third isomorphism theorem
-    applies so that
-    $$
-    PN / N \simeq P / (P \cap N),
-    $$
-    so
-    $$
-    [PN : N] = [P : P \cap N]
-    $$
-    and thus
-    $$
-    |P \cap N| [PN : N] = |P|.
-    $$
-    Then $|P \cap N|$ divides $|P| = p^m$, so $|P \cap N| = p^m$ for
-    some $m \leq n$. If $m = n$ then $P \cap N$ is a subgroup of order
-    $p^n$, so $P \cap N$ is a $p$-Sylow of $G$ and therefore of
-    $N$. Otherwise, $m < n$, and we wish to show that there is no
-    subgroup of $N$ with order $p^{m^+}$ where $m^+ > m$.
-
-    Suppose $H$ is a $p$-group of $N$ with $|H| = p^{m+}$, for
-    $m+ > m$. Such a power
-    divides $|P|$ and does not divide $|P \cap N|$, so it must divide
-    $[PN : N]$, which requires that $[PN : N] = p^{m^{++}}$ for some
-    $m^{++} > m^+$. Then we have
-    $$
-    [PN : N] |N| = p^{m++} p^{m+} k
-    $$
-    for some $k$, since we must have $|H| = p^{m+}$ divide $|N|$.
-    Then $|PN| = p^{m++}p^{m+} k$. But $PN \subset P \cap N$ and
-    $|P \cap N| = p^m < p^{m++}p^{m+} k$, so this is a
-    contradiction. Therefore it must be the case that there is no
-    $p$-group with order larger than $p^m$ in $N$, so $P \cap N$ is a
-    $p$-Sylow of $N$.
-% But then $P \cap N$ is a
-%    $p$-subgroup of $N$, and so it must be contained in a
-%    $p$-Sylow of $N$.
-
-%    Next let $S$ be the set of $p$-Sylows of $N$, and consider the
-%    action $\psi : G \to \mathrm{Perm}(S)$ given by conjugation
-%    $\psi(g)(H) = g H g^{-1}$. This is well-defined since all
-%    $p$-Sylows are conjugate. Then we have the decomposition by this
-%    action
-%    $$
-%    |S| = \sum |G . x| = \sum [G : G_x]
-%    $$
-%    where each $[G : G_x]$ divides $|S|$ and $|S| \equiv 1 \mod p$.
-
-%    We wish to show that $p^{m}$ is the largest power of $p$
-%    that divides $|N|$. Suppose it is not, so that
-%    $|N| = p^{m^+} k$ for some $k$ that $p$ does not divide and
-%    $m^+$ such that $m < m^+ \leq n$.
-%    We can decompose $N$ into its orbits by
-%    conjugation to see
-%    \begin{align*}
-%    |N| &= |Z(N)| + \sum [G : G_x]
-%    \end{align*}
+    Let $Q < N$ be a $p$-Sylow. Then from part (a) there is a
+    $p$-Sylow $P^\prime$ of $G$ such that $Q = P^\prime \cap N$. But
+    since all $p$-Sylows are conjugate there is some $g \in G$ such
+    that $P^\prime = g P g^{-1}$, so
+    \begin{align*}
+      Q &= g P g^{-1} \cap N \\
+        &= \{ x \in G \mid x = g \pi g^{-1} = n,
+                           \pi \in P, n \in N \} \\
+        &= \{ x \in G \mid g^{-1} x g = \pi = g^{-1} n g \} \\
+        &= \{ x \in G \mid g^{-1} x g = \pi = n \} \\
+        &= g (P \cap N) g^{-1}.
+    \end{align*}
+    Since all conjugates have the same order, this means
+    $|Q| = |P \cap N|$, but $Q$ is a $p$-Sylow of $N$ and this means
+    $P \cap N$ is a $p$-Sylow of $N$.
   }
 \end{enumerate}
 \end{Answer}
