@@ -85,7 +85,7 @@ i.e. $f \circ \mathrm{inj}_i = f_i$. $f$ is uniquely determined by
 this property.
 \end{prop}
 
-This property can also be phrased by the diagram
+This property can also be expressed by the diagram
 $$
 \begindc{\commdiag}[500]
 \obj(0,1)[h]{$H$}
@@ -101,13 +101,13 @@ $$
 Given $f_1 : G_1 \to G$ and $f_2 : G_2 \to G$ we have
 $f: G_1 \oplus G_2 \to G$ given by
 $f((g_1, g_2)) = f_1(g_1) + f_2(g_2)$. This is only a group
-homomorphism for $G$ abelian since we require
+homomorphism for abelian $G$ since we require
 \begin{align*}
   f((g_1, g_2)(h_1, h_2))
 &= f((g_1 h_1, g_2 h_2))
  = f_1(g_1 h_1) + f_2(g_2 h_2) \\
-&= f_1(g_1) + f_1(h_1) + f_2(g_2) + f_2(h_2)
- = f_1(g_1) + f_2(g_2) + f_1(h_1) + f_2(h_2) \\
+&= f_1(g_1) + f_1(h_1) + f_2(g_2) + f_2(h_2) \\
+&= f_1(g_1) + f_2(g_2) + f_1(h_1) + f_2(h_2) \\
 &= f((g_1, g_2)) + f((h_1, h_2)).
 \end{align*}
 More generally
@@ -136,14 +136,14 @@ $$
 where $I$ is any set.
 
 \begin{defn}[Free Abelian Group]
-An abelian group $A$ is called \emph{free} if there is a set $S$ such
+An abelian group $A$ is called \emph{free} if there is a set $I$ such
 that
 $$
 A \simeq \mathbb{Z}[I].
 $$
 \end{defn}
 
-\begin{defn}[(Equivalent)]
+\begin{defn}[Equivalent]
 An abelian group $A$ is free if there is a subset (called a \emph{basis})
 $\{ e_i \}_{i \in I}$ of $A$ such that every element $a \in A$ can be
 written \emph{uniquely} as a linear combination
@@ -158,12 +158,12 @@ This is equivalent to the above definition. Observe that
 $\mathbb{Z}[I]$ has a ``canonical'' basis given by
 $e_i = \mathrm{inj}_i(1)$ and that giving a basis of $A$ is now
 equivalent to giving an isomorphism
-$\varphi : \mathbb{Z}[I] \xlongrightarrow{\sim} A$ given by a basis
+$\varphi : \mathbb{Z}[I] \xrightarrow{\sim} A$ given by a basis
 $$
 \{\varphi(e_i)\}_{i \in I}.
 $$
 That is, given a basis $\{ a_i \}_{i \in I}$ a basis of $A$, define
-$\varphi \mathbb{Z}[I] \to A$ by
+$\varphi : \mathbb{Z}[I] \to A$ by
 $$
 \varphi((n_i)) = \sum_{i \in I} n_i a_i.
 $$
@@ -186,16 +186,12 @@ $$
 $$
 \end{proof}
 
-\begin{theorem}
-Suppose $A$ is a free abelian group. Let $B$ be a subgroup of $A$.
-Then $B$ is also free.
-\end{theorem}
-
+First we require the following:
 \begin{lemma}
 Let $f : A \to A^\prime$ be a group homomorphism of abelian
 groups. Suppose $f$ is surjective and $A^\prime$ is free. Then there
 is a group homomorphism $g : A^\prime \to A$ such that
-$f \circ g = \mathrm{id}_A$.
+$f \circ g = \mathrm{id}_{A^\prime}$.
 \end{lemma}
 \begin{proof}
 Since $A^\prime$ is free it has a basis $\{ a_i^\prime \}_{i \in
@@ -219,5 +215,153 @@ direction -- the map we produce corresponds to projection of a line
 $L \in \mathbb{R}^2$ onto a non-parallel line.
 \end{proof}
 
+\begin{lemma}
+Let $A$ be an abelian group with two subgroups $B$ and $C$
+such that $B \cap C = \{ 0 \}$ and $A = B + C$, i.e.
+$\forall a \in A$ there exist $b \in B$ and $c \in C$ such that
+$a = b + c$. Then the map $B \times C \to A$ given by
+$(b, c) \mapsto b + c$ is a group isomorphism, so
+$A \simeq B \times C = B \oplus C$.
+\end{lemma}
+
 \begin{proof}
+Since $A$ is abelian, $(b, c) \mapsto b + c$ is a group
+homomorphism. The condition $A = B + C$ implies it is surjective and
+the condition $B \cap C = \{ 0 \}$ implies it is injective, since
+the kernel is
+\begin{align*}
+ & \{ (b, c)  \mid b + c = 0 \} \\
+=& \{ (b, -b) \mid b \in B, b \in C \}
+=& \{ (0, 0) \}
+\end{align*}
+since $B \cap C = \{ 0 \}$. In this situation we say $A$ is the
+\emph{direct sum} of its subgroups and write $A = B \oplus C$
+(as abuse of notation, since this is in fact an isomorphism).
+\end{proof}
+
+More generally we have the following:
+\begin{lemma}
+Let $A$ be an abelian group and let $B_i$, $i \in I$ be a family of
+subgroups of $A$ such that every element of $a \in A$ can be written
+as a sum
+$$
+a = \sum_{i \in I} b_i
+$$
+in a unique way, with a finite number of $b_i$ nonzero.
+(This condition implies that for a given $B_i$ its intersection with
+ the sum of all other $B_j$ is trivial).
+Then the map
+$$
+\bigoplus_{i \in I} B_i \to A
+$$
+given by
+$$
+(b_i)_{i \in I} \mapsto \sum_{i \in I} b_i
+$$
+is a group isomorphism, and in this case we write
+$$
+A = \bigoplus_{i \in I} B_i.
+$$
+\end{lemma}
+
+\begin{lemma}
+Consider our lemma about a surjective map $f$ onto a free abelian
+codomain. Then we have a right inverse $g$ of $f$. we can write
+$$
+A = \ker f \oplus C,
+$$
+where $C \simeq A^\prime$ so that $A \simeq B \oplus A^\prime$.
+\end{lemma}
+
+\begin{proof}
+Set $C = \mathrm{Im}(g) \subset A$. We observe that
+\begin{enumerate}
+  \item{$\mathrm{Im}(g) \cap \ker(f) = \{ 0 \}$.
+        Let $x = g(y)$ and $f(x) = 0$ for some $x$. Then
+        $f(g(y)) = 0$, so since $f \circ g = \mathrm{id}$ this means
+        $y = 0$, and therefore $x = 0$.
+       }
+  \item{$A = \mathrm{Im}(g) + \ker(f)$. Write
+        $$
+        x = (x - g(f(x)) + g(f(x)).
+        $$
+        Then $g(f(x)) \in \mathrm{Im}(g)$ and
+        $$
+        f(x - g(f(x))) = f(x) - f(g(f(x))) = f(x) - f(x) = 0
+        $$
+        so $x - g(f(x)) \in \ker(f)$.
+       }
+  \item{Take $C = \mathrm{Im}(g)$. The restriction $f|_c : C \to
+        A^\prime$ is surjective since $\forall y \in A^\prime$,
+        $g(y) \in C$ and $f(g(y)) = y$, and injective since
+        $\ker (f|_C) = \ker(f) \cap C = \{ 0 \}$ as previously shown.
+       }
+\end{enumerate}
+Therefore $A = \ker(f) \oplus \mathrm{Im}(g)$ and $\mathrm{Im}(g)
+\simeq A^\prime$.
+\end{proof}
+
+\begin{theorem}
+Suppose $A$ is a free abelian group. Let $B$ be a subgroup of $A$.
+Then $B$ is also free.
+\end{theorem}
+
+\begin{proof}
+The general case is similar to the finite argument.
+For a more particular case, assume $A$ has a finite basis
+$\{e_i\}_{i = 1}^n$.
+This means $A \simeq \bigoplus_{i = 1}^n \mathbb{Z} = \mathbb{Z}^n$.
+
+We have $B \subset \mathbb{Z}^n$. Prove $B$ is free by induction on
+$n$.
+
+\begin{enumerate}
+  \item{
+    Take $n = 1$. Then $B \subset \mathbb{Z}$, so $B$ is generated
+    by the smallest positive integer $b_0 \in B$, so
+    $B = \langle b_0 \rangle = \mathbb{Z} \cdot b_0$. Then
+    $B \simeq \mathbb{Z}$ and so $B$ is free with $b_0$ as a
+    basis, since we can write $b = q b_0 + r$, so
+    $r = b - q b_0$, so $r \in B$ since $B$ is a subgroup. But
+    $0 \leq r < b_0$, and $b_0$ is the smallest nonzero element in
+    $B$ by assumption, so $r = 0$. Therefore $b = q b_0$ for some $q$.
+  }
+  \item{
+    We next have
+    $$
+    B \subset \mathbb{Z}^n = \mathbb{Z} \cdot e_1
+                           + \cdots
+                           + \mathbb{Z} \cdot e_n.
+    $$
+    Consider the projection $\mathrm{pr}_1$ of $\mathbb{Z}^n$ to the
+    first element and consider
+    $f = \mathrm{pr}_1|_B : B \to \mathbb{Z}$. There are two
+    possibilities:
+    \begin{itemize}
+      \item{
+        $f = 0$. Then
+        $$
+        B \subset \mathbb{Z} \cdot e_2 + \cdots + \mathbb{Z} \cdot e_n
+          =       \mathbb{Z}^{n-1}
+        $$
+        so $B$ is free by induction.
+      }
+      \item{
+        Take $\{ 0 \} \neq \mathrm{Im}(f) \subset \mathbb{Z}$. Then as
+        in the $n = 1$ case, $\mathrm{Im}(f) = \mathbb{Z} \cdot b_0$
+        is free. Then $f : B \to \mathrm{Im}(f)$ is a surjective map
+        onto a free group, so
+        $B = \ker(f) \oplus C$ where $C \simeq \mathrm{Im}(f) \simeq
+        \mathbb{Z}$, and then
+        $B \simeq \ker(f) \oplus \mathbb{Z}$.
+
+        Look at $\ker(f) \subset B$. Take $b \in \ker (f)$. Then
+        $\mathrm{pr}_1|_B(b) = 0$ so $b \in \mathbb{Z}^{n-1}$, so by
+        the induction hypothesis $\ker(f)$ is free. Therefore
+        $B \simeq \ker(f) \oplus \mathbb{Z}$ is free.
+      }
+    \end{itemize}
+  }
+\end{enumerate}
+This means also that $B$ has a basis with $\leq n$ elements.
 \end{proof}
