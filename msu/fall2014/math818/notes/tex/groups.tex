@@ -309,8 +309,8 @@ i.e. the multiples of $n$ or the ideal $n \mathbb{Z}$. Then from the
 first isomorphism theorem we know that
 $$
 \mathbb{Z} / n \mathbb{Z}
-=      \ker \varphi(n)
-\simeq \mathrm{Im} \varphi(n)
+=      \mathbb{Z} / \ker \varphi(n)
+\simeq \mathrm{Im} (\varphi(n))
 =      \{0, 1, 2, \dots, n-1\}
 =      \mathbb{Z}_n.
 $$
@@ -806,6 +806,35 @@ $$
 a \sim b \triangleq aH = bH
 $$
 or by a function as $G/\pi$.
+
+Some properties of cosets and quotient groups:
+\begin{enumerate}
+\item{
+  Let $G$, $H$ be groups. If $K \triangleleft G$ and $L \triangleleft
+  H$, then
+  $$
+  \frac{G \times H}{K \times L} = G / K \times H / L.
+  $$
+  Note that
+  \begin{align*}
+  \frac{G \times K}{K \times L}
+  &= \{ (g, h) (K \times L) \mid g \in G, h \in H \} \\
+  &= \{ \{ a
+           \mid
+           \exists k \in K, \exists l \in L .  a = (g, h)(k, l)
+        \}
+        \mid
+        g \in G, h \in H
+     \} \\
+  &= \{ \{ a \mid a = \exists k \in K, \exists l \in L . (gk, hl) \}
+        \mid
+        g \in G, h \in H
+     \} \\
+  &= \{ (g K, h L) \mid g \in G, h \in H \} \\
+  &= G / K \times H / L.
+  \end{align*}
+}
+\end{enumerate}
 
 \subsection{Isomorphism Theorems}
 
