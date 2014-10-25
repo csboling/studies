@@ -1,0 +1,428 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{commath}
+\usepackage{enumerate}
+
+\usepackage{graphicx}
+
+\title{ECE/ME 851 Homework \#6}
+\date{October 29, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+Given the system
+$$
+A =
+\left[\begin{array}{r r r r}
+  0 & 0 &  1 &  0 \\
+  3 & 0 & -3 &  1 \\
+ -1 & 1 &  4 & -1 \\
+  1 & 0 & -1 &  0
+\end{array}\right], \quad
+B =
+\left[\begin{array}{c c}
+  0 & 0 \\
+  1 & 0 \\
+  0 & 1 \\
+  0 & 0
+\end{array}\right]
+$$
+we have the controllability matrix
+$$
+\mathcal{C} =
+\left[\begin{array}{c c c c}
+B & A B & A^2 B & A^3 B
+\end{array}\right] =
+\left[\begin{array}{r r r r r r r r}
+  0 &  0 &  0 &  1 &  1 &   4 &   4 &  13 \\
+  1 &  0 &  0 & -3 & -3 &  -9 &  -9 & -27 \\
+  0 &  1 &  1 &  4 &  4 &  13 &  13 &  42 \\
+  0 &  0 &  0 & -1 & -1 &  -3 &  -3 &  -9
+\end{array}\right]
+$$
+which has linearly independent columns
+$$
+\left[\begin{array}{r}
+0 \\ 1 \\ 0 \\ 0
+\end{array}\right] = b_1,
+\left[\begin{array}{r}
+0 \\ 0 \\ 1 \\ 0
+\end{array}\right] = b_2,
+\left[\begin{array}{r}
+1 \\ -3 \\ 4 \\ -1
+\end{array}\right] = Ab_2,
+\left[\begin{array}{r}
+4 \\ -9 \\ 13 \\ -3
+\end{array}\right] = A^2 b_2
+$$
+and therefore the controllability indices are
+$\mu_1 = 1$, $\mu_2 = 3$. Therefore we have
+$$
+\bar{\mathcal{C}} =
+\left[\begin{array}{r r r r}
+0 &  0 &  1 &  4 \\
+1 &  0 & -3 & -9 \\
+0 &  1 &  4 & 13 \\
+0 &  0 & -1 & -3
+\end{array}\right]
+$$
+and
+$$
+\bar{\mathcal{C}}^{-1} =
+\left[\begin{array}{r r r r}
+  0 &  1 &  0 & -3 \\
+ -1 &  0 &  1 &  3 \\
+ -3 &  0 &  0 & -4 \\
+  1 &  0 &  0 &  1
+\end{array}\right]
+$$
+so that
+$$
+q_1 =
+\left[\begin{array}{r r r r}
+  0 & 1 & 0 & -3
+\end{array}\right], \quad
+q_2 =
+\left[\begin{array}{r r r r}
+  1 & 0 & 0 & 1
+\end{array}\right].
+$$
+
+Then we have the similarity transformation
+$$
+P =
+\left[\begin{array}{c}
+  q_1   \\
+  q_2   \\
+  q_2 A \\
+  q_2 A^2
+\end{array}\right]
+=
+\left[\begin{array}{r r r r}
+   0 & 1 & 0 & -3 \\
+   1 & 0 & 0 &  1 \\
+   1 & 0 & 0 &  0 \\
+   0 & 0 & 1 &  0
+\end{array}\right]
+$$
+so that
+$$
+P^{-1} =
+\left[\begin{array}{r r r r}
+  0 & 0 &  1 & 0 \\
+  1 & 3 & -3 & 0 \\
+  0 & 0 &  0 & 1 \\
+  0 & 1 & -1 & 0
+\end{array}\right].
+$$
+Then the controller forms are
+$$
+A_C
+= P A P^{-1}
+= \left[\begin{array}{r r r r}
+    0 & 0 &  0 & 0 \\
+    0 & 0 &  1 & 0 \\
+    0 & 0 &  0 & 1 \\
+    1 & 2 & -3 & 4
+  \end{array}\right], \quad
+B_C
+= P B
+= \left[\begin{array}{r r}
+    1 & 0 \\
+    0 & 0 \\
+    0 & 0 \\
+    0 & 1
+  \end{array}\right].
+$$
+
+\pagebreak
+
+\section*{Problem \#2}
+The system in exercise 3.37 has the state space representation
+$$
+A =
+\left[\begin{array}{r r r r}
+  0      &       1 &       0 &       0 \\
+ -0.1910 & -0.0536 &  0.0910 &  0.0036 \\
+       0 &       0 &       0 &       1 \\
+  0.0910 &  0.0036 & -0.1910 & -0.0536
+\end{array}\right], \quad
+B =
+\left[\begin{array}{r r}
+  0 &  0 \\
+  1 &  0 \\
+  0 &  0 \\
+  0 & -1
+\end{array}\right].
+$$
+\begin{enumerate}[(a)]
+  \item{
+    The system has the controllability matrix
+    $$
+    \mathcal{C} =
+    \left[\begin{array}{r r r r r r r r}
+         0 &  0 &       1 &       0 & -0.0536 & -0.0036 & -0.1881 & -0.0906 \\
+         1 &  0 & -0.0536 & -0.0036 & -0.1881 & -0.0906 &  0.0210 &  0.0111 \\
+         0 &  0 &       0 &      -1 &  0.0036 &  0.0536 &  0.0906 &  0.1881 \\
+         0 & -1 &  0.0036 &  0.0536 &  0.0906 &  0.1881 & -0.0111 & -0.0210
+    \end{array}\right]
+    $$
+    which is full rank, so the system is controllable from
+    $\left[\begin{array}{c} f_1 \\ f_2 \end{array}\right]$.
+
+    The first 4 columns of $\mathcal{C}$ are linearly independent, so
+    we have $\mu_1 = \mu_2 = 2$ and therefore
+    $$
+    \bar{\mathcal{C}} =
+    \left[\begin{array}{c c c c}
+      b_1 & Ab_1 & b_2 & Ab_2
+    \end{array}\right] =
+    \left[\begin{array}{r r r r}
+      0 &       1 &  0 &       0 \\
+      1 & -0.0536 &  0 & -0.0036 \\
+      0 &       0 &  0 &      -1 \\
+      0 &  0.0036 & -1 &  0.0536
+    \end{array}\right]
+    $$
+    and
+    $$
+    \bar{\mathcal{C}}^{-1} =
+    \left[\begin{array}{r r r r}
+    0.0536 & 1 & -0.0036 &  0 \\
+         1 & 0 &       0 &  0 \\
+    0.0036 & 0 & -0.0536 & -1 \\
+         0 & 0 &      -1 &  0
+    \end{array}\right].
+    $$
+    Therefore
+    $$
+    P =
+    \left[\begin{array}{r r r r}
+      1 & 0 &  0 &  0 \\
+      0 & 1 &  0 &  0 \\
+      0 & 0 & -1 &  0 \\
+      0 & 0 &  0 & -1
+    \end{array}\right] = P^{-1}
+    $$
+    so
+    $$
+    A_C = P A P^{-1} =
+    \left[\begin{array}{r r r r}
+          0 &       1 &       0 &       0 \\
+    -0.1910 & -0.0536 & -0.0910 & -0.0036 \\
+          0 &       0 &       0 &       1 \\
+    -0.0910 & -0.0036 & -0.1910 & -0.0536
+    \end{array}\right]
+    $$
+    and
+    $$
+    B_C = P B =
+    \left[\begin{array}{r r}
+      0 & 0 \\
+      1 & 0 \\
+      0 & 0 \\
+      0 & 1
+    \end{array}\right].
+    $$
+  }
+  \item{
+    When $f_2 = 0$ we have
+    $$
+    B =
+    \left[\begin{array}{r r}
+      0 & 0 \\
+      1 & 0 \\
+      0 & 0 \\
+      0 & 0
+    \end{array}\right]
+    $$
+    which results in $\mathrm{rank}(\mathcal{C}) = 4$,
+    so the system is controllable from $f_1$ only.
+
+    When $f_1 = 0$ we have
+    $$
+    B =
+    \left[\begin{array}{r r}
+      0 &  0 \\
+      0 &  0 \\
+      0 &  0 \\
+      0 & -1
+    \end{array}\right]
+    $$
+    which results in $\mathrm{rank}(\mathcal{C}) = 4$,
+    so the system is controllable from $f_2$ only.
+
+    Comparing the matrices $A$ and $B$
+    with the system they are modeling, we see that these choices of
+    values correspond to the case where $K_1 = K_2$ and $M_1 = M_2$,
+    so it makes sense that the system behaves symmetrically in
+    response to its inputs.
+  }
+  \item{
+      With the output matrix
+      $$
+      C = \left[\begin{array}{c c c c}
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0
+          \end{array}\right]
+      $$
+      we have the observability matrix
+      $$
+      \mathcal{O} =
+      \left[\begin{array}{r r r r}
+              1 &       0 &       0 &       0 \\
+              0 &       1 &       0 &       0 \\
+              0 &       1 &       0 &       0 \\
+        -0.1910 & -0.0536 &  0.0910 &  0.0036 \\
+        -0.1910 & -0.0536 &  0.0910 &  0.0036 \\
+         0.0106 & -0.1881 & -0.0056 &  0.0906 \\
+         0.0106 & -0.1881 & -0.0056 &  0.0906 \\
+         0.0442 &  0.0210 & -0.0344 & -0.0111
+      \end{array}\right]
+      $$
+      This matrix has rank 4, so the system is observable from $y$.
+      The first 4 linearly independent rows of this system are
+      $$
+      \left[\begin{array}{r}
+        1 \\ 0 \\ 0 \\ 0
+      \end{array}\right] = c_1^\top, \quad
+      \left[\begin{array}{r}
+        0 \\ 1 \\ 0 \\ 0
+      \end{array}\right] = c_2^\top, \quad
+      \left[\begin{array}{r}
+        -0.1910 \\ -0.0536 \\ 0.0910 \\ 0.0036
+      \end{array}\right] = (c_2 A)^\top, \quad
+      \left[\begin{array}{r}
+        0.0106 \\ -0.1881 \\ -0.0056 \\ 0.0906
+      \end{array}\right] = (c_2 A^2)^\top, \quad
+      $$
+      so we have observability indices $\nu_1 = 1$,
+      $\nu_2 = 3$ and
+      $$
+      \bar{\mathcal{O}} =
+      \left[\begin{array}{c}
+        c_1     \\
+        c_2     \\
+        c_2 A   \\
+        c_2 A^2
+      \end{array}\right] =
+      \left[\begin{array}{r r r r}
+        1      &       0 &       0 &      0 \\
+        0      &       1 &       0 &      0 \\
+       -0.1910 & -0.0536 &  0.0910 & 0.0036 \\
+        0.0106 & -0.1881 & -0.0056 & 0.0906
+      \end{array}\right]
+      $$
+      so that
+      $$
+      \bar{\mathcal{O}}^{-1}
+      \left[\begin{array}{r r r r}
+             1 &      0 &       0 &       0 \\
+             0 &      1 &       0 &       0 \\
+        2.0984 & 0.5056 & 10.9622 & -0.4356 \\
+        0.0127 & 2.1074 &  0.6776 & 11.0106
+      \end{array}\right].
+      $$
+      Then
+      $$
+      P^{-1} =
+      \left[\begin{array}{r r r r}
+             1 &       0 &       0 &       0 \\
+             0 &       0 &       0 &  1.0001 \\
+        2.0984 & -0.4356 & 11.0106 & -0.5070 \\
+        0.0127 & 11.0106 & -0.5070 & -2.0759
+      \end{array}\right]
+      $$
+      and
+      $$
+      P =
+      \left[\begin{array}{r r r r}
+             1 &      0 &      0 &      0 \\
+       -0.0099 & 0.1910 & 0.0042 & 0.0910 \\
+       -0.1910 & 0.0536 & 0.0910 & 0.0036 \\
+             0 & 0.9999 &      0 &      0
+      \end{array}\right],
+      $$
+      so the observer form is given by
+      $$
+      A_O = P A P^{-1} =
+      \left[\begin{array}{r r r r}
+             0 & 0 & 0 &  1.0001 \\
+       -0.0282 & 0 & 0 & -0.0199 \\
+             0 & 1 & 0 & -0.3849 \\
+             0 & 0 & 1 & -0.1072
+      \end{array}\right]
+      $$
+      and
+      $$
+      C_O = CP^{-1} =
+      \left[\begin{array}{r r r r}
+        1 & 0 & 0 &      0 \\
+        0 & 0 & 0 & 1.0001
+      \end{array}\right].
+      $$
+}
+\end{enumerate}
+
+\pagebreak
+
+\section*{Problem \#3}
+We have
+$$
+A =
+\left[\begin{array}{r r r r}
+  0 & 1 &  0 & 0 \\
+  0 & 0 &  1 & 0 \\
+  0 & 0 &  0 & 1 \\
+  1 & 1 & -3 & 4
+\end{array}\right], \quad
+B =
+\left[\begin{array}{r r}
+  1 & 0 \\
+  0 & 0 \\
+  0 & 0 \\
+  0 & 1
+\end{array}\right]
+$$
+and desire eigenvalues at $-1 \pm i$ and $-2 \pm i$.
+
+\pagebreak
+
+\section*{Problem \#4}
+We have
+$$
+A =
+\left[\begin{array}{r r r}
+  0 & 1 &  0 \\
+  0 & 0 &  1 \\
+  1 & 0 & -1
+\end{array}\right], \quad
+B =
+\left[\begin{array}{r}
+  0 \\
+  0 \\
+  1
+\end{array}\right], \quad
+\left[\begin{array}{r r r}
+  1 & 2 &  0
+\end{array}\right].
+$$
+and desire
+$$
+H(s) = \frac{1}{s^2 + 3s + 2}.
+$$
+
+The desired transfer function has poles when
+$$
+0 = s^2 + 3s + 2 = (s + 2)(s + 1),
+$$
+or at $-2$ and $-1$.
+
+\end{document}
