@@ -24,6 +24,19 @@
 Prove that a group of order 255 cannot be simple.
 \end{Problem}
 
+\begin{Answer}
+Let $G$ be a group of order 255. The prime factorization of 255 is
+$3 \cdot 5 \cdot 17$, so each Sylow subgroup of $G$ has prime
+order. Therefore all Sylow subgroups of $G$ are disjoint except for
+the identity.
+
+The number of 17-Sylows must be congruent to 1 mod 17 and must divide
+255. But the only factor of 255 congruent to 1 mod 17 is 1. Therefore
+G has a unique 17-Sylow, and a unique $p$-Sylow must be normal. Since
+this normal subgroup has order 17, it is a proper nontrivial normal
+subgroup. Therefore $G$ cannot be simple.
+\end{Answer}
+
 \pagebreak
 
 \begin{Problem}
@@ -37,6 +50,150 @@ Prove that a group of order 255 cannot be simple.
   }
 \end{enumerate}
 \end{Problem}
+
+\begin{Answer}
+Answering these questions requires knowledge of the size of the
+conjugacy classes of a symmetric group.
+We know that any permutation $\sigma$ can be written as a product of
+disjoint cycles
+$$
+\sigma =
+  (a_{11} a_{12} \cdots a_{1k_1})
+  (a_{21} a_{22} \cdots a_{2k_2})
+  \cdots
+  (a_{m1} a_{m2} \cdots a_{mk_m})
+$$
+and furthermore from the conjugation formula that conjugation by a
+permutation $\tau$ gives
+\begin{align*}
+\tau \sigma \tau^{-1} &=
+  \tau
+  (a_{11} a_{12} \cdots a_{1k_1})
+  \cdots
+  (a_{m1} a_{m2} \cdots a_{mk_m})
+  \tau^{-1} \\
+&=
+  \tau
+  (a_{11} a_{12} \cdots a_{1k_1})
+  \tau^{-1}
+  \cdots
+  \tau
+  (a_{m1} a_{m2} \cdots a_{mk_m})
+  \tau^{-1} \\
+&=
+  (\tau(a_{11}) \tau(a_{12}) \cdots \tau(a_{1k_1}))
+  \cdots
+  (\tau(a_{m1}) \tau(a_{m2}) \cdots \tau(a_{mk_m})).
+\end{align*}
+Furthermore since $\tau$ is injective and since the $a_{ij}$ are
+disjoint, so must $\tau(a_{ij})$ be.
+Therefore any conjugation of a permutation $\sigma$ has a disjoint
+cycle decomposition into cycles of the same lengths as those in the
+decomposition of $\sigma$.
+
+Next, take two permutations $\sigma$ and $\tau$ with the same cycle
+structure
+\begin{align*}
+\sigma &=
+  (a_{11} a_{12} \cdots a_{1k_1})
+  (a_{21} a_{22} \cdots a_{2k_2})
+  \cdots
+  (a_{m1} a_{m2} \cdots a_{mk_m}), \\
+\tau &=
+  (b_{11} b_{12} \cdots b_{1k_1})
+  (b_{21} b_{22} \cdots b_{2k_2})
+  \cdots
+  (b_{m1} b_{m2} \cdots b_{mk_m})
+\end{align*}
+and observe that with
+$$
+\omega =
+  (a_{11} b_{11})
+  (a_{12} b_{12})
+  \cdots
+  (a_{1k_1} b_{1k_1})
+  \cdots
+  (a_{m1} b_{m1})
+  \cdots
+  (a_{mk_m} b_{mk_m})
+$$
+we have $\omega \sigma \omega^{-1} = \tau$. Therefore any permutation
+with the same cycle structure is conjugate to $\sigma$, so the
+conjugacy classes in a symmetric group consist of exactly those
+elements with the same cycle structure.
+
+To enumerate the elements in a given conjugacy class in a symmetric
+group we then list all elements with the same structure to their
+disjoint cycle decompositions and eliminate repetitions. Ignoring the
+separation into cycles, a disjoint cycle decomposition of an element
+of $S_n$ can be thought of as an ordered list of $n$ elements, and
+there are $n!$ such lists.
+
+Take the disjoint decomposition of some element $a$.
+Label the number of $i$-cycles in the decomposition by $r_i$.
+ Since disjoint cycles commute, any two cycles in a decomposition
+with the same length can be exchanged without affecting the
+permutation. Therefore we can eliminate each rearrangement of
+cycles of the same length, or divide out $\prod_{i} r_i!$ elements.
+Furthermore a given $k$-cycle can be written in $k$ ways, as is seen
+by rotating the notation to the left, e.g.
+$(12) = (21)$, $(123) = (231) = (312)$. Therefore each of the
+$r_k$ $k$-cycles in $\sigma$ admits $k$ representations, so we must
+also divide by $\prod_i k^{r_k}$. This results in the formula
+$$
+\frac{n!}{\left(\prod_{i} r_i!\right) \left(\prod_i k^{r_k}\right)}
+$$
+for the number of elements in the conjugacy class of an arbitrary
+permutation $\sigma$.
+
+\begin{enumerate}[(a)]
+  \item{
+    The centralizer
+    $$
+    C_{S_6}(\sigma) =
+    \{ \tau \in S_6
+       \mid \sigma = \tau \sigma \tau^{-1}
+    \}
+    $$
+    is the stabilizer of $\sigma$ under the group action
+    $. : S_6 \times S_6 \to S_6$ given by conjugation. Therefore we have
+    that $[S_6 : C_{S_6}(\sigma)] = |S_6 . \sigma|$, the order of the orbit of this
+    action on $\sigma$. But this orbit is given by
+    $$
+    S_6 . \sigma =
+    \{ \tau \sigma \tau^{-1} \mid \tau \in S_6 \}
+    $$
+    and by the conjugation formula
+    $$
+    \tau \sigma \tau^-1
+    = \tau (13452) \tau^{-1}
+    = (\tau(1) ~ \tau(3) ~ \tau(4) ~ \tau(5) ~ \tau(2))
+    $$
+    so elements of the form $\tau \sigma \tau^{-1}$ are exactly the
+    5-cycles in $S_6$. of which there are $\frac{6!}{5^1 \cdot 1!}$. Then
+    $$
+    \frac{6!}{5} = [S_6 : C_{S_6}(\sigma)] = \frac{|S_6|}{|C_{S_6}(\sigma)|}
+    $$
+    so that
+    $$
+    |C_{S_6}(\sigma)| = \frac{|S_6|}{\frac{6!}{5}}
+                     = \frac{6!}{\frac{6!}{5}}
+                     = 5.
+    $$
+  }
+  \item{
+    The number of elements conjugate to $a$ is the order of the
+    conjugacy class of $a$. Conjugacy classes in $S_n$ are in
+    correspondence with the partitions of $n$, and in particular those
+    elements conjugate to $(123)(45)$ are those of the same cycle type.
+    There are
+    $$
+    \frac{7!}{2^1 \cdot 3^1 \cdot 1! \cdot 1!} =
+    7 \cdot 6 \cdot 5 \cdot 4 = 840.
+    $$
+  }
+\end{enumerate}
+\end{Answer}
 
 \pagebreak
 
@@ -60,7 +217,7 @@ Let $p$ and $q$ be distinct primes.
   \begin{enumerate}[(a)]
     \item{
       Show that $S_n$ is generated by the transpositions
-      $(12),(23),\dots,(n-1n)$.
+      $(12),(23),\dots,(n-1 \to n)$.
     }
     \item{
       Show that $S_n$ is generated by $(12)$ and the $n$-cycle
@@ -72,6 +229,46 @@ Let $p$ and $q$ be distinct primes.
     }
   \end{enumerate}
 \end{Problem}
+
+\begin{Answer}
+\begin{enumerate}
+  \item{
+    Notice that
+    $$
+    (12)(23)(12) = (13).
+    $$
+    Furthermore suppose $(1 \to k - 1) \in H$. Then
+    $$
+    (1 \to k - 1)(k - 1 \to k)(1 \to k - 1) =
+    (1k),
+    $$
+    so $(1k) \in H$ as well.
+    Therefore $H$ contains every transposition $(1k)$ for
+    $k \in \{ 2, \dots, n \}$, and we know that the transpositions
+    $(12)$, $(13)$, \dots, $(1n)$ generate $H$.
+  }
+  \item{
+    Denote $H = \langle (1 2), (1 2 \cdots n) \rangle$.
+
+    First note that from the conjugation formula,
+    $$
+    (1 2 \cdots n)(1 2)(1 2 \cdots n)^{-1} = (2 3)
+    $$
+    so $(2, 3) \in H$.
+    Similarly,
+    $$
+    (1 2 \cdots n)(i - 2 \to i - 1)(1 2 \cdots n)^{-1}
+    = (i - 1 \to i)
+    $$
+    for $i \in \{ 3, \dots, n \}$.
+    Therefore $H$ contains the elements
+    $(12)$, $(23)$, \dots, $(n-1 \to n)$, which from part (a)
+    generates $S_n$.
+  }
+  \item{
+  }
+\end{enumerate}
+\end{Answer}
 
 \pagebreak
 
