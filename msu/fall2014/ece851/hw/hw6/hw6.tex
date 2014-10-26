@@ -127,7 +127,7 @@ $$
 A_C
 = P A P^{-1}
 = \left[\begin{array}{r r r r}
-    0 & 0 &  0 & 0 \\
+    0 & 1 & -1 & 0 \\
     0 & 0 &  1 & 0 \\
     0 & 0 &  0 & 1 \\
     1 & 2 & -3 & 4
@@ -392,6 +392,73 @@ B =
 \end{array}\right]
 $$
 and desire eigenvalues at $-1 \pm i$ and $-2 \pm i$.
+A suitable state feedback matrix for this eigenvalue placement can be
+derived by any of the following means.
+
+\begin{itemize}
+\item{
+First we notice
+that
+$$
+BF =
+\left[\begin{array}{c c c c}
+  f_{11} & f_{12} & f_{13} & f_{14} \\
+  0     & 0     &       & 0      \\
+  0     & 0     &       & 0      \\
+  f_{21} & f_{22} & f_{23} & f_{24}
+\end{array}\right].
+$$
+Since $A$ is already in controller form, we observe that we can then
+adjust the characteristic polynomial of $A + BF$ arbitrarily by letting
+$f_{1i} = 0$ and setting $f_{2i}$ appropriately for
+$i \in \{ 1, \dots, 4 \}$. To achieve the desired eigenvalues we see
+$$
+\alpha_d(s) =
+  (s - (-1 + i))
+  (s - (-1 - i))
+  (s - (-2 + i))
+  (s - (-2 - i)) =
+  s^4 + 6s^3 + 15s^2 + 18s + 10
+$$
+so we desire
+$$
+A + BF =
+\left[\begin{array}{r r r r}
+  0 & 1 &  0 & 0 \\
+  0 & 0 &  1 & 0 \\
+  0 & 0 &  0 & 1 \\
+  1 & 1 & -3 & 4
+\end{array}\right]
++
+\left[\begin{array}{r r r r}
+0     &     0 &     0 &     0 \\
+0     &     0 &     0 &     0 \\
+0     &     0 &     0 &     0 \\
+f_{21} & f_{22} & f_{23} & f_{24}
+\end{array}\right]
+\left[\begin{array}{r r r r}
+0   &   1 &   0 &  0 \\
+0   &   0 &   1 &  0 \\
+0   &   0 &   0 &  1 \\
+-10 & -18 & -15 & -6
+\end{array}\right]
+$$
+so that $f_{21} = -10 - 1 = -11$, $f_{22} = -18 - 1 = -19$,
+$f_{23} = -15 - (-3) = -12$, $f_{24} = -6 - 4 = -10$. Therefore a feedback
+matrix can be given by
+$$
+F =
+\left[\begin{array}{r r r r}
+   0   &   0 &   0 &   0 \\
+   -11 & -19 & -12 & -10
+\end{array}\right].
+$$
+We confirm that $A + BF$ has the desired eigenvalues.
+}
+\item
+{
+}
+\end{itemize}
 
 \pagebreak
 
@@ -410,6 +477,7 @@ B =
   0 \\
   1
 \end{array}\right], \quad
+C =
 \left[\begin{array}{r r r}
   1 & 2 &  0
 \end{array}\right].
@@ -423,6 +491,58 @@ The desired transfer function has poles when
 $$
 0 = s^2 + 3s + 2 = (s + 2)(s + 1),
 $$
-or at $-2$ and $-1$.
+or at $-2$ and $-1$. The existing $A$ matrix is in controller form and
+has characteristic polynomial $s^3 + s^2 - 1$, and furthermore this
+system has the transfer function
+$$
+H(s) = C (sI - A)^{-1} B =
+\frac{2s + 1}{s^3 + s^2 - 1}
+$$
+and therefore has a zero at $s = -\frac{1}{2}$. By changing the
+characteristic polynomial to
+$$
+(2s + 1)(s + 2)(s + 1) = 2s^3 + 7s^2 + 7s + 2
+$$
+we can adjust the transfer function to have the desired frequency
+response. We therefore choose $F$ to satisfy
+$$
+A + BF =
+\left[\begin{array}{r r r}
+   0 &            1 &            0 \\
+   0 &            0 &            1 \\
+  -1 & -\frac{7}{2} & -\frac{7}{2}
+\end{array}\right]
+=
+\left[\begin{array}{r r r}
+  0 & 1 &  0 \\
+  0 & 0 &  1 \\
+  1 & 0 & -1
+\end{array}\right]
++
+\left[\begin{array}{r r r}
+  0   &   0 &  0 \\
+  0   &   0 &  0 \\
+  f_1 & f_2 & f_3
+\end{array}\right]
+$$
+so we choose
+$$
+F =
+\left[\begin{array}{r r r}
+  -2 & -\frac{7}{2} & -\frac{5}{2}
+\end{array}\right].
+$$
+The resulting transfer function is
+$$
+H(s) = \frac{4s + 2}{2s^3 + 7s^2 + 7s + 2}
+     = \frac{2}{s^2 + 3s + 2}.
+$$
+
+This feedback strategy produces the desired frequency behavior, but
+cannot eliminate the DC gain in the system,
+which exists because the numerator $(2s + 1) = 2(s + \frac{1}{2})$ in the open-loop
+transfer function has a DC gain of 2. Feedback of this kind is
+unaffected by the output transformation, which can introduce gain of
+this kind.
 
 \end{document}
