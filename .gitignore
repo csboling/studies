@@ -9,6 +9,7 @@
 *.pdf
 _region_*
 auto/
+*#*
 
 *.png
 *.PNG
