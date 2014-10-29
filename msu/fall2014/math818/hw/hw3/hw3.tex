@@ -52,7 +52,7 @@ subgroup. Therefore $G$ cannot be simple.
 \end{Problem}
 
 \begin{Answer}
-Answering these questions requires knowledge of the size of the
+To answer these questions we first find the size of the
 conjugacy classes of a symmetric group.
 We know that any permutation $\sigma$ can be written as a product of
 disjoint cycles
@@ -290,7 +290,24 @@ Let $p$ and $q$ be distinct primes.
 \begin{enumerate}[(a)]
   \item{}
   \item{
-    The rationals are torsion-free.
+    The rationals are torsion-free. Let $\frac{r}{s} \in
+    \mathbb{Q}$ and suppose $n \frac{r}{s} = 0$ for $n \geq 1$.
+    Then $n r = 0$ and thus $r = 0$, so $\frac{r}{s} = 0$.
+
+    The rationals are not free. Let
+    $\varphi : \mathbb{Q} \to \mathbb{Z}[I]$ be a group homomorphism
+    for some set $I$, and let $\frac{r_1}{s_1}, \frac{r_2}{s_2} \in
+    \mathbb{Q}$. Then without loss of generality
+    $$
+    \varphi\left(\frac{r_1}{s_1}\right) =
+      (k_1, k_2, \dots, k_m, 0, 0, \dots)
+    $$
+    and
+    $$
+    \varphi\left(\frac{r_2}{s_2}\right) =
+      (l_1, l_2, \dots, l_n, 0, 0, \dots)
+    $$
+    for some integers $k_i$, $l_i$.
   }
   \item{
     The direct product
@@ -340,6 +357,137 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
   }
 \end{enumerate}
 \end{Problem}
+
+\begin{Answer}
+\begin{enumerate}
+  \item{
+    We have that
+    \begin{align*}
+    \varphi_A((u, v) + (w, x)) &=
+      \varphi_A((u + w, v + x)) =
+      (a(u + w) + b(v + x), c(u + w) + d(v + x)) \\
+      &= ((au + bv) + (aw + bx), (cu + dv) + (cw + vx)) \\
+      &= \varphi_A((u, v)) + \varphi_A((w, x))
+    \end{align*}
+    so $\varphi_A$ is a group homomorphism.
+  }
+  \item{
+    We show $\det(A) \neq 0$ iff. $\varphi_A$ is injective.
+    \begin{itemize}
+      \item[($\implies$)]
+      {
+        Let $\varphi_A$ be injective. Then
+        $\ker(\varphi_A) = \{(0, 0)\}$. Notice that
+        $$
+        \varphi_A((d, -c)) = (ad - bc, 0)
+        $$
+        and
+        $$
+        \varphi_A((-b, a)) = (0, ad - bc).
+        $$
+        Suppose $ad - bc = 0$. Then this means
+        $(d, -c) \in \ker(\varphi_A)$ and $(-b, a) \in \ker(\varphi_A)$,
+        which means $a = b = c = d = 0$. But this is impossible, since in
+        this case $\varphi_A(x) = (0, 0)$ for all $x \in \mathbb{Z}^2$,
+        and $\varphi_A$ is injective by assumption. Therefore
+        $\det(A) = ad - bc \neq 0$.
+      }
+      \item[($\impliedby$)]
+      {
+        Suppose $\det(A) = ad - bc \neq 0$. Let $(u, v) \in
+        \ker(\varphi_A)$. Then $(au + bv, cu + dv) = (0, 0)$
+        so $au + bv = 0$ and $cu + dv = 0$. But this means
+        $adu + bdv = 0$ and $bcu + bdv = 0$, so subtracting these
+        equations gives $(ad - bc)u = 0$, so since $ad - bc \neq 0$ it
+        must be the case that $u = 0$. Similarly, we have
+        $acu + bcv = 0$ and $acu + adv = 0$ so that $(ad - bc)v = 0$, so
+        $v = 0$ as well. Therefore $(u, v) \in \ker(\varphi_A)$ implies
+        $(u, v) = (0, 0)$ in this case, so the kernel is trivial and
+        therefore $\varphi_A$ is injective.
+      }
+    \end{itemize}
+  }
+  \item
+  {
+    We show $\varphi_A$ is surjective iff. $\det(A) = \pm 1$.
+    \begin{itemize}
+      \item[($\implies$)]
+      {
+        Suppose $\det(A) = ad - bc = 1$, and let $(x, y) \in
+        \mathbb{Z}^2$.
+        Then
+        $$
+        \varphi_A((d, -c)) = (ad - bc, 0) = (1, 0)
+        $$
+        and
+        $$
+        \varphi_A((-b, a)) = (0, ad - bc) = (0, 1),
+        $$
+        so
+        $$
+        (x, y) =
+          x (1, 0) + y (0, 1) =
+          x \varphi_A((d, -c)) + y \varphi_A((-b, a))
+        $$
+        and therefore
+        $$
+        (x, y) = \varphi_A(x(d, -c) + y(-b, a)).
+        $$
+        Similarly if $\det(A) = -1$ we have
+        $$
+        (x, y) = \varphi_A(-x(d, -c) - y(-b, a)),
+        $$
+        and therefore $(x, y) \in \mathrm{Im}(\varphi_A)$ in either of
+        these cases. Therefore $\varphi_A$ is surjective.
+      }
+      \item[($\impliedby$)]
+      {
+        Suppose $\varphi_A$ is surjective. Then for any $(x, y) \in
+        \mathbb{Z}^2$ we have $(x, y) = \varphi_A((u, v))$ for some
+        $(u, v) \in \mathbb{Z}^2$, and so
+        \begin{align*}
+          \left(\begin{array}{c}
+            x \\ y
+          \end{array}\right) &=
+          x
+          \left(\begin{array}{c}
+            1 \\ 0
+          \end{array}\right)
+          +
+          y
+          \left(\begin{array}{c}
+            0 \\ 1
+          \end{array}\right) \\
+          &=
+          \left(\begin{array}{c c}
+            a & b \\ c & d
+          \end{array}\right)
+          \left(\begin{array}{c}
+            u \\ v
+          \end{array}\right) =
+          \left(\begin{array}{c}
+            au + bv \\ cu + dv
+          \end{array}\right) \\
+          &=
+          u
+          \left(\begin{array}{c}
+            a \\ c
+          \end{array}\right)
+          +
+          v
+          \left(\begin{array}{c}
+            b \\ d
+          \end{array}\right).
+        \end{align*}
+      }
+    \end{itemize}
+    Therefore $\varphi_A$ is surjective iff. $\det(A) = \pm 1$. But in
+    this case
+    $\det(A) \neq 0$, so $\varphi_A$ is injective as well, and
+    therefore an isomorphism.
+  }
+\end{enumerate}
+\end{Answer}
 
 \pagebreak
 
