@@ -834,3 +834,116 @@ A &= A[p_1^\infty] \oplus \cdots \oplus A[p_n^\infty] \\
   &\oplus \mathbb{Z}_{p_n^{r_{n1}}} \oplus \cdots \oplus \mathbb{Z}_{p_n^{r_{nk}}}.
 \end{align*}
 \end{proof}
+
+\begin{recap}[Finite Abelian Groups]
+Given a finite abelian group $A$ with prime decomposition of the order
+$|A| = p_1 \cdots p_n$ we know
+\begin{itemize}
+  \item{
+    $$
+    A = A(p_1) \times \cdots \times A(p_n),
+    $$
+    where
+    $$
+    A(p_i)
+      = A[p_i^\infty]
+      = \{ a \in A \mid \exists N . p_i^N a = 0 \}
+    $$
+    is a $p_i$ group.
+  }
+  \item{
+    For any $i$,
+    $$
+    A(p_i) \simeq \mathbb{Z}_{p_i^{a_1}} \times \cdots \mathbb{Z}_{{p_i}^{a_r}}
+    $$
+  }
+\end{itemize}
+\end{recap}
+
+\begin{xmpl}
+Write down all abelian groups of order 360 up to isomorphism.
+
+$$
+|A| = 360 = 2 \cdot 5 \cdot 2 \cdot 3 \cdot 2 \cdot 3
+          = 2^3 \cdot 3^2 \cdot 5
+$$
+which means
+$$
+A = A(2) \times A(3) \times A(5).
+$$
+We know that
+$$
+|A(2)| = 2^3 = 8, \quad
+|A(3)| = 3^2 = 9, \quad
+|A(5)| = 5.
+$$
+For $A(2)$, we could have
+$$
+\mathbb{Z}_{2^3} = \mathbb{Z}_8, \quad
+\mathbb{Z}_{2^2} \times \mathbb{Z} = \mathbb{Z}_4 \times \mathbb{Z}_2, \quad
+\mathbb{Z}_2 \times \mathbb{Z}_2 \mathbb{Z}_2.
+$$
+None of these are isomorphic.
+
+For $A(3)$ we could have
+$$
+\mathbb{Z}_{3^2} = \mathbb{Z}_9, \quad \mathbb{Z}_{3} \times \mathbb{Z}_{3}
+$$
+and
+$A(5) = \mathbb{Z}_5$.
+
+We next assemble $A$ by picking a type for each $p$-part. The
+isomorphism classes are given by these possibilities.
+
+Recall that if $n$, $m$ are relatively prime we have
+$\mathbb{Z}_n \times \mathbb{Z}_m \simeq \mathbb{Z}_{mn}$. Therefore
+$$
+\mathbb{Z}_8 \times \mathbb{Z}_9 \times \mathbb{Z}_5 \simeq \mathbb{Z}_{360},
+$$
+$$
+\mathbb{Z}_8 \times \mathbb{Z}_3 \times \mathbb{Z}_5 \simeq
+\mathbb{Z}_3 \times \mathbb{Z}_{120},
+$$
+$$
+\mathbb{Z}_4 \times \mathbb{Z}_2 \times \mathbb{Z}_9 \times
+\mathbb{Z}_5 \simeq \mathbb{Z}_2 \times \mathbb{Z}_{180}
+$$
+$$
+\mathbb{Z}_4 \times \mathbb{Z}_2 \times \mathbb{Z}_3 \times
+\mathbb{Z}_3 \times \mathbb{Z}_5 \simeq \mathbb{Z}_6 \times \mathbb{Z}_{60}
+$$
+$$
+\dots
+$$
+
+The result can always be expressed in the form
+$$
+\mathbb{Z}_{n_1} \times \mathbb{Z}_{n_2} \times \cdots \mathbb{Z}_{n_s}
+$$
+where $n_1$ divides $n_2$, $n_2$ divides $n_3$, $\dots$, $n_{s-1}$
+divides $n_s$. Such an expression is uniquely determined by the
+isomorphism type of the group. The $n_i$ are called the
+\emph{invariant factors} of the group.
+\end{xmpl}
+
+\begin{recap}[Finitely Generated Abelian Groups]
+A finitely generated abelian group $A$ has torsion part
+$$
+A_{tor} = \{ a \in A \mid \exists n \geq 1 . n a = 0 \} < A.
+$$
+Observe that $A_{tor}$ is a finite group. Since it is torsion is
+enough to show that $A_{tor}$ is finitely generated.
+
+Since $A$ is finitely generated it has a basis, so there is a
+surjection $\varphi : \mathbb{Z}^n \to A$. Then
+$\varphi^{-1}(A_{tor}) < \mathbb{Z}^n$ by our theorem about surjective
+maps of this kind, $\varphi^{-1}(\varphi) \simeq \mathbb{Z}^m$ for
+some $m \leq n$. This gives $\mathbb{Z}^m \to A_{tor}$ surjective, so
+$A_{tor}$ is finitely generated.
+
+Furthermore $A / A_{tor}$ is torsion-free and finitely generated, thus
+free, so $A / A_{tor} \simeq \mathbb{Z}^r$. We also know
+$A \simeq A_{tor} \oplus \mathbb{Z}^r$, and here $A_{tor}$ is a
+finite abelian group which we now know how to classify.
+The exponent $r$ is called the rank of $A$.
+\end{recap}
