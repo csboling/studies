@@ -571,66 +571,10 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
       \item[($\impliedby$)]
       {
         Suppose $\varphi_A$ is surjective.
-
-        Then for any $(x, y) \in
-        \mathbb{Z}^2$ we have $(x, y) = \varphi_A((u, v))$ for some
-        $(u, v) \in \mathbb{Z}^2$. In particular we have for some
-        $u_1$,$v_1$ that
-        $$
-        \left(\begin{array}{c}
-          1 \\ 0
-        \end{array}\right) =
-        \left(\begin{array}{c c}
-          a & b \\ c & d
-        \end{array}\right)
-        \left(\begin{array}{c}
-          u_1 \\ v_1
-        \end{array}\right)
-        $$
-        so that
-        $$
-        adu_1 + bdv_1 = d
-        $$
-        and
-        $$
-        bdv_1 = -bcu_1
-        $$
-        and then
-        $$
-        (ad - bc)u_1 = d
-        $$
-        and similarly
-        $$
-        (ad - bc)v_1 = -c.
-        $$
-
-        Likewise, we have
-        $$
-        \left(\begin{array}{c}
-          0 \\ 1
-        \end{array}\right) =
-        \left(\begin{array}{c c}
-          a & b \\ c & d
-        \end{array}\right)
-        \left(\begin{array}{c}
-          u_2 \\ v_2
-        \end{array}\right)
-        $$
-        so that
-        $$
-        (ad - bc)u_2 = -b
-        $$
-        and
-        $$
-        (ad - bc)v_2 = a
-        $$
-
-        Note that $\mathbb{Z}^2$
-        is free and therefore so is the subgroup $\mathrm{Im}(\varphi_A)$.
+        Note that $\mathbb{Z}^2$ is free.
         Then since $\varphi_A$ is a surjective homomorphism between
         abelian groups with free image, it has a right inverse
         $\psi : \mathbb{Z}^2 \to \mathbb{Z}^2$ given by
-
         $$
         \psi\left(
           x\left(\begin{array}{c}
@@ -647,8 +591,109 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
         +
         y\left(\begin{array}{c}
           u_2 \\ v_2
+        \end{array}\right) =
+        \left(\begin{array}{c c}
+          u_1 & u_2 \\
+          v_1 & v_2
+        \end{array}\right)
+        \left(\begin{array}{c}
+          x \\ y
         \end{array}\right).
         $$
+        Then $\psi$ also has a matrix representation
+        $$
+        B =
+        \left(\begin{array}{c c}
+          u_1 & u_2 \\
+          v_1 & v_2
+        \end{array}\right).
+        $$
+        But since $\varphi_A \circ \psi = \mathrm{id}$ this means
+        \begin{align*}
+        (\varphi_A \circ \psi)
+        \left(\begin{array}{c}
+          x \\ y
+        \end{array}\right) &=
+        A B
+        \left(\begin{array}{c}
+          x \\ y
+        \end{array}\right) \\ &=
+        \left(\begin{array}{c}
+          x \\ y
+        \end{array}\right) =
+        I
+        \left(\begin{array}{c}
+          x \\ y
+        \end{array}\right),
+        \end{align*}
+        where $I$ is the $2 \times 2$ identity matrix. This means the
+        matrix product $A B = I$. But then
+        $\det(A) \det(B) = \det(I) = 1$, which means $\det(A)$ has a
+        multiplicative inverse. Since $\det(A)$ is an integer this can
+        only be true if $\det(A) = \pm 1$.
+
+%      Then for any $(x, y) \in
+%      \mathbb{Z}^2$ we have $(x, y) = \varphi_A((u, v))$ for some
+%      $(u, v) \in \mathbb{Z}^2$. In particular we have for some
+%      $u_1$,$v_1$ that
+%      $$
+%      \left(\begin{array}{c}
+%        1 \\ 0
+%      \end{array}\right) =
+%      \left(\begin{array}{c c}
+%        a & b \\ c & d
+%      \end{array}\right)
+%      \left(\begin{array}{c}
+%        u_1 \\ v_1
+%      \end{array}\right)
+%      $$
+%      so that
+%      $$
+%      adu_1 + bdv_1 = d
+%      $$
+%      and
+%      $$
+%      bdv_1 = -bcu_1
+%      $$
+%      and then
+%      $$
+%      (ad - bc)u_1 = d
+%      $$
+%      and similarly
+%      $$
+%      (ad - bc)v_1 = -c.
+%      $$
+%
+%      Likewise, we have
+%      $$
+%      \left(\begin{array}{c}
+%        0 \\ 1
+%      \end{array}\right) =
+%      \left(\begin{array}{c c}
+%        a & b \\ c & d
+%      \end{array}\right)
+%      \left(\begin{array}{c}
+%        u_2 \\ v_2
+%      \end{array}\right)
+%      $$
+%      so that
+%      $$
+%      (ad - bc)u_2 = -b
+%      $$
+%      and
+%      $$
+%      (ad - bc)v_2 = a
+%      $$
+%      so that
+%      $$
+%      \left(\begin{array}{c c}
+%        a u_1 + b v_1 & a u_2 + b v_2 \\
+%        c u_1 + d v_1 & c u_2 + b v_2
+%      \end{array}\right) =
+%      \left(\begin{array}{c c}
+%        1 & 0 \\ 0 & 1
+%      \end{array}\right).
+%      $$
 
 %, and so
 %        \begin{align*}
