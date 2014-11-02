@@ -342,18 +342,18 @@ Let $p$ and $q$ be distinct primes.
     $$
     $A[2^\infty] = A[2^4]$ has one of the following forms:
     $$
-    \mathbb{Z}_{2^4},
-    \mathbb{Z}_{2^3} \times \mathbb{Z}_{2},
-    \mathbb{Z}_{2^2} \times \mathbb{Z}_{2}^2,
+    \mathbb{Z}_{2^4}, \quad
+    \mathbb{Z}_{2^3} \times \mathbb{Z}_{2}, \quad
+    \mathbb{Z}_{2^2} \times \mathbb{Z}_{2}^2, \quad
     \mathbb{Z}_{2}^4
     $$
     $A[3^\infty] = A[3^2]$ has one of the following forms:
     $$
-    \mathbb{Z}_{3^2}, \mathbb{Z}_{3}^2
+    \mathbb{Z}_{3^2}, \quad \mathbb{Z}_{3}^2
     $$
     $A[5^\infty] = A[5^2]$ has one of the following forms:
     $$
-    \mathbb{Z}_{5^2}, \mathbb{Z}_{5}^2
+    \mathbb{Z}_{5^2}, \quad \mathbb{Z}_{5}^2.
     $$
 
 
@@ -429,7 +429,7 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
 \end{Problem}
 
 \begin{Answer}
-\begin{enumerate}
+\begin{enumerate}[(a)]
   \item{
     We have that
     \begin{align*}
@@ -574,9 +574,9 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
         Note that $\mathbb{Z}^2$ is free.
         Then since $\varphi_A$ is a surjective homomorphism between
         abelian groups with free image, it has a right inverse
-        $\psi : \mathbb{Z}^2 \to \mathbb{Z}^2$ given by
+        $\varphi_B : \mathbb{Z}^2 \to \mathbb{Z}^2$ given by
         $$
-        \psi\left(
+        \varphi_B\left(
           x\left(\begin{array}{c}
             1 \\ 0
           \end{array}\right)
@@ -600,7 +600,7 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
           x \\ y
         \end{array}\right).
         $$
-        Then $\psi$ also has a matrix representation
+        Then $\varphi_B$ also has a matrix representation
         $$
         B =
         \left(\begin{array}{c c}
@@ -608,9 +608,9 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
           v_1 & v_2
         \end{array}\right).
         $$
-        But since $\varphi_A \circ \psi = \mathrm{id}$ this means
+        But since $\varphi_A \circ \varphi_B = \mathrm{id}$ this means
         \begin{align*}
-        (\varphi_A \circ \psi)
+        (\varphi_A \circ \varphi_B)
         \left(\begin{array}{c}
           x \\ y
         \end{array}\right) &=
@@ -631,105 +631,6 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
         $\det(A) \det(B) = \det(I) = 1$, which means $\det(A)$ has a
         multiplicative inverse. Since $\det(A)$ is an integer this can
         only be true if $\det(A) = \pm 1$.
-
-%      Then for any $(x, y) \in
-%      \mathbb{Z}^2$ we have $(x, y) = \varphi_A((u, v))$ for some
-%      $(u, v) \in \mathbb{Z}^2$. In particular we have for some
-%      $u_1$,$v_1$ that
-%      $$
-%      \left(\begin{array}{c}
-%        1 \\ 0
-%      \end{array}\right) =
-%      \left(\begin{array}{c c}
-%        a & b \\ c & d
-%      \end{array}\right)
-%      \left(\begin{array}{c}
-%        u_1 \\ v_1
-%      \end{array}\right)
-%      $$
-%      so that
-%      $$
-%      adu_1 + bdv_1 = d
-%      $$
-%      and
-%      $$
-%      bdv_1 = -bcu_1
-%      $$
-%      and then
-%      $$
-%      (ad - bc)u_1 = d
-%      $$
-%      and similarly
-%      $$
-%      (ad - bc)v_1 = -c.
-%      $$
-%
-%      Likewise, we have
-%      $$
-%      \left(\begin{array}{c}
-%        0 \\ 1
-%      \end{array}\right) =
-%      \left(\begin{array}{c c}
-%        a & b \\ c & d
-%      \end{array}\right)
-%      \left(\begin{array}{c}
-%        u_2 \\ v_2
-%      \end{array}\right)
-%      $$
-%      so that
-%      $$
-%      (ad - bc)u_2 = -b
-%      $$
-%      and
-%      $$
-%      (ad - bc)v_2 = a
-%      $$
-%      so that
-%      $$
-%      \left(\begin{array}{c c}
-%        a u_1 + b v_1 & a u_2 + b v_2 \\
-%        c u_1 + d v_1 & c u_2 + b v_2
-%      \end{array}\right) =
-%      \left(\begin{array}{c c}
-%        1 & 0 \\ 0 & 1
-%      \end{array}\right).
-%      $$
-
-%, and so
-%        \begin{align*}
-%          \left(\begin{array}{c}
-%            x \\ y
-%          \end{array}\right) &=
-%          x
-%          \left(\begin{array}{c}
-%            1 \\ 0
-%          \end{array}\right)
-%          +
-%          y
-%          \left(\begin{array}{c}
-%            0 \\ 1
-%          \end{array}\right) \\
-%          &=
-%          \left(\begin{array}{c c}
-%            a & b \\ c & d
-%          \end{array}\right)
-%          \left(\begin{array}{c}
-%            u \\ v
-%          \end{array}\right) =
-%          \left(\begin{array}{c}
-%            au + bv \\ cu + dv
-%          \end{array}\right) \\
-%          &=
-%          u
-%          \left(\begin{array}{c}
-%            a \\ c
-%          \end{array}\right)
-%          +
-%          v
-%          \left(\begin{array}{c}
-%            b \\ d
-%          \end{array}\right).
-%        \end{align*}
       }
     \end{itemize}
     Therefore $\varphi_A$ is surjective iff. $\det(A) = \pm 1$. But in
@@ -739,74 +640,358 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
   }
   \item
   {
-    For an integer $n$ let
-    $\psi_n : \mathbb{Z}^2 \to \mathbb{Z}^2$ denote the map
+    Consider the matrix
     $$
-    \psi_n\left(\begin{array}{c}
-            x \\ y
-          \end{array}\right)
-    =     \left(\begin{array}{c}
-            x \bmod n \\ y \bmod n
-          \end{array}\right)
+    \hat{A} =
+    \left(\begin{array}{r r}
+       d & -b \\
+      -c &  a
+    \end{array}\right)
     $$
-    and note that for any integers $\alpha, \beta, x, y, n$ we have the property
+    and the homomorphism $\varphi_{\hat{A}} : \mathbb{Z}^2 \to \mathbb{Z}^2$
+    given by $\varphi_{\hat{A}}
+                \left(\begin{array}{c}
+                  u \\ v
+                \end{array}\right) =
+                \hat{A}\left(\begin{array}{c}
+                  u \\ v
+                \end{array}\right)$.
+    We find that
     $$
-    (\alpha x + \beta y) \bmod n =
-      (\alpha x \bmod n) + (\beta y \bmod n) =
-      (\alpha \bmod n)(x \bmod n) + (\beta \bmod n)(y \bmod n).
+    (\varphi_{\hat{A}} \circ \varphi_A)
+      \left(\begin{array}{c}
+        u \\ v
+      \end{array}\right) =
+      \left(\begin{array}{c c}
+        ad - bc &       0 \\
+              0 & ad - bc
+      \end{array}\right)
+      \left(\begin{array}{c}
+        u \\ v
+      \end{array}\right) =
+      \left(\begin{array}{c}
+        (ad - bc)u \\ (ad - bc)v
+      \end{array}\right).
     $$
 
-    We next observe that
-    \begin{align*}
-    \mathrm{Im}(\varphi_A) &=
-      \left\{
-        \left.
+    For $n \in \mathbb{Z}_+$, define the map
+    $\mu_n : \mathbb{Z}^2 \to \mathbb{Z}_n^2$ by
+    $$
+    \mu_n
+    \left(\begin{array}{c}
+      u \\ v
+    \end{array}\right) =
+    \left(\begin{array}{c}
+      u \bmod n \\
+      v \bmod n
+    \end{array}\right).
+    $$
+    Also define $\psi_A = \mu_{|\det A|} \circ \varphi_{\hat{A}}$.
+
+    We claim the following:
+    \begin{itemize}
+      \item{
+        $\mu_n$ is a homomorphism for any $n \in \mathbb{Z}_+$
+        and therefore so is $\psi_A$ for any $A \in \mathrm{GL}_2(\mathbb{Z})$,
+      }
+      \item{
+        if $\det A > 0$ then $\mathrm{Im}(\varphi_A) = \ker(\psi_A)$, and
+      }
+      \item{
+        if $\det A < 0$ then $\mathrm{Im}(\varphi_A) = \ker(\psi_{(-A)})$.
+      }
+    \end{itemize}
+
+    This is demonstrated below.
+    \begin{itemize}
+      \item{
+        Let $n$ be a positive integer. We have
+        \begin{align*}
+         \mu_n \left[
+           \left(\begin{array}{c}
+             x_1 \\ y_1
+           \end{array}\right)
+           +
+           \left(\begin{array}{c}
+             x_2 \\ y_2
+           \end{array}\right)
+         \right]
+         &=
+          \mu_n
+            \left(\begin{array}{c}
+              x_1 + x_2 \\
+              y_1 + y_2
+            \end{array}\right) =
+          \left(\begin{array}{c}
+            (x_1 + x_2) \bmod n \\
+            (y_1 + y_2) \bmod n
+          \end{array}\right) \\ &=
+          \left(\begin{array}{c}
+            x_1 \bmod n + x_1 \bmod n \\
+            y_1 \bmod n + y_2 \bmod n
+          \end{array}\right) \\ &=
+          \left(\begin{array}{c}
+            x_1 \bmod n \\
+            y_1 \bmod n
+          \end{array}\right)
+          +
+          \left(\begin{array}{c}
+            x_2 \bmod n \\
+            y_2 \bmod n
+          \end{array}\right) \\ &=
+          \mu_n\left(\begin{array}{c}
+            x_1 \\
+            y_1
+          \end{array}\right)
+          +
+          \mu_n\left(\begin{array}{c}
+            x_2 \\
+            y_2
+          \end{array}\right)
+        \end{align*}
+        so $\mu_n$ is a homomorphism. Let $A \in
+        \mathrm{GL}_2(\mathbb{Z})$. Then $\det A \neq 0$ and therefore
+        $|\det A|$ is a positive integer, so
+        $\psi_A = \mu_{|\det A|} \circ \varphi_{\hat{A}}$ is a
+        composition of homomorphisms and thus a homomorphism itself.
+      }
+      \item{
+        Suppose $\det A > 0$, and let $\alpha \in
+        \mathrm{Im}(\varphi_A)$.
+        Then $|\det A| = \det A = ad - bc$, and
+        $\alpha$ has the form
+        $$
+        \alpha =
         \left(\begin{array}{c}
-          x \\ y
+          a u + b v \\
+          c u + d v
         \end{array}\right)
-        \in \mathbb{Z}^2
-        \right|
+        $$
+        for some $u, v \in \mathbb{Z}$. Then
+        \begin{align*}
+        \varphi_{\hat{A}}(\alpha) &=
+        \left(\begin{array}{r r}
+           d & -b \\
+          -c &  a
+        \end{array}\right)
         \left(\begin{array}{c}
-          x \\ y
+          a u + b v \\
+          c u + d v
         \end{array}\right) =
-        \left(\begin{array}{c c}
-          a & b \\ c & d
+        \left(\begin{array}{r}
+          d(a u + b v) - b(c u + d v) \\
+         -c(a u + b v) + a(c u + d v)
+        \end{array}\right) \\ &=
+        \left(\begin{array}{r}
+          (a d - b c) u \\
+          (a d - b c) v
         \end{array}\right)
-        \left(\begin{array}{c}
-          u \\ v
-        \end{array}\right),
-        \left(\begin{array}{c}
-          u \\ v
-        \end{array}\right) \in \mathbb{Z}^2
-      \right\} \\
-      &=
-      \left\{
-        \left.
-          \left(\begin{array}{c}
-            au + bv \\ cu + dv
-          \end{array}\right)
-        \right|
-        u, v \in \mathbb{Z}
-      \right\}.
-    \end{align*}
-    Then for any $w \in \mathrm{Im}(\varphi_A)$ we have
-    \begin{align*}
-    (\psi_{b,d} \circ \psi_{a,c})(w) &=
-    \psi_{b,d}\left(\begin{array}{c}
-            (au + bv) \bmod a \\
-            (cu + dv) \bmod c
-          \end{array}\right) \\
-          &9=
-          \left(\begin{array}{c}
-            (a \bmod a)(u \bmod a) + (b \bmod a)(v \bmod a) \\
-            (c \bmod c)(u \bmod c) + (d \bmod c)(v \bmod c)
-          \end{array}\right) \\
-          &=
-          \left(\begin{array}{c}
-            (bv \bmod a) \\
-            (dv \bmod c)
-          \end{array}\right)
-    \end{align*}
+        \end{align*}
+        so
+        \begin{align*}
+        (\mu_{|\det A|} \circ \varphi_{\hat{A}})(\alpha) &=
+        \left(\begin{array}{r}
+          (a d - b c) u \bmod (ad - bc) \\
+          (a d - b c) v \bmod (ad - bc)
+        \end{array}\right) =
+        \left(\begin{array}{r}
+          0 \\
+          0
+        \end{array}\right)
+        \end{align*}
+        and thus $\alpha \in \ker(\mu_{|\det A|} \circ
+        \varphi_{\hat{A}}) = \ker(\psi_A)$.
+
+        Suppose next
+        $\alpha =
+         \left(\begin{array}{c}
+           x \\
+           y
+         \end{array}\right)
+         \in \ker(\psi_A)$. Then $\varphi_{\hat{A}}(\alpha) \in \ker(\mu_{|\det A|})$, so
+         $$
+         \varphi_{\hat{A}}(\alpha) =
+         \left(\begin{array}{c}
+           (ad - bc)u \\
+           (ad - bc)v
+         \end{array}\right)
+         $$
+         for some $u, v \in \mathbb{Z}$. But
+         $$
+         \varphi_{\hat{A}}(\alpha) =
+         \left(\begin{array}{r r}
+            d & -b \\
+           -c &  a
+         \end{array}\right)
+         \left(\begin{array}{c}
+           x \\
+           y
+         \end{array}\right)
+         $$
+         so we have
+         $$
+         \left(\begin{array}{r}
+           xd - yb \\
+          -xc + ya
+         \end{array}\right) =
+         \left(\begin{array}{c}
+           (ad - bc)u \\
+           (ad - bc)v
+         \end{array}\right)
+         $$
+         for some $u, v \in \mathbb{Z}$. But this means
+         $$
+         xd = yb + (ad - bc)u
+         $$
+         so
+         $$
+         xcd = ybc + (ad - bc)cu
+         $$
+         and
+         $$
+         (ad - bc)dv =
+           -xcd + yad =
+           -ybc - (ad - bc)cu + yad
+         $$
+         or
+         $$
+         (y - cu)(ad - bc) = dv(ad - bc)
+         $$
+         so that
+         $$
+         y = cu + dv.
+         $$
+         Similarly
+         $$
+         yab = xbc + (ad - bc)bv
+         $$
+         and
+         $$
+         (ad - bc)au =
+           xad - yab =
+           (x - bv)(ad - bc)
+         $$
+         so
+         $$
+         x = au + bv
+         $$
+         and therefore
+         $$
+         \left(\begin{array}{c}
+           x \\
+           y
+         \end{array}\right) =
+         \left(\begin{array}{c}
+           au + bv \\
+           cu + dv
+         \end{array}\right)
+         \in \mathrm{Im}(\varphi_A).
+         $$
+         Therefore $\alpha \in \mathrm{Im}(\varphi_A)$. We conclude
+         that
+         $\ker(\psi_{A}) = \mathrm{Im}(\varphi_A)$.
+      }
+      \item{
+        Suppose $\det A < 0$. Then $|det A| = -\det A = \det (-A) > 0$
+        and so $\ker \psi_{-A} = \mathrm{Im}(\varphi_A)$ just as above.
+      }
+    \end{itemize}
+
+    Therefore when $\det A \neq 0$ there is a homomorphism
+    $\psi : \mathbb{Z}^2 \to \mathbb{Z}_{|\det A|}^2$ such that
+    $\mathrm{Im}(\varphi_A) = \ker(\psi)$. But then
+    $$
+    \mathbb{Z}^2 / \mathrm{Im}(\varphi_A) =
+    \mathbb{Z}^2 / \ker(\psi) \simeq
+    \mathrm{Im}(\psi) \subset \mathbb{Z}_{|\det A|}^2,
+    $$
+    and $\mathbb{Z}_{|\det A|}^2$ is a finite group so
+    $\mathbb{Z}^2 / \mathrm{Im}(\varphi_A)$ is as well.
+
+%   The image of $\varphi_A$ is
+%   \begin{align*}
+%   \mathrm{Im}(\varphi_A) &=
+%   \left\{
+%     \left.
+%     \left(\begin{array}{c c}
+%       a u + b v \\
+%       c u + d v
+%     \end{array}\right)
+%     \right|
+%     u, v \in \mathbb{Z}
+%   \} \\
+%   &=
+%   \left\{
+%     au + bv \mid u, v \in \mathbb{Z}
+%   \end{align*}
+%  For an integer $n$ let
+%  $\psi_n : \mathbb{Z}^2 \to \mathbb{Z}^2$ denote the map
+%  $$
+%  \psi_n\left(\begin{array}{c}
+%          x \\ y
+%        \end{array}\right)
+%  =     \left(\begin{array}{c}
+%          x \bmod n \\ y \bmod n
+%        \end{array}\right)
+%  $$
+%  and note that for any integers $\alpha, \beta, x, y, n$ we have the property
+%  $$
+%  (\alpha x + \beta y) \bmod n =
+%    (\alpha x \bmod n) + (\beta y \bmod n) =
+%    (\alpha \bmod n)(x \bmod n) + (\beta \bmod n)(y \bmod n).
+%  $$
+%
+%  We next observe that
+%  \begin{align*}
+%  \mathrm{Im}(\varphi_A) &=
+%    \left\{
+%      \left.
+%      \left(\begin{array}{c}
+%        x \\ y
+%      \end{array}\right)
+%      \in \mathbb{Z}^2
+%      \right|
+%      \left(\begin{array}{c}
+%        x \\ y
+%      \end{array}\right) =
+%      \left(\begin{array}{c c}
+%        a & b \\ c & d
+%      \end{array}\right)
+%      \left(\begin{array}{c}
+%        u \\ v
+%      \end{array}\right),
+%      \left(\begin{array}{c}
+%        u \\ v
+%      \end{array}\right) \in \mathbb{Z}^2
+%    \right\} \\
+%    &=
+%    \left\{
+%      \left.
+%        \left(\begin{array}{c}
+%          au + bv \\ cu + dv
+%        \end{array}\right)
+%      \right|
+%      u, v \in \mathbb{Z}
+%    \right\}.
+%  \end{align*}
+%  Then for any $w \in \mathrm{Im}(\varphi_A)$ we have
+%  \begin{align*}
+%  (\psi_{b,d} \circ \psi_{a,c})(w) &=
+%  \psi_{b,d}\left(\begin{array}{c}
+%          (au + bv) \bmod a \\
+%          (cu + dv) \bmod c
+%        \end{array}\right) \\
+%        &9=
+%        \left(\begin{array}{c}
+%          (a \bmod a)(u \bmod a) + (b \bmod a)(v \bmod a) \\
+%          (c \bmod c)(u \bmod c) + (d \bmod c)(v \bmod c)
+%        \end{array}\right) \\
+%        &=
+%        \left(\begin{array}{c}
+%          (bv \bmod a) \\
+%          (dv \bmod c)
+%        \end{array}\right)
+%  \end{align*}
   }
 \end{enumerate}
 \end{Answer}
