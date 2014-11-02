@@ -1,3 +1,4 @@
+module FinAbelianIsos where
 -- Finds the isomorphism classes of a finite abelian group.
 
 import Control.Applicative
@@ -5,9 +6,9 @@ import Control.Arrow
 import Data.List
 
 coprime a b = gcd a b == 1
-coprimeSequence :: Integral a => [a] -> [a]
---coprimeSequence []     = []
---coprimeSequence (x:xs) =
+appendNextCoprime x curr = if all (coprime x) curr then x:curr else curr
+coprimes :: Integral a => [a] -> [a]
+coprimes = foldr appendNextCoprime []
 
 factor :: Integral a => a -> [a]
 factor 1 = []
@@ -26,9 +27,9 @@ rawClasses :: Integral a => a -> [[a]]
 rawClasses = foldl1 (liftA2 (++)) . components
 
 computeClass :: Integral a => [a] -> [a]
-computeClass []     = []
-computeClass (x:xs) = product curr : computeClass (xs \\ curr)
-                      where curr = (x : (filter (coprime x) $ nub xs))
+computeClass [] = []
+computeClass xs = product curr : computeClass (xs \\ curr)
+                  where curr = coprimes xs
 
 isoClasses :: Integral a => a -> [[a]]
-isoClasses = map (computeClass . sortBy (flip compare)) . rawClasses
+isoClasses = map (computeClass . sort) . rawClasses
