@@ -19,7 +19,7 @@
 \begin{titlepage}
 \maketitle
 % TODO:
-% 3. Show that $\mathbb{Q}$ is torsion-free and not free.
+% 3. Show that $\mathbb{Q}$ is not free.
 % 4. Show that every lattice in $\mathbb{R}^n$ is isomorphic to $\mathbb{Z}^n$
 \end{titlepage}
 
@@ -186,10 +186,8 @@ permutation $\sigma$.
   }
   \item{
     The number of elements conjugate to $a$ is the order of the
-    conjugacy class of $a$. Conjugacy classes in $S_n$ are in
-    correspondence with the partitions of $n$, and in particular those
-    elements conjugate to $(123)(45)$ are those of the same cycle type.
-    There are
+    conjugacy class of $a$. From the formula given above,
+    there are
     $$
     \frac{7!}{2^1 \cdot 3^1 \cdot 1! \cdot 1!} =
     7 \cdot 6 \cdot 5 \cdot 4 = 840.
@@ -293,9 +291,8 @@ Let $p$ and $q$ be distinct primes.
     divides $|P| = p^2$ as well. This is only possible if
     $|\mathrm{Im}(\psi)| = 1$ and so
     $\mathrm{Im}(\psi) = \{ \mathrm{id} \}$. Therefore
-    $\psi(g_p)(g_q) = g_p g_q g_p^{-1} = g_q$ for any $g_p \in P$ and
-    $g_q \in Q$, so $g_p g_q = g_q g_p$. Therefore $G$ is abelian if
-    it has a normal $q$-Sylow subgroup.
+    $\psi(g_P)(g_Q) = g_P g_Q g_P^{-1} = g_Q$ for any $g_P \in P$ and
+    $g_Q \in Q$, so $g_P g_Q = g_Q g_P$. Therefore $G = PQ$ is abelian.
   }
 \end{enumerate}
 \end{Answer}
@@ -494,21 +491,38 @@ Let $p$ and $q$ be distinct primes.
     \mathbb{Q}$ and suppose $n \frac{r}{s} = 0$ for $n \geq 1$.
     Then $n r = 0$ and thus $r = 0$, so $\frac{r}{s} = 0$.
 
-    The rationals are not free. Let
-    $\varphi : \mathbb{Q} \to \mathbb{Z}[I]$ be a group homomorphism
-
-    for some set $I$, and let $\frac{r_1}{s_1}, \frac{r_2}{s_2} \in
-    \mathbb{Q}$. Then without loss of generality
+    The rationals are not free. Suppose $\mathbb{Q}$ is free, and let
+    $q \in \mathbb{Q}$. Then $q$ may be written as
     $$
-    \varphi\left(\frac{r_1}{s_1}\right) =
-      (k_1, k_2, \dots, k_m, 0, 0, \dots)
+    q = \sum_{i \in I} n_i \frac{r_i}{s_i}
     $$
-    and
+    for some set $I$ and some $n_i, r_i \in \mathbb{Z}$, $s_i \in \mathbb{Z}_+$. But then
+    for instance we have
     $$
-    \varphi\left(\frac{r_2}{s_2}\right) =
-      (l_1, l_2, \dots, l_n, 0, 0, \dots)
+    q
+      = \sum_{i \in I} n_i
+          \frac{r_i\prod_{\substack{j \in I}{j \neq i}} s_j}
+               {s_i \prod_{\substack{j \in I}{j \neq i}} s_j}
+      = \frac{\sum_{i \in I} n_i r_i
+                \prod_{\substack{j \in I}{j \neq i}} s_j}
+             {\prod_{i \in I} s_i},
     $$
-    for some integers $k_i$, $l_i$.
+    so the representation is not unique.
+%
+%   $\varphi : \mathbb{Q} \to \mathbb{Z}[I]$ be a group homomorphism
+%
+%   for some set $I$, and let $\frac{r_1}{s_1}, \frac{r_2}{s_2} \in
+%   \mathbb{Q}$. Then without loss of generality
+%   $$
+%   \varphi\left(\frac{r_1}{s_1}\right) =
+%     (k_1, k_2, \dots, k_m, 0, 0, \dots)
+%   $$
+%   and
+%   $$
+%   \varphi\left(\frac{r_2}{s_2}\right) =
+%     (l_1, l_2, \dots, l_n, 0, 0, \dots)
+%   $$
+%   for some integers $k_i$, $l_i$.
   }
   \item{
     The direct product
@@ -1090,24 +1104,61 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
       \mathbb{R}$. Since $L$ is a subgroup of $\mathbb{R}$ it must be
       closed under addition, and so $n \beta \in L$ for any $n \in \mathbb{Z}$.
       Therefore $\{ n \beta \mid n \in \mathbb{Z} \} \subset L$.
+      Since $L$ is discrete, let $\delta > 0$ denote the radius of the
+      smallest ball centered on an integer multiple $n \beta \in L$.
 
-      Let $l \in L$. Then since $l \in \mathbb{R}$ and since
-      $\{ \beta \}$ is a basis for $\mathbb{R}$, there is some
-      $a \in \mathbb{R}$ such that $l = a \beta$.
+      Suppose $l \in L$. Since $\beta$ is a basis for $\mathbb{R}$, we
+      have $l = a \beta$ for some $a \in \mathbb{R}$. If $l$ is a
+      rational multiple $\frac{r}{s}\beta$ we may
+      instead choose $\beta^\prime = \frac{\beta}{s}$ and then $l$ is
+      an integer multiple of $\beta^\prime$. Therefore we suppose
+      $a$ is irrational and derive a contradiction.
 
-      Use density of the rationals. By multiplying a rational $r / s$
-      by $s$ we get an integer $r$. Since we can pick rationals
-      arbitrarily close to $a \beta$ we should be able to take some
-      $v = a \beta$ and demonstrate that there is some multiple that
-      brings it closer than $\epsilon$ to another point $w$ in the lattice.
+      Define the fractional-part function $\{ \bullet \} : \mathbb{R}
+      \to [0,1)$ by $\{ x \} = x - \floor{x}$.
+      Let $x \in \mathbb{R}$,
+      $k \in \mathbb{Z}_+$, and divide $[0,1)$ into subintervals
+      $$
+      [0, \frac{1}{k}),
+      [\frac{1}{k}, \frac{2}{k}),
+      \dots,
+      [\frac{k-1}{k}, 1).
+      $$
+      By the pigeonhole principle, there exist $s, t \in \mathbb{Z}_+$
+      such that $\{ s x \}$, $\{ t x \}$ belong to the same
+      subinterval and therefore such that
+      $|\{ s x \} - \{t x\}| < \frac{1}{k}$. But
+      $$
+      |\{ s x \} - \{t x\}|
+        = |s x - \floor{s x} - (tx - \floor{t x})|
+        = |(s - t)x - \floor{s x} + \floor{t x}|
+      $$
+      whereas
+      $$
+      \{ (s - t)x \}
+        = (s - t)x - \floor{(s - t)x}
+        < (s - t)x - \floor{s x},
+      $$
+      assuming $s > t$ without loss of generality. Therefore
+      $\{ (s - t)x \} < \frac{1}{k}$ where $k$ is arbitrary.
 
-%Furthermore since
-%      $L$ is a subgroup, $n l = n a \beta \in L$ for all $n \in
-%      \mathbb{Z}$. Without loss of generality consider $l$ and
-%      $l + a \beta$.
+      Therefore there exists an integer multiple of $a \beta$ with arbitrarily
+      small fractional part, that is, there exists an integer $m$ such that
+      $m a \beta - \floor{m a} \beta < \delta$, or
+      $m a \beta \in B_{\delta}(\floor{m a} \beta)$.
+      But if $a \beta \in L$ then so must $m a \beta$ be,
+      and since $\floor{m a} \beta$ is an integer multiple of $\beta$
+      we know $\floor{m a} \beta \in L$. This implies
+      $$
+      B_{\delta}(\floor{m a} \beta) \cap L \supset \{ m a \beta,
+      \floor{m a} \beta \} \neq \{ \floor{m a} \beta \}
+      $$
+      which means $L$ is not a lattice. Therefore this case cannot occur.
 
-% Then for some $\varepsilon \in \mathbb{R}$ there
-%      is a ball $B_{\varepsilon}(l) \subset \mathbb{R}$
+      We conclude that $\{ n r \mid n \in \mathbb{Z} \} = L$ for some
+      $r \in \mathbb{R}$. Then $f : L \to \mathbb{Z}$ given by
+      $n r \mapsto n$ is an isomorphism since it has inverse
+      $n \mapsto n r$, so $L \simeq \mathbb{Z}$.
     }
     \item{
     }
