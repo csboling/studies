@@ -4,7 +4,10 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{enumerate}
+\usepackage{mathtools}
 \usepackage[lastexercise]{exercise}
+
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 \newcounter{Problem}
 \newenvironment{Problem}{\begin{Exercise}[name={Problem},
@@ -1104,8 +1107,6 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
       \mathbb{R}$. Since $L$ is a subgroup of $\mathbb{R}$ it must be
       closed under addition, and so $n \beta \in L$ for any $n \in \mathbb{Z}$.
       Therefore $\{ n \beta \mid n \in \mathbb{Z} \} \subset L$.
-      Since $L$ is discrete, let $\delta > 0$ denote the radius of the
-      smallest ball centered on an integer multiple $n \beta \in L$.
 
       Suppose $l \in L$. Since $\beta$ is a basis for $\mathbb{R}$, we
       have $l = a \beta$ for some $a \in \mathbb{R}$. If $l$ is a
@@ -1114,7 +1115,7 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
       an integer multiple of $\beta^\prime$. Therefore we suppose
       $a$ is irrational and derive a contradiction.
 
-      Define the fractional-part function $\{ \bullet \} : \mathbb{R}
+      Define the fractional-part function $\{ \cdot \} : \mathbb{R}
       \to [0,1)$ by $\{ x \} = x - \floor{x}$.
       Let $x \in \mathbb{R}$,
       $k \in \mathbb{Z}_+$, and divide $[0,1)$ into subintervals
@@ -1143,7 +1144,10 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
       $\{ (s - t)x \} < \frac{1}{k}$ where $k$ is arbitrary.
 
       Therefore there exists an integer multiple of $a \beta$ with arbitrarily
-      small fractional part, that is, there exists an integer $m$ such that
+      small fractional part.
+      In particular, since $L$ is discrete, let $\delta > 0$ denote the radius of the
+      smallest ball centered on an integer multiple $n \beta \in L$.
+      There exists an integer $m$ such that
       $m a \beta - \floor{m a} \beta < \delta$, or
       $m a \beta \in B_{\delta}(\floor{m a} \beta)$.
       But if $a \beta \in L$ then so must $m a \beta$ be,
