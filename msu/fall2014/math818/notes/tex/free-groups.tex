@@ -67,7 +67,7 @@ $$
 \tau \sigma = \sigma^2 \tau  \iff \tau \sigma \tau^{-1} \sigma^{-2} =
 1 (?).
 $$
-These things particular to the group are the relations.
+These identities particular to the group are the \emph{relations}.
 
 Then take $N$ to be the smallest normal subgroup of $F(a,b)$ that
 contains
@@ -164,3 +164,172 @@ This kind of structure allows us to manipulate the restrictions on the
 groups. For instance by dropping the restriction $\sigma_i^2 = 1$ we
 get the \emph{braid group} of entanglements of paths between $n$ objects.
 \end{xmpl}
+
+In general terms of generators and relations we can then write, for a
+set $S$ and a set $R \subset F(S)$,
+$$
+G = \langle S \mid R \rangle
+  \triangleq \frac{F(S)}{N(R)}
+  = \frac{F(S)}{\bigcap_{\substack{R \subset H}{H \triangleleft F(S)}} H}.
+$$
+
+\begin{xmpl}
+Take the group
+$$
+G = \langle a, b \mid a^{-1} b a b^{-1}, b^{-1} a b a^{-2} \rangle.
+$$
+What can we say about this group? We know $a^{-1} b a = b^2$ and
+$b^{-1} a b = a^2$, so
+$$
+a = a^{-1} a^2 = a^{-1} b^{-1} a b = (a^{-1} b^{-1} a) b = b^{-2} b = b^{-1}
+$$
+so $a = b^{-1}$. But then since $a^{-1} b a = a^2$, $b b b^{-1} =
+b^{-2}$, so $b = b^{-2}$ and then $b = 1$. Therefore $G = \{ 1 \}$.
+\end{xmpl}
+
+Is there an algorithm that starts with $S, R \subset F(S)$, for finite
+$S$, and decides if $\langle S \mid R \rangle = \{ 1 \}$? Is there an
+algorithm that starts with $S, R \subset F(S)$, for finite
+$S$, and two words $u, v \in F(S)$ and decides if $u = v$ in
+$\langle S \mid R \rangle$? The answer to both questions is no. This
+is called the \emph{word problem}. There is an algorithm for
+one-relator groups (groups such that $R$ consists of one element), but
+not in general.
+
+\begin{xmpl}
+Write the group with generators and relations.
+\begin{enumerate}
+  \item{
+    $\mathbb{Z}_n \simeq \langle a \mid a^n \rangle$.
+  }
+  \item{
+    $\mathbb{Z} \simeq \langle a \mid 1 \rangle$.
+  }
+  \item{
+    $\mathbb{Z}^2 \simeq \langle a, b \mid a b a^{-1} b^{-1} \rangle$.
+    Show this -- that by taking two generators that commute with each
+    other, we have the free abelian group $\mathbb{Z}^2$. In
+    $\mathbb{Z}^2$ we have elements $(1,0)$ and $(0,1)$. From the
+    universal property, there is a surjective map $F(a, b) \to
+    \mathbb{Z}^2$ that takes $a \mapsto (1, 0)$ and $b \mapsto (0, 1)$.
+    The commmutator then is certainly in the kernel of this map, so we
+    need to show that the kernel consists of only 1 and the commutator.
+  }
+  \item{
+    In fact
+    $$
+    \mathbb{Z}^n
+      = \langle x_1, \dots, x_n
+          \mid x_i x_j = x_j x_i, \forall i, j
+        \rangle.
+    $$
+  }
+\end{enumerate}
+\end{xmpl}
+
+\subsection{Free product of groups}
+\begin{defn}
+Let $G_1$, $G_2$ be groups. The \emph{free product}
+$G_1 \ast G_2$ is the group defined as follows.
+
+As a set $G_1 \ast G_2$ consists of expressions of the form
+$x_1 x_2 \cdots x_n$ with $x_i \in G_1 \cup G_2$, $\forall i$ with the
+property that $x_i \neq 1$ and if $x_i \in G_1$ then $x_{i+1} \in
+G_2$ and vice-versa, as well as the ``empty expression'' 1.
+
+The group operation is given by combining
+$(x_1 x_2 \cdots x_n)$ with
+$(y_1 y_2 \cdots y_m)$ if possible using the group operations in $G_1$
+and $G_2$, e.g. if $x_n$, $y_1$ are in different groups then
+$$
+(x_1 x_2 \cdots x_n)
+(y_1 y_2 \cdots y_m) =
+(x_1 x_2 \cdots x_n y_1 y_2 \cdots y_m),
+$$
+if they are in the same group take their product,
+and remove them both if their product
+is identity and then repeat the product operation on the resulting strings.
+\end{defn}
+
+\begin{xmpl}
+What is $G = \mathbb{Z} \ast \mathbb{Z}$? This is the free product
+$\langle a \rangle \ast \langle b \rangle = F(a, b)$.
+\end{xmpl}
+
+\begin{prop}[Free product (alternate definition)]
+Suppose $G_1$, $G_2$ are two groups given by generators and relations
+$$
+G_1 = \langle S_1 \mid R_1 \rangle, \quad
+G_2 = \langle S_2 \mid R_2 \rangle.
+$$
+Then
+$$
+G_1 \ast G_2
+  = \langle S_1 \sqcup S_2 \mid R_1 \cup R_2 \rangle.
+$$
+\end{prop}
+
+\begin{xmpl}
+Consider $G = \mathrm{SL}_2(\mathbb{Z})$. This contains the
+normal subgroup $\{ I, -I \} = Z(G)$. The quotient
+$$
+\mathrm{PSL}_2(\mathbb{Z})
+  \triangleq \mathrm{SL}_2(\mathbb{Z}) / \{ \pm I \}
+$$
+is the \emph{projective special linear group}.
+
+\begin{prop}
+$$
+\mathrm{PSL}_2(\mathbb{Z})
+  \simeq \mathbb{Z}_2 \ast \mathbb{Z}_3.
+$$
+We know $\mathbb{Z}_2 \simeq \langle a \rangle$ and
+$\mathbb{Z}_3 \simeq \langle b \rangle$, with
+$a^2 = 1$ and $b^3 = 1$. We construct an isomorphism by sending
+$$
+a \mapsto
+  \left(\begin{array}{r r}
+     0 & 1 \\
+    -1 & 0
+  \end{array}\right)
+$$
+and
+$$
+b \mapsto
+  \left(\begin{array}{r r}
+     0 & -1 \\
+     1 &  1
+  \end{array}\right).
+$$
+\end{prop}
+\end{xmpl}
+
+\begin{prop}[Universal property of the free product]
+Let $G_1$, $G_2$ be two groups. Suppose $H$ is a group together with
+group homomorphisms $f_1 : G_1 \to H$ and $f_2 : G_2 \to H$. Then
+there is a unique group homomorphism $f : G_1 \ast G_2 \to H$ such
+that
+$$
+\begindc{\commdiag}[500]
+\obj(0,1)[h]{$H$}
+\obj(2,2)[g1]{$G_1$}
+\obj(2,1)[p]{$G_1 \ast G_2$}
+\obj(2,0)[g2]{$G_2$}
+\mor{p}{h}{$f$}[\atright, \dashArrow]
+\mor{g1}{p}{$\mathrm{inj}_1$}
+\mor{g2}{p}{$\mathrm{inj}_2$}
+\mor{g1}{h}{$f_1$}
+\mor{g2}{h}{$f_2$}
+\enddc
+$$
+commutes.
+\end{prop}
+
+\begin{proof}
+Give
+$$
+f( x_1 \cdots x_n )
+  = f_1(x_1) f_2(x_2) \cdots f_1(x_3) \cdots
+$$
+and check that this is a homomorphism and is unique.
+\end{proof}
