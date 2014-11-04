@@ -118,9 +118,50 @@ u(t)
  = -R^{-1} B^\top P x(t)
  = -\left[\begin{array}{c}
       \sqrt{7 + 4\sqrt{3}} \\
-      7 + 4 \sqrt{3}
+      3 + 2 \sqrt{3}
+    \end{array}\right] x(t)
+ \approx
+   -\left[\begin{array}{c}
+       3.7321 \\
+       6.4641
     \end{array}\right] x(t).
 $$
+for performance index $J_1$.
+
+For performance index $J_2$ we instead have
+$M = \left[\begin{array}{c c}
+       30 &  0 \\
+       0  & 30
+     \end{array}\right]$
+and all other variables the same. Solving the algebraic Ricatti
+equation in this case yields
+$$
+P \approx
+  \left[\begin{array}{c c}
+    32.431 & 75.869 \\
+    75.869 & 2352.2
+  \end{array}\right]
+$$
+and so
+$$
+u(t)
+ = -R^{-1} B^\top P x(t)
+ \approx
+   -\left[\begin{array}{c}
+        32.4 \\
+      2352.2
+    \end{array}\right] x(t).
+$$
+
+Using the starting condition
+$x(0) = \left[\begin{array}{c}
+          1 \\ 1
+        \end{array}\right]$, the trajectories for each controller are
+      plotted in figure \ref{fig:prob2}.
+
+\begin{figure}
+  \caption{\label{fig:prob2}}
+\end{figure}
 
 \section*{Problem \#3}
 
