@@ -1,0 +1,128 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{commath}
+\usepackage{enumerate}
+
+\usepackage{graphicx}
+
+\title{ECE/ME 851 Homework \#7}
+\date{November 5, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+
+
+\section*{Problem \#2}
+
+The system is given by
+$$
+A =
+\left[\begin{array}{c c}
+  0 & 1 \\
+  1 & 1
+\end{array}\right], \quad
+B =
+\left[\begin{array}{c c}
+  1 \\
+  0
+\end{array}\right],
+$$
+and we wish to optimize the control for the performance indices
+$$
+J_1 = \int_0^\infty (x_1^2 + x_2^2 + u^2) \dif t, \quad
+J_2 = \int_0^\infty (900(x_1^2 + x_2^2) + u^2) \dif t.
+$$
+
+For $J_1$ we have $Q = I_2$, $R = 1$, and $z = x$ so that
+$M = I$. In this case we have $A^{\top} = A$ and so
+the algebraic Ricatti equation is
+\begin{align*}
+   & A^\top P + P A - P B R^{-1} B^\top P + M Q M \\
+ = & A P + P A - P B B^\top P + I \\
+ = &
+\left[\begin{array}{c c}
+0 & 1 \\
+1 & 1
+\end{array}\right]
+\left[\begin{array}{c c}
+P_{11} & P_{12} \\
+P_{12} & P_{22}
+\end{array}\right]
++
+\left[\begin{array}{c c}
+P_{11} & P_{12} \\
+P_{12} & P_{22}
+\end{array}\right]
+\left[\begin{array}{c c}
+0 & 1 \\
+1 & 1
+\end{array}\right]
+-
+\left[\begin{array}{c c}
+P_{11} & P_{12} \\
+P_{12} & P_{22}
+\end{array}\right]
+\left[\begin{array}{c c}
+1 & 0 \\
+0 & 0
+\end{array}\right]
+\left[\begin{array}{c c}
+P_{11} & P_{12} \\
+P_{12} & P_{22}
+\end{array}\right]
++
+I = 0
+\end{align*}
+so we have the system of equations
+\begin{align*}
+  - P_{11}^2 + 2 P_{12} + 1 &= 0, \\
+    P_{11}   +   P_{12} + P_{22} - P_{11} P_{12} &= 0, \\
+  - P_{12}^2 + 2 P_{12} + 2 P_{22} + 1 &= 0.
+\end{align*}
+Then
+\begin{align*}
+P_{11} &= \sqrt{2 P_{12} + 1}, \\
+P_{22} &= \frac{1}{2} (P_{12}^2 - 2 P_{12} - 1)
+       = \frac{1}{2} (P_{12} - (1 + \sqrt{2}))(P_{12} - (1 - \sqrt{2}))
+\end{align*}
+which yields
+$$
+\sqrt{2 P_{12} + 1}
++ P_{12}
++ \frac{1}{2}(P_{12}^2 - 2P_{12} - 1)
+- P_{12} \sqrt{2 P_{12} + 1} = 0
+$$
+or after simplification
+$$
+P_{12}^2 - 6P_{12} - 3 = 0
+$$
+so that $P_{12} = 3 \pm 2 \sqrt{3}$. But if
+$P_{12} = 3 - 2\sqrt{3}$ then the positive-definite condition
+$\det P = P_{11} P_{22} - P_{12}^2 > 0$ is not satisfied, so it must
+be that $P_{12} = 3 + 2 \sqrt{3}$. Then
+$$
+P_{11} = \sqrt{7 + 4\sqrt{3}}, \quad
+P_{12} = 3 + 2\sqrt{3}, \quad
+P_{22} = 7 + 4\sqrt{3}.
+$$
+This yields the optimal input
+$$
+u(t)
+ = -R^{-1} B^\top P x(t)
+ = -\left[\begin{array}{c}
+      \sqrt{7 + 4\sqrt{3}} \\
+      7 + 4 \sqrt{3}
+    \end{array}\right] x(t).
+$$
+
+\section*{Problem \#3}
+
+
+\end{document}
