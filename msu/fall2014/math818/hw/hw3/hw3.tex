@@ -21,8 +21,6 @@
 
 \begin{titlepage}
 \maketitle
-% TODO:
-% 3. Show that $\mathbb{Q}$ is not free.
 % 4. Show that every lattice in $\mathbb{R}^n$ is isomorphic to $\mathbb{Z}^n$
 \end{titlepage}
 
@@ -1089,19 +1087,6 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
 \begin{Answer}
   \begin{enumerate}
     \item{
-%     Let $B \subset \mathbb{R}$ be a basis for $\mathbb{R}$.
-%     Suppose $\beta_1, \beta_2 \in B$ and $r \in \mathbb{R}$. Then
-%     $$
-%     r =
-%       a_1 \beta 1 + a_2 \beta_2 =
-%       a_1 \beta_1 + a_2 \frac{\beta_2}{\beta_1} \beta_1 =
-%       \left(a_1 + a_2\frac{\beta_2}{\beta_1}\right)\beta_1,
-%     $$
-%     so $\{ \beta_1 \}$ spans $\mathbb{R}$. Furthermore we have
-%     $$
-%     a_1 \beta_1 + a_2 \beta_2 = 0 \iff a_1 = a_2 = 0
-%     $$
-
       Let $L$ be a lattice in $\mathbb{R}$. Then $L$ contains a basis
       $\{ \beta \}$ of $\mathbb{R}$, where $\beta \in
       \mathbb{R}$. Since $L$ is a subgroup of $\mathbb{R}$ it must be
@@ -1112,18 +1097,20 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
       have $l = a \beta$ for some $a \in \mathbb{R}$. If $l$ is a
       rational multiple $\frac{r}{s}\beta$ we may
       instead choose $\beta^\prime = \frac{\beta}{s}$ and then $l$ is
-      an integer multiple of $\beta^\prime$. Therefore we suppose
-      $a$ is irrational and derive a contradiction.
+      an integer multiple of $\beta^\prime$, and
+      $L \supset \{ n \beta^\prime \mid n \in \mathbb{Z} \}$ as
+      before, so $L$ consists of integer multiples of $\beta^\prime$.
+      Therefore we suppose  $a$ is irrational and derive a contradiction.
 
       Define the fractional-part function $\{ \cdot \} : \mathbb{R}
       \to [0,1)$ by $\{ x \} = x - \floor{x}$.
       Let $x \in \mathbb{R}$,
       $k \in \mathbb{Z}_+$, and divide $[0,1)$ into subintervals
       $$
-      [0, \frac{1}{k}),
-      [\frac{1}{k}, \frac{2}{k}),
+      \left[ 0, \frac{1}{k} \right),
+      \left[ \frac{1}{k}, \frac{2}{k} \right),
       \dots,
-      [\frac{k-1}{k}, 1).
+      \left[ \frac{k-1}{k}, 1 \right).
       $$
       By the pigeonhole principle, there exist $s, t \in \mathbb{Z}_+$
       such that $\{ s x \}$, $\{ t x \}$ belong to the same
@@ -1165,8 +1152,94 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
       $n \mapsto n r$, so $L \simeq \mathbb{Z}$.
     }
     \item{
+      Define the group action
+      $\psi : \mathbb{R} \to \mathrm{Aut}(\mathbb{R}^2)$
+      of rotations
+      $$
+      \psi(\theta)(x) =
+        \left(\begin{array}{r r}
+          \cos \theta & -\sin \theta \\
+          \sin \theta &  \cos \theta
+        \end{array}\right) x,
+      $$
+      which indeed produces automorphisms since
+      $\psi(\theta)$ is an invertible linear map.
+      Furthermore this transformation preserves discreteness of
+      subgroups, and even the radii of individual balls around points
+      in $L$, since it rotates the plane but does not affect the
+      distances between points.
+
+      Let
+      $\left\{
+           v = \left(\begin{array}{c}
+                 v_1 \\ v_2
+               \end{array}\right)
+         , w = \left(\begin{array}{c}
+                 w_1 \\ w_2
+               \end{array}\right)
+       \right\} \subset L$ be a basis for
+      $\mathbb{R}^2$, and let
+      \begin{align*}
+      V &= \{ \alpha \cdot v + 0     \cdot w
+             \mid \alpha \in \mathbb{R}
+           \} \cap L, \\
+      W &= \{ 0      \cdot v + \beta \cdot w
+             \mid \beta \in \mathbb{R}
+          \} \cap L.
+      \end{align*}
+      Notice that $V$ and $W$ are subgroups of $L$,
+      that $V \cap W = \{ 0 \}$, and $L = V + W$, so that
+      $L = V \oplus W$.
+
+      We can obtain the isomorphic image
+      $\psi(-\theta)(v) =
+       \left(\begin{array}{c}
+         v_1^\prime \\ 0
+       \end{array}\right)$,
+       where $\theta$ is the argument of $v$. But $v_1$ is a basis of
+       $\mathbb{R}$, and so the subgroup
+       \begin{align*}
+         \psi(-\theta)(V)
+         &= \psi(-\theta)(L) \cap
+            \{   \alpha \cdot \psi(-\theta)(v)
+               + 0      \cdot \psi(-\theta)(w)
+               \mid \alpha \in \mathbb{R}
+            \} \\
+         &= \psi(-\theta)(L) \cap
+            \{ \alpha \cdot v_1^\prime,
+               \mid \alpha \in \mathbb{R}
+            \} \\
+         &= \psi(-\theta)(L) \cap
+            \mathbb{R}v_1^\prime
+       \end{align*}
+       is a discrete subgroup of $\mathbb{R}$ that contains a basis
+       $\{ v_1^\prime \}$ of $\mathbb{R}$ and so it is
+       isomorphic to $\mathbb{Z}$ from part (a). Namely
+       $\psi(-\theta)(V) = \mathbb{Z} v_1^\prime$, so we have
+       \begin{align*}
+       \psi(-\theta)(L)
+        &= \psi(-\theta)(V) \oplus \psi(-\theta)(W) \\
+        &= \mathbb{Z} v_1^\prime \oplus \psi(-\theta)(W).
+       \end{align*}
+       Then
+       \begin{align*}
+       L
+        &= \mathbb{Z} \psi(\theta)(v_1^\prime) \oplus W \\
+        &= \mathbb{Z} v_1 \oplus W.
+       \end{align*}
+       Repeating this process for
+       $\psi(-\varphi)(L)$, where $-\varphi$ is the argument of $w$,
+       we arrive at
+       $$
+       L = \mathbb{Z} v_1 \oplus \mathbb{Z} w_1 \simeq \mathbb{Z}^2.
+       $$
     }
     \item{
+      Suppose any lattice in $\mathbb{R}^{n-1}$ is isomorphic to
+      $\mathbb{Z}^{n-1}$ for some $n \in \mathbb{Z}_+$. The same
+      argument in (b) can be extended using the rotation matrices
+      $\psi : \mathbb{R}^{n-1} \to \mathrm{Aut}(\mathbb{R}^n)$. Given
+      a basis $\{ \beta_1, \dots, \beta_n \}$ of
     }
   \end{enumerate}
 \end{Answer}
