@@ -72,12 +72,16 @@ permutation $\tau$ gives
 \tau \sigma \tau^{-1} &=
   \tau
   (a_{11} a_{12} \cdots a_{1k_1})
+  (a_{21} a_{22} \cdots a_{2k_1})
   \cdots
   (a_{m1} a_{m2} \cdots a_{mk_m})
   \tau^{-1} \\
 &=
   \tau
   (a_{11} a_{12} \cdots a_{1k_1})
+  \tau^{-1}
+  \tau
+  (a_{21} a_{22} \cdots a_{2k_1})
   \tau^{-1}
   \cdots
   \tau
@@ -137,7 +141,8 @@ Label the number of $i$-cycles in the decomposition by $r_i$.
  Since disjoint cycles commute, any two cycles in a decomposition
 with the same length can be exchanged without affecting the
 permutation. Therefore we can eliminate each rearrangement of
-cycles of the same length, or divide out $\prod_{i} r_i!$ elements.
+cycles of the same length, and for each $r_i$ there are $r_i!$ such
+arrangements, so we divide out $\prod_{i} r_i!$ elements.
 Furthermore a given $k$-cycle can be written in $k$ ways, as is seen
 by rotating the notation to the left, e.g.
 $(12) = (21)$, $(123) = (231) = (312)$. Therefore each of the
@@ -168,12 +173,12 @@ permutation $\sigma$.
     $$
     and by the conjugation formula
     $$
-    \tau \sigma \tau^-1
+    \tau \sigma \tau^{-1}
     = \tau (13452) \tau^{-1}
     = (\tau(1) ~ \tau(3) ~ \tau(4) ~ \tau(5) ~ \tau(2))
     $$
     so elements of the form $\tau \sigma \tau^{-1}$ are exactly the
-    5-cycles in $S_6$. of which there are $\frac{6!}{5^1 \cdot 1!}$. Then
+    5-cycles in $S_6$, of which there are $\frac{6!}{1! \cdot 5^1}$. Then
     $$
     \frac{6!}{5} = [S_6 : C_{S_6}(\sigma)] = \frac{|S_6|}{|C_{S_6}(\sigma)|}
     $$
@@ -189,7 +194,7 @@ permutation $\sigma$.
     conjugacy class of $a$. From the formula given above,
     there are
     $$
-    \frac{7!}{2^1 \cdot 3^1 \cdot 1! \cdot 1!} =
+    \frac{7!}{1! \cdot 1! \cdot 2^1 \cdot 3^1} =
     7 \cdot 6 \cdot 5 \cdot 4 = 840.
     $$
   }
@@ -224,12 +229,12 @@ Let $p$ and $q$ be distinct primes.
     primes this is only possible when $|P \cap Q| = 1$. Therefore $P
     \cap Q$ is trivial.
 
-    The number of $p$-Sylows $N_{p^2}$ must divide the order $p^2q$ of the
-    group, so either $N_{p^2} \vert p^2$ or $N_{p^2} \vert q$. But
-    we also must have $N_{p^2} \equiv 1 \pmod{p}$, so it cannot be true
-    that $N_{p^2} \vert p^2$ for in that case $N_{p^2} \equiv 0
+    The number of $p$-Sylows $N_{p}$ must divide the order $p^2q$ of the
+    group, so either $N_{p} \vert p^2$ or $N_{p} \vert q$. But
+    we also must have $N_{p} \equiv 1 \pmod{p}$, so it cannot be true
+    that $N_{p} \vert p^2$ for in that case $N_{p^2} \equiv 0
     \pmod{p}$.
-    Therefore either $N_{p^2} = 1$ or $N_{p^2} = q$.
+    Therefore either $N_{p} = 1$ or $N_{p} = q$.
 
     Suppose $N_{p^2} = q$. Then each of these $p$-Sylows has order
     $p^2$, so there are $q (p^2 - 1)$ non-identity elements belonging
@@ -237,7 +242,7 @@ Let $p$ and $q$ be distinct primes.
     $$
     |G| - (qp^2 - q) = qp^2 - (qp^2 - q) = q
     $$
-    elements in the $q$-Sylows of $G$. But each $q$-Sylow has order
+    elements in the $q$-Sylows of $G$ (including 1). But each $q$-Sylow has order
     $q$, so in this case there is a unique $q$-Sylow. Then there
     is either a unique $p$-Sylow or a unique $q$-Sylow which is
     therefore normal. Thus $G$ has a normal Sylow subgroup.
@@ -248,14 +253,14 @@ Let $p$ and $q$ be distinct primes.
     so $G / H$ is cyclic and thus abelian. But $H$ is a $p$-group and
     therefore solvable, so it follows that $G$ is solvable.
 
-    If $|H| = q$ then $|G / H| = p^2$. Then this is a $p$-group of
+    If $|H| = q$ then $|G / H| = p^2$. Then $G / H$ is a $p$-group of
     order greater than 1, so its
     center is nontrivial. Then since $|Z(G / H)|$ divides $p^2$ and is
-    not 1, it must be $p^2$ (in which case $Z(G / H) = G / H$ and so
+    not 1, it must be either $p^2$ (in which case $Z(G / H) = G / H$ and so
     $G / H$ is abelian) or else $p$. But if $|Z(G / H)| = p$ then
     $\left|\frac{G / H}{Z(G / H)}\right| = p$ and thus
-    $\frac{G / H}{Z(G / H)}$ is cyclic, whence $G / H$ is abelian. But
-    in this case $H$ is of prime order and thus cyclic, so we have an
+    $\frac{G / H}{Z(G / H)}$ is cyclic, whence $G / H$ is abelian. By
+    assumption $H$ is of prime order $q$ and thus cyclic, so we have an
     abelian tower $G \triangleright H \triangleright \{ 1 \}$.
   }
   \item
@@ -267,6 +272,12 @@ Let $p$ and $q$ be distinct primes.
     |PQ| = \frac{|P||Q|}{|P \cap Q|} = |P||Q| = p^2 q = |G|
     $$
     and therefore it must be the case that $G = PQ$.
+
+%    The assumption that $p$ does not divide $q-1$ means that
+%    $q \not\equiv 1 \pmod{p}$, which means $N_p \neq q$ and thus $N_p
+%    = 1$, so there is a normal $p$-Sylow in $G$. Call it $P$.
+%    Then $P \triangleleft G$, $P \cap Q = \{ 1 \}$, and $G = PQ$, so
+%    $G = P \rtimes_\psi Q$, where $\psi : Q \to \mathrm{Aut}(P)$
 
     We know that there is either a normal $q$-Sylow or a normal
     $p$-Sylow. In fact, under the restriction that $p$ does not divide
@@ -319,6 +330,9 @@ Let $p$ and $q$ be distinct primes.
 \begin{Answer}
 \begin{enumerate}
   \item{
+    Denote the set generated by transpositions of the form $(k - 1 \to
+    k)$, where $k \in \{2, \dots, n \}$, as $H$.
+
     Notice that
     $$
     (12)(23)(12) = (13).
@@ -358,15 +372,21 @@ Let $p$ and $q$ be distinct primes.
     that we can arrive at $(r + k \bmod n \to s + k \bmod n)$ by
     the conjugation $\sigma^k (rs) \sigma^{-k}$.
 
-    Since $n$ is prime, this means every
-    nonzero element $m \in \mathbb{Z}_n$ has a multiplicative inverse so that
-    \begin{align*}
-    1 &= m^{-1} m
-       = \sum_{i=1}^{m^{-1}} m \\
-      &= \sum_{i=1}^{m^{-1} - 1} m + m
-       = m(m^{-1} - 1) + m \\
-      &= m + \sum_{i=1}^{m(m^{-1} - 1)} 1.
-    \end{align*}
+%   Since $n$ is prime, every
+%   nonzero element $m \in \mathbb{Z}_n$ has a multiplicative inverse
+%   (which is also nonzero) so that
+%   \begin{align*}
+%   1 &= m^{-1} m
+%      = \sum_{i=1}^{m^{-1}} m \\
+%     &= \sum_{i=1}^{m^{-1} - 1} m + m
+%      = m(m^{-1} - 1) + m \\
+%     &= m + \sum_{i=1}^{m(m^{-1} - 1)} 1,
+%   \end{align*}
+%   so multiplying by this inverse is the same as adding 1 a total of
+%   $m(m^{-1} - 1)$ times. (Here the formula is computed in the
+%   integers but using $m^{-1}$ from $\mathbb{Z}_n$, e.g. in
+%   $\mathbb{Z}_5$ we have $2^{-1} = 3$, and $2(3 - 1)
+%
 
     If $r \neq 0$, then
     $\sigma^{-r}(rs)\sigma^{r} = (0 \to s - r \bmod n)$ where
@@ -374,11 +394,10 @@ Let $p$ and $q$ be distinct primes.
     $S_n$ is generated by $\sigma$ and a transposition
     of the form $(0q)$.
 
-    Considering $q$ as an integer modulo $n$, there is an inverse $q^{-1}$ in
-    $\mathbb{Z}_n$, so
+    Considering $q$ as an integer modulo $n$, adding $(1 - q) \bmod n$
+    to $q$ produces 1 modulo $n$, so
     $$
-    \sigma^{q(q^{-1} - 1)} (0q) \sigma^{q(q^{-1} - 1)}
-      = (q(q^{-1} - 1) \bmod n \to 1)
+    \sigma^{1 - q \bmod n} (0q) (\sigma^{1 - q \bmod n})^{-1}
       = (1 - q \bmod n \to 1).
     $$
 
@@ -535,9 +554,9 @@ Let $p$ and $q$ be distinct primes.
     Take $x \in \mathbb{Z}_2^n$ so that $x = (x_i)_{i=1}^\infty$. Then
     $x + x = (x_i + x_i)_{i=1}^\infty = (0)_{i=1}^\infty$, so $A$ is torsion.
     But $A$ consists of all infinite sequences of binary digits, and
-    therefore is in bijection with the interval $[0, 1)$ since these
-    can be regarded as binary representations of the nonnegative real
-    numbers with zero integer part.
+    therefore is in bijection with the interval $[0, 1)$ since
+    elements of $A$ can be regarded as binary representations of the
+    nonnegative real numbers with zero integer part.
     Therefore $A$ is abelian, torsion, and uncountable.
   }
 \end{enumerate}
@@ -945,9 +964,10 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
         \end{array}\right)
         \end{align*}
         and thus $\alpha \in \ker(\mu_{|\det A|} \circ
-        \varphi_{\hat{A}}) = \ker(\psi_A)$.
+        \varphi_{\hat{A}}) = \ker(\psi_A)$. Therefore
+        $\mathrm{Im}(\varphi_A) \subset \ker(\psi_A)$.
 
-        Suppose next
+        Suppose next that
         $\alpha =
          \left(\begin{array}{c}
            x \\
@@ -1032,12 +1052,13 @@ $\mathbb{Z}^2 = \mathbb{Z} \oplus \mathbb{Z}$ as usual.
          \end{array}\right)
          \in \mathrm{Im}(\varphi_A).
          $$
-         Therefore $\alpha \in \mathrm{Im}(\varphi_A)$. We conclude
-         that
+         Therefore $\alpha \in \mathrm{Im}(\varphi_A)$, so
+         $\ker(\psi_{A}) \subset \mathrm{Im}(\varphi_A)$.
+         We conclude that
          $\ker(\psi_{A}) = \mathrm{Im}(\varphi_A)$.
       }
       \item{
-        Suppose $\det A < 0$. Then $|det A| = -\det A = \det (-A) > 0$
+        Suppose $\det A < 0$. Then $|\det A| = -\det A = \det (-A) > 0$
         and so $\ker \psi_{-A} = \mathrm{Im}(\varphi_A)$ just as above.
       }
     \end{itemize}
@@ -1111,7 +1132,7 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
       \dots,
       \left[ \frac{k-1}{k}, 1 \right).
       $$
-      By the pigeonhole principle, there exist $s, t \in \mathbb{Z}_+$
+      By the pigeonhole principle, there exist distinct $s, t \in \mathbb{Z}_+$
       such that $\{ s x \}$, $\{ t x \}$ belong to the same
       subinterval and therefore such that
       $|\{ s x \} - \{t x\}| < \frac{1}{k}$. But
@@ -1123,10 +1144,11 @@ $\mathbb{R}^n$ in the topology of $\mathbb{R}^n$.
       whereas
       $$
       \{ (s - t)x \}
-        = (s - t)x - \floor{(s - t)x}
-        < (s - t)x - \floor{s x},
+        =    (s - t)x - \floor{(s - t)x}
+        \leq (s - t)x - \floor{s x} + \floor{t x},
       $$
-      assuming $s > t$ without loss of generality. Therefore
+      assuming $s > t$ (and therefore also that
+      $|\{sx\} - \{tx\}| = \{sx\} - \{tx\}$ without loss of generality. Therefore
       $\{ (s - t)x \} < \frac{1}{k}$ where $k$ is arbitrary.
 
       Therefore there exists an integer multiple of $a \beta$ with arbitrarily
