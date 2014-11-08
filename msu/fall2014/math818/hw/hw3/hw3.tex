@@ -520,10 +520,10 @@ Let $p$ and $q$ be distinct primes.
     $$
     q
       = \sum_{i \in I} n_i
-          \frac{r_i\prod_{\substack{j \in I}{j \neq i}} s_j}
-               {s_i \prod_{\substack{j \in I}{j \neq i}} s_j}
+          \frac{r_i\prod_{\substack{j \in I \\ j \neq i}} s_j}
+               {s_i \prod_{\substack{j \in I \\ j \neq i}} s_j}
       = \frac{\sum_{i \in I} n_i r_i
-                \prod_{\substack{j \in I}{j \neq i}} s_j}
+                \prod_{\substack{j \in I \\ j \neq i}} s_j}
              {\prod_{i \in I} s_i},
     $$
     so the representation is not unique.
