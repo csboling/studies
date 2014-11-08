@@ -1,0 +1,197 @@
+\begin{defn}[Ring]
+A \emph{ring} $A$ is a set with two binary operations $+$ (addition) and $\cdot$
+(multiplication) such that
+\begin{itemize}
+  \item{
+    $(A, +)$ is an abelian group.
+  }
+  \item{
+    $(A, \cdot)$ is a monoid (associative).
+  }
+  \item{
+    The distributive law
+    $$
+    x \cdot (y + z) = x \cdot y + x \cdot z, \quad
+    (y + z) \cdot x = y \cdot x + z \cdot x.
+    $$
+  }
+\end{itemize}
+
+The ring is \emph{commutative} when $x \cdot y = y \cdot x$, $\forall x, y
+\in A$.
+
+The \emph{zero ring} is a one-element set $\{0\}$ with trivial
+operations $0 + 0 = 0 = 0 \cdot 0$.
+
+\end{defn}
+
+\begin{xmpl}
+\begin{enumerate}
+  \item{
+    $A = \mathbb{Z}$.
+  }
+  \item{
+    $A = \mathbb{Z}_n$.
+  }
+  \item{
+    $A = \mathbb{Z}[x]$, the polynomials in $x$ with coefficients in
+    $\mathbb{Z}$, i.e.
+    $$
+    \{ f(x) = a_n x^n + \cdots + a_1 x + a_0 \mid a_i \in \mathbb{Z} \}
+    $$
+    with the usual addition and multiplication of polynomials.
+  }
+  \item{
+    An example of a non-commutative ring: Say $R$ is a ring, $n \geq
+    1$. The set of $n \times n$ square matrices
+    $$
+    M_{n \times n}(R)
+      = \left\{ ( a_{ij} ) \mid a_{ij} \in R \right\}
+    $$
+    is a ring with addition
+    $(a_{ij}) + (b_{ij}) = (a_{ij} + b_{ij})$
+    and multiplication
+    $(a_{ij}) \cdot (b_{ij}) = \left(\sum_{k=1}^n a_{ik}
+      b_{kj}\right)$. This is not commutative for $n > 1$ and $R \neq
+    \{ 0 \}$.
+  }
+\end{enumerate}
+\end{xmpl}
+
+\begin{obsv}
+Let $A$ be a ring.
+\begin{enumerate}
+\item{
+  $$
+  0 \cdot x = x \cdot 0 = 0, \forall x \in A.
+  $$
+  \begin{proof}
+  \begin{align*}
+             & 0 + 0 = 0 \implies x \cdot (0 + 0) = x \cdot 0 \\
+    \implies & x \cdot 0 + x \cdot 0 = x \cdot 0 \\
+    \implies & x \cdot 0 = 0.
+  \end{align*}
+  \end{proof}
+}
+\item{
+  $A = \{ 0 \}$ if and only if $0 = 1$. Suppose $0 = 1$. Then
+  $\forall x$, $0 \cdot x = 0$, but also $0 \cdot x = x$ since $0 =
+  1$.
+}
+\item{
+  $$
+  (-x) \cdot y = -(x \cdot y) = x \cdot (-y)
+  $$
+  since
+  $$
+  (x + (-x)) \cdot y = 0 \cdot y = 0
+  $$
+  so
+  $$
+  x \cdot y + (-x) \cdot y = 0
+  $$
+  and then
+  $$
+  (-x) \cdot y = -(xy).
+  $$
+  Similarly $(-x)(-y) = xy$.
+}
+\end{enumerate}
+\end{obsv}
+
+\begin{xmpl}
+Let $G$ be a group. The \emph{integral group ring of $G$} is
+$$
+A = \mathbb{Z} [G]
+  = \left\{ \left. \sum_{g \in G} a_g [g] \right|
+            a_g \in \mathbb{Z}, \text{ all but finitely many zero}
+    \right\}
+$$
+Elements written in brackets are inside the group $G$.
+We have addition
+$$
+\sum_{g} a_g [g] + \sum_{g} b_g [g] = \sum_{g} (a_g + b_g)[g]
+$$
+and multiplication extends
+$$
+(1 \cdot [g]) \cdot (1 \cdot [h]) = 1 \cdot [g \cdot h].
+$$
+so that
+$$
+\left(\sum_g a_g [g]\right)
+\cdot
+\left(\sum_h a_h [h]\right)
+=
+\sum_{f \in g}
+\left(\sum_{gh = f} a_g b_h \right)[f].
+$$
+This will fail to be a commutative ring for all nonabelian groups.
+\end{xmpl}
+
+\begin{defn}
+Let $A$ be a ring. The \emph{units of $A$}, written $\mathcal{U}(A)$
+or $A^\ast$, is the set
+$$
+\left\{ a \in A \mid \exists b, c \in A, a b = 1, c a = 1 \right\}.
+$$
+
+\begin{remark}
+If $a b = 1$, $c a = 1$, then actually $b = c$ since
+$$
+(c a)b = c (a b) = c 1 = c.
+$$
+In general, it is possible that there exists a $c$ such that $c a = 1$
+but there does not exist a $b$ with $a b = 1$.
+\end{remark}
+\end{defn}
+
+\begin{prop}
+For any ring $A$, the units $A^\ast$ form a group under multiplication.
+\end{prop}
+\begin{proof}
+$1 \in A^\ast$ and $a \in A^\ast$ has an inverse $a^{-1}$ by
+definition of $A^\ast$.
+\end{proof}
+
+Let $G$ be a finite group. Consider $A = \mathbb{Z}[G]$. Observe
+that $[g]$ is a unit of $A$, since $[g] [g^{-1}] = [1]$, the unit
+element in the ring. Certainly also $-[g] = (-1)[g]$ is also a unit
+for all $g \in G$. Do we always have (for all $G$) that
+$$
+\mathbb{Z}[G]^\ast = \pm G = \{ \pm [g] \mid g \in G \}?
+$$
+
+\begin{defn}[Division ring, Field]
+Let $A$ be a ring.
+\begin{enumerate}
+  \item{
+    $A$ is a \emph{division ring} if $0 \neq 1$ and
+    $A^\ast = A - \{ 0 \}$ so all non-zero elements are left and right invertible.
+  }
+  \item{
+    $A$ is a \emph{field} if it is a commutative division ring.
+  }
+\end{enumerate}
+\end{defn}
+
+\begin{xmpl}
+The Hamilton quaternions form a division ring that is not commutative.
+$$
+H = \mathbb{R} 1 + \mathbb{R} i + \mathbb{R} j + \mathbb{R} k
+$$
+with elementwise addition and multiplication determined by
+$$
+ij = k, \quad
+jk = i, \quad
+ki = j, \quad
+ji = -k, \quad
+kj = -i, \quad
+ik = -j, \quad
+i^2 = j^2 = k^2 = -1.
+$$
+We have
+$$
+(a + bi + cj + dk)^{-1} =
+\frac{a - bi - cj - dk}{a^2 + b^2 + c^2 + d^2}.
+$$
+\end{xmpl}
