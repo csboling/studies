@@ -1,0 +1,77 @@
+\documentclass{article}
+
+\title{ECE 875 - Homework \#4}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\renewcommand*{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand*{\Im}{\operatorname{\mathfrak{Im}}}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#2.7}
+For a $p$-$n$ junction with the $p$ side doped to $1 \times 10^{17}$ cm$^{-3}$,
+the $n$-side doped to $1 \times 10^{19}$ cm$^{-3}$, and a reverse bias of 
+$-2$ V, calculate the generation-recombination current density, assuming that 
+the effective lifetime is $1 \times 10^{-5}$ s.
+\horline
+Near the junction, that is, in the depletion region, majority carrier 
+concentrations are nearly zero under reverse bias since the applied
+electric field acts to oppose the built-in electric field. Therefore 
+$np < n_i^2$ so the generation-recombination current density is given by
+$$
+J = q U W_D = q W_D \left( -\frac{n_i}{\tau_g} \right)
+$$
+from equation 98 in chapter 1 where $\tau_g$ is the effective lifetime.
+$$
+J = -q \sqrt{\frac{2 \varepsilon}{q}
+             \frac{N_A + N_D}{N_A N_D} (\psi_{bi} - V_{bias})} 
+       \frac{n_i}{\tau_g}.
+$$
+But the builtin potential in nondegenerate semiconductors is given by
+\begin{align*}
+\psi_{bi} &\approx \frac{kT}{q} \ln \left(\frac{N_D N_A}{n_i^2}\right) \\
+          &\approx \frac{4.14 \times 10^{-21}}{1.60 \times 10^{-19}}
+                  \ln\left(\frac{10^{36}}{(9.65 \times 10^9)^2}\right) \\
+          &\approx 0.955 \mathrm{V}
+\end{align*}
+in silicon at 300K.
+
+Then
+\begin{align*}
+W_D &= \sqrt{\frac{2\varepsilon}{q} 
+            \frac{N_A + N_D}{N_A N_D}
+            (\psi_{bi} - V_{bias})} \\
+    &\approx
+       \sqrt{\frac{2 \cdot 11.9 \cdot 8.85 \times 10^{-14}}
+                  {1.6 \times 10^{-19}}
+             \frac{1.01 \times 10^{19}}
+                  {10^{36}}
+             (0.955 + 2)} \\
+    &\approx 1.98 \times 10^{-5} \mathrm{cm}, \\
+U   &= -\frac{n_i}{\tau_g} \approx -\frac{9.65 \times 10^{9}}{10^{-5}} \\
+    &\approx -9.65 \times 10^{14} \mathrm{cm}^{-3} \mathrm{s}^{-1},
+\end{align*}
+so
+\begin{align*}
+J &= q U W_D 
+   \approx (1.6 \times 10^{-19})(1.98 \times 10^{-5})(-9.65 \times 10^{14}) \\
+  &\approx -3.06 \times 10^{-9} \frac{\mathrm{A}}{\mathrm{cm}^2}.
+\end{align*}
+
+\end{document}

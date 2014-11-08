@@ -1,0 +1,290 @@
+\documentclass{article}
+
+\title{ECE 875 - Homework \#1}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\renewcommand*{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand*{\Im}{\operatorname{\mathfrak{Im}}}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 1.4}
+\begin{enumerate}[label=(\alph*)]
+  \item{Derive an expression for the bond length $d$ in the diamond lattice
+        in terms of the lattice constant $a$.
+       }
+  \item{In a silicon crystal, if a plane has intercepts at 10.86 \r{A},
+        16.29 \r{A}, and 21.72 \r{A} along the three Cartesian coordinates,
+        find the Miller indices of the plane.
+       }
+\end{enumerate}
+
+\horline
+
+\begin{enumerate}[label=(\alph*)]
+  \item{Note that the bond length is half the diagonal of a cube
+        with corners defined by the atom in one corner of the 
+        unit cell and the atoms on adjacent faces to that corner.
+        The diagonal $x$ of one side of the cube is given by
+        $$
+        \left(\frac{a}{2}\right)^2 
+      + \left(\frac{a}{2}\right)^2
+      = x^2,
+        $$ 
+        and the diagonal $y$ of the cube is given by
+        $$
+        x^2 + \left(\frac{a}{2}\right)^2 = y^2,
+        $$
+        so that
+        \begin{align*}
+        d &= \frac{1}{2} y \\
+          &= \frac{1}{2} \sqrt{3 \left(\frac{a}{2}\right)^2} \\
+          &= \frac{\sqrt{3}}{4} a.
+        \end{align*}
+       }
+  \item{Silicon has a lattice constant of $a \approxeq 5.431$ \r{A}, 
+        so we note that these intercepts can be expressed as
+        $(2a, 3a, 4a)$. Then taking the reciprocals of $(2,3,4)$ gives
+        $(\frac{1}{2}, \frac{1}{3}, \frac{1}{4}$, and these denominators
+        have a least common multiple of 12, so
+        $(643)$ is the Miller index for the plane.
+       }
+\end{enumerate}
+
+\pagebreak
+
+\section*{Problem 1.5}
+Show (a) that each vector of the reciprocal lattice is normal to a set of
+planes in the direct lattice, and (b) the volume of a unit cell of the 
+reciprocal lattice is inversely proportional to the volume of a unit cell
+of the direct lattice.
+\horline
+\begin{enumerate}[label=(\alph*)]
+  \item{
+  Let $\mathbf{G}$ be a vector of the reciprocal lattice. Then
+  \begin{align*}
+     \mathbf{G} &= h \mathbf{a^\ast}
+                 + k \mathbf{b^\ast} 
+                 + l \mathbf{c^\ast} \\
+                &= \frac{2\pi}{\mathbf{a} \bullet 
+                               \mathbf{b} \times \mathbf{c}}
+                     [h (\mathbf{b} \times \mathbf{c})
+                    + k (\mathbf{c} \times \mathbf{a})
+                    + l (\mathbf{a} \times \mathbf{b})].
+  \end{align*}
+%  First consider the case that h = k = l = 0. Then 
+%  $\mathbf{G} = \mathbf{0}$, so every vector is orthogonal to 
+%  $\mathbf{G}$. Then all planes in the direct lattice are 
+%  orthogonal to $\mathbf{G}$.
+
+  Let $\mathbf{R}$ be a vector in the direct lattice, so that
+  $\mathbf{R} = q \mathbf{a} + r \mathbf{b} + s \mathbf{c}$ for
+  some integers $q, r, s$. Then
+  \begin{align*}
+    \mathbf{G} \bullet \mathbf{R} 
+      &= \frac{2\pi}{\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}}
+         \left[h(\mathbf{b} \times \mathbf{c}) \bullet \mathbf{R}
+             + k(\mathbf{c} \times \mathbf{a}) \bullet \mathbf{R}
+             + l(\mathbf{a} \times \mathbf{b}) \bullet \mathbf{R}\right] \\
+      &= \frac{2\pi}{\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}}
+         \left[hq(\mathbf{a} \bullet \mathbf{b} \times \mathbf{c})
+             + kr(\mathbf{b} \bullet \mathbf{c} \times \mathbf{a})
+             + ls(\mathbf{c} \bullet \mathbf{a} \times \mathbf{b})\right],
+  \end{align*}
+  because $\mathbf{v} \bullet \mathbf{v} \times \mathbf{w} = 0$, 
+  $\forall \mathbf{v}, \mathbf{w}$ since $\mathbf{v} \times \mathbf{w}$ is
+  orthogonal to both $\mathbf{v}$ and $\mathbf{w}$. Then since
+  $$
+  \mathbf{a} \bullet \mathbf{b} \times \mathbf{c}
+   = \mathbf{b} \bullet \mathbf{c} \times \mathbf{a}
+   = \mathbf{c} \bullet \mathbf{a} \times \mathbf{b},
+  $$
+  we have
+  $$
+  \mathbf{G} \bullet \mathbf{R} = 2 \pi (hq + kr + ls) = 2 \pi n,
+  $$
+  for some integer $n$, for every $\mathbf{R}$ in the direct lattice.
+
+  Consider a plane wave propagating with wavevector $\mathbf{G}$. Then its
+  value at each point $\mathbf{r}$ in space is given by
+  $$
+  A(\mathbf{r}, t) 
+    = \Re\{A_0 e^{i \mathbf{G} \bullet \mathbf{r}} e^{i(\varphi - \omega t)}\},
+  $$
+  so for any $\mathbf{R}$ in the direct lattice
+  \begin{align*}
+  A(\mathbf{R}, t)
+    &= \Re\{A_0 e^{i \mathbf{G} \bullet \mathbf{R}} e^{i(\varphi - \omega t)}\} \\
+    &= \Re\{A_0 e^{i(\varphi - \omega t)}\} \\
+    &= A_0 \cos (\varphi - \omega t)
+  \end{align*}
+  since $e^{i 2 \pi n} = 1$ for any integer $n$.
+
+  For fixed time $t$ this sinusoid has constant phase, so each point 
+  $\mathbf{R}$ in the direct lattice sees the same phase. Therefore the direct 
+  lattice points lie in surfaces of constant phase for $A(\mathbf{r}, t)$, and 
+  since this is a plane wave such surfaces must be planes. Furthermore, these
+  planes are orthogonal to the wavevector $\mathbf{G}$. Therefore for any 
+  $\mathbf{G}$ in the reciprocal space there exists a set of planes in the 
+  direct space orthogonal to $\mathbf{G}$. 
+
+%  Thus any triple $(q,r,s)$ that satisfies this equation for the given
+%  $h, k, l$ yields a vector 
+%  $\mathbf{P} = q \mathbf{a} + r \mathbf{b} + s \mathbf{c}$ 
+%  in the direct lattice that is orthogonal to $\mathbf{G}$.
+%  Choose vectors in the direct lattice
+%  \begin{align*}
+%    \mathbf{R}_1 &= q_1 \mathbf{x} + r_1 \mathbf{y} + s_1 \mathbf{z},\\
+%    \mathbf{R}_2 &= q_2 \mathbf{x} + r_2 \mathbf{y} + s_2 \mathbf{z}
+%  \end{align*}
+%  that meet this criterion, so that
+%  \begin{align*}
+%    h q_1 + k r_1 + l s_1 &= 0, \\
+%    h q_2 + k r_2 + l s_2 &= 0.
+%  \end{align*}
+%  Since the proof is completed above for the case $h = k = l = 0$, let
+%  $l \neq 0$. Then choose any $q_1 \neq 0$ and any $r_1$. The relations 
+%  above give
+%  $$
+%  s_1 = -\frac{hq_1 + kr_1}{l}.
+%  $$
+%  Then choose $q_2 = mq_1$, $r_2 = nr_1$ for some integers $m, n$. Then
+%  $$
+%  s_2 = -\frac{hq_2 + kr_2}{l} = -\frac{hmq_1 + knr_1}{l}
+%  $$
+%  so that
+%  \begin{align*}
+%  \mathbf{R}_1 \times \mathbf{R}_2 &= \left|\begin{array}{c c c}
+%    \mathbf{x} & \mathbf{y} & \mathbf{z} \\
+%    q_1  & r_1  & -\frac{hq_1 + kr_1}{l} \\
+%    mq_1 & nr_1 & -\frac{hmq_1 + knr_1}{l} 
+%  \end{array}\right| \\
+%   &= r_1\left(\frac{hnq_1 + knr_1 - hmq_1 - knr_1}{l}\right)\mathbf{x} \\
+%   &+ q_1\left(\frac{hmq_1 + knr_1 - hmq_1 - kmr_1}{l}\right)\mathbf{y} \\
+%   &+ q_1r_1(n - m)\mathbf{z} \\
+%   &= (n - m) (hr_1\mathbf{x} + kq_1\mathbf{y} + q_1 r_1 \mathbf{z}).
+%  \end{align*}
+%  Therefore as long as $n \neq m$, 
+%  $\mathbf{R}_1 \times \mathbf{R}_2 \neq \mathbf{0}$ and are therefore not
+%  parallel, so they define a plane in the direct lattice which is orthogonal
+%  to $\mathbf{G}$. The same argument may be applied for the cases where 
+%  $h \neq 0$ and $k \neq 0$, so for any vector in the reciprocal lattice
+%  there exist planes in the direct lattice which are orthogonal to it.
+  }
+  \item{
+    \begin{align*}
+      \mathbf{a^\ast} \bullet \mathbf{b^\ast} \times \mathbf{c^\ast} 
+        &= \left(2 \pi \frac{\mathbf{b} \times \mathbf{c}}{V_c}\right) 
+   \bullet \left(2 \pi \frac{\mathbf{c} \times \mathbf{a}}{V_c}\right)
+    \times \left(2 \pi \frac{\mathbf{a} \times \mathbf{b}}{V_c}\right) \\
+        &= \left(\frac{2 \pi}{V_c}\right)^3 
+             (\mathbf{b} \times \mathbf{c})
+             \bullet [(\mathbf{c} \times \mathbf{a}) 
+                      \times (\mathbf{a} \times \mathbf{b})].
+    \end{align*}
+    But the bracketed vector quadruple product can be written as
+    \begin{align*}
+      (\mathbf{c} \times \mathbf{a}) 
+       \times (\mathbf{a} \times \mathbf{b})
+      &= (\mathbf{c} \bullet \mathbf{a} \times \mathbf{b})\mathbf{a} 
+       - (\mathbf{c} \bullet \mathbf{a} \times \mathbf{a})\mathbf{b} = V_c \mathbf{a}
+    \end{align*}
+    since $\mathbf{a} \times \mathbf{a} = \mathbf{0}$ and 
+    $$
+    \mathbf{c} \bullet \mathbf{a} \times \mathbf{b} 
+     = \mathbf{a} \bullet \mathbf{b} \times \mathbf{c} = V_c.
+    $$
+    Thus
+    $$
+    \mathbf{a^\ast} \bullet \mathbf{b^\ast} \times \mathbf{c^\ast} =
+      \left(\frac{2 \pi}{V_c}\right)^3 V_c 
+        \mathbf{a} \bullet \mathbf{b} \times \mathbf{c} 
+    = \frac{(2\pi)^3}{V_c},
+    $$
+    so the volume of a primitive cell of the reciprocal lattice is 
+    inversely proportional to the volume of a primitive cell of the
+    reciprocal lattice.
+    }
+\end{enumerate}
+
+\pagebreak
+
+
+\section*{Problem 1.6}
+Show that the reciprocal lattice of a body-centered cubic (bcc) lattice with
+a lattice constant $a$ is a face-centered cubic (fcc) lattice with the side
+of the cubic cell to be $\frac{4\pi}{a}$. 
+[Hint: Use a symmetric set of vectors for bcc:
+$$
+\mathbf{a} = \frac{a}{2}(\mathbf{y} + \mathbf{z} - \mathbf{x}),
+\mathbf{b} = \frac{a}{2}(\mathbf{z} + \mathbf{x} - \mathbf{y}),
+\mathbf{c} = \frac{a}{2}(\mathbf{x} + \mathbf{y} - \mathbf{z}),
+$$
+where $a$ is the lattice constant of a conventional primitive cell, and
+$\mathbf{x}$, $\mathbf{y}$, $\mathbf{z}$ are unity vectors of a Cartesian
+coordinate. For fcc;
+$$
+\mathbf{a} = \frac{a}{2}(\mathbf{y} + \mathbf{z}),
+\mathbf{b} = \frac{a}{2}(\mathbf{x} + \mathbf{z}),
+\mathbf{c} = \frac{a}{2}(\mathbf{x} + \mathbf{y}).]
+$$
+\horline
+First compute, for the bcc lattice,
+\begin{align*}
+  \mathbf{b} \times \mathbf{c} &=
+  \left|\begin{array}{r r r}
+    \mathbf{x} & \mathbf{y} & \mathbf{z} \\
+     \frac{a}{2} & -\frac{a}{2} &  \frac{a}{2} \\
+     \frac{a}{2} &  \frac{a}{2} & -\frac{a}{2}
+  \end{array}\right| \\
+&= \left(\frac{a^2}{4} - \frac{a^2}{4}\right) \mathbf{x} 
+ + \left(\frac{a^2}{4} + \frac{a^2}{4}\right) \mathbf{y} 
+ + \left(\frac{a^2}{4} + \frac{a^2}{4}\right) \mathbf{z} \\
+&= \frac{a^2}{2} (\mathbf{y} + \mathbf{z}), \\
+  \mathbf{c} \times \mathbf{a} &=
+  \left|\begin{array}{r r r}
+    \mathbf{x} & \mathbf{y} & \mathbf{z} \\
+     \frac{a}{2} &  \frac{a}{2} & -\frac{a}{2} \\
+    -\frac{a}{2} &  \frac{a}{2} &  \frac{a}{2} 
+  \end{array}\right| 
+= \frac{a^2}{2}(\mathbf{x} + \mathbf{z}), \\
+  \mathbf{a} \times \mathbf{b} &=
+  \left|\begin{array}{r r r}
+    \mathbf{x} & \mathbf{y} & \mathbf{z} \\
+    -\frac{a}{2} &  \frac{a}{2} &  \frac{a}{2} \\
+     \frac{a}{2} & -\frac{a}{2} &  \frac{a}{2} 
+  \end{array}\right| 
+= \frac{a^2}{2}(\mathbf{x} + \mathbf{y}),
+\end{align*}
+and thus
+$$
+\mathbf{a} \bullet \mathbf{b} \times \mathbf{c} = \frac{a^3}{2}.
+$$
+Then
+\begin{align*}
+  \mathbf{a^\ast} &= \frac{2\pi}{\frac{a^3}{2}} \frac{a^2}{2} (\mathbf{y} + \mathbf{z}) \\
+  &= \frac{2\pi}{a} (\mathbf{y} + \mathbf{z}) 
+   = \frac{\frac{4\pi}{a}}{2} (\mathbf{y} + \mathbf{z}), \\
+  \mathbf{b^\ast} &= \frac{\frac{4\pi}{a}}{2} (\mathbf{x} + \mathbf{z}), \\
+  \mathbf{c^\ast} &= \frac{\frac{4\pi}{a}}{2} (\mathbf{x} + \mathbf{y}),
+\end{align*}
+constant $a$ is the basis for the direct lattice of an fcc structure with
+lattice constant $\frac{4\pi}{a}$.
+
+\end{document}

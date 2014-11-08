@@ -1,0 +1,215 @@
+\documentclass[11pt]{paper}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\title{Progress Report -- Simulating and characterizing rate distortion of a compressed sensing architecture for multichannel neural recordings}
+\author{Sam Boling}
+\date{11/25/2013}
+
+\begin{document}
+
+\maketitle
+
+With the motivation of reducing the bandwidth requirements of multielectrode
+neural recording systems, I chose to examine the rate-distortion performance
+of an analog compressed sensing architecture by performing proof-of-concept 
+simulations. Preliminary development and simulations are complete, and have
+given a better indication of what directions should be pursued for 
+analysis. Next, a rate distortion curve will be plotted that shows the
+relationship between the number of compressive measurements and the 
+mean-squared distortion suffered by action potentials as they pass through
+the system. Additionally, the probability of sparse reconstruction 
+making an error in the sign of a coefficient will be computed, and these 
+error probabilities will be used as input to the Blahut-Arimoto algorithm 
+in an attempt to establish what coefficients should be preferred or 
+discarded in the reconstruction step.
+
+Compressed sensing relies on the observation (and rigorous demonstration in
+\cite{candes2006}) that a high-dimensional signal which is known to be 
+``sparse" can be represented with a smaller number of measurements than its 
+dimension alone would indicate. More precisely, a dimension $N$ signal 
+$x$ with a representation in basis $\{\psi_i\}_{i=1}^N = \mathbf{\Psi}$ that
+has only $K$ nonzero coefficients, i.e. $x = \mathbf{\Psi}\alpha$ 
+and $K = \|\alpha\|_0 \ll N$, is said to be sparse in $\mathbf{\Psi}$. 
+Compressed sensing theory guarantees that such a signal can be reconstructed
+from projections $y = \mathbf{\Phi}x$ provided that the projective 
+transformation $\mathbf{\Phi}$ meets certain requirements. In particular,
+a sufficiently random choice of $\mathbf{\Phi}$ guarantees that signals 
+will not be
+sparse in $\mathbf{\Phi}{\Psi}$, and in this case it is sufficient for the
+dimensionality of the projected measurements $y$ to be 
+$M > O\left(K \log \frac{N}{K}\right)$ regardless of the sparsity basis
+$\mathbf{\Psi}$ \cite{candes2010}. For a specified sparsity basis it is 
+possible to recover the coefficients $\alpha$ by solving an optimization
+problem that attempts to minimize 
+$\|y - \mathbf{\Phi}\mathbf{\Psi}\alpha\|_2$ 
+while penalizing candidate solutions for a lack of sparsity. 
+
+The ability of compressed sensing to greatly reduce the dimensionality of
+measurements is a promising approach for reducing the bandwidth and 
+computational load of a data acquisition platform, thereby helping wireless 
+biocompatible systems such as neural recording devices meet their strict
+power constraints. Brain tissue in particular is highly susceptible to
+temperature change, which can affect function and cause long-term damage 
+\cite{cais2008}, so power dissipation for implantable brain-computer 
+interfaces must be carefully controlled. Reconstruction by sparse 
+optimization, however, is generally a computationally intensive procedure 
+that is not well-suited for real-time implementation, especially at low 
+power. This would seem to limit the viability of a compressed sensing 
+approach in closed-loop clinical applications. However, recent theoretical 
+work has demonstrated that reconstruction is not necessary for many control
+and machine learning algorithms since appropriately designed systems can 
+operate entirely in the compressed domain \cite{ganguli2012}. These 
+developments provide some encouragement that the problem of wireless
+low-power multielectrode recording and control may lend itself well to
+compressed sensing. Some authors have even suggested that compressed 
+sensing theory can provide insight into the storage and computation
+capabilities of the brain itself \cite{ganguli2012}, and this should 
+further motivate the investigation of the technique's applicability to
+neural signals.
+
+Although much of the attention paid to compressed sensing is due to its
+promise to enable measurement systems that achieve effectively sub-Nyquist
+rate sampling for certain classes of signals, most existing implementations
+of the approach use ordinary analog-to-digital converters and perform 
+random projections digitally, essentially using compressed sensing as a 
+conventional, if unique, signal compression method. Such approaches have
+included work with extracellular neural recordings 
+\cite{charbiwala2011}, relying on the sparsity of neural action potentials 
+in the wavelet domain. Some researchers, however, have proposed circuits 
+they describe as analog-to-information  converters since they project input 
+signals by analog means as part of the conversion process 
+\cite{kirolos2006}. Such an approach saves on the power costs of both 
+transmission bandwidth and digital signal processing, magnifying the 
+benefits of this sampling scheme even at the expense of increased 
+reconstruction costs.
+
+Information theoretic bounds \cite{aeron2010, sarvotham2006} and empirical 
+rate distortion results for compressed sensing \cite{rambeloarison2012} have
+been published, but much of the available research seems limited to a 
+one-channel data stream. Expansion to multiple channels poses an interesting
+challenge to reconstruction discussed in \cite{romberg2009}, since events of
+interest, which represent the nonzero elements of the sparse coefficient 
+vector $\alpha$, often occur simultaneously across several channels. Neural
+action potentials have a high probability of occurring synchronously across
+multiple channels, and indeed synchronous neural activity is often of 
+particular interest to researchers. Nonetheless, increasing spatial 
+resolution of neural recordings to desired levels will require novel
+approaches for controlling system bandwidth, and architectures which can
+afford multiple channels on a single analog-to-digital converter at a fixed
+rate are therefore highly attractive technologies for this problem. In the
+multichannel case, the factor of improvement over Nyquist sampling is 
+concrete, since it is equal to the number of channels in the system. Given
+that the number of channels has a critical impact on the reconstruction
+quality and imposes the most stringent performance bound on the system,
+large scale neural recording platforms using this technology would likely
+involve a bank of such analog-to-information converters operating in
+parallel.
+
+Despite some theoretical developments regarding multichannel systems,
+relatively few architectures have been proposed for performing compressive
+sampling of numerous channels in analog. The most significant is the
+so-called compressive multiplexer described in \cite{slavinsky2011}. In 
+this approach, $J$ channels each with a bandwidth of $W/2$ Hz are sampled
+in parallel. Some other multichannel sampling approaches have been 
+theoretically proposed \cite{eldar2009} but do not necessarily yield obvious
+implementation architectures. The compressive multiplexer has the advantage
+that the compressive projection matrix can be generated independently by the
+receiver without requiring additional system bandwidth, while a major 
+benefit of compressed sensing in general is that a sparsity basis for a
+signal need not be known until reconstruction. A linear-feedback shift 
+register (LFSR) with taps chosen for
+a maximum period of repetition is used to generate chipping sequences that 
+take values of $\pm 1$ with fairly uniform probability, where new chips are
+generated at the rate $W$. Each channel is multiplied in analog with its 
+chipping sequence, then all such modulated channels are summed and sampled 
+at rate $W$ with a conventional ADC. These chipping sequences effectively 
+produce a projection basis $\mathbf{\Phi}$ incoherent with any sparsity 
+basis, and the use of a pseudorandom deterministic source allows a receiver
+using the same pseudorandom seed to reconstruct signals acquired in this 
+fashion. Here the projection matrix $\mathbf{\Phi}$ consists of a union of
+$J$ matrices with the chip sequences along the diagonal. By multiplying the 
+resulting output stream by the chip sequence for a 
+given channel, a receiver can reproduce the input for that channel plus a
+noise term with a magnitude determined by the sparsity of all other 
+channels. This is the trivial reconstruction mode of the system. The 
+authors show substantially improved reconstruction and even denoising of
+the original input when the block-coordinate relaxation algorithm described 
+by \cite{sylvain2000} is used. This procedure involves fitting coordinates 
+for each channel in sequence to a residual signal derived by subtracting out
+the most current estimate of the contribution from all other channels. The
+main advantage of the compressive multiplexer is that the number of channels
+may be increased, up to some limit, without affecting the output bandwidth 
+of the converter.
+
+The compressive multiplexer architecture described in \cite{slavinsky2011} 
+has been implemented in Python along with both trivial and block-coordinate
+relaxation (BCR) \cite{sylvain2000} reconstruction methods. The latter 
+algorithm required some alterations from the procedure given by the authors 
+of \cite{slavinsky2011} since neural action potentials are sparse in a wavelet basis and not in the Fourier domain \cite{oweiss2006}. The Python 
+implementation is structured in a flexible coroutine-based pipeline that 
+allows the software to flow much like a hardware system and produce output
+on a sample-by-sample basis. NumPy and SciPy are used for data management,
+linear algebra and signal processing, and the PyWavelets and sklearn 
+libraries are used for wavelet decomposition and sparse optimization 
+solving, respectively. Initial attempts to reproduce the results given by 
+Sylvain et al. encountered difficulties since the optimization libraries
+available for Python do not handle complex matrices such as the discrete 
+Fourier transform matrix. Since wavelet transform matrices are real and 
+since wavelets provide the sparse representations of interest these attempts
+were abandoned, but current reconstruction quality does not show the same
+performance as the published results for Fourier-sparse radar signals. Some 
+tuning of parameters and experimentation with
+wavelet bases and sparsification techniques has been performed and 
+development will now focus on information theoretic analysis. When comparing
+reconstructions with inputs it is important to consider only the windows
+immediately surrounding spike events, since for most analysis and control
+applications all data that does not contain action potentials is discarded
+as noise. 
+
+\begin{figure}[!t]
+  \includegraphics[width=\linewidth,clip,trim=125 10 100 0]
+                  {prelim-results.pdf}
+\end{figure}
+
+At present, reasonably good reconstruction performance for action potentials
+has been obtained from both trivial and BCR methods (see figure), although
+parameters could still be tuned. Addition of a learned union of supports
+as in \cite{charbiwala2011} might help reconstruction quality but is outside
+the scope of this project. In this implementation we have $N$ equal to the 
+window size of the discrete wavelet transform times the number of channels 
+and $M$ equal to the number of wavelet coefficients, which depends on choice
+of basis and decomposition level. A rate distortion curve for the system can
+be plotted as in \cite{schulz2009} with the rate measured as 
+$\frac{M}{N} H_y$, where $H_y$ is the sample entropy. In order to keep the 
+test samples the same, we must vary the parameter $M$ for a fixed choice of 
+wavelet basis, since wavelet basis affects sparsity and other relevant 
+variables. By varying the number of decomposition levels and the number of 
+coefficients to discard it should be possible to characterize the system's 
+performance tradeoffs in this way. Additionally, we note that the 
+reconstruction from multi-channel activity often suffers from coefficients 
+with large magnitude where the input has nearly-zero coefficients. By 
+quantitatively analyzing the probability that such an error will occur, 
+using the finite alphabet of 1 for a positive coefficient with a magnitude 
+above a certain threshold, -1 for a negative coefficient with a magnitude 
+above the threshold, and 0 for any coefficient with a magnitude below the 
+threshold, it should be possible to use the Blahut-Arimoto algorithm 
+\cite{yeung2002} to find
+an optimal probability distribution for the ``channel" that the compressed 
+sensing architecture implements. Locating such a probability distribution 
+may provide some insight into which coefficients should be preferred or 
+discarded during sparse optimization.
+
+Preliminary results are promising and design tuning and analysis are 
+underway. Rate distortion for the system will be examined in a similar 
+fashion to empirical studies performed for compressed sensing of images in
+the literature, and an approach has been identified to confine the signals
+of interest to finite alphabets in order to make the Blahut-Arimoto 
+algorithm tractable and relevant to the problem.
+
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,518 @@
+\documentclass{article}
+
+\title{ECE 875 - Midterm Exam}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{rotating}
+\usepackage{hyperref}
+
+\renewcommand*{\Re}{\operatorname{\mathfrak{Re}}}
+\renewcommand*{\Im}{\operatorname{\mathfrak{Im}}}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+\begin{enumerate}
+  \item{Show that the reciprocal lattice of a face centered cubic
+        (fcc) lattice with a lattice constant $a$ is a body
+        centered cubic (bcc) lattice with the side of the cubic
+        cell equal to $\frac{4 \pi}{a}$.
+       }
+  \item{Find the volume of the bcc primitive unit cell.}
+\end{enumerate}
+\horline
+\begin{enumerate}
+  \item{The basis vectors for a face-centered cubic primitive
+        cell with lattice constant $a$ are given by
+        \begin{align*}
+          \mathbf{a} &= \frac{a}{2} (\mathbf{y} + \mathbf{z}), \\
+          \mathbf{b} &= \frac{a}{2} (\mathbf{x} + \mathbf{z}), \\
+          \mathbf{c} &= \frac{a}{2} (\mathbf{x} + \mathbf{y}), \\
+        \end{align*}
+        where $\mathbf{x}$, $\mathbf{y}$, and $\mathbf{z}$ are orthogonal unit vectors. Then
+        \begin{align*}
+          \mathbf{b} \times \mathbf{c} &=
+          \left|\begin{array}{c c c}
+            \mathbf{x}   & \mathbf{y}  & \mathbf{z}  \\
+             \frac{a}{2} & 0           & \frac{a}{2} \\
+             \frac{a}{2} & \frac{a}{2} & 0 
+          \end{array}\right| \\
+          &= \left(0 - \frac{a^2}{4}\right) \mathbf{x} 
+           - \left(0 - \frac{a^2}{4}\right) \mathbf{y} 
+           + \left(\frac{a^2}{4} - 0\right) \mathbf{z} \\
+          &= \frac{a^2}{4} (\mathbf{y} + \mathbf{z} - \mathbf{x}), \\
+          \mathbf{c} \times \mathbf{a} &=
+          \left|\begin{array}{c c c}
+            \mathbf{x}   & \mathbf{y}  & \mathbf{z}  \\
+             \frac{a}{2} & \frac{a}{2} & 0           \\
+             0           & \frac{a}{2} & \frac{a}{2} \\
+          \end{array}\right| \\
+          &= \left(\frac{a^2}{4} - 0\right) \mathbf{x} 
+           - \left(\frac{a^2}{4} - 0\right) \mathbf{y} 
+           + \left(\frac{a^2}{4} - 0\right) \mathbf{z} \\
+          &= \frac{a^2}{4} (\mathbf{x} + \mathbf{z} - \mathbf{y}), \\
+          \mathbf{a} \times \mathbf{b} &=
+          \left|\begin{array}{c c c}
+            \mathbf{x}   & \mathbf{y}  & \mathbf{z}  \\
+             0           & \frac{a}{2} & \frac{a}{2} \\
+             \frac{a}{2} & 0           & \frac{a}{2} \\
+          \end{array}\right| \\
+          &= \left(\frac{a^2}{4} - 0\right) \mathbf{x} 
+           - \left(0 - \frac{a^2}{4}\right) \mathbf{y} 
+           + \left(0 - \frac{a^2}{4}\right) \mathbf{z} \\
+          &= \frac{a^2}{4} (\mathbf{x} + \mathbf{y} - \mathbf{z}), \\
+        \end{align*}
+        and furthermore
+        \begin{align*}
+        \mathbf{a} \bullet \mathbf{b} \times \mathbf{c} &=
+          \left(\frac{a}{2}(\mathbf{y} + \mathbf{z})\right) \bullet
+          \left(\frac{a^2}{4}(\mathbf{y} + \mathbf{z} - \mathbf{x})\right) \\
+        &= \frac{a^3}{8}(1 + 1) = \frac{a^3}{4}
+        \end{align*}
+        so
+        $$
+        \frac{2\pi}{\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}} = \frac{8 \pi}{a^3}.
+        $$
+        Therefore
+        \begin{align*}
+          \mathbf{a}^{\ast} &= \frac{2 \pi}
+                                    {\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}}
+                               \mathbf{b} \times \mathbf{c} \\
+                            &= \frac{8 \pi}{a^3} \frac{a^2}{4} 
+                               (\mathbf{y} + \mathbf{z} - \mathbf{x}) \\
+                            &= \frac{2 \pi}{a}(\mathbf{y} + \mathbf{z} - \mathbf{x}), \\
+          \mathbf{b}^{\ast} &= \frac{2 \pi}
+                                    {\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}}
+                               \mathbf{c} \times \mathbf{a} \\
+                            &= \frac{8 \pi}{a^3} \frac{a^2}{4} 
+                               (\mathbf{x} + \mathbf{z} - \mathbf{y}) \\
+                            &= \frac{2 \pi}{a}(\mathbf{x} + \mathbf{z} - \mathbf{y}), \\
+          \mathbf{c}^{\ast} &= \frac{2 \pi}
+                                    {\mathbf{a} \bullet \mathbf{b} \times \mathbf{c}}
+                               \mathbf{a} \times \mathbf{b} \\
+                            &= \frac{8 \pi}{a^3} \frac{a^2}{4} 
+                               (\mathbf{x} + \mathbf{y} - \mathbf{z}) \\
+                            &= \frac{2 \pi}{a}(\mathbf{x} + \mathbf{y} - \mathbf{z}),
+        \end{align*}
+        and since $\frac{2\pi}{a} = \frac{\frac{4\pi}{a}}{2}$, these vectors
+        are the basis vectors of a bcc primitive cell with ``lattice constant"
+        $\frac{4\pi}{a}$.
+       }
+       \item{
+         The volume of the bcc primitive cell computed in part (a) is given by
+         the scalar triple product
+         \begin{align*}
+         \mathbf{a}^{\ast} \bullet \mathbf{b}^{\ast} \times \mathbf{c}^{\ast} \\
+         &= \left(\frac{2\pi}{a}(\mathbf{y} + \mathbf{z} - \mathbf{x})\right) \bullet 
+            \left|\begin{array}{r r r}
+            \mathbf{x}     &  \mathbf{y}     &  \mathbf{z}     \\
+            \frac{2\pi}{a} & -\frac{2\pi}{a} &  \frac{2\pi}{a} \\
+            \frac{2\pi}{a} &  \frac{2\pi}{a} & -\frac{2\pi}{a} \\
+            \end{array}\right| \\
+         &= \left(\frac{2\pi}{a}(\mathbf{y} + \mathbf{z} - \mathbf{x})\right) \bullet
+            \left[\left(\frac{4\pi^2}{a^2} - \frac{4 \pi^2}{a^2}\right)\mathbf{x}
+                - \left(-\frac{4\pi^2}{a^2} - \frac{4 \pi^2}{a^2}\right)\mathbf{y}
+                + \left(\frac{4\pi^2}{a^2} + \frac{4 \pi^2}{a^2}\right)\mathbf{z}\right] \\
+         &= \frac{2\pi}{a}\frac{8 \pi^{2}}{a^3}(\mathbf{y} + \mathbf{z} - \mathbf{x}) \bullet
+                            (\mathbf{y} + \mathbf{z}) \\
+         &= \frac{32 \pi^{3}}{a^3} = 4 \left(\frac{2\pi}{a}\right)^3.
+         \end{align*}
+       }
+\end{enumerate}
+
+\pagebreak 
+
+\section*{Problem \#2}
+Prove that the concentration of holes in neutral dopant acceptor
+states is given by
+$$
+N_{A}^{0} = \frac{N_A}
+                 {1 + \frac{h}{g} 
+                      \exp\left(\frac{E_F - E_A}{kT}\right)}.
+$$
+\horline
+We note from equation 35 that where $h=1$ and $g_A$ is the ground state 
+degeneracy for acceptors, the concentration of ionized acceptors is given by
+$$
+N_{A}^{-} = \frac{N_A}{1 + \frac{g_{A}}{h}\exp\left(\frac{E_A - E_F}{kT}\right)}
+          =  N_A ~\mathrm{Pr(an~acceptor~is~ionized)}.
+$$
+To find the concentration of holes in neutral dopant acceptor states, note 
+that the concentration of such holes is equal to the concentration of neutral
+acceptors (i.e., those that have "trapped" a hole), and that
+\begin{align*}
+\mathrm{Pr(an~acceptor~is~neutral)} &= 1 - \mathrm{Pr(an~acceptor~is~ionized)} \\
+  &= 1 - \frac{1}{1 + \frac{g_A}{h} \exp\left(\frac{E_A - E_F}{kT}\right)} \\
+  &= 1 - \frac{\frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right)}
+              {\frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right) + 1} \\
+  &= \frac{\frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right) + 1 
+         - \frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right)}
+          { \frac{h}{g_A} \exp \left(\frac{E_F - E_A}{kT}\right) + 1} \\
+  &= \frac{1}{1 + \frac{h}{g_A} \exp\left(\frac{E_F - E_A}{kT}\right)},
+\end{align*}
+and thus
+$$
+N_A^0 = N_A ~\mathrm{Pr(an~acceptor~is~neutral)}
+      = \frac{N_A}{1 + \frac{h}{g} \exp\left(\frac{E_F - E_A}{kT}\right)}
+$$
+as desired.
+
+%Neutral acceptors are those which have not trapped a free electron in their
+%empty local energy level $E_A$, so the probability that an acceptor is 
+%neutral is, by definition, the probability that its local energy level is 
+%unoccupied, or $1 - F(E_A)$. But
+%\begin{align*}
+%1 - F(E) &= 1 - \frac{1}{1 + \frac{h}{g}\exp\left(\frac{E - E_F}{kT}\right)} \\
+%         &= 1 - \frac{\frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right)}
+%                     {\frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right) + 1} \\
+%         &= \frac{\frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right) + 1
+%                - \frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right)}
+%                 {\frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right) + 1} \\
+%         &= \frac{1}
+%                 {1 + \frac{g}{h}\exp\left(\frac{E_F - E}{kT}\right)} 
+%\end{align*}
+%
+%
+%Thus the concentration of neutral acceptors, 
+%which must be equal to the concentration of holes in neutral dopant acceptor 
+%states, since an acceptor with an empty local energy level can be thought to
+%have trapped a hole, is
+%%\begin{align*}
+%N_{A}^{0} &= N_A (1 - F(E_A)) = \frac{N_A}{1 + \frac{h}{g} \exp\left(\frac{E
+%\end{align*}
+
+\pagebreak
+
+\section*{Problem \#3}
+For a single level recombination process, find the average time that takes 
+place between each recombination process in a region of a silicon
+sample at 300K where $n = p = 10^{13} ~\mathrm{cm}^{-3}$,
+$\sigma_n = \sigma_p = 2 \times 10^{-16} ~\mathrm{cm}^2$, 
+$v_{th} = 10^{7} ~\mathrm{cm} ~\mathrm{s}^{-1}$, 
+$N_t = 10^{16} ~\mathrm{cm}^{-3}$ and $(E_t - E_i) = 5 kT$.
+\horline
+The transition rate is given by
+\begin{align*}
+  U &= \frac{\sigma_n \sigma_p v_{th} N_t(pn - n_i^2)}
+           {\sigma_n \left[n + n_i \exp\left(\frac{E_t - E_i}{kT}\right)\right]
+          + \sigma_p \left[p + n_i \exp\left(\frac{E_i - E_t}{kT}\right)\right]} \\
+    &= \frac{(2 \times 10^{-16} ~\mathrm{cm}^2)^2 
+             (10^7 ~\mathrm{cm}~\mathrm{s}^{-1})
+             (10^{16} ~\mathrm{cm}^{-3})
+             ((10^{13} ~\mathrm{cm}^{-3})^2 - (9.65 \times 10^9 ~\mathrm{cm}^{-3})^2)}
+            {(2 \times 10^{-16} ~\mathrm{cm}^2)
+             \left[2(10^{13} ~\mathrm{cm}^{-3}) 
+           + 2(9.65 \times 10^9 ~\mathrm{cm}^{-3})\cosh(5)\right]} \\
+          &= \frac{4 \times 10^{17} 
+                    ~\mathrm{cm}^{-4} ~\mathrm{s}^{-1}}
+                  {4.29 \times 10^{-3} ~\mathrm{cm}^{-1}} \\
+          &= 9.32 \times 10^{19} ~\mathrm{cm}^{-3} ~\mathrm{s}^{-1},
+\end{align*}
+which is positive since $pn \gg n_i^2$, indicating recombination. 
+
+Note that
+\begin{align*}
+pn - n_i^2 &= (p_{n0} + \Delta p)n - n_i^2 \\
+           &= (\frac{n_i^2}{n_{n0}} + \Delta p)n - n_i^2.
+\end{align*}
+If we assume a low-injection condition then in an $n$-type material, 
+then $n \approx n_{n0}$ so $pn - n_i^2 \approx n_{n0} \Delta p$. 
+Similarly, under low injection condtion in a $p$-type material
+\begin{align*}
+pn - n_i^2 &= p(n_{p0} + \Delta n) - n_i^2 \\
+           &= p(\frac{n_i^2}{p_{p0}} + \Delta n) - n_i^2 \\
+           &\approx p_{p0} \Delta n.
+\end{align*}
+In either case then the expression for $U$ gives
+\begin{align*}
+  \frac{\Delta}{\tau_r} &= \frac{\sigma_n \sigma_p v_{th} N_t(pn - n_i^2)}
+            {\sigma_n \left[n + n_i \exp\left(\frac{E_t - E_i}{kT}\right)\right]
+          + \sigma_p \left[p + n_i \exp\left(\frac{E_i - E_t}{kT}\right)\right]} \\
+    &= \frac{\sigma_n \sigma_p v_{th} N_t N \Delta}
+           {\sigma_n \left[n + n_i \exp\left(\frac{E_t - E_i}{kT}\right)\right]
+          + \sigma_p \left[p + n_i \exp\left(\frac{E_i - E_t}{kT}\right)\right]} \\
+  \tau_r &= \frac{\sigma_n \left[n + n_i \exp\left(\frac{E_t - E_i}{kT}\right)\right]
+          + \sigma_p \left[p + n_i \exp\left(\frac{E_i - E_t}{kT}\right)\right]} 
+                 {\sigma_n \sigma_p v_{th} N_t N} \\
+         &= \frac{2 ((n + p) + 2 n_i \left(\exp\left(\frac{E_t - E_i}{kT}\right) + \exp\left(-\frac{E_t - E_i}{kT}\right)\right))}
+                 {\sigma v_{th} N_t N} \\
+         &= \frac{2(10^{13} ~\mathrm{cm}^{-3}) 
+           + 2(9.65 \times 10^9 ~\mathrm{cm}^{-3})\cosh(5)}
+                 {(2 \times 10^{-16} ~\mathrm{cm}^2)
+             (10^7 ~\mathrm{cm}~\mathrm{s}^{-1})
+             (10^{16} ~\mathrm{cm}^{-3}) N
+             } \\
+         &= N^{-1} \cdot 1.07 \times 10^{6} ~\mathrm{s},
+\end{align*}
+where $\Delta$ indicates the concentration of excess carriers appropriate to 
+the material and $N$ is the doping concentration of majority carriers.
+Under high injection condition
+\begin{align*}
+\tau_n = \tau_p &= \frac{\sigma_n + \sigma_p}
+                        {\sigma_n \sigma_p v_{th} N_t} \\
+                &= \frac{4 \times 10^{-16} ~\mathrm{cm}^{2}}
+                        {(2 \times 10^{-16} ~\mathrm{cm}^2)^2
+                         (10^7 ~\mathrm{cm}~\mathrm{s}^{-1})
+                         (10^{16}~\mathrm{cm}^{-3})} \\
+                &= 10^{-7} ~\mathrm{s} = 0.1 ~\mathrm{\mu s}.
+\end{align*}
+
+\pagebreak
+
+\section*{Problem \#4}
+The given measurements are taken from an abrupt $p^{+}n$ junction and a
+symmetric linearly graded $pn$ junction. 
+\begin{enumerate}
+  \item{Which is which?}
+  \item{Evaluate $\psi_{bi}$, $a$ and $\mathscr{E}_{m}$ for the
+linearly graded $pn$ junction.}
+  \item{Evaluate $\psi_{bi}$, $N$ and $W_D$ for the abrupt junction.}
+  \item{A metal contact is made to the $n$-side of the linearly graded $pn$
+  junction well outside of the junction depletion region. What is the width of
+  the Schottky barrier depletion region $W_D$ that develops around the 
+  contact?}
+\end{enumerate}
+
+\horline
+\begin{enumerate}
+  \item{$\frac{1}{C^2}$ curves are plotted from the given data in figure 
+        \ref{fig:capplots}. Junction \#1 is nonlinear while junction \#2 is 
+        linear, so junction \#2 is the abrupt junction and junction \#1 has 
+        non-constant doping on either side of the junction.
+       }
+  \item{First, the built-in potential is estimated from the zero-crossing of 
+the $\frac{1}{C^3}$ curve as $\psi_{bi} \approx 1.4 ~\mathrm{V}.$ 
+(Using the zero-crossing of the extrapolated line from the $\frac{1}{C^2}$ 
+curve gives $1.3 ~\mathrm{V}$.) 
+
+Next from equation 38 in Sze,
+        \begin{align*}
+          C_D &= \left[\frac{q a \varepsilon_s^2}{12 (\psi_{bi} - V)}\right]^{1/3} \\
+          \frac{1}{C_D^3} &= \frac{12(\psi_{bi} - V)}{q a \varepsilon_s^2} \\
+          \frac{d}{dV}\left(\frac{1}{C_D^3}\right) &= -\frac{12}{q a \varepsilon_s^2} \\
+          a &= -\frac{12}{q \varepsilon_s^2 \frac{d}{dV}\left(\frac{1}{C_D^3}\right)},
+        \end{align*}
+        and the plot gives 
+        $$
+        \frac{d}{dV}\left(\frac{1}{C_D^3}\right) = -5.67 \times 10^{-5} \left(\frac{\mathrm{cm}}{\mathrm{nF}}\right)^3 ~\mathrm{V}^{-1} 
+         = -5.67 \times 10^{22} ~\mathrm{cm}^{3}~\mathrm{F}^{-3} ~\mathrm{V}^{-1}
+        $$
+        so the doping gradient $a$ is given by
+        \
+\begin{align*}
+        a &= -\frac{12}{(1.6 \times 10^{-19} ~\mathrm{C})
+                       (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})^2
+                       (-5.67 \times 10^{22} ~\mathrm{cm}^3~\mathrm{F}^{-3}~\mathrm{V}^{-1})} \\
+          &= 1.19 \times 10^{21} ~\mathrm{cm}^{-4}.
+        \end{align*}
+        These two quantities then yield the depletion width (from equation 34)
+        \begin{align*}
+          W_D &= \sqrt[3]{\frac{12 \varepsilon_s \psi_{bi}}{q a}} \\
+              &= \sqrt[3]{\frac{12 (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})
+                                   (1.4 ~\mathrm{V})}
+                               {(1.6 \times 10^{-19} ~\mathrm{C})(1.26 \times 10^{9} ~\mathrm{cm}^{-4})}} \\
+              &= 4.53 \times 10^{-5} ~\mathrm{cm} \\
+              &= 0.45 ~\mathrm{\mu m}.
+        \end{align*}
+        which gives the maximum electric field
+        \begin{align*}
+          \mathscr{E}_m &= -\frac{q a W_D^2}{8 \varepsilon_s} \\
+                        &= -\frac{(1.6 \times 10^{-19} ~\mathrm{C})
+                                  (1.19 \times 10^{21} ~\mathrm{cm}^{-4})
+                                  (4.53 \times 10^{-5} ~\mathrm{cm})^2}
+                                 {8 (11.9 \cdot 8.85 \times 10^{-14})} \\
+                        &= -4.64 \times 10^{4} ~\mathrm{V}~\mathrm{cm}^{-1}.
+        \end{align*}
+       }
+  \item{The $V$-intercept from the linear extrapolations of the curve is
+        $0.6 ~\mathrm{V}$ for junction \#2, the abrupt junction,
+        so $\psi_{bi} = 0.6 ~\mathrm{V}$. The slope of the line is 
+        $-1.2 \times 10^{-4} ~(\mathrm{cm} / \mathrm{nF})^2 ~\mathrm{V}^{-1}=
+         -1.2 \times 10^{14} ~\mathrm{cm} ~\mathrm{F}^{-1} ~\mathrm{V}^{-1}$ so the doping 
+        concentration on the $n$ side is
+        \begin{align*}
+          N_D &= -\frac{2}{q \varepsilon_s}\left[-\frac{1}{\frac{d}{dV}\left(\frac{1}{C^2}\right)}\right] \\
+              &= \frac{2}{(1.6 \times 10^{-19} ~\mathrm{C})(11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
+                 \frac{1}{2.3 \times 10^{14} ~\mathrm{cm}^{4} ~\mathrm{F}^{-2} ~\mathrm{V}^{-1}} \\
+              &= 5.16 \times 10^{16} ~\mathrm{cm}^{-3}
+        \end{align*}
+        and therefore
+        \begin{align*}
+          W_D &= \sqrt{\frac{2 \varepsilon_s}{q N_D}\left(\psi_{bi} - \frac{kT}{q}\right)} \\
+              &= \sqrt{\frac{2 (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F} ~\mathrm{cm}^{-1})}
+                            {(1.6 \times 10^{-19} ~\mathrm{C})
+                             (5.16 \times 10^{16} ~\mathrm{cm}^{-3})}
+                       (0.6 - 0.0259 ~\mathrm{V})} \\
+              &= 1.21 \times 10^{-5} ~\mathrm{cm} \\
+              &= 0.12 ~\mathrm{\mu m}.
+        \end{align*}
+       }
+       \item{Far from the junction the doping concentration is 
+             approximately
+             \begin{align*}
+             N_D &= a \frac{W_{D_{pn}}}{2} 
+                  = (1.19 \times 10^{21} ~\mathrm{cm}^{-4})
+                    (\frac{1}{2} 4.53 \times 10^{-5} ~\mathrm{cm}) \\
+                 &= 2.70 \times 10^{16} ~\mathrm{cm}^{-3},
+             \end{align*}
+             assuming that the doping is relatively constant except at the 
+             transition between the materials.
+             Then the depletion width is given by
+             \begin{align*}
+             W_D &= \sqrt{\frac{2 \varepsilon_s}
+                               {q N_D}
+                          \left(\psi_{bi} - V - \frac{kT}{q}\right)}
+             \end{align*}
+             where the metal-semiconductor contact has its own built-in 
+             potential given by
+             \begin{align*}
+             q\psi_{bi} &= q\phi_{Bn0} - (E_C - E_F) \\
+                        &= q\phi_{Bn0} - kT \ln \frac{N_C}{n_i}
+             \end{align*}
+             so
+             \begin{align*}
+             \psi_{bi} &= \phi_{Bn0} - \frac{kT}{q} \ln \frac{N_C}{N_D} \\
+                       &\approx 0.8
+                              - 0.0259 \ln \frac{2.8 \times 10^{19}}
+                                                {2.7 \times 10^{16}}~\mathrm{V} \\
+                       &= 0.62 ~\mathrm{V},
+             \end{align*}
+             assuming the ideal barrier height $\phi_{Bn0} = 0.8 ~\mathrm{V}$.
+             Therefore
+             \begin{align*}
+             W_D &= \sqrt{\frac{2 \varepsilon_s}
+                               {q N_D}
+                          \left(\psi_{bi} - V - \frac{kT}{q}\right)} \\
+                 &= \sqrt{\frac{2 (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})}
+                               {(1.6 \times 10^{-19} ~\mathrm{C})
+                                (2.7 \times 10^{16}  ~\mathrm{cm}^{-3})
+                               }(0.8 - 0.0259 ~\mathrm{V})} \\
+                 &= 1.94 \times 10^{-5} ~\mathrm{cm} \\
+                 &= 0.19 ~\mathrm{\mu m}.
+             \end{align*}
+       }
+\end{enumerate}
+
+\begin{figure}[ht!]
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics[width=\linewidth]{junction1}
+  \end{subfigure} 
+
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics[width=\linewidth]{junction2}
+  \end{subfigure}
+  \caption{The $\frac{1}{C^2}$ plots for Problem 4. \label{fig:capplots}}
+\end{figure}
+
+\pagebreak
+
+\section*{Problem \#5}
+For the given device structure fabricated in Si, find the depletion width
+at thermal equilibrium at 300K.
+\horline
+
+Mark the point 0.2 $\mathrm{\mu m}$ from the junction as $x = w$, the given 
+doping concentrations as $N_{D2} = 10^{15}$ and $N_{D3} = 10^{16}$, and note that
+\begin{align*}
+E(w)      &= E(0) + \frac{q N_{D2} w}{\varepsilon_s}, \\
+E(W_{dn}) &= E(w) + \frac{q N_{D3} (W_{dn} - w)}{\varepsilon_s}
+\end{align*}
+so
+$$
+E(0) = -\frac{q}{\varepsilon_s}(N_{D2} w + N_{D3} (W_{dn} - w)).
+$$
+Next, we have that
+$$
+\psi_{bi} = -\int_{-W_{dp}}^{W_{dn}} E(x) ~dx 
+          \approx -\int_{0}^{W_{dn}} E(x) ~dx
+$$
+since the junction is one-sided, and since the shape of the electric field is
+known we can compute this integral geometrically as the area of two triangles
+and a rectangle:
+\begin{align*}
+\psi_{bi} &= -\left\{\frac{1}{2}(W_{dn} - w)E(w) 
+                  + w E(w) 
+                  + \frac{1}{2} w (E(0) - E(w))\right\} \\
+          &= -\left\{\frac{1}{2} W_{dn} E(w) 
+                  - \frac{1}{2} w E(w) 
+                  + w E(w) 
+                  + \frac{1}{2} w E(0)
+                  - \frac{1}{2} w E(w)\right\} \\
+          &= -\frac{1}{2}(W_{dn} E(w) + w E(0)) \\
+          &= -\frac{1}{2}(W_{dn} \left(E(0) + 
+                                  \frac{qN_{D2} w}{\varepsilon_s}\right) + w E(0)) \\
+          &= -\frac{1}{2}\left[W_{dn}\left(\frac{q N_{D2} w}{\varepsilon_s}
+                             - \frac{q}{\varepsilon_s}(N_{D2} w + N_{D3}(W_{dn} - w))\right)
+                             - \frac{w q}{\varepsilon_s}(N_{D2} w + N_{D3}(W_{dn} - w))\right] \\
+          &= -\frac{q}{2\varepsilon_s}\left[N_{D2} W_{dn} w
+                                          - N_{D2} W_{dn} w
+                                          - N_{D3} W_{dn}^2
+                                          + N_{D3} W_{dn} w
+                                          - N_{D2} w^2 
+                                          - N_{D3} W_{dn} w
+                                          + N_{D3} w^2\right] \\
+          &= -\frac{q}{2\varepsilon_s}\left[(N_{D3} - N_{D2}) w^2 - N_{D3} W_{dn}^2\right] \\
+\frac{2 \varepsilon_s \psi_{bi}}{q} &= (N_{D2} - N_{D3}) w^2 + N_{D3} W_{dn}^2 \\
+W_{dn} &= \sqrt{\frac{2 \varepsilon_s \psi_{bi}}{q N_{D3}} 
+                + \left(1 - \frac{N_{D2}}{N_{D3}}\right) w^2}. \\
+\end{align*}
+Next we observe from the band-bending diagram that
+$$
+q \psi_{bi} = q\psi_{12} + q\psi_{23}, 
+$$
+where $\psi_{12}$ and $\psi_{23}$ are the potential drops from region 1 
+(the $p^+$ semiconductor) to region 2 (the $n$-type semiconductor with 
+$N_D = 10^{15} ~\mathrm{cm}^{-3}$) and from region 2 to region 3, respectively.
+By comparing the intrinsic energy levels in each region we see that
+\begin{align*}
+q\psi_{12} &= (E_i - E_F)_1 + (E_F - E_i)_2 \\
+q\psi_{23} &= (E_F - E_i)_3 - (E_F - E_i)_2,
+\end{align*}
+and since region 1 is a heavily doped $p^+$ semiconductor this means that 
+$(E_i - E_F)_1 \approx \frac{1}{2} E_g$. Then
+\begin{align*}
+\psi_{bi} &= \frac{1}{q}[(E_i - E_F)_1 + (E_F - E_i)_3]
+           = \frac{1}{2q}E_g + \frac{kT}{q} \ln \frac{N_{D3}}{n_i} \\
+           &= 0.66 ~\mathrm{V} + (0.0259 ~\mathrm{V})
+                     \ln \frac{10^{16}}{9.65 \times 10^{9}} \\
+           &= 1.02 ~\mathrm{V}.
+\end{align*}
+Therefore we can find
+\begin{align*}
+W_{dn} &= \sqrt{\frac{2 \varepsilon_s \psi_{bi}}{q N_{D3}} 
+                + \left(1 - \frac{N_{D2}}{N_{D3}}\right) w^2} \\
+       &= \sqrt{\frac{2 (11.9 \cdot 8.85 \times 10^{-14} ~\mathrm{F}~\mathrm{cm}^{-1})
+                       (1.02 ~\mathrm{V})}
+                     {(1.6 \times 10^{-19} ~\mathrm{C})
+                      (10^{16} ~\mathrm{cm}^{-3})}
+                + \left(1 - \frac{10^{15} ~\mathrm{cm}^{-3}}
+                                 {10^{16} ~\mathrm{cm}^{-3}}\right)
+                       (2 \times 10^{-5} ~\mathrm{cm})^2} \\
+       &= 4.13 \times 10^{-5} ~\mathrm{cm} \\
+       &= 0.41 \mathrm{\mu m}.
+\end{align*}
+
+
+
+
+\end{document}

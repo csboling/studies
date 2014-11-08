@@ -1,0 +1,53 @@
+\documentclass{article}
+
+\title{ECE 867 - Homework \#6}
+\author{Sam Boling}
+\date{\today}
+
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newcommand{\horline}
+           {\begin{center}
+              \noindent\rule{8cm}{0.4pt}
+            \end{center}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#3.1}
+Construct a binary Huffman code for the distribution
+$\{0.25, 0.05, 0.1, 0.13, 0.2, 0.12, 0.08, 0.07\}$.
+\horline
+\begin{table}{c c c c c c c c c}
+0.25, 0.13, 0.12, 0.2, 0.12, 0.1, 0.08, 0.07, 0.05\}
+
+
+
+\section*{Problem \#3.2}
+Construct a ternary Huffman code for the source distribution in problem 1.
+
+\section*{Problem \#3.4}
+Construct an optimal binary prefix code for the source distribution in
+Problem 1 such that all the codewords have even lengths.
+
+\section*{Problem \#3.7}
+A code is a suffix code if no codeword is a suffix of any other codeword.
+Show that a suffix code is uniquely decodable.
+
+\section*{Problem \#3.8}
+A code is a fix-free code if it is both a prefix code and a suffix code.
+Let $l_1, l_2, \dots, l_m$ be $m$ positive integers. Prove that if
+$$
+\sum_{k=1}^m 2^{-l_k} \leq \frac{1}{2},
+$$
+then there exists a binary fix-free code with codeword lengths 
+$l_1, l_2, \dots, l_m$.
+
+
+
+\end{document}
+
