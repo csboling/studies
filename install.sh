@@ -22,7 +22,6 @@ do
   if [ ! -h $TO_ADD ] 
   then
     LINKPOINT=`dirname $TO_ADD`
-    echo 'linkpoint' $LINKPOINT
     ln -s `realpath $x --relative-to=$LINKPOINT` $TO_ADD
     echo $TO_ADD
   fi
