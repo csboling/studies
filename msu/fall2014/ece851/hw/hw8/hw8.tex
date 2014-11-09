@@ -1,0 +1,329 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{commath}
+\usepackage{enumerate}
+
+\usepackage{graphicx}
+
+\title{ECE/ME 851 Homework \#8}
+\date{November 12, 2014}
+\author{Sam Boling \\ PID A48788119}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem \#1}
+The system is given by
+$$
+A =
+\left[\begin{array}{r r r}
+  0 & 1 &  0 \\
+  0 & 0 &  1 \\
+  1 & 0 & -1
+\end{array}\right], \quad
+B =
+\left[\begin{array}{c}
+  0  \\
+  0  \\
+  1
+\end{array}\right], \quad
+\Gamma =
+\left[\begin{array}{c}
+  0.1 \\
+    0 \\
+    0
+\end{array}\right], \quad
+C =
+\left[\begin{array}{c c c}
+  1 & 2 &  0
+\end{array}\right], \quad
+V = 0.1.
+$$
+The optimal gains can be found by solving the dual algebraic Riccati
+equation
+$$
+P_e A^T + A P_e - P_e C^\top V^{-1} C P_e + \Gamma W \Gamma^\top = 0
+$$
+for $P_e$, where $W$ was not given and so will be taken to be 1. This
+solution gives
+% To find the dual system, let
+% $$
+% \tilde{R} = V, \quad
+% \tilde{M} = \Gamma^\top, \quad
+% \tilde{A} = A^\top, \quad
+% \tilde{B} = C^\top.
+% $$
+% The optimal gains can then be found by solving the Riccati equation
+% $$
+%   \tilde{P} \tilde{A} + \tilde{A}^\top P
+% + \tilde{M}^\top \tilde{M}
+% - \tilde{P} \tilde{B} \tilde{R}^{-1} \tilde{B}^\top P = 0
+% $$
+% for $P$, which yields
+$$
+P_e =
+\left[\begin{array}{c c c}
+  0.0179 & 0.0164 & 0.0078 \\
+  0.0164 & 0.0204 & 0.0111 \\
+  0.0078 & 0.0111 & 0.0066
+\end{array}\right]
+$$
+so that the controller gains are
+$$
+  K
+= P_e C^\top V^{-1}
+=
+\left[\begin{array}{c}
+  0.5059 \\
+  0.5721 \\
+  0.2996
+\end{array}\right].
+$$
+In the case where $V = 1$ instead, we have
+$$
+P_e =
+\left[\begin{array}{c c c}
+  0.1203 & 0.1517 & 0.0847 \\
+  0.1517 & 0.1996 & 0.1131 \\
+  0.0847 & 0.1131 & 0.0647
+\end{array}\right], \quad
+K =
+\left[\begin{array}{c}
+  0.4236 \\
+  0.5508 \\
+  0.3109
+\end{array}\right].
+$$
+
+\section*{Problem \#2}
+Assigning states
+$$
+\left[\begin{array}{c}
+  z_1 \\
+  z_2 \\
+  z_3 \\
+  z_4
+\end{array}\right]
+=
+\left[\begin{array}{c}
+        x \\
+  \dot{x} \\
+        y \\
+  \dot{y}
+\end{array}\right],
+$$
+we have the system
+$$
+\left[\begin{array}{c}
+  \dot{z_1} \\
+  \dot{z_2} \\
+  \dot{z_3} \\
+  \dot{z_4}
+\end{array}\right]
+=
+\left[\begin{array}{r r r r}
+           0 &        1 &          0 &       0 \\
+  9 \omega^2 &        0 &          0 & 2 \omega \\
+           0 &        0 &          1 &       0  \\
+           0 & -2\omega & -4\omega^2 &       0
+\end{array}\right]
+\left[\begin{array}{c}
+  z_1 \\
+  z_2 \\
+  z_3 \\
+  z_4
+\end{array}\right]
++
+\left[\begin{array}{r}
+  0 \\
+  0 \\
+  0 \\
+  1
+\end{array}\right].
+$$
+
+\begin{enumerate}[(a)]
+\item{
+The eigenvalues of the matrix $A$ are then located at
+$$
+\lambda_1 = 0, \quad
+\lambda_2 = 1, \quad
+\lambda_3 =  \sqrt{5} \omega, \quad
+\lambda_4 = -\sqrt{5} \omega,
+$$
+and since three of these have non-negative real part, the system is
+unstable at the origin.
+}
+\item{
+The controllability matrix is given by
+$$
+\mathcal{C} =
+\left[\begin{array}{r r r r}
+  0 &        0 &    2 \omega &           0 \\
+  0 & 2 \omega &           0 & 10 \omega^3 \\
+  0 &        0 &           0 &           0 \\
+  1 &        0 & -4 \omega^2 &           0
+\end{array}\right],
+$$
+so we take
+$$
+Q =
+\left[\begin{array}{r r r r}
+  0 &        0 &    2 \omega & 0 \\
+  0 & 2 \omega &           0 & 0 \\
+  0 &        0 &           0 & 1 \\
+  1 &        0 & -4 \omega^2 & 0
+\end{array}\right], \quad
+$$
+and then
+$$
+\hat{A} = Q^{-1} A Q =
+\left[\begin{array}{r r r r}
+  0 & 0 &           0 & -4 \omega^2 \\
+  1 & 0 &  5 \omega^2 & 0 \\
+  1 & 0 & -1
+\end{array}\right],
+$$
+indicating that $\lambda_1, \lambda_2, \lambda_3$ are
+controllable. Therefore the system is stabilizable, since the only
+uncontrollable eigenvalue has negative real part.
+}
+\item{
+The similarity transformation $Q$ into uncontrollable form yields
+$$
+\hat{\mathcal{C}} = Q^{-1} \mathcal{C} =
+\left[\begin{array}{r r r r}
+  1 & 0 & 0 &          0 \\
+  0 & 1 & 0 & 5 \omega^2 \\
+  0 & 0 & 1 &          0 \\
+  0 & 0 & 0 &          0
+\end{array}\right],
+$$
+so all values of $z_1 = x$ and $z_2 = \dot{x}$ are in the range space
+of $\hat{\mathcal{C}}$, which is the controllable subspace of the
+system. Therefore the position and velocity of $x$ can be controlled,
+and so the system can be steered to any value of $x$ under state feedback.
+}
+\item{
+$z_3 = y$ is in the controllable subspace of the system but
+$z_4 = \dot{y}$ is not. Therefore it is possible to bring $y$ to a
+  desired position, but the velocity $\dot{y}$ cannot be controlled,
+  so the system may drift rapidly away from this position.
+}
+\end{enumerate}
+
+\section*{Problem \#3}
+\begin{enumerate}[(a)]
+\item{
+The controllability matrix
+$$
+\mathcal{C} =
+\left[\begin{array}{r r r}
+  1 & 4 &  0 \\
+  1 & 0 &  8 \\
+ -1 & 4 &  0
+\end{array}\right]
+$$
+has full rank, so with state feedback control all eigenvalues can be
+positioned arbitrarily. Therefore the closed-loop eigenvalues can be
+made to have real part less than -3.
+}
+\item{
+% We can construct a similarity transformation
+% $$
+% P =
+% \left[\begin{array}{c}
+%   C \\ \hat{C}
+% \end{array}\right] =
+% \left[\begin{array}{r r r}
+%   2 & 1 & -1 \\
+%   1 & 0 &  0 \\
+%   0 & 1 &  0
+% \end{array}\right]
+% $$
+% to arrive at the transformed system
+% $$
+% \bar{A} =
+% \left[\begin{array}{r r r}
+%   0 &  2 & 2 \\
+%   1 & -1 & 1 \\
+%  -1 &  3 & 1
+% \end{array}\right], \quad
+% \bar{B} =
+% \left[\begin{array}{r}
+%   4 \\ 1 \\ 1
+% \end{array}\right], \quad
+% \bar{C} =
+% \left[\begin{array}{r r r}
+%   1 & 0 & 0
+% \end{array}\right].
+% $$
+% We observe that the observability matrix for the pair $(A, \bar{C})$
+% has full rank, so that it is possible to construct a reduced-order
+% estimator
+% We take $A_{11}$ to be $n-p \times n-p$ so that
+% $$
+% A_{11} =
+% \left[\begin{array}{r r}
+%   0 &  2 \\
+%   1 & -1
+% \end{array}\right], \quad
+% A_{12} =
+% \left[\begin{array}{r}
+%   2 \\ 1
+% \end{array}\right], \quad
+% A_{21} =
+% \left[\begin{array}{r r}
+%   -1 & 3
+% \end{array}\right], \quad
+% A_{22} =
+% \left[\begin{array}{r}
+%   1
+% \end{array}\right],
+% $$
+% and then we have the estimator
+% $$
+% $$
+The system has observability matrix
+$$
+\mathcal{O} =
+\left[\begin{array}{r r r}
+  2 & 1 & -1 \\
+  2 & 2 &  0 \\
+  4 & 4 &  0
+\end{array}\right],
+$$
+which has a null space spanned by
+$
+\left[\begin{array}{r r r}
+  -1 & 1 & -1
+\end{array}\right]^\top
+$
+and therefore a transformation to unobservable form given by
+$$
+\left[\begin{array}{r r r}
+  1 & 0 & -1 \\
+  0 & 1 &  1 \\
+  0 & 0 & -1
+\end{array}\right]
+$$
+so that
+$$
+\hat{\mathcal{O}} =
+\left[\begin{array}{r r r}
+  2 & 1 & 0 \\
+  2 & 2 & 0 \\
+  4 & 4 & 0
+\end{array}\right]
+$$
+which means the eigenvalues 2 and 0 are observable. The system is
+therefore controllable and detectable, so it is possible to stabilize
+it with output feedback.
+}
+\end{enumerate}
+
+\end{document}
