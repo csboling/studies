@@ -1,0 +1,436 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{mathtools}
+
+\author{Sam Boling}
+\title{
+  Review Notes \\
+  ME/ECE 851 \\
+  Linear Control Theory \\
+  Fall 2014 \\
+  with Ranjan Mukherji \\
+  Text: A Linear Systems Primer, Antsaklis \& Michel
+}
+
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+
+\section{Equilibrium Points and Stability}
+A dynamical system
+$$
+\dot{x} = f(x)
+$$
+has equilibrium points wherever $f(x) = 0$. If $f(x)$ is continuously
+differentiable with respect to each of its arguments then $x_e$ is an
+equilibrium whenever
+$$
+\left[\frac{\partial f_i}{\partial x_j}\right]_{x = x_e} = 0.
+$$
+
+\section{Controllability and Observability Tests}
+
+The following are equivalent conditions for
+controllability/reachability of continuous time systems.
+\begin{itemize}
+  \item{
+    $\mathrm{rank} W_C(0, T) = n$ for some finite $T > 0$,
+    where the controllability Gramian $W_C$ is given by
+    $$
+    W_C(0, T) = \int_0^T e^{A \tau} B B^\top e^{-A^\top \tau} \dif \tau.
+    $$
+    Note also that
+    $$
+    W_r(0, T)
+    = e^{A T} W_C(0, T) e^{A^\top T}
+    = \int_0^T e^{(T - \tau)A} B B^\top e^{(T - \tau)A^\top} \dif \tau
+    $$
+    and for a reachable system, the control input producing a state $x_f$
+    from a state $x_0$ in time $T$ is
+    $$
+    u(t) =
+    B^\top e^{A^\top(T - t)} W_r^{-1}(0, T) [x_f - e^{A T} x_0].
+    $$
+  }
+  \item{
+    The rows of $e^{A t} B$ (or of $(sI - A)^{-1} B$) are linearly
+    inddependent over the field of complex numbers.
+  }
+  \item{
+    The controllability matrix
+    $$
+    \mathcal{C} = [B, A B, \cdots, A^{n-1} B]
+    $$
+    has rank $n$.
+  }
+  \item{
+   The following condition is met: if $v_i [ \lambda_i I - A, B ] = 0$
+   for any eigenvalue $\lambda_i$, then $v_i = 0$. (i.e., this matrix
+   has no nontrivial left eigenvectors).
+  }
+  \item{
+    $\mathrm{rank} [ \lambda_i I - A, B ] = n$ for each eigenvalue $\lambda_i$
+    of $A$. The eigenvalues yielding a rank less than $n$ are the
+    uncontrollable eigenvalues of the system.
+  }
+\end{itemize}
+
+The following are conditions for the observability of the pair
+$(A,C)$.
+\begin{itemize}
+  \item{
+    The observability Gramian $W_o(0, T)$ has rank $n$ for some $T$,
+    in which case
+    $$
+    x_0 =
+    W_O^{-1}(0, T)\int_0^T e^{A^\top \tau} C^\top \tilde{y}(\tau) \dif
+    \tau,
+    $$
+    where
+    $$
+    W_0(0, T) = \int_0^T e^{A^\top \tau} C^\top C e^{A \tau} \dif \tau
+    $$
+    and
+    $$
+    \tilde{y}(t)
+    = y(t)
+    - \left[
+        \int_0^T C e^{A(t - \tau)} B u(\tau) \dif \tau + D u(t)
+      \right]
+    $$
+  }
+  \item{
+    $\mathrm{rank}(\mathcal{O}) = n$, where
+    $$
+    \mathcal{O} =
+    \left[\begin{array}{c}
+      C        \\
+      C A      \\
+      \vdots   \\
+      C A^{n-1}
+    \end{array}\right].
+    $$
+  }
+  \item{
+    The columns of $C e^{A t}$ or $C (sI - A)^{-1}$ are linearly independent over the field
+    of complex numbers.
+  }
+  \item{
+    $\mathrm{rank}
+       \left[\begin{array}{c}
+         \lambda_i I - A \\
+         B
+       \end{array}\right] = n$ for each eigenvalue $\lambda_i$
+    of $A$. The eigenvalues yielding a rank less than $n$ are the
+    unobservable eigenvalues of the system.
+  }
+\end{itemize}
+
+A system is constructible if
+
+The dual system to
+$$
+\dot{x} = A x + B u, \quad
+y = C x + D u
+$$
+is given by
+$$
+A_D = A^\top, \quad
+B_D = C^\top, \quad
+C_D = B^\top, \quad
+D_D = D^\top.
+$$
+
+\section{Controller and Observer Forms}
+
+To determine the controllability (observability) of a system, first compute
+the controllability (observability) matrix $\mathcal{C}$ ($\mathcal{O}$):
+$$
+\mathcal{C} =
+\left[\begin{array}{c c c c c}
+  B & A B & A^2 B & \cdots & A^{n-1} B
+\end{array}\right], \quad
+\mathcal{O} =
+\left[\begin{array}{c}
+  C        \\
+  C A      \\
+  C A^2    \\
+  \vdots   \\
+  C A^{n-1}
+\end{array}\right]
+$$
+where $n$ is the rank of $A$. If the controllability (observability)
+matrix is of full rank, the system is controllable (observable).
+
+\subsection{Controller Form -- Single Input}
+If the system is controllable, then $\mathcal{C}^{-1}$ exists. Let $q$
+be the $n$th row of $\mathcal{C}^{-1}$. Then the state transformation
+$$
+P =
+\left[\begin{array}{c}
+  q        \\
+  q A      \\
+  q A^2    \\
+  \vdots   \\
+  q A^{n-1}
+\end{array}\right]
+$$
+produces the controller form
+$$
+A_C = P A P^{-1} =
+\left[\begin{array}{r r r r}
+  0         & 1         & \cdots & 0      \\
+  \vdots    & \vdots    & \ddots & \vdots \\
+  0         & 0         & \cdots & 1      \\
+  -\alpha_0 & -\alpha_1 & \cdots & -\alpha_{n-1}
+\end{array}\right], \quad
+B_C = PB =
+\left[\begin{array}{c}
+  0      \\
+  0      \\
+  \vdots \\
+  1
+\end{array}\right], \quad
+C_C = CP^{-1}, \quad
+D_C = D.
+$$
+Note that the $\alpha_i$ above are the coefficients in the
+characteristic polynomial
+$$
+\det (sI - A) =
+s^n + \alpha_{n-1} s^{n-1} + \cdots + \alpha_1 s + \alpha_0.
+$$
+
+\subsection{Uncontrollable Form }
+Let $\mathrm{rank} \mathcal{C} = r$. Take $r$ linearly independent
+columns $v_i$ of $\mathcal{C}$, and choose $n - r$ vectors $w_i$ linearly
+independent from these. Construct the transformation matrix
+$$
+Q =
+\left[\begin{array}{c c c c c c}
+  v_1 & \cdots & v_r & w_1 & \cdots & w_{n-r} \\
+\end{array}\right].
+$$
+Then the uncontrollable form of the system is
+$$
+\hat{A} = Q^{-1} A Q =
+\left[\begin{array}{c c}
+  A_{11} & A_{12} \\
+  0     & A_{22}
+\end{array}\right], \quad
+\hat{B} = Q^{-1} B =
+\left[\begin{array}{c}
+  B_1 \\
+  0
+\end{array}\right],
+$$
+where $(A_{11}, B_1)$ is controllable. The eigenvalues of $A_{11}$ are
+controllable. Furthermore note that the transformed controllability
+matrix $\hat{\mathcal{C}} = Q^{-1} \mathcal{C}$ has the controllable
+subspace of the system as its range.
+
+Note also that
+$$
+e^{A(t - \tau)} B
+= [ Q e^{\hat{A}(t - \tau) Q^{-1} ]
+  [ Q \hat{B} ]
+= Q\left[\begin{array}{c}
+     e^{A_1 (t - \tau)} B_1 \\
+     0
+   \end{array}\right]
+$$
+contains only the controllable modes of the system, so the input
+cannot affect the uncontrollable modes.
+
+\subsection{Observer Form}
+Suppose the system is observable.
+Let $\bar{q}$ be the $n$th column of $\mathcal{O}^{-1}$ and let
+$$
+P^{-1} = Q = [\bar{q}, A \bar{q}, \dots, A^{n-1} \bar{q}].
+$$
+Then
+$$
+A_O =
+\left[\begin{array}{r r r r}
+  0      & \cdots & 0      & -\alpha_0 \\
+  1      & \cdots & 0      & -\alpha_1 \\
+  \vdots & \ddots & \vdots & \vdots    \\
+  0      & \cdots & 1      & -\alpha_{n-1}
+\end{array}\right], \quad
+C_O = [0, \dots, 0, 1].
+$$
+where
+$$
+A_O = P A P^{-1}, \quad
+B_O = P B, \quad
+C_O = C P^{-1}, \quad
+D_O = D
+$$
+and
+$$
+\det (sI - A) = s^n + \alpha_{n-1} s^{n-1} + \cdots + \alpha_1 s + \alpha_0.
+$$
+
+\subsection{Unobservable Form}
+Let $r = \mathrm{rank}(\mathcal{O}) < n$. Take
+$v_i$ to be a basis for the null space of $\mathcal{O}$. Then the
+transformation matrix
+$$
+Q =
+\left[\begin{array}{c c c c }
+  Q_1 & v_1 & \cdots & v_{n-r}
+\end{array}\right],
+$$
+where $Q_1$ is any matrix that makes $Q$ nonsingular, takes the system
+to the form
+$$
+\hat{A} = Q^{-1} A Q =
+\left[\begin{array}{c c}
+  A_{11} & 0      \\
+  A_{21} & A_{22}
+\end{array}\right], \quad
+\hat{C} = C Q =
+\left[\begin{array}{c c}
+  C_1 & 0
+\end{array}\right].
+$$
+Furthermore the matrix $\hat{\mathcal{O}} = \mathcal{O} Q$ has a null
+space equal to the unobservable subspace of $(\hat{A}, \hat{C})$.
+
+\subsection{Kalman Decomposition}
+
+Let $n_r = \mathrm{rank}(\mathcal{C})$,
+$n_{\bar{o}} = n - \mathrm{rank}(\mathrm{O})$, and $n_{r\bar{o}}$ be the dimension
+of the subspace that is controllable but unobservable. Take
+$$
+Q = [v_1, \dots, v_{n_r - n_{r\bar{o}} + 1}, \dots, v_{n_r}, Q_N,
+     \hat{v}_1, \dots, \hat{v}_{n_{\bar{o}} - n_{r \bar{o}}}],
+$$
+where $v_1, \dots, v_{n_r}$ forms a basis for the controllable subspace,
+$v_{n_r - n_{r\bar{o}} + 1}, \dots, v_{n_r}$ forms a basis for the
+controllable and unobservable subspace, etc. % TODO
+
+\subsection{Multi-input Systems}
+For a multi-input system we must first compute the controllability
+indices $\mu_i$. Compute $\mathcal{C}$ and take $n$ linearly independent
+columns, rearranging these into the matrix
+$$
+\bar{\mathcal{C}} =
+\left[
+  b_1, A b_1, \dots, A^{\mu_1 - 1} b_1,
+  \dots,
+  b_m, \dots, A^{\mu_m - 1} b_m
+\right]
+$$
+where $b_1, \dots, b_m$ are the $m$ columns of the input matrix $B$.
+(If the $b_i$ are not all linearly independent we can choose a
+linearly independent subset and reformulate the system.)
+Here $\mu_i$ denotes the number of columns involving $b_i$.
+
+Next, compute $\bar{\mathcal{C}}^{-1}$ and let $q_k$ denote the $\sigma_k$
+row, where $\sigma_k = \sum_{i=1}^k \mu_i$. Then
+$$
+P =
+\left[\begin{array}{c}
+  q_1            \\
+  q_1 A          \\
+  \vdots         \\
+  q_1 A^{\mu_1 - 1} \\
+  \vdots         \\
+  q_m            \\
+  \vdots         \\
+  q_m A^{\mu_m - 1}
+\end{array}\right].
+$$
+Then $A_C = P A P^{-1}$, $B_C = P B$.
+
+We note also that
+$$
+A_C = \bar{A}_C + \bar{B}_C A_m, \quad
+B_c = \bar{B}_C + B_m
+$$
+where $\bar{A}_C = \mathrm{blkdiag}[\bar{A}_{11}, \dots,
+\bar{A}_{mm}]$, $\bar{A}_{ii}$ is an identity matrix with $\mu_i - 1$
+columns with a 0 column and row appended on the left and bottom, and
+$\bar{B}_C$ is a block diagonal matrix formed from $m$ $\mu_i \times 1$
+zero vectors with a 1 in the last row.
+
+Controllability indices are invariant under similarity and input
+transformations, as well as state feddback.
+
+\subsection{Multi-Output Case}
+Proceed similarly, taking linearly independent rows of $\mathcal{O}$
+and finding observability indices $\nu_i$, forming $\bar{\mathcal{O}}$,
+and taking $\tilde{q}_k$ to be
+$\tilde{\sigma}_k$ column of $\bar{\mathcal{O}}^{-1}$.
+
+\section{Control Loops}
+For the system given by
+$$
+\dot{x} = Ax + Bu, \quad
+y = Cx + Du,
+$$
+consider the control input $u = Fx + r$
+so that the system becomes
+$$
+\dot{x} = (A + BF)x + Br, \quad
+y = (C + DF) x + Dr.
+$$
+
+An open-loop (feedforward) controller can be produced by
+$$
+u = F[sI - (A + BF)]^{-1} x_0 + [I - F(sI - A)^{-1} B]^{-1} r,
+$$
+but this requires exact knowledge of the initial state $x_0$ and the
+dynamics matrices.
+
+\subsection{Eigenvalue/Eigenvector Placement}
+The controllable eigenvalues of the closed loop system
+$\dot{x} = (A + BF)x$ can be assigned arbitrarily by choice of
+feedback matrix $F$.
+
+For a single-input system in controller form, the feedback
+$[f_0, \dots, f_{n-1}]$ gives
+$$
+A_C + B_C F =
+\left[\begin{array}{c c c c}
+   0                & 1                 & \cdots & 0      \\
+   \vdots           & \vdots            & \ddots & \vdots \\
+   0                & 0                 & \cdots & 1      \\
+  -(\alpha_0 - f_0) &  -(\alpha_1 - f_1) & \cdots & -(\alpha_{n-1} - f_{n-1})
+\end{array}\right]
+$$
+so we can directly reassign the characteristic polynomial of $A$ by
+setting $f_i = \alpha_i - d_i$. More generally,
+$$
+F_C = B_m^{-1} [ A_{dm} - A_m ]
+$$
+where $B_m$, $A_{dm}$, $A_m$ are the $m$ $\sigma_j$th rows of $B_C$,
+$A_d$, and $A_C$, where $A_d$ is any matrix with the desired
+characteristic polynomial.
+
+It is also possible to assign eigenvectors. Choose $M_j$, $D_j$ such that
+$
+\left[\begin{array}{r}
+  M_j \\ -D_j
+\end{array}\right]
+$
+forms a basis for the null space of $[s_j I - A, B]$.
+
+\subsection{Linear Quadratic Regulator}
+
+\subsection{Linear Gaussian Estimator (Kalman Filter)}
+
+\subsection{Reduced-Order Observers}
+
+\section{Set-Point Control}
+
+\section{Realizations}
+
+\end{document}
