@@ -3,6 +3,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{commath}
+
 \usepackage{enumerate}
 \usepackage{mathtools}
 
@@ -238,7 +240,7 @@ subspace of the system as its range.
 Note also that
 $$
 e^{A(t - \tau)} B
-= [ Q e^{\hat{A}(t - \tau) Q^{-1} ]
+= [ Q e^{\hat{A}(t - \tau)} Q^{-1} ]
   [ Q \hat{B} ]
 = Q\left[\begin{array}{c}
      e^{A_1 (t - \tau)} B_1 \\
@@ -370,7 +372,7 @@ and finding observability indices $\nu_i$, forming $\bar{\mathcal{O}}$,
 and taking $\tilde{q}_k$ to be
 $\tilde{\sigma}_k$ column of $\bar{\mathcal{O}}^{-1}$.
 
-\section{Control Loops}
+\section{Controller Design}
 For the system given by
 $$
 \dot{x} = Ax + Bu, \quad
@@ -413,23 +415,309 @@ F_C = B_m^{-1} [ A_{dm} - A_m ]
 $$
 where $B_m$, $A_{dm}$, $A_m$ are the $m$ $\sigma_j$th rows of $B_C$,
 $A_d$, and $A_C$, where $A_d$ is any matrix with the desired
-characteristic polynomial.
+characteristic polynomial. In the multiple-input case such a choice is
+not unique for a given set of desired eigenvalues.
 
-It is also possible to assign eigenvectors. Choose $M_j$, $D_j$ such that
-$
+In the single-input case we can also apply Ackermann's gain formula:
+$$
+F = -e_n^\top \mathcal{C}^{-1} \alpha_d(A),
+$$
+where $\alpha_d(s)$ is the desired characteristic polynomial and
+$e_n$ is a matrix with a 1 in row $n$ and zero elsewhere.
+
+\subsubsection{Eigenvector Placement}
+It is also possible to assign eigenvectors. Assume that $F$ has been
+chosen to place eigenvalues at desired locations.
+Choose $M_j$, $D_j$ such that
+$$
 \left[\begin{array}{r}
   M_j \\ -D_j
+\end{array}\right] =
+\left[\begin{array}{r}
+   P^{-1} S(s) \\
+  -B_m^{-1}[\Lambda(s) - A_m S(s)]
 \end{array}\right]
+$$
+forms a basis for the null space of $[s_j I - A, B]$. Here
+$\Lambda(s) = \mathrm{diag}([s^{\mu_1}, \dots, s^{\mu_m}])$ and
 $
-forms a basis for the null space of $[s_j I - A, B]$.
+S(s) =
+\mathrm{blk diag}(\{
+  [1, s, \dots, s^{\mu_1 - 1}]^\top,
+  \dots,
+  [1, s, \dots, s^{\mu_m - 1}]^\top
+\})
+$
+and
+$$
+A_m =
+\left[\begin{array}{c}
+  q_1 A^{\mu_1} \\
+  \vdots      \\
+  q_m A^{\mu_m},
+\end{array}\right], \quad
+B_m =
+\left[\begin{array}{c}
+  q_1 B^{\mu_1 - 1} \\
+  \vdots      \\
+  q_m B^{\mu_m - 1},
+\end{array}\right].
+$$
+Next construct a matrix $V$ with desired eigenvectors as columns,
+which is constrained by $V = [M_1 a_1, \dots, M_n a_n]$ for some
+vectors $a_i$ and the requirement that conjugate eigenvalues have
+conjugate eigenvectors. We also have $W = [D_1 a_1, \dots, D_n a_n]$. Then
+finding $F = WV^{-1}$ gives the feedback matrix that places the
+eigenvectors as desired.
+
+\subsection{Observer Design}
+Suppose we compute a state estimate $\hat{x}$ from the outputs $y$ and
+the inputs $u$. Then
+$$
+\dot{\hat{x}} = A\hat{x} + B u, \quad
+e = x - \hat{x}, \quad
+\dot{e} = A(x - \hat{x}) = Ae
+$$
+and so the error of the open loop system will go to 0 only if $A$ has
+asymptotically stable eigenvalues. Furthermore the initial state must
+be known for this estimator to track the state of the system.
+
+A closed-loop observer takes the form
+$$
+\dot{\hat{x}} = A\hat{x} + B u + K(y - \hat{y}), \quad
+\hat{y} = C \hat{x} + D u, \quad
+\dot{e} = \dot{x} - \dot{\hat{x}} = (A - KC)e.
+$$
+Since $\lambda(A - KC) = \lambda(A^\top + C^\top \tilde{F})
+\tilde{F}^\top$ where $\tilde{F} = -K^\top$, we can formulate the
+closed-loop observer design as the dual of a closed-loop controller
+design for the pair $(A^\top, C^\top$, taking the negative transpose
+of the feedback matrix we derive. The separation principle guarantees
+that controller and observer design are distinct from one antoher. We
+arrive at a controller/observer design with $2n$ states:
+$$
+\left[\begin{array}{c}
+  \dot{x} \\
+  \dot{e}
+\end{array}\right] =
+\left[\begin{array}{r r}
+  A + B F &    -B F \\
+        0 & A - K C
+\end{array}\right]
+\left[\begin{array}{c}
+  x \\
+  e
+\end{array}\right]
++
+\left[\begin{array}{c}
+  B \\
+  0
+\end{array}\right]v, \quad
+y =
+\left[\begin{array}{r r}
+  C + DF & -DF
+\end{array}\right]
+\left[\begin{array}{c}
+  x \\
+  e
+\end{array}\right]
++ D v.
+$$
+We typically want to place the eigenvalues of $A - KC$ about 5 times
+farther to the left of 0 so that the error in the observer diminishes
+rapidly enough that it does not affect the controller. Placing
+eigenvalues too far to the left results in a differentiating observer,
+which increases high frequency noise.
+
+In the Laplace domain a closed-loop observer has the form
+$$
+U(s) = [1 - G_u(s)]^{-1} [G_y Y(s) + V(s)]
+$$
+so when $v(t) = 0$, the feedback system has the transfer function
+$(1 - G_u)G_y Y(s)$.
+
+Linear feedback control can stabilize a system that is both
+stabilizable and detectable.
 
 \subsection{Linear Quadratic Regulator}
+The performance index is defined as
+$$
+J = \int_0^{t_f} [x^\top(t) Q x(t) + u^\top (t) R u(t)] \dif t
+$$
+where $Q$ is symmetric and positive semidefinite, $R$ is symmetric
+and positive definite. Write $Q = M^\top M$, where $z = M x$ is the
+controlled output. When $u(t) = F x(t)$, we have
+$J = x^\top(0) W x(0)$.
+
+Over the interval $[0, t_f]$, $J$ is minimized by
+$u(t) = -R^{-1} B^\top P$, where $P$ is the unique
+positive semidefinite solution to the
+differential Riccati equation
+$$
+-\frac{\partial P}{\partial t} =
+P A + A^\top P + Q - P B R^{-1} B^\top
+$$
+which in the limit $t_f \to \infty$ reduces to the algebraic Riccati
+equation
+$$
+P A + A^\top P + Q - P B R^{-1} B^\top P = 0
+$$
+if $(A, B)$ is stabilizable and $(A, M)$ is detectable, in which case
+$J$ is finite iff. $\mathfrak{Re}[\lambda(A + BF)] < 0$. The input
+$u(t)$ is then optimal among all square integrable functions.
 
 \subsection{Linear Gaussian Estimator (Kalman Filter)}
+The dual to the LQR finds the optimal feedback
+$\tilde{F} =- K^\top = -R^{-1} \tilde{B}^\top P$ where
+$$
+\tilde{A} = A^\top, \quad
+\tilde{B} = C^\top, \quad
+\tilde{F} = -K^\top, \quad
+V = R, \quad
+\Gamma = M^\top,
+P_e = P
+$$
+and optimizes the observer for the system
+$$
+\dot{x} = A x + B u + \Gamma w, \quad
+y = C x + v
+$$
+where $w, v$ are independent Gaussian noise processes with zero mean
+and variance $W, V$, by solving the Riccati equation
+$$
+  P_e \tilde{A}^\top
++ \tilde{A} P_e
++ \Gamma \Gamma^\top
+- P_e \tilde{C}^\top V^{-1} \tilde{C} P_e
+= 0
+$$
 
 \subsection{Reduced-Order Observers}
 
 \section{Set-Point Control}
+
+\subsection{Feedforward Set-Point Control}
+Consider a system stabilized by state feedback, which has the
+following closed loop transfer function and input:
+$$
+H(s) = C[sI - (A + BF)]^{-1} B, \quad
+u = F x + v
+$$
+With $v = N r$, if $C(A + BF)^{-1}B$ is nonsingular, we can drive the
+system asymptotically to the point $r$ by setting
+$$
+N = -[C(A + BF)^{-1} B]^{-1}.
+$$
+This is true iff. $(A, B)$ is stabilizable and
+$
+\mathrm{rank}
+\left[\begin{array}{c c}
+  A & B \\
+  C & 0
+\end{array}\right] = n + m.
+$
+This feedforward set-point control is sensitive to the model
+parameters $A, B, C$.
+
+\subsection{Integral Feedback Set-Point Control}
+Let
+$$
+\dot{x} = Ax + Bu + \Gamma w, \quad
+y = Cx + Ew
+$$
+be a system with a constant parameter disturbance $w$. We wish to
+drive the system asymptotically to $y = r$. Let $\dot{z} = r - y$ and write
+$
+\mathcal{X} =
+\left[\begin{array}{c}
+  x \\ z
+\end{array}\right].
+$
+Then the system
+$$
+\left[\begin{array}{c}
+  \dot{x} \\
+  \dot{z}
+\end{array}\right]
+=
+\left[\begin{array}{r r}
+  A & 0 \\
+ -C & 0
+\end{array}\right]
+\left[\begin{array}{c}
+  x \\
+  z
+\end{array}\right]
++
+\left[\begin{array}{c}
+  B \\
+  0
+\end{array}\right]
+u
++
+\left[\begin{array}{r}
+   \Gamma \\
+  -E
+\end{array}\right]
+w
++
+\left[\begin{array}{c}
+  0 \\
+  I_m
+\end{array}\right]
+r
+$$
+is stabilized by feedback control
+$$
+u = F \mathcal{X} = F_1 x + F_2 z
+$$
+if and only if $(\mathcal{A}, \mathcal{B})$ above is stabilizable,
+which is true iff. $(A, B)$ is stabilizable and
+$
+\mathrm{rank}
+\left[\begin{array}{c c}
+  A & B \\
+  C & 0
+\end{array}\right] = n + m.
+$
+In this case the dynamics are given by
+$$
+\mathcal{A} + \mathcal{B} \mathcal{F} =
+\left[\begin{array}{r r}
+  A + BF_1 & BF_2 \\
+  -C       & 0
+\end{array}\right].
+$$
+Incorporating an observer we arrive at the closed-loop integral
+control system
+$$
+\left[\begin{array}{c}
+  \dot{x} \\
+  \dot{z} \\
+  \dot{e}
+\end{array}\right] =
+\left[\begin{array}{r r r}
+  A + B F_1 & B F_2 & -B F_1 \\
+  -C        & 0     &  0     \\
+   0        & 0     &  A - K C
+\end{array}\right]
+\left[\begin{array}{c}
+  x \\
+  z \\
+  e
+\end{array}\right]
++
+\left[\begin{array}{c}
+  \quad \\
+  \quad
+\end{array}\right]
+\left[\begin{array}{c}
+  w \\
+  r
+\end{array}\right]
+$$
+and will asymptotically approach the equilibrium $y = r$.
+
 
 \section{Realizations}
 

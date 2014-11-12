@@ -166,7 +166,8 @@ Let $A$ be a ring.
 \begin{enumerate}
   \item{
     $A$ is a \emph{division ring} if $0 \neq 1$ and
-    $A^\ast = A - \{ 0 \}$ so all non-zero elements are left and right invertible.
+    $A^\ast = A - \{ 0 \}$ so all non-zero elements are left and right
+    invertible under multiplication.
   }
   \item{
     $A$ is a \emph{field} if it is a commutative division ring.
@@ -341,4 +342,147 @@ Take $(x + I)(y + I) = 0 + I$. Then $xy + I = 0 + I$, so $xy \in I$.
 Assuming $I$ is prime, $x \in I$ or $y \in I$, so $x + I = 0 + I$ or
 $y + I = 0 + I$. Observe also $I \neq A$ is equivalent to
 $A / I \neq \{ 0 \}$.
+\end{proof}
+
+\begin{prop}
+$M$ is a maximal ideal of $A$ if and only if $A / M$ is a field.
+\end{prop}
+
+\begin{proof}
+\begin{itemize}
+  \item[$\implies$]
+  {
+    Let $M$ be a maximal ideal of $A$. Take $x + M \neq 0 + M$,
+    i.e. $x \neq M$. Consider an ideal $I = A x + M$ of $A$. Observe
+    that $M$ is a proper subset of $I$ since $x \notin M$. Then
+    $I = Ax + M = A$. Then $1 = a x + m$ for some $m \in M$, and so
+    $(a + M)(x + M) = 1 + M$, so $a + M$ is the inverse of $x + M$ in
+    $A / M$. Therefore $A / M$ is a field.
+  }
+  \item[$\impliedby$]
+  {
+    Let $A / M$ be a field. Then $A / M$ is not the zero ring, so
+    $M \neq A$. Take an ideal $I$ such that $M \subset I \subset
+    A$. Consider $I / M \subset A / M$. Then $I / M$ is an ideal in
+    the field. But the only ideals that can exist in this field
+    are $I / M = \{ 0 \}$ or $I / M = A / M$, which completes the proof.
+  }
+\end{itemize}
+\end{proof}
+
+\begin{theorem}[?]
+Let $A$ be a commutative ring. Every proper ideal in $A$ is contained
+in a maximal ideal, where ``proper'' means the ideal is not the whole
+ring $A$. We will see this is analogous to the axiom of choice.
+\end{theorem}
+
+\subsection{Zorn's Lemma}
+First, let $S$ be a set. A partial order on $S$ is a relation $\leq$
+with the properties:
+\begin{enumerate}
+\item{
+  $x \leq x$, $\forall x \in S$.
+}
+\item{
+  $x \leq y$ and $y \leq z$ implies $x \leq z$.
+}
+\item{
+  $x \leq y$ and $y \leq x$ implies $x = y$.
+}
+\end{enumerate}
+
+If for all $x, y \in S$, we have either $x \leq y$ or $y \leq x$, then
+we say $\leq$ is a total order.
+
+Suppose $(S, \leq)$ is a poset (``partially ordered set''). A
+\emph{maximal element} in $(S, \leq)$ is any $m \in S$ such that
+$\forall x \in S$, either $x \leq m$ or $x$ and $m$ are ``unrelated'',
+i.e. there exists no $y \in S$ with $x \leq y$ and $y \neq m$.
+
+Suppose $T$ is a subset of $S$. An \emph{upper bound for $T$ in $S$}
+is an element $u \in S$ such that $\forall x \in T$, $x \leq u$.
+
+\begin{defn}[Inductively ordered poset]
+A poset $(S, \leq)$ is called \emph{inductively ordered} if
+every totally ordered subset $T$ of $S$ has an upper bound in $S$.
+\end{defn}
+
+\begin{lemma}[Zorn's Lemma]
+Every nonempty inductively ordered poset has at least one maximal
+element. This is equivalent to the axiom of choice.
+\end{lemma}
+
+\begin{theorem}[?, redux]
+Every proper ideal in $A$ is contained in a maximal ideal.
+\end{theorem}
+
+\begin{proof}
+Let $S$ be the set of all proper ideals of $A$ that contain a given
+$I_0$.
+Then $S \neq \varnothing$ since it contains the zero ideal. $S$ has a
+partial order given by $I \leq J$ when $I \subset J$. We check that
+$S$ is inductively ordered.
+
+Let $\{I_t\}$, $t \in T$ be a totally ordered subset of $S$. Then
+$$
+U = \bigcup_{t \in T} I_t
+$$
+is an ideal and $U \neq A$, so $U \in S$ and naturally $I_t \subset U$
+for all $t$, so $U$ is an upper bound for $\{I_t\}$ in $S$. $U$ is an
+ideal because for $x, y \in U$, there is a $t, t^\prime \in S$ such
+that $x \in I_t$, $y \in I_{t^\prime}$. Then since $T$ is totally
+ordered, either $I_t \subset I_{t^\prime}$ or $I_{t^\prime} \subset
+I_t$. If$I_t \subset I_{t^\prime}$, $x \pm y \in I_{t^\prime} \subset U$, and
+similarly $I_t \subset U$.
+
+Why is $U \neq A$? This is equivalent to $1 \notin U$. But $1 \notin
+I_t$, $\forall t \in T$, so $1 \notin \bigcup_{t \in T} I_t = U$.
+
+Now applying Zorn's lemma gives that there exists a maximal element
+$M$. This is a maximal ideal that contains the given ideal $I_0$.
+\end{proof}
+
+
+\begin{defn}[Radical]
+The \emph{radical} of $A$, written $\mathrm{rad}(A)$, is
+$$
+\mathrm{rad}(A) = \{ x \in A \mid x^n = 0, n \geq 0 \}.
+$$
+\end{defn}
+
+\begin{prop}
+$\mathrm{rad}(A)$ is an ideal of $A$.
+\end{prop}
+\begin{proof}
+\begin{enumerate}
+  \item{
+    Let $a \in A$, $x \in \mathrm{rad}(A)$. Then $x^n = 0$ so
+    $$
+    (ax)^n = a^n x^n = a^n 0 = 0
+    $$
+    since $A$ is commutative, so $ax \in \mathrm{rad}(A)$.
+  }
+  \item{
+    Let $x, y \in \mathrm{rad}(A)$. Then $x^n = 0$, $y^m = 0$, and
+    $$
+    (x \pm y)^N = \sum_{i=0}^N c_i x^i y^{N-i}
+    $$
+    We want $i \geq n$ or $N - i \geq n + m$. It is enough to choose
+    $N \geq n + m$, so $(x \pm y)^{n + m} = 0$ and then $x \pm y \in
+    \mathrm{rad}(A)$, so $\mathrm{rad}(A)$ is a subgroup of
+    $(A, +)$.
+  }
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}
+Let $A$ be a commutative ring. Then the radical of $A$ is the
+intersection of all prime ideals of $A$.
+\end{theorem}
+\begin{proof}
+Observe that if $x \in \mathrm{rad}(A)$ then $x$ belongs to every
+prime ideal of $A$. Indeed, if $x^n = 0$, then $0 \in P$, so
+$x^n = x x^{n-1} = 0$ is in the prime ideal. Then either $x \in P$ or
+$x^{n-1} \in P$. An inductive argument of this type shows that $x \in
+P$ for every prime ideal $x$.
 \end{proof}
