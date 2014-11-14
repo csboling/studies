@@ -485,4 +485,117 @@ prime ideal of $A$. Indeed, if $x^n = 0$, then $0 \in P$, so
 $x^n = x x^{n-1} = 0$ is in the prime ideal. Then either $x \in P$ or
 $x^{n-1} \in P$. An inductive argument of this type shows that $x \in
 P$ for every prime ideal $x$.
+
+Next show that $\bigcap_P P \subset \mathrm{rad}(A)$.
+Suppose $a \notin \mathrm{rad}(A)$. Then we have
+$$
+S = \{1, a, a^2, \dots, a^n, \dots \}, \quad
+0 \notin S.
+$$
+Let $\mathcal{A}$ be the set of all ideals $J$ of $A$ such that
+$J \cap S = \varnothing$. Since $0 \notin S$, the zero ideal $(0)$
+is in $\mathcal{A}$ and so $\mathcal{A}$ is not the empty set.
+$\mathcal{A}$ is a poset with the partial order $\subset$. We claim
+that this is an inductively ordered poset, i.e. each totally ordered
+chain of ideals $\{J_i\}_{i \in I}$ has an upper bound. Notice that
+$J = \bigcup_{i \in I} J_i$ is an upper bound in $\mathcal{A}$, and
+that if $J_i \cap S = \varnothing, \forall i$ then $J \cap S =
+\varnothing$, so $J \in \mathcal{A}$. Zorn's lemma applied to
+$\mathcal{A}$ gives that there is a maximal element $Q$ in
+$\mathcal{A}$. Then $Q$ is an ideal of $A$ such that
+$Q \cap S = \varnothing$ and is maximal among all ideals with this
+property.
+
+We claim that $Q$ is a prime ideal, in which case $a \notin Q$, which
+was to be shown. Take $x, y \in A$ such that $xy \in Q$. Suppose
+$x \notin Q$ and $y \notin Q$. Consider $Q + Ax$, $Q + Ay$. Then these
+are both ideals of $A$ and are strictly larger than $Q$, and by the
+maximality of $Q$ among ideals such that $Q \cap S = \varnothing$,
+this means $Q + Ax \cap S \neq \varnothing$ and
+$Q + Ay \cap S \neq \varnothing$. Therefore we can write
+$$
+a^i = q + bx, \quad
+a^j = q^\prime + b^\prime y
+$$
+and so
+$$
+  a^i a^j
+= a^{i + j}
+= q q^\prime + q b^\prime y + q^\prime b x + b b^\prime xy \in Q
+$$
+because $xy \in Q$. Therefore this product is in $Q \cap S$, but this
+means $a^{i+j} \in Q \cap S$, which is a contradiction.
 \end{proof}
+
+\begin{defn}[Multiplicative Set]
+Let $S \subset A$. We say that $S$ is multiplicative if
+\begin{enumerate}
+  \item{
+    $1 \in S$,
+  }
+  \item{
+    $a, b \in S \implies ab \in S$,
+  }
+  \item{
+    $0 \notin S$.
+  }
+\end{enumerate}
+\end{defn}
+
+\begin{remark}
+In the same argument above, $\mathcal{A}$ has maximal elements and
+these maximal elements are prime ideals. We conclude that given any
+multiplicative subset $S$ of $A$, there is a prime ideal $Q$ of $A$
+such that $Q \cap S = \varnothing$.
+\end{remark}
+
+\subsection{Localization}
+Let $A$ be a commutative ring, $S \subset A$ a multiplicative
+subset. Construct a \emph{ring of fractions} $S^{-1} A$ by
+$S^{-1} A = (A \times S) / \sim$, where
+$(a, s) \sim (a^\prime, s^\prime)$ if there exists an
+$s^{\prime\prime}$ such that
+$s^{\prime\prime}(as^\prime - a^\prime s) = 0$. Think of the
+equivalence class of $(a, s)$ as a fraction $\frac{a}{s}$, where
+$\frac{a}{s} \sim \frac{a}{s^\prime}$ if
+$s^{\prime\prime}(as^\prime - a^\prime s) = 0$.
+
+Operations on this construction are given by
+$$
+  \frac{a}{s} + \frac{a^\prime}{s^\prime}
+= \frac{a s^\prime + a^\prime s}{s s^\prime}, \quad
+  \frac{a}{s} \frac{a^\prime}{s^\prime}
+= \frac{a a^\prime}{s s^\prime}.
+$$
+We have to check that this is independent of representative of the
+equivalence classes involved.
+
+\begin{xmpl}
+\begin{enumerate}
+  \item{
+    Let $A = \mathbb{Z}$, $S = \mathbb{Z} - \{ 0 \}$. Then
+    $$
+      S^{-1} A
+    = \left\{
+        \frac{a}{b} \mid a, b \in \mathbb{Z}, b \neq 0
+      \right\}
+    = \mathbb{Q}
+    $$
+    with the usual $+$.
+  }
+  \item{
+    Let $A$ be an integral domain. $S = A - \{ 0 \}$ is multiplicative
+    because $A$ is a domain. Then
+    $$
+      S^{-1} A
+    = \left\{
+        \frac{a}{b} \mid a, b \in \mathbb{A}, b \neq 0
+      \right\}
+    $$
+    is a field because $\frac{a}{b} \neq \frac{0}{1} \iff a \neq 0$,
+    and then $\frac{a}{b}$ has inverse $\frac{b}{a}$. This is called
+    the \emph{fraction field} of $A$, denoted $\mathrm{Fr}(A)$. For a
+    polynomial ring this produces the ring of rational functions.
+  }
+\end{enumerate}
+\end{xmpl}

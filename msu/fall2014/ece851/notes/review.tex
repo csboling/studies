@@ -1,4 +1,5 @@
-\documentclass{article}
+\documentclass{report}
+\usepackage{fullpage}
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -23,6 +24,73 @@
 \begin{titlepage}
 \maketitle
 \end{titlepage}
+
+\section{Preliminaries}
+
+\subsection{Matrix Exponential}
+The matrix exponential is given by
+$$
+e^{A} = \sum_{k=0}^\infty \frac{A^k}{k!}
+$$
+which can be computed by the inverse Laplace transform
+$$
+e^{At} = \mathcal{L}^{-1}\{(sI - A)^{-1}\}
+$$
+or in some special cases:
+$$
+\left[\begin{array}{c c c c}
+  \lambda_1 & 0          & \cdots & 0      \\
+  0         & \lambda_2  & \cdots & 0      \\
+  \vdots    & \vdots     & \ddots & \vdots \\
+  0         & 0          & \cdots & \lambda_n
+\end{array}\right]
+\mapsto
+\left[\begin{array}{c c c c}
+  e^{\lambda_1} & 0           & \cdots & 0      \\
+  0           & e^{\lambda_2} & \cdots & 0      \\
+  \vdots      & \vdots      & \ddots & \vdots \\
+  0           & 0           & \cdots & e^{\lambda_n}
+\end{array}\right]
+$$
+
+Note that $e^{A} e^{B} = e^{A + B}$ if any only if $A$ and $B$ commute.
+
+\subsection{Cayley-Hamilton Theorem}
+The Cayley-Hamilton theorem states that every matrix satisfies its own
+characteristic polynomial. That is, let
+$$
+\det (sI - A) = \alpha(s) = \sum_{k=0}^{n} \alpha_k s^k.
+$$
+Then $\sum_{k=0}^{n} \alpha_k A^k = 0$. A consequence of this is
+that
+$$
+A^n = \sum_{k=0}^{n-1} \beta_k A^k,
+$$
+so $A^n$ can be written as a linear combination of lesser powers of
+$A$ and therefore
+$$
+\mathrm{rank}
+\left[\begin{array}{c}
+  I      \\
+  A      \\
+  A^2    \\
+  \cdots \\
+  A^n    \\
+  A^{n+1} \\
+  \cdots \\
+  A^{n+k}
+\end{array}\right]
+=
+\mathrm{rank}
+\left[\begin{array}{c}
+  I      \\
+  A      \\
+  A^2    \\
+  \cdots \\
+  A^n
+\end{array}\right]
+$$
+for any $k \geq 1$.
 
 \section{Equilibrium Points and Stability}
 A dynamical system
@@ -171,7 +239,8 @@ where $n$ is the rank of $A$. If the controllability (observability)
 matrix is of full rank, the system is controllable (observable).
 
 \subsection{Controller Form -- Single Input}
-If the system is controllable, then $\mathcal{C}^{-1}$ exists. Let $q$
+If the system is controllable, then in the single-input case
+$\mathcal{C}$ is $n \times n$, so $\mathcal{C}^{-1}$ exists. Let $q$
 be the $n$th row of $\mathcal{C}^{-1}$. Then the state transformation
 $$
 P =
@@ -364,7 +433,7 @@ $\bar{B}_C$ is a block diagonal matrix formed from $m$ $\mu_i \times 1$
 zero vectors with a 1 in the last row.
 
 Controllability indices are invariant under similarity and input
-transformations, as well as state feddback.
+transformations, as well as state feedback.
 
 \subsection{Multi-Output Case}
 Proceed similarly, taking linearly independent rows of $\mathcal{O}$
@@ -426,7 +495,8 @@ where $\alpha_d(s)$ is the desired characteristic polynomial and
 $e_n$ is a matrix with a 1 in row $n$ and zero elsewhere.
 
 \subsubsection{Eigenvector Placement}
-It is also possible to assign eigenvectors. Assume that $F$ has been
+It is also possible to assign eigenvectors in a controllable,
+multi-input system. Assume that $F$ has been
 chosen to place eigenvalues at desired locations.
 Choose $M_j$, $D_j$ such that
 $$
@@ -438,16 +508,17 @@ $$
   -B_m^{-1}[\Lambda(s) - A_m S(s)]
 \end{array}\right]
 $$
-forms a basis for the null space of $[s_j I - A, B]$. Here
+forms a basis for the null space of $[s_j I - A, B]$, where $P$ is the
+transformation bringing the system to controller form. Here
 $\Lambda(s) = \mathrm{diag}([s^{\mu_1}, \dots, s^{\mu_m}])$ and
-$
+$$
 S(s) =
 \mathrm{blk diag}(\{
   [1, s, \dots, s^{\mu_1 - 1}]^\top,
   \dots,
   [1, s, \dots, s^{\mu_m - 1}]^\top
 \})
-$
+$$
 and
 $$
 A_m =
@@ -488,12 +559,17 @@ $$
 \hat{y} = C \hat{x} + D u, \quad
 \dot{e} = \dot{x} - \dot{\hat{x}} = (A - KC)e.
 $$
+We can then compute the derivative $\dot{\hat{x}}$ by a linear
+transformation on $u$ and $y$ and pass it through an integrator to
+receive a state estimate $\hat{x}$. This state estimate can then be
+used for state feedback control.
+
 Since $\lambda(A - KC) = \lambda(A^\top + C^\top \tilde{F})
 \tilde{F}^\top$ where $\tilde{F} = -K^\top$, we can formulate the
 closed-loop observer design as the dual of a closed-loop controller
 design for the pair $(A^\top, C^\top$, taking the negative transpose
 of the feedback matrix we derive. The separation principle guarantees
-that controller and observer design are distinct from one antoher. We
+that controller and observer design are distinct from one another. We
 arrive at a controller/observer design with $2n$ states:
 $$
 \left[\begin{array}{c}
@@ -533,8 +609,8 @@ In the Laplace domain a closed-loop observer has the form
 $$
 U(s) = [1 - G_u(s)]^{-1} [G_y Y(s) + V(s)]
 $$
-so when $v(t) = 0$, the feedback system has the transfer function
-$(1 - G_u)G_y Y(s)$.
+so when $v(t) = 0$, the feedback path has the transfer function
+$(1 - G_u)^{-1}G_y$.
 
 Linear feedback control can stabilize a system that is both
 stabilizable and detectable.
@@ -546,7 +622,7 @@ J = \int_0^{t_f} [x^\top(t) Q x(t) + u^\top (t) R u(t)] \dif t
 $$
 where $Q$ is symmetric and positive semidefinite, $R$ is symmetric
 and positive definite. Write $Q = M^\top M$, where $z = M x$ is the
-controlled output. When $u(t) = F x(t)$, we have
+controlled output. When $u(t) = F x(t)$ and $t_f \to \infty$, we have
 $J = x^\top(0) W x(0)$.
 
 Over the interval $[0, t_f]$, $J$ is minimized by
@@ -592,7 +668,91 @@ $$
 = 0
 $$
 
+\subsection{Transfer Functions}
+Recall that an uncompensated system has the transfer function
+$$
+H(s) = C(sI - A)^{-1} B + D.
+$$
+It can be shown that the closed-loop transfer function with state
+feedback is given by
+$$
+H_F(s) = (C + DF)[sI - (A + BF)]^{-1} B + D = H(s)[I - F(sI - A)^{-1} B]^{-1}.
+$$
+The transfer function depends only on the parts of the system that are
+both controllable and observable:
+$$
+H(s) = C_1 (sI - A_{11})^{-1} B_1 + D
+$$
+A system which is both controllable and observable has no pole-zero cancellations.
+
 \subsection{Reduced-Order Observers}
+If a subset of $p$ states are available but other $n - p$ must be
+estimated from $m$ outputs, it may be possible to design a state
+estimator for $n - p$ states. In this case the system can be written
+$$
+\left[\begin{array}{c}
+  \dot{\hat{x}}_1  \\
+  \dot{\hat{x}}_2
+\end{array}\right]
+=
+\left[\begin{array}{c c}
+  A_{11} & A_{12} \\
+  A_{21} & A_{22}
+\end{array}\right]
+\left[\begin{array}{c}
+  x_1 \\
+  x_2
+\end{array}\right]
++
+\left[\begin{array}{c c}
+  B_1 \\
+  B_2
+\end{array}\right] u, \quad
+z =
+\left[\begin{array}{c}
+  x_1 \\
+  0
+\end{array}\right]
+$$
+so $\dot{x}_2 = A_{22} x_2 + \tilde{B}\tilde{u}$, where
+$\tilde{B} = [A_{21}, B_2]$ and $\tilde{u} = [x_1, u]^\top$. Then
+setting
+$$
+\tilde{y} = \dot{x}_1 - A_{11} x_1 - B_1 u = A_{12} x_2
+$$
+we construct the estimator
+\begin{align*}
+\dot{\hat{x}}_2
+ &= A_{22} \hat{x}_2
+  + \tilde{B} \tilde{u}
+  + \tilde{K} (\tilde{y} - A_{12} \hat{x}_2) \\
+ &= (A_{22} - \tilde{K} A_{12}) \hat{x}_2
+  + (A_{21} + B_2 u)
+  + \tilde{K} (\dot{z} - A_{11} z - B_1 u).
+\end{align*}
+In this case $\dot{e} = (A_{22} - \tilde{K}A_{12})e$ so if $A_{22}$,
+$A_{12}$ is observable we can cause this error to diminish by
+assigning $\tilde{K}$. This is true if $(A, C)$ is observable.
+
+It is also possible to design such a reduced-order observer when
+$y = Cx$ and $\mathrm{rank} C = p$. In this case define a similarity
+transformation
+$
+P =
+\left[\begin{array}{c}
+  C       \\
+  \hat{C}
+\end{array}\right]
+$
+where $\hat{C}$ is chosen to make $P$ nonsingular, and then we have
+that $CP^{-1} = [I_p, 0]$. Taking
+$$
+\bar{x} = P x, \quad
+\bar{A} = P A P^{-1}, \quad
+\bar{B} = P B, \quad
+\bar{C} = C P^{-1}
+$$
+it is therefore possible to use the same approach as above.
 
 \section{Set-Point Control}
 
@@ -682,7 +842,7 @@ $
 $
 In this case the dynamics are given by
 $$
-\mathcal{A} + \mathcal{B} \mathcal{F} =
+\mathcal{A} + \mathcal{B} F =
 \left[\begin{array}{r r}
   A + BF_1 & BF_2 \\
   -C       & 0
@@ -690,6 +850,12 @@ $$
 $$
 Incorporating an observer we arrive at the closed-loop integral
 control system
+$$
+\dot{z} = r - y, \quad
+\dot{\hat{x}} = A \hat{x} + B u + K (y - C \hat{x}), \quad
+u = F_1 \hat{x} + F_2 z
+$$
+with dynamics
 $$
 \left[\begin{array}{c}
   \dot{x} \\
@@ -716,8 +882,9 @@ $$
   r
 \end{array}\right]
 $$
-and will asymptotically approach the equilibrium $y = r$.
-
+and will asymptotically approach the equilibrium $y = r$ if designed
+so that the controller $\mathcal{A} + \mathcal{B} F$ and
+observer $A - K C$ have stable eigenvalues.
 
 \section{Realizations}
 
