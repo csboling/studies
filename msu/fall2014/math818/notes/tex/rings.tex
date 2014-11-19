@@ -747,3 +747,121 @@ contradiction.
 
 ``This is more like a computer science proof, it's not really a good proof.''
 \end{proof}
+
+\begin{Theorem}
+If $A$ is a PID then $A$ is a UFD.
+\end{Theorem}
+
+\begin{proof}
+Consider the set $S$ of all ideals $(a)$, where $0 \neq a$ is \emph{not} a
+product of units and irreducible elements. We want to show that $S =
+\varnothing$.
+
+Assume $S \neq \varnothing$. $S$ is a poset with usual order
+$$
+I = (a) \leq J = (b) \triangleq (a) \subset (b).
+$$
+Observe that $S$ is inductively ordered, i.e. every chain
+$$
+(a_1) \subset (a_2) \subset \cdots \subset (a_n) \subset \cdots
+$$
+has an upper bound given by $U = \bigcup_{n \geq 1} (a_n) = (a_{n_0})$ for
+some $n_0$, since $U$ is principal. Therefore from Zorn's lemma $S$ has a maximal
+element, say $(a)$, and by assumption $a$ is not irreducible since
+$(a) \in S$. Then we can write $a = bc$ with $b, c$ not units. Then
+$(a) \subsetneq (b)$ and $(a) \subsetneq (c)$, but by the maximality
+of $S$ this means $(b), (c) \notin S$. But then $a = bc$ is a product
+of units and irreducible elements, which is a contradiciton. Therefore
+$S = \varnothing$, so all $a$ are such products.
+
+It remains to show that the factorization is unique, i.e. if
+$$
+a = u p_1 p_2 \cdots p_n = v q_1 q_2 \cdots q_m
+$$
+with $u, v \in A^\ast$ and $p_i, q_j$ irreducible, then $n = m$ and up
+to permutation $p_i = u_i q_i$ for some $u_i \in A^\ast$. This is done
+similarly to the integers. To extend this proof we need to show the
+following.
+
+\begin{lemma}
+If $p$ is irreducible in a PID $A$ and $p \vert ab$, then $p \vert a$ or $p
+\vert b$.
+\end{lemma}
+
+Assume $p \not\vert a$. Then there is a GCD in $A$ given by
+$g = \mathrm{gcd}(a, p)$ where $g \vert a$ and $g \vert p$. Then
+$g \in A^\ast$, i.e. $(a, p) = (1)$. Then $1 = xa + yp$ for some $x, y
+\in A$. Then $b = xab + ypb$, and since $p \vert a$ we have
+$b = p(xz + yb)$ and so $p$ divides $b$.
+\end{proof}
+
+\section{Chains of Ideals}
+Let $A$ be a commutative ring with 1.
+\begin{defn}[Noetherian ring]
+$A$ is called \emph{Noetherian} if every ideal in $A$ is finitely
+generated, i.e. for every ideal $I \subset A$ there exist elements
+$a_1, \dots, a_n \in I$ such that
+$$
+  I
+= (a_1, \dots, a_n)
+= \{ a_1 x_1 + \cdots + a_n x_n \mid x_i \in A \}.
+$$
+\end{defn}
+
+\begin{xmpl}
+Every PID is Noetherian.
+\end{xmpl}
+
+\begin{prop}
+$A$ is Noetherian if and only if one of the following equivalent
+conditions is satisfied:
+\begin{itemize}
+  \item{
+    Every chain of ideals
+    $$
+    I_1 \subseteq I_2 \subseteq \cdots \subseteq I_n \subseteq \cdots
+    $$
+    eventually stabilizes, i.e. $\exists n_0$ such that
+    $\forall n \geq n_0$, $I_n = I_{n+1}$.
+  }
+  \item{
+    Every non-empty set of ideals of $A$ contains a maximal element.
+  }
+\end{itemize}
+\end{prop}
+
+\begin{proof}
+\begin{itemize}
+  \item[(def) $\implies$ (1)]
+  {
+    Suppose every ideal in $A$ is finitely generated and let
+    $I_1 \subset I_2 \subset \cdots \subset I_n \subset \cdots$ be a
+    chain of ideals. Consider $I = \bigcup_{n \geq 1} I_n$. Then
+    $I = (a_1, \cdots, a_r)$ for some $a_i \in I$. Then there exists
+    some $n_0$ such that $a_i \in I_{n_0}$, so $I \subset
+    I_{n_0}$. Then $I \subset I_{n_0}$ and so $I_n = I_{n+1}$ for all
+    $n \geq n_0$ as desired.
+  }
+  \item[(1) $\implies$ (2)]
+  {
+    Take $S = \varnothing$ to be a set of ideals of $A$. By Zorn's
+    lemma it is enough to prove that every chain of ideals has an
+    upper bound in $S$. But from (1), $I_{n_0}$ is an upper bound.
+  }
+  \item[(2) $\implies$ (def)]
+  {
+    Consider an ideal $I$ in $A$. Let $S$ be the set of all ideals
+    of the form $(a_1, \dots, a_r)$ for some $r \geq 1$ which are in
+    $I$. We claim that $I$ is a maximal element in $S$, and so
+    $I$ is of this fomr.
+
+    If not, $M = (a_1, \dots, a_r) \subsetneq I$. Then there exists
+    $a_{r+1} \in I - M$, so  $(a_1, \dots, a_r, a_{r+1}) \subset I$,
+    violating the maximality of $M$. Therefore $I$ is finitely generated.
+  }
+\end{itemize}
+\end{proof}
+
+\begin{Theorem}[Hilbert Basis Theorem]
+If $A$ is Noetherian, then the polynomial ring $A[x]$ Noetherian.
+\end{Theorem}
