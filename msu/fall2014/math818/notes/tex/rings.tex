@@ -355,7 +355,7 @@ $M$ is a maximal ideal of $A$ if and only if $A / M$ is a field.
   \item[$\implies$]
   {
     Let $M$ be a maximal ideal of $A$. Take $x + M \neq 0 + M$,
-    i.e. $x \neq M$. Consider an ideal $I = A x + M$ of $A$. Observe
+    i.e. $x \notin M$. Consider an ideal $I = A x + M$ of $A$. Observe
     that $M$ is a proper subset of $I$ since $x \notin M$. Then
     $I = Ax + M = A$. Then $1 = a x + m$ for some $m \in M$, and so
     $(a + M)(x + M) = 1 + M$, so $a + M$ is the inverse of $x + M$ in
@@ -748,9 +748,9 @@ contradiction.
 ``This is more like a computer science proof, it's not really a good proof.''
 \end{proof}
 
-\begin{Theorem}
+\begin{theorem}
 If $A$ is a PID then $A$ is a UFD.
-\end{Theorem}
+\end{theorem}
 
 \begin{proof}
 Consider the set $S$ of all ideals $(a)$, where $0 \neq a$ is \emph{not} a
@@ -806,6 +806,9 @@ $$
 = (a_1, \dots, a_n)
 = \{ a_1 x_1 + \cdots + a_n x_n \mid x_i \in A \}.
 $$
+
+Rings that show up in algebra tend to be Noetherian, rings that show
+up in analysis tend not to be.
 \end{defn}
 
 \begin{xmpl}
@@ -831,6 +834,7 @@ conditions is satisfied:
 \end{prop}
 
 \begin{proof}
+We proceed in a circle of implications.
 \begin{itemize}
   \item[(def) $\implies$ (1)]
   {
@@ -862,6 +866,139 @@ conditions is satisfied:
 \end{itemize}
 \end{proof}
 
-\begin{Theorem}[Hilbert Basis Theorem]
-If $A$ is Noetherian, then the polynomial ring $A[x]$ Noetherian.
-\end{Theorem}
+\begin{xmpl}
+Let $A$ be the ring of continuous functions from $[0,1] \to
+\mathbb{R}$. Consider the ideal
+$$
+I_n = \{ f \in A \mid f(x) = 0, \forall 0 \leq x \leq \frac{1}{n} \}.
+$$
+Notice that $I_n \subsetneq I_{n+1}$ for all $n$, so this chain does
+not stabilize and therefore $A$ is not Noetherian.
+\end{xmpl}
+
+\begin{theorem}[Hilbert Basis Theorem]
+If $A$ is Noetherian, then the polynomial ring $A[x]$ is Noetherian.
+\end{theorem}
+
+\begin{proof}
+Let $\mathcal{A}$ be an ideal of $A[x]$. We show that $\mathcal{A}$ is
+finitely generated. Create a sequence of ideals $I_n \subset A$ given
+by
+$$
+I_n = \{
+         a \in A
+      \mid
+         \exists f(x) \in \mathcal{A} \text{ of degree } n,
+                 f(x) = ax^n + \cdots
+      \} \cup \{ 0 \}.
+$$
+Check that $I_n$ is an ideal of $A[x]$. Take
+$a, b \in I_n$. Then there exist
+$$
+a x^n + \cdots, bx^n + \cdots \in \mathcal{A}
+$$
+so that $(a \pm b)x^n + \cdots \in \mathcal{A}$ since $\mathcal{A}$ is
+an ideal. But then $a \pm b \in I_n$, so $I_n$ is an ideal. Consider
+also $c \in A \subset A[x]$ so that $ca x^n + \cdots \in \mathcal{A}$
+and then $ca \in I_n$.
+
+Observe that $I_n \subseteq I_{n+1}$. Since $x \in A[x]$ we have
+$x (a x^n + \cdots) = a x^{n+1} + \cdots \in \mathcal{A}$. But then
+we have a chain
+$$
+I_0 \subseteq I_1 \subseteq \cdots \subseteq I_n \subseteq \cdots
+$$
+of ideals of $A$, a Noetherian ring,
+so $\forall n \geq r$ we have $I_{n+1} = I_n$ for some $r$.
+Also all $I_n$ are finitely generated, so we have
+\begin{align*}
+I_0 &= (a_{01}, a_{02}, \cdots, a_{0n_0}) \\
+I_1 &= (a_{11}, a_{12}, \cdots, a_{1n_1}) \\
+\cdots \\
+I_r &= (a_{r1}, a_{r2}, \cdots, a_{rn_r})
+\end{align*}
+with $a_{ij} \in A$ and nonzero. Set
+$f_{ij}(x)$ to be a polynomial of degree $i$ in the ideal
+$\mathcal{A}$ whose leading coefficient is $a_{ij}$. We claim that
+the $f_{ij}(x)$ generate $\mathcal{A} \subset A[x]$.
+
+Consider some $f(x) \in \mathcal{A}$. We want to write
+$f(x)$ as a combination of $f_{ij}$ with coefficients other
+polynomials. Proceed by induction on $\mathrm{deg}(f(x)) = d$.
+
+When $d = 0$, $f(x) = a$ with $a \in I_0 = (a_{01}, \dots,
+a_{0n_0})$. Assume the claim for polynomials of degree less than
+$d$. There are two cases:
+\begin{enumerate}
+\item{
+  $d > r$. Then $f(x) = ax^d + \cdots$. Then
+  $a \in I_d = I_r = (a_{r1}, \dots, a_{r n_r})$, so
+  $$
+  a = c_1 a_{r1} + \cdots + c_{n_r} a_{r n_r}, c_j \in A
+  $$
+  which gives
+  \begin{align*}
+     & f(x) - x^{d-r}(c_1 f_{r1}(x) + \cdots + c_{n_r} f_{r n_r}(x))\\
+   = & f(x) - x^{d-r}(c_1 (a_{r1} x^r + \cdots )
+                     + \cdots
+                     + c_{n_r}(a_{rn_r} x^r + \cdots)).
+  \end{align*}
+  of degree less than $d$, since this cancels the leading
+  terms. Therefore by induction this is a combination of $f_{ij}(x)$,
+  so $f(x)$ is a combination of $f_{ij}(x)$ with coefficients other polynomials.
+}
+\item{
+  $d \leq r$. Then $f(x) = a x^d + \cdots$,
+  $a \in I_d = (a_{d1} + \cdots + a_{dn_d})$. For each of these we
+  have $f_{dj}(x) = a_{dj}x^d + \cdots$. Since
+  $a = c_1 a_{d1} + \cdots + c_{n_d} a_{d n_d}$, $c_j \in A$ we have
+  $$
+  f(x) - (c_1 f_{d1}(x) + \cdots + c_{n_d} f_{dn_d(x)})
+  $$
+  has degree less than $d$. Then by induction we are done.
+}
+\end{enumerate}
+\end{proof}
+
+\begin{corol}
+For $A$ a Noetherian ring, then $A[x_1, \dots, x_n]$ is Noetherian
+where $x_i$ is a finite list of variables.
+\end{corol}
+\begin{proof}
+We can regard $A[x_1, x_2] = (A[x_1])[x_2]$, i.e. polynomials in $x_2$
+with coefficients in $A[x_1]$. Applying induction on $n$ and the
+Hilbert basis theorem, the claim follows since
+$A[x_1, \dots, x_n] = (A[x_1, \dots x_{n-1}])[x_n]$.
+\end{proof}
+
+In particular, since every field and every PID are Noetherian,
+all polynomials with coefficients in a field are Noetherian.
+
+\begin{prop}
+Let $A$ be Noetherian, $I$ an ideal of $A$. Then the quotient
+$A / I$ is Noetherian.
+\end{prop}
+\begin{proof}
+Let $J \subset A / I$ be an ideal in the quotient ring. Consider
+$\pi^{-1}(J) \subset A$, where $\pi : A \to A / I$ is the natural
+quotient map. Then
+$$
+\pi^{-1}(J) = \{ a \in A \mid a + I \in J \}.
+$$
+But the inverse image of an ideal under a ring homomorphism is always
+an ideal. Since $A$ is Noetherian it is finitely generated, and so
+$\pi^{-1}(J)$ is finitely generated by $a_1, \dots, a_n \in
+\pi^{-1}(J)$. Then since $\pi$ is surjective we have $a_i + I$
+generate $J$.
+\end{proof}
+
+\begin{xmpl}
+If $K$ is a field, then $K[x_1, \dots, x_n] / I$ is Noetherian.
+\end{xmpl}
+
+\begin{xmpl}
+A polynomial ring in an infinite set of variables
+$K[x_1, x_2, \dots, x_n, \dots]$ is not Noetherian. This is easy to
+check since $(x_1) \subsetneq (x_1, x_2) \subsetneq \cdots$ is an
+infinite chain of proper subset ideals.
+\end{xmpl}
