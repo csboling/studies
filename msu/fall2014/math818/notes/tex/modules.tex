@@ -1,0 +1,39 @@
+\begin{defn}[Module]
+Let $R$ be a ring with unity (not always commutative).
+A (left) \emph{$R$-module} is an abelian group $M$
+(with operation written additively) together with
+an operation $\cdot : R \times M \to M$ called
+scalar multiplication written
+$(r, m) \mapsto r \cdot m$ and such that
+\begin{enumerate}
+  \item{
+    $(r + r^\prime) \cdot m =
+     r \cdot m + r^\prime \cdot m,
+    $
+  }
+  \item{
+    $r \cdot (m + m^\prime) = r m + r m^\prime$,
+  }
+  \item{
+    $r \cdot (r^\prime \cdot m) = (r r^\prime) \cdot m$,
+  }
+  \item{
+    $1 \cdot m = m$
+  }
+\end{enumerate}
+for any $r, r^\prime \in R$, $m, m^\prime \in M$.
+\end{defn}
+
+\begin{obsv}
+If $R$ is a field $K$, then an $R$-module is simply a $K$-vector
+space.
+
+If $R = \mathbb{Z}$ then a $\mathbb{Z}$-module is exactly an
+abelian group since
+$$
+  n \cdot m
+= (1 + \cdots + 1) \cdot m
+= 1 \cdot m + \cdots + 1 \cdot m
+= m + \cdots + m
+$$
+\end{obsv}

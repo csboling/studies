@@ -1002,3 +1002,337 @@ $K[x_1, x_2, \dots, x_n, \dots]$ is not Noetherian. This is easy to
 check since $(x_1) \subsetneq (x_1, x_2) \subsetneq \cdots$ is an
 infinite chain of proper subset ideals.
 \end{xmpl}
+
+\subsection{Unique Factorization}
+\begin{prop}
+Suppose $A$ is a unique factorization domain. Then an element $a \in
+A$ which is nonzero is irreducible if and only if $(a)$ is a prime ideal.
+\end{prop}
+\begin{proof}
+We proved already that in an integral domain, $(a)$ prime implies that
+$a$ is irreducible.
+
+Assume $a$ is irreducible. Suppose $x, y \in A$ such that $xy \in
+(a)$, i.e. $xy = za$ for some $z \in A$. Then since $A$ is a UFD and
+since $a$ is irreducible,
+$xy = za$ implies that $a$ appears in the factorization of $x$ or of
+$y$, so $x \in (a)$ or $y \in (a)$. Therefore $(a)$ is a prime ideal.
+\end{proof}
+
+Recall that a principal ideal domain is a unique factorization domain.
+
+\begin{theorem}
+If $K$ is a field, then $K[x]$ is a UFD.
+\end{theorem}
+\begin{proof}
+The polynomials are a principal ideal domain. Let $I \subset K[x]$ be
+an ideal. Let $f(x)$ be a polynomial of smallest degree in $I$, and
+let $g(x)$ be another polynomial in $I$. Then we have
+$g(x) = f(x) q(x) + r(x)$, where $r(x) = 0$ or
+$\mathrm{deg} r(x) < \mathrm{deg} f(x)$. Then since $f, g \in I$ we
+have $r \in I$, so $r(x) = 0$ since $f(x)$ was chosen to have smallest
+degree. Then $g(x) \in (f(x))$.
+\end{proof}
+
+\begin{theorem}
+For any $n \geq 1$, if $K$ is a field, then
+$K[x_1, \dots, x_n]$ is a UFD.
+\end{theorem}
+This will follow from another theorem:
+\begin{theorem}
+If $A$ is a UFD, then $A[x]$ is a UFD.
+\end{theorem}
+\begin{corol}
+If $A$ is a UFD, then $A[x_1, \dots, x_n]$ is a UFD, $\forall n \geq
+1$. This is because $A[x_1, \dots, x_n] = (A[x_1, \dots, x_{n-1}])[x_n]$.
+\end{corol}
+
+Let $A$ be a UFD, and let $K$ be the fraction field of $A$:
+$$
+K = \left\{ \left. \frac{a}{b} \right| a, b \in A, b \neq 0 \right\}
+  = S^{-1} A
+$$
+where $S = A - \{ 0 \}$.
+
+If $p$ is an irreducible (``prime'') element of $A$, then there is a
+function, called the \emph{order of $p$},
+$\mathrm{ord}_p : K - \{ 0 \} \to \mathbb{Z}$ defined by
+$\frac{a}{b} \mapsto r,$
+where
+$$
+\frac{a}{b} = p^r \frac{a^\prime}{b^\prime}
+$$
+with $p \not\vert a^\prime$, $p \not\vert b^\prime$. Observe that the
+order of the product
+$\mathrm{ord}_p(xy) = \mathrm{ord}_p(x) + \mathrm{ord}_p(y)$.
+
+Suppose $f(x) \in K[x]$, $f(x) \neq 0$. Then
+$$
+f(x) = a_n x^n + \cdots + a_1 x + a_0, \quad a_n \neq 0.
+$$
+Define
+$$
+\mathrm{ord}_p(f(x)) = \min \{
+                               \mathrm{ord}_p(a_i),
+                            \mid
+                               a_i \neq 0
+                            \}
+$$
+For example take
+$$
+f(x) = \frac{x^3}{15} + 4x^2 + \frac{1}{4}
+     = 3^{-1} \cdot 5^{-1} \cdot x^3 + 2^{-2} \cdot 1.
+$$
+Then
+$$
+\mathrm{ord}_2(f) = -2, \quad
+\mathrm{ord}_3(f) = -1, \quad
+\mathrm{ord}_5(f) = -1, \quad
+\mathrm{ord}_7(f) = 0.
+$$
+
+Notice that
+$$
+f(x) = \frac{1}{15} x^3 + 4x^2 + \frac{1}{4}
+     = \frac{1}{60} (4x^3 + 240x^2 + 15)
+$$
+with $\mathrm{gcd}(4, 240, 15) = 1$. This is the form we wish to
+derive in general.
+
+Define the \emph{content} of $f(x)$ by
+$$
+\mathrm{cont}(f(x)) = \prod_p p^{\mathrm{ord}_p(f)}.
+$$
+We must define a non-repeated product over all irreducible elements
+-- i.e., not repeating two irreducibles when they differ by a
+unit. Therefore $p$ ranges over representatives of equivalence classes
+of prime elements where $p \sim p^\prime$ if $p^\prime = u p$ for some
+$u \in A^\ast$. Therefore the content is only defined up to a
+multiplication by a unit.
+
+Observe that we can write
+$$
+f(x) = \mathrm{cont}(f) \cdot f_1(x)
+$$
+with $f_1(x) \in A[x]$ and content 1 (i.e. the GCD of the coefficients
+of $f_1$ is 1). Conversely, if $f(x) = c f_1(x)$ with $c \in K - \{ 0
+\}$ and $f(x)$ having coefficients with GCD 1, then $c$ is equal to
+the content of $f(x)$ (up to a unit).
+
+\begin{proof}
+We will use the fact that $K[x]$ is a UFD. An important step is that
+$f(x) \in A[x]$ is irreducible in $A[x]$ if and only if $f(x)$ is
+irreducible in $K[x]$ and has content 1.
+
+\begin{lemma}[Gauss's Lemma]
+Let $f, g \in K[x]$, $f, g \neq 0$. Then
+$$
+\mathrm{cont}(f \cdot g) = \pm \mathrm{cont}(f) \cdot \mathrm{cont}(g)
+$$
+where $\pm$ is taken to mean up to a unit.
+\end{lemma}
+\begin{proof}
+Write $f = \mathrm{cont}(f) f_1$, where $f_1 \in A[x]$,
+$\mathrm{cont}(f_1) = 1$, and similarly $g = \mathrm{cont}(g) g_1$.
+Then
+$$
+f \cdot g = \mathrm{cont}(f) \mathrm{cont}(g) f_1 g_1.
+$$
+Since $f_1 g_1 \in A[x]$, it is sufficient to show that
+$\mathrm{cont}(f_1 g_1) = 1$. Let $p$ be a prime element of $A$. We
+want to show that $p$ does not divide all the coefficients of $f_1
+g_1$.
+
+We know $p$ does not divide all the coefficients of $f_1$ and that $p$
+does not divide all the coefficients of $g_1$. Consider the quotient
+ring $\bar{A} = A / (p)$. Since $p$ is prime and $A$ is a UFD, this
+means $(p)$ is a prime ideal, and then $\bar{A}$ is an integral
+domain. Then $\bar{A}[x]$ is an integral domain.
+Consider $\bar{f}_1 = f_1 \bmod (p)$ in $\bar{A}[x]$. These are the
+polynomials with coefficients modulo $p$, i.e.
+$$
+  a_n x^n + \cdots + a_1 x_1 + a_0 \bmod p
+= (a_n \bmod p) x^n + \cdots + (a_1 \bmod p) x_1 + a_0 \bmod p.
+$$
+Since $p$ does not divide all coefficients of $f_1, g_1$, this means
+$\bar{f}_1, \bar{g}_1 \neq 0$ and so $\bar{f}_1 \bar{g}_1  \neq 0$.
+But $\bar{f}_1 \bar{g}_1 = \bar{f_1g_1}$ since taking an element
+modulo $(p)$ is a ring homomorphism (canonical projection).
+Therefore $p$ does not divide all the coefficients of $f_1 g_1$.
+\end{proof}
+
+\begin{itemize}
+  \item[$\implies$]{
+    Let $f$ be irreducible in $A[x]$. Then
+    $f = \mathrm{cont}(f) f_1$, so $\mathrm{cont}(f)$ is a unit (in which
+    case we are done, since the content is only defined up to a unit)
+    or $f_1$ is a unit. But the units of a polynomial ring are just
+    constants, which are units in $A$, i.e. $(A[x])^\ast =
+    A^\ast$. Therefore $\mathrm{cont}(f) = 1$.
+
+    It remains to show that $f$ is irreducible in $K[x]$. Assume
+    $f = gh$, $g, h \in K[x]$ non-constant. Note that
+    $(K[x])^\ast = K^\ast = K - \{ 0 \}$ and that
+    $g = \mathrm{cont}(g) g_1$, $h = \mathrm{cont}(h) h_1$. Then
+    $$
+      f
+    = \mathrm{cont}(g)\mathrm{cont}(h) g_1 h_1
+    = \mathrm{cont}(f) g_1 h_1
+    = g_1 h_1,
+    $$
+    since $\mathrm{cont}(f) = 1$ was already shown. But $f$ is irreducible
+    in $A[x]$, and since $g_1 h_1 \in A[x]$ this means $g_1$ or $h_1$ is a
+    unit, so constant, and then $g$ or $h$ is constant too.
+    Therefore $f$ is irreducible in $K[x]$.
+  }
+  \item[$\impliedby$]{
+    Assume $f(x)$ is irreducible in $K[x]$ and $\mathrm{cont}(f) = 1$.
+    Let $f = gh$, $g, h \in A[x]$. Since $f$ is irreducible in $K[x]$,
+    one of $g$, $h$ is a constant. Say $g$ is constant in $A$. Then
+    $f = gh$ where $g \in A$, $h \in A[x]$, and so
+    $\mathrm{cont}(f) = g \mathrm{cont}(h)$. But $\mathrm{cont}(f) =
+    1$ by assumption, and this product is in $A$, so $g$ is a unit in $A$.
+  }
+\end{itemize}
+
+Now we can show that if $A$ is a UFD then so is $A[x]$. Let
+$f \in A[x]$. Since $K[x]$ is a UFD, $f = q_1 q_2 \cdots q_r$,
+$q_i \in K[x]$ irreducible in $K[x]$. Write
+$q_i = \mathrm{cont}(q_i) \cdot p_i$, $p_i \in A[x]$,
+$\mathrm{cont}(p_i) = 1$. Set $c_i = \mathrm{cont}q_i$. Then we write
+$$
+f = c_1 \cdots c_r p_1 \cdots p_r = c p_1 \cdots p_r
+$$
+with $c = \mathrm{cont}(f) \in A$ by Gauss's lemma and since $f$ has
+integral coefficients.
+Observe that $p_i$ are irreducible in $K[x]$ since
+$q_i$ are and $p_i = q_i / c_i$, and that $p_i$ have content 1, so
+$p_i$ are irreducible in $A[x]$ as above. Then since $c \in A$ and $A$
+is a UFD, we can factor $c$ into prime elements $c = \omega_1 \cdots
+\omega_n$. Then
+$$
+f = \omega_1 \cdots \omega_n p_1(x) \cdots p_r(x)
+$$
+Since $\omega_i$ are irreducible as constants they are trivially
+irreducible as polynomials as well. Uniqueness follows from uniqueness
+of the factorization in $A$ and in $K[x]$.
+\end{proof}
+
+\begin{theorem}[Eisenstein's Criterion]
+Let $A$ be a UFD, $K = \mathrm{Frac}(A)$, and
+$$
+f(x) = a_n x^n + \cdots + a_1 x + a_0, \quad
+n \geq 1, a_i \in A, a_n \neq 0.
+$$
+Assume there is an irreducible element $p \in A$ such that
+$p \not\vert a_n$, $p \vert a_i$ for $i \neq n$, $p^2 \not\vert
+a_0$. Then $f(x)$ is irreducible in $K[x]$.
+\end{theorem}
+\begin{proof}
+Assume $f(x) = g(x) h(x)$, where $g(x), h(x) \in K[x]$, and with
+$\deg g$, $\deg h \geq 1$. We have
+$$
+f(x) = \mathrm{cont}(f) f_1(x), \quad
+g(x) = \mathrm{cont}(g) g_1(x), \quad
+h(x) = \mathrm{cont}(h) h_1(x),
+$$
+where $f_1, g_1, h_1$ have integral coefficients with GCD 1.
+It is enough to consider $f_1$, so assume $\mathrm{cont}(f) = 1$. Then
+applying Gauss's lemma gives
+$$
+  f(x)
+= g(x)h(x)
+= \mathrm{cont}(gh) g_1(x) h_1(x)
+= \mathrm{cont}(f) g_1(x) h_1(x)
+= g_1(x) h_1(x)
+$$
+where $g_1, h_1 \in A[x]$. Then we can assume
+$f(x) = g(x) h(x)$ where $g, h \in A[x]$ with
+$\deg g, \deg h \geq 1$.
+
+Now let
+$$
+g(x) = b_r x^r + \cdots + b_1 x + b_0, \quad
+h(x) = c_s x^s + \cdots + c_1 x + c_0
+$$
+with $r, s \geq 1$ and $r + s = n$. Then
+$a_0 = b_0 c_0$, so since $p \vert a_0$ and
+$p^2 \not\vert a_0$, suppose $p \vert b_0$ and
+$p \not\vert c_0$. Furthermore
+$a_n = b_r c_s$, so since $p \not\vert a_n$ we have
+$p \not\vert b_r$, $p \not\vert c_s$.
+
+Let $b_t$ be the smallest coefficient of $g(x)$ such that
+$p \not\vert b_t$, so that
+$p \vert b_{t-1}, \dots, p \vert b_0$. Note that
+$r \geq t > 0$.
+Then
+$$
+a_t = b_0 c_t + b_1 c_{t-1} + \cdots + b_t c_0.
+$$
+We have $t \leq r < n$, and since $r + s = n$, $s \geq 1$
+we know $t < n$. This means $p \vert a_t$, but this is a contradiction
+since $p \not\vert b_t$ and $p \not\vert c_0$.
+\end{proof}
+
+\begin{xmpl}
+$x^5 - 18$ is irreducible in $\mathbb{Q}[x]$. Take
+$p = 2$. Then $2^2 \not\vert 18$ and $2 \vert 18$, so this is
+irreducible.
+
+Let $p$ be prime and
+$f(x) = x^{p-1} + \cdots + x + 1$ (a \emph{cyclotomic polynomial}).
+We can write
+$$
+x^p - 1 = (x - 1)(x^{p-1} + \cdots + x + 1)
+$$
+and so $f(x) = \frac{x^p - 1}{x - 1}$. Note that the zeros of $f$
+are the $p$-th roots of unity, i.e. $x = \omega^i$ where
+$\omega = e^{2\pi i}{p}$. We claim that $f(x)$ is irreducible in
+$\mathbb{Q}[x]$. It is enough to show that $f(x + 1)$ is irreducible,
+since if $g(x + 1)h(x + 1)$ is irreducible then one of $g(x+1),
+h(x+1)$ is a constant, in which case $g(x)$ (resp. $h(x)$) is a
+constant.
+
+Now
+$$
+  f(x + 1)
+= \frac{(x + 1)^p - 1}{x + 1 - 1}
+= \frac{x^p + p x^{p-1} + {p \choose 2} x^{p-2} + \cdots + p x + 1 - 1}{x}
+$$
+since
+$$
+(x + y)^p = \sum_{n=0}^p {p \choose n} x^{p-n} y^n
+$$
+so that
+$$
+f(x + 1) = x^{p-1} + p x^{p-2} + {p \choose 2} x^{p-3} + \cdots + p.
+$$
+Observe that
+$$
+p \vert {p \choose i} = \frac{p!}{i!(p-i)!}
+$$
+and $p^2 \not\vert p$, so $f(x+1)$ is irreducible by Eisenstein's criterion.
+\end{xmpl}
+
+\begin{remark}
+Let $A$ be a UFD and $p$ a prime element. Then $(p)$ is a prime ideal
+of $A$. Consider $\bar{A} = A / (p)$, which is therefore a domain.
+Let $L$ be the fraction field of $\bar{A}$.
+
+Assume $f(x) \in A[x]$ so $f(x) = g(x) h(x)$ with $g, h \in A[x]$ and
+$\deg g, h \geq 1$. Assume also that $g, h$ are monic. Apply the ring
+homomorphism
+$\pi : A \to A / (p)$ by $\pi(a) = \bar{a} = a \bmod (p)$. Then
+$$
+\bar{f(x)} = \bar{g(x)}\bar{h(x)}
+$$
+where $\bar{g}$ and $\bar{h}$ are again non-constant and monic
+(since their preimages were monic and 1 goes to 1). If
+$\bar{f}$ is irreducible in $L[x]$, then one of $\bar{g}$,
+$\bar{h}$ must be constant, a contradiction.
+
+Therefore if $f(x) \in A[x]$ is monic and $\bar{f}(x)$ is irreducible
+in $L[x]$, then $f(x)$ is irreducible in $K[x]$, where
+$K = \mathrm{Frac}(A)$.
+\end{remark}
