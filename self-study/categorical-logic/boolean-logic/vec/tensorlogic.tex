@@ -1,0 +1,155 @@
+
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{tabularx}
+
+\begin{document}
+Let $V$ be an inner product space and let $\vec{\bot}, \vec{\top} \in V$ such that
+$\|\vec{\bot}| = \|\vec{\top}\| = 1$ and 
+$\langle \vec{\bot}, \vec{\top} \rangle = 0$. Construct a Boolean algebra 
+$\mathrm{Bool}(V)$ over elements of $V$ by assigning $\forall \vec{x}, \vec{y} \in V$
+
+\begin{tabular}{c | c}
+$\mathrm{Bool}(V)$ & $V$ \\
+\hline
+$\bot$                   & $\vec{\bot}$ \\
+$\top$                   & $\vec{\top}$ \\
+$\neg \vec{x}$           & $\!\begin{aligned} 
+                                \phantom{+} & \langle \vec{\top}, \vec{x} \rangle \vec{\bot}
+                                            + \langle \vec{\bot}, \vec{x} \rangle \vec{\top}
+                              \end{aligned}$ \\
+$\vec{x} \wedge \vec{y}$ & $\!\begin{aligned}
+                             & \langle \vec{\bot} \otimes \vec{\bot}, 
+                                       \vec{x} \otimes \vec{y} 
+                               \rangle \vec{\bot} \\
+                           + & \langle \vec{\bot} \otimes \vec{\top}, 
+                                       \vec{x} \otimes \vec{y} 
+                               \rangle \vec{\bot} \\
+                           + & \langle \vec{\top} \otimes \vec{\perp}, 
+                                       \vec{x} \otimes \vec{y} 
+                               \rangle \vec{\bot} \\
+                           + & \langle \vec{\top} \otimes \vec{\top}, 
+                                       \vec{x} \otimes \vec{y} 
+                               \rangle \vec{\top}
+                           \end{aligned}$ \\
+\\
+$\vec{x} \vee \vec{y}$   & $\!\begin{aligned}
+                             & \langle \vec{\bot} \otimes \vec{\bot}, 
+                                       \vec{x} \otimes \vec{y} 
+                               \rangle \vec{\bot} \\
+                           + & \langle \vec{\bot} \otimes \vec{\top}, 
+                                        \vec{x} \otimes \vec{y} 
+                               \rangle \vec{\top} \\
+                           + & \langle \vec{\top} \otimes \vec{\bot},
+                                       \vec{x} \otimes \vec{y} 
+                               \rangle \vec{\top} \\
+                           + & \langle \vec{\top} \otimes \vec{\top}, 
+                                       \vec{x} \otimes \vec{y} 
+                               \rangle \vec{\top}
+                           \end{aligned}$
+\end{tabular}
+
+The terms of $\neg, \wedge, \vee$ can be read off of the truth table 
+for the corresponding logic operator. The reason this works
+is that
+\begin{align*}
+  \left\langle
+    t_1 \otimes \cdots \otimes t_N,
+    x_1 \otimes \cdots \otimes x_N
+  \right\rangle
+&= \prod_{i=1}^{N} \langle t_i, x_i \rangle,
+\end{align*}
+which is, in this case, $1$ when $x_i = t_i \forall i$ and
+otherwise $0$. Then we can construct a function that takes
+a truth table $V^{2^N}$ and $N$ arguments and produces the
+appropriate result from the truth table by
+\begin{align*}
+\mathrm{fromTruth} : V^{2^N}$ \to V^{\otimes N} \to V & \\
+\mathrm{fromTruth}((f_1, \cdots, f_{2^N}))(x_1 \otimes \cdots \otimes x_N)
+  &= \sum_{n=1}^{2^N} f_n \prod_{i=1}^N \langle t_i^n , x_i \rangle \\
+  &= \sum_{n=1}^{2^N} f_n \left(\bigotimes_{i=1}^N t_i  \right)
+                        \left(\bigotimes_{i=1}^N G   \right)
+                        \left(\bigotimes_{i=1}^N x_i \right), \\
+\mathrm{fromTruth}((f_1, \cdots, f_{2^N})) &= \sum_{n=1}^{2^N} f_N \bigotimes_{i=1}^N t_i G
+\end{align*}
+where $t \in M_{N \times 2^{N}}(V)$ contains the $i$th bit of
+the $N$-bit binary representation of $n$ in position $(i,n)$.
+
+More generally, given a Boolean
+algebra $B$, we examine the type of an $N$-ary operation
+$f_N : B^N \to B$ to see
+
+\begin{align*}
+B^N \to B & \simeq (N \to B) \to B
+\end{align*}
+so
+\begin{align*}
+f : \prod_{n : \mathbb{N}}
+      \left(\left(\sum_{i : \mathbb{Z}_n} 1\right) \to B\right)
+      \to B
+\end{align*}
+and the function which takes a truth table and produces a
+Boolean connective has type
+\begin{align*}
+\mathrm{fromTruth} : B^{2^N} \to B^N \to B
+  & \simeq B^{2^N} \to (B^{B^N}) \\
+  & \simeq (B^{B^N})^{B^{2^N}} \\
+  & \simeq B^{B^N B^{2^N}} \\
+  & \simeq B^{B^{N + 2^N}} \\
+  & \simeq B^{N + 2^N} \to B \\
+  & \simeq (N + 2^N \to B) \to B.
+\end{align*}
+
+
+\begin{align*}
+F\left(x_1 \otimes \cdots \otimes x_N\right)
+  &= \sum_{n} \left\langle
+                T(n),
+                x_1 \otimes \cdots \otimes x_N
+              \right\rangle
+              t^{\prime}(n)
+\end{align*}
+or in components
+\begin{align*}
+  \left(F\left(x_1 \otimes \cdots \otimes x_N\right)\right)_k
+  &= \sum_{n} \left(T(n)\right)^{i_1 \cdots i_N}
+              \left(\otimes^{N} G\right)_{i_1 \cdots i_{2N}}
+              \left(x_1 \otimes \cdots \otimes x_{N}\right)^{i_{N+1} \cdots i_{2N}}
+              \left(t^{\prime}(n)\right)^k e_k \\
+  &= \sum_{n} \left(T(n) \otimes t^{\prime}(n)\right)_{i_{N+1} \cdots i_{2N}}^{k}
+              e_k
+              \left(x_1 \otimes \cdots \otimes x_{N}\right)^{i_{N+1} \cdots i_{2N}} \\
+\end{align*}
+so
+\begin{align*}
+  F &= \left[\sum_{n=1}^{2^{N} - 1} T(n) \otimes t^{\prime}(n)\right]
+\end{align*}
+where $T : \mathbb{Z}_{2^{N} - 1} \to V^{\otimes N}$ is given by
+$$
+T(n) = \left(\mathcal{V}^{\otimes N} \circ \mathrm{Bits}_N\right)(n)
+$$
+and $t^{\prime} : \mathbb{Z}_{2^{N} - 1} \to V$ is
+$$
+t^{\prime}(n) = \left(\mathcal{V} \circ f \circ \mathrm{Bits}_N\right)(n).
+$$
+
+Here $G$ is the metric tensor on $V^{\otimes N}$ and
+$\mathcal{V} : \{\bot, \top\} \to V$ is the map
+$\bot \mapsto \vec{\bot}, \top \mapsto \vec{\top}$.
+$\mathrm{Bits}_N : \mathbb{Z}_{2^N - 1} \to B^{\otimes N}$
+decomposes a number $n$ into a product of elements of $B$
+which correspond to the binary representation of $n$.
+That is, it is given by
+$$
+\mathrm{Bits}_N = \mathcal{B}_{\mathbb{Z}_{2}}^{\otimes N}
+            \circ \left(\bigotimes_{i=1}^N \sigma_i\right)
+$$
+where $\mathcal{B}_{\mathbb{Z}_{2}} : \mathbb{Z}_{2} \to B$ is
+given by $0 \mapsto \bot, 1 \mapsto \top$ and $\sigma_i$ form the
+dual basis of the power basis $\mathscr{B}_2$ of
+$\mathbb{Z}_{2^N - 1}$.
+
+\end{document}

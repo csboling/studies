@@ -22,18 +22,145 @@ $(r, m) \mapsto r \cdot m$ and such that
   }
 \end{enumerate}
 for any $r, r^\prime \in R$, $m, m^\prime \in M$.
+We can also regard scalar multiplication as a map
+$R \to \mathrm{End}(M)$.
 \end{defn}
 
-\begin{obsv}
-If $R$ is a field $K$, then an $R$-module is simply a $K$-vector
-space.
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      If $R$ is a field $K$, then an $R$-module is simply a $K$-vector
+      space.
+    }
+    \item{
+      If $R = \mathbb{Z}$ then a $\mathbb{Z}$-module is exactly an
+      abelian group since
+      $$
+        n \cdot m
+      = (1 + \cdots + 1) \cdot m
+      = 1 \cdot m + \cdots + 1 \cdot m
+      = m + \cdots + m.
+      $$
+    }
+    \item{
+      If $M = R$ itself, then $R \times R \to R$ is ring
+      multiplication.
+    }
+    \item{
+      If $M = R \oplus R \oplus \cdots \oplus R = R^n$ then scalar
+      multiplication is given by
+      $$
+      (r, (r_1, \dots, r_n)) \mapsto (rr_1, \dots, rr_n).
+      $$
+      This is called a \emph{free (left) $R$-module of rank $n$}.
+    }
+  \end{enumerate}
+\end{xmpl}
 
-If $R = \mathbb{Z}$ then a $\mathbb{Z}$-module is exactly an
-abelian group since
+There is a similar notion of a \emph{right $R$-module} $N$ which is an
+abelian group with scalar multiplication $N \times R \to N$ given by
+$(n, r) \mapsto n \cdot r$. If $R$ is commutative then to each
+left $R$-module $M$ we can associate a right $R$-module $N$
+by defining $m \cdot r \triangleq r \cdot m$. Axioms 1, 2, and 4 are
+trivially satisfied and
 $$
-  n \cdot m
-= (1 + \cdots + 1) \cdot m
-= 1 \cdot m + \cdots + 1 \cdot m
-= m + \cdots + m
+  (m \cdot r) \cdot r^\prime
+= m \cdot (r r^\prime)
+= (r r^\prime) \cdot m
+= (r^\prime r) \cdot m
+= r^\prime \cdot (r \cdot m).
 $$
-\end{obsv}
+
+\begin{defn}[Bimodule]
+An \emph{$R$-bimodule} $M$ is an abelian group with both left and
+right scalar $R$-multiplication which make $M$ a left $R$-module and a
+right $R$-module.
+\end{defn}
+
+\begin{defn}[Module homomorphism]
+Let $M$, $N$ be left $R$-modules. A map
+$f : M \to N$ is an \emph{$R$-module homomorphism} or
+\emph{$R$-linear map} if
+$$
+f(m + m^\prime) = f(m) + f(m^\prime), \quad
+f(r \cdot m) = r \cdot f(m).
+$$
+\end{defn}
+
+\begin{defn}[Submodule]
+A subset $N \subset M$ of a left $R$-module is a \emph{submodule} if
+it is a subgroup of $M$ and is closed under scalar multiplication.
+\end{defn}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      For $M = R$, a submodule of $R$ is a left ideal of $R$.
+    }
+    \item{
+      In general,
+      let $I$ be an ideal of $R$ and $M$ a left $R$-module. Then
+      $$
+      IM \triangleq
+      \{
+        a_1 m_1 + \cdots + a_r m_r
+      \mid
+        r \geq  1, m_i \in M, a_i \in I
+      \}
+      $$
+      is a left submodule of $M$. The sum is necessary since a submodule
+      must be closed under addition.
+    }
+    \item{
+      If $f : M \to N$ is an $R$-module homomorphism, then $\ker(f)$ and
+      $\mathrm{Im}(f)$ are submodules of $M$ and $N$ respectively.
+      Let $m \in \ker(f)$. Then $r \cdot m \in \ker(f)$ since
+      $f(r m) = r f(m) = r0 = 0$ (since $r0 = r(0 + 0) = r0 + r0$.)
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{defn}[Quotient]
+Let $M$ be a left $R$-module and $N \subset M$ a submodule. The
+quotient group $M / N$ has a natural left $R$-module structure given
+by $R \times M / N \to M / N$ that maps
+$$
+(r, m + N) \mapsto rm + N.
+$$
+Indeed, this is well-defined since
+$$
+m^\prime + N = m + N \implies
+m^\prime = m + n, n \in N \implies
+r \cdot m^\prime = r m + r n
+$$
+where $r n \in N$ since $N$ is a submodule, so
+$rm^\prime + N = rm + N$.
+\end{defn}
+
+\begin{theorem}
+  \begin{enumerate}
+    \item{
+      If $f : M \to N$ is a surjective $R$-module homomorphism, then
+      $f$ induces an $R$-module isomorphism
+      $$
+      M / \ker(f) \simeq N.
+      $$
+    }
+    \item{
+      If $N, N^\prime$ are submodules of $M$, then there is a module
+      homomorphism
+      $$
+      N + N^\prime / N^\prime \simeq N / N \cap N^\prime.
+      $$
+      Here both $N + N^\prime$ and $N \cap N^\prime$ are submodules of $M$.
+    }
+    \item{
+      If $M^{\prime\prime} \subset M^\prime \subset M$ is a chain of
+      submodules of $M$, then there is an isomorphism
+      $$
+             \frac{M}{M^{\prime\prime}}
+      \simeq \frac{M / M^{\prime\prime}}{M^\prime / M^{\prime\prime}}.
+      $$
+    }
+  \end{enumerate}
+\end{theorem}

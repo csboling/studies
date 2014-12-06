@@ -1,0 +1,25 @@
+\documentclass{article}
+
+\begin{document}
+
+It is interesting to note that the ``material implication'' operator
+$A \implies B \equiv \neg A \lor B$, combined with the nullary
+operator ``false'' a.k.a. $0$ a.k.a. $\bot$, is functionally
+complete, as can be seen by observing
+$A \implies \bottom \equiv \neg A$ and
+$$
+A \implies \neg (A \implies B)
+\equiv
+\neg (A \land B).
+$$
+In the category of classical logical propositions these operators
+correspond to the internal hom (exponential object) and the initial
+object, respectively.
+
+In general, a set of ``gates'' is functionally complete if
+and only if it contains a gate that is not monotonic, affine,
+self-dual, truth-preserving, or falsity-preserving. The
+characterization of functional completeness of logical connectives is
+given by Post's lattice.
+
+\end{document}

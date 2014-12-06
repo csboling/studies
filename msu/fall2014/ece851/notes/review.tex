@@ -92,7 +92,32 @@ $$
 $$
 for any $k \geq 1$.
 
-\section{Equilibrium Points and Stability}
+\section{Linear Time-Invariant Systems}
+We are interested in linear dynamical systems of the form
+$$
+\dot{x} = A(t) x(t) + B(t) u(t), \quad
+y = C(t) x(t) + D(t) u(t),
+$$
+typically with constant matrices $A, B, C, D$ under the assumption
+that the system dynamics are time-invariant. Similarly, discrete
+linear time-invariant systems have the form
+$$
+x(k+1) = A x(k) + B u(k), \quad
+y(k) = C x(k) + D u(k).
+$$
+It is evident that a discrete system has the solution
+$$
+x(k) = A^k x(0) + \sum_{n=0}^{k-1} A^{k-n-1} B u(n)
+$$
+and a successive-approximation argument will inductively show that the
+continuous system has the solution
+$$
+x(t) = e^{At} x(0) + \int_0^t e^{A(t - \tau)} B u(\tau) \dif \tau,
+$$
+from which the identity $e^{At} = \mathcal{L}^{-1}\{(sI - A)^{-1}\}$
+is evident.
+
+\subsection{Equilibrium Points and Stability}
 A dynamical system
 $$
 \dot{x} = f(x)
