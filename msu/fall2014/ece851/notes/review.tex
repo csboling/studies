@@ -37,21 +37,34 @@ $$
 e^{At} = \mathcal{L}^{-1}\{(sI - A)^{-1}\}
 $$
 or in some special cases:
-$$
+\begin{align*}
 \left[\begin{array}{c c c c}
   \lambda_1 & 0          & \cdots & 0      \\
   0         & \lambda_2  & \cdots & 0      \\
   \vdots    & \vdots     & \ddots & \vdots \\
   0         & 0          & \cdots & \lambda_n
 \end{array}\right]
-\mapsto
+& \mapsto
 \left[\begin{array}{c c c c}
   e^{\lambda_1} & 0           & \cdots & 0      \\
   0           & e^{\lambda_2} & \cdots & 0      \\
   \vdots      & \vdots      & \ddots & \vdots \\
   0           & 0           & \cdots & e^{\lambda_n}
+\end{array}\right] \\
+\left[\begin{array}{c c c c c}
+  0 & 1 & 0 & 0 \\
+  0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1 \\
+  0 & 0 & 0 & 0
 \end{array}\right]
-$$
+& \mapsto
+\left[\begin{array}{c c c c}
+  1 & t & \frac{t^2}{2} & \frac{t^3}{3!} \\
+  0 & 1 & t             & \frac{t^2}{2}  \\
+  0 & 0 & 1             & t              \\
+  0 & 0 & 0             & 1
+\end{array}\right].
+\end{align*}
 
 Note that $e^{A} e^{B} = e^{A + B}$ if any only if $A$ and $B$ commute.
 
@@ -92,6 +105,38 @@ $$
 $$
 for any $k \geq 1$.
 
+\subsection{Diagonalizability, Jordan Normal Form}
+If the sum of the eigenspaces of an $n \times n$ matrix $A$ is equal
+to $n$, then the matrix is diagonalizable. This is equivalent to the
+condition that the matrix has $n$ linearly independent eigenvectors
+(i.e. the geometric multiplicity of each eigenvalue is equal to its
+arithmetic multiplicity)
+and indeed a diagonalizing transformation is given by
+$\hat{A} = P^{-1} A P$ where $P^{-1}$ is a matrix composed of said
+eigenvectors. In this case the diagonal matrix has the eigenvalues of
+$A$ along the diagonal.
+
+For each eigenspace with dimension less than the multiplicity of the
+associated eigenvalue, we can find a generalized eigenvector by
+solving $(A - \lambda I)v^\prime = v$, where $v$ is a true
+eigenvector. Equivalently, generalized eigenvectors are solutions to
+the equation $(A - \lambda I)^k v = 0$ for some $k \geq 1$. The Jordan
+normal form then consists of Jordan blocks, each with the associated
+eigenvalue $\lambda_i$ repeated $p_i$ times (where $p_i$ is its arithmetic
+multiplicity) and ones in the superdiagonal.
+
+This process is an example of a similarity transformation,
+i.e. finding a matrix $P$ to transform $A$ to a desired form by the
+conjugation $\hat{A} = P^{-1} A P$. This can be considered as a change
+of variables for the state equation, which results in a new system of
+equations given by the matrices
+$$
+\hat{A} = P^{-1} A P, \quad
+\hat{B} = P^{-1} B, \quad
+\hat{C} = C P, \quad
+\hat{D} = D.
+$$
+
 \section{Linear Time-Invariant Systems}
 We are interested in linear dynamical systems of the form
 $$
@@ -114,8 +159,29 @@ continuous system has the solution
 $$
 x(t) = e^{At} x(0) + \int_0^t e^{A(t - \tau)} B u(\tau) \dif \tau,
 $$
+and the Laplace-domain transfer function relating $y(t)$ to $u(t)$ is then
+$$
+H(s) = C(sI - A)^{-1} B,
+$$
 from which the identity $e^{At} = \mathcal{L}^{-1}\{(sI - A)^{-1}\}$
-is evident.
+is evident. Note that a similarity transformation on the state model
+($\hat{A} = P^{-1} A P$), etc. does not affect the transfer function of
+the system.
+
+We can also consider a sampled-data system, which is a discrete-time
+system described by the matrices
+\begin{align*}
+\bar{A}(k) &= \phi(t_{k+1}, t_k), \\
+\bar{B}(k) &=
+  \int_{t_k}^{t_{k+1}} \phi(t_{k+1}, \tau) B(\tau) \dif\tau, \\
+\bar{C}(k) &= C(t_k^\prime)\phi(t_k^\prime, t_k), \\
+\bar{D}(k) &=
+  C(t_k^\prime)
+  \int_{t_k}^{t_k^\prime} \phi(t_k^\prime, \tau) B(\tau) \dif \tau
++ D(t_k^\prime
+\end{align*}
+when the output sampling times are given by $t_k^\prime$ and the input
+is modified at times $t_k$.
 
 \subsection{Equilibrium Points and Stability}
 A dynamical system
@@ -129,7 +195,75 @@ $$
 \left[\frac{\partial f_i}{\partial x_j}\right]_{x = x_e} = 0.
 $$
 
+We can linearize a system
+$$
+\dot{x}(t) = f(t, x, u), \quad
+y(t) = h(t, x, u)
+$$
+about known solutions $\bar{x}(t)$,
+$\bar{u}(t)$ by considering a small perturbation $u_\delta(t)$ and the
+corresponding $x_\delta(t)$, i.e.
+$x(t) = \bar{x}(t) + x_\delta(t)$. This linearization is given by
+$$
+\dot{x}_\delta(t) =
+\left[\frac{\partial f}{\partial x}\right]
+  _{\substack{x = \bar{x}(t) \\ u = \bar{u}(t)}}
+x_\delta(t)
++
+\left[\frac{\partial f}{\partial u}\right]
+  _{\substack{x = \bar{x}(t) \\ u = \bar{u}(t)}}
+u_\delta(t).
+$$
+
+We can notice from the dependence of the solutions on
+the state transition matrix $e^{At}$ that, in the linear
+time-invariant case, the eigenvalues of $A$
+completely determine the stability of the system. In the
+continuous-time case we require that
+$\mathcal{Re}\{\lambda_i\} < 0$ for each eigenvalue $\lambda_i$. In
+the discrete-time case it is instead necessary that
+$|lambda_i| < 1$ for the system to be stable.
+
 \section{Controllability and Observability Tests}
+
+We are interested in questions of controllability and
+observability. Here are some definitions:
+\begin{itemize}
+  \item{
+    A system is called \emph{reachable} if there exists an input that
+    drives the system states from the origin to an arbitrary $x(t_f)$
+    in finite time $t_f$. In continuous LTI systems this is
+    equivalent to controllability. In discrete LTI systems this
+    implies controllability.
+  }
+  \item{
+    A system is \emph{controllable} if there exists an input that
+    drives the system states from any initial $x(t_0)$ to the origin
+    in finite time. In discrete LTI system this implies reachability
+    only if the matrix $A$ is nonsingular.
+  }
+  \item{
+    A system is called \emph{observable} if it is possible to
+    determine its present state from current and future outputs $y(t)$
+    and inputs $u(t)$ of the system. In continuous LTI systems this is
+    equivalent to constructibility. In discrete LTI systems this
+    implies constructibility.
+  }
+  \item{
+    A system is called \emph{constructible} if it is possible to
+    determine its present state from knowledge of current and past
+    outputs and inputs. In discrete LTI system this implies
+    observability only if the matrix $A$ is nonsingular.
+  }
+  \item{
+    A system is called \emph{stabilizable} if its uncontrollable
+    eigenvalues are stable.
+  }
+  \item{
+    A system is called \emph{detectable} if its unobservable
+    eigenvalues are stable.
+  }
+\end{itemize}
 
 The following are equivalent conditions for
 controllability/reachability of continuous time systems.
