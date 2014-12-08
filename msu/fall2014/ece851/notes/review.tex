@@ -361,8 +361,6 @@ $(A,C)$.
   }
 \end{itemize}
 
-A system is constructible if
-
 The dual system to
 $$
 \dot{x} = A x + B u, \quad
@@ -375,10 +373,13 @@ B_D = C^\top, \quad
 C_D = B^\top, \quad
 D_D = D^\top.
 $$
+It can be shown that controllability of $(A, B)$ implies observability
+of $(A^\top, B^\top)$ and that observability of $(A, C)$ implies
+controllability of $(A^\top, C^\top)$.
 
 \section{Controller and Observer Forms}
 
-To determine the controllability (observability) of a system, first compute
+To determine the controllability (resp. observability) of a system, first compute
 the controllability (observability) matrix $\mathcal{C}$ ($\mathcal{O}$):
 $$
 \mathcal{C} =
@@ -1046,5 +1047,26 @@ so that the controller $\mathcal{A} + \mathcal{B} F$ and
 observer $A - K C$ have stable eigenvalues.
 
 \section{Realizations}
+
+\section{Time-Varying Systems}
+
+\section{Laplace and $z$-Transforms}
+
+\begin{tabular}{c | c | c}
+  Time domain                   & Laplace Transform    & $z$-Transform \\
+  \hline  \\
+  $\delta(t)$                   & $1$                           & $1$ \\
+  $\Theta(t)$                   & $\frac{1}{s}$                 & $\frac{1}{1 - z^{-1}}$ \\
+  $t^k e^{At}$                   & $k! [(sI - A)^{-1}]^k$         & $a^k \to \frac{1}{1 - az^{-1}}$ \\
+  $e^{at} \sin bt$               & $\frac{b}{(s-a)^2 + b^2}$     & \\
+  $e^{at} \cos bt$               & $\frac{(s-a)}{(s-a)^2 + b^2}$ & \\
+  $\frac{\dif^k f(t)}{\dif t^k}$ & $s^k \hat{f}(s)
+                                 - [s^{k-1} f(0) + \cdots + f^{(k-1)}(0)]$ & \\
+  $e^{at} f(t)$                  & $\hat{f}(s - a)$               & \\
+  $f(t - a)\Theta(t - a)$       & $e^{-as} \hat{f}(s)$            & \\
+  $f(t / \alpha), \alpha > 0$   & $\alpha \hat{f}(s)$            & $a^k f(k) \to \hat{f}(z / a)$\\
+  $\lim_{t \to 0} f(t)$           & $\lim_{s \to \infty} s\hat{f}(s)$ & \\
+  $\lim_{t \to \infty} f(t)$       & $\lim_{s \to 0} s\hat{f}(s)$     &
+\end{tabular}
 
 \end{document}
