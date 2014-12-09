@@ -47,7 +47,7 @@ such that $a^N = 1,$ $\forall a \in G$.
 
 \begin{lemma}
 If $G$ is a finite abelian group of order $n$ and $p$ is a prime that
-divides $n$, then $G$ has a an element of order $p$.
+divides $n$, then $G$ has an element of order $p$.
 \end{lemma}
 
 \begin{proof}
@@ -113,7 +113,8 @@ We proceed by application of ``counting with group actions''.
                 $\langle y \rangle \triangleleft G$ since $y \in
                 Z(G)$. Then
                 $$
-                \frac{|G^\prime|}{|\langle y \rangle|}
+                |G^\prime|
+              = \frac{|G|}{|\langle y \rangle|}
               = \frac{|G|}{p}
               = p^{a-1} n^\prime < |G|.
                 $$
@@ -189,13 +190,14 @@ We proceed by application of ``counting with group actions''.
                 that $H$ is contained in a conjugate of $P$, i.e.
                 $\exists g \in G$ such that $H < g P g^{-1}$.
 
-                Observe that to show that $H$ is contained in $P$, it
+                Observe that to show that $H$ is contained in
+                $gPg^{-1}$ for some $g$, it
                 is enough to show $H$ is contained in the normalizer
                 $N(P)$, i.e. that $H$ normalizes $P$. Assume that
                 $H < N(P)$ is in the normalizer. Then recall from the
                 3rd isomorphism theorem that $H P$ is a subgroup
                 of $G$ and $P \triangleleft HP$, and
-                $H \cap \triangleleft H$. Then
+                $H \cap P \triangleleft H$. Then
                 $$
                 HP / P \simeq H / (H \cap P)
                 $$

@@ -60,18 +60,21 @@ since its inverse is given by $\Phi(g^{-1})$.
 
 Also, starting from $\Phi : G \to \mathrm{Perm}(S)$ we can define
 $G \times S \to S$ by $g \cdot x = \Phi(g)(x)$. Observe that the types
-of this isomorphism are related tensor-hom adjunction.
+of this isomorphism are related to the tensor-hom adjunction.
 \end{remark}
 
 \begin{defn}[Orbit, Stabilizer]
 Fix some $x \in S$. The \emph{orbit} of $x$ is the set
 $$
 G \cdot x = \{ y \in S | \exists g \in G . y = g \cdot x \}
-          = \{ g \cdot x | g \in G \}.
+          = \{ g \cdot x | g \in G \},
 $$
+i.e. the points ``reachable'' by applying the group action at $x$.
 
 The \emph{stabilizer} of $x$ is the set
-$Gx = \{ g \in G | g \cdot x = x \}$. Observe that
+$Gx = \{ g \in G | g \cdot x = x \}$, the set of group elements that
+fix $x$.
+Observe that
 $\forall x \in S$, $Gx < G$:
 \begin{align*}
          & g \cdot x = x \\
@@ -84,7 +87,7 @@ so $g^{-1} \cdot x \in Gx$.
 
 \begin{prop}
 Take a group action $G \times S \to S$. There is a bijection between
-the coset $G / Gx$ and the elements of the orbit of $x$, i.e.
+the cosets in $G / Gx$ and the elements of the orbit of $x$, i.e.
 $$
 G / Gx \simeq G \cdot x.
 $$
@@ -207,6 +210,11 @@ Argue by induction on the exponent $n$, where $\# G = p^n$.
         solvable.
         }
 \end{itemize}
+Notice that this is exactly the \emph{upper central series} -- if it
+stabilizes at the group $G$ then $G$ is said to be
+\emph{nilpotent}. Some facts about this group are in Homework 4,
+problem 2.
+
 
 \begin{xmpl}
 Let $G$ be a group and $S$ be the set of all subgroups of $G$. Then

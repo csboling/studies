@@ -788,7 +788,7 @@ If $p$ is irreducible in a PID $A$ and $p \vert ab$, then $p \vert a$ or $p
 \vert b$.
 \end{lemma}
 
-Assume $p \not\vert a$. Then there is a GCD in $A$ given by
+Assume $p \not{\vert} a$. Then there is a GCD in $A$ given by
 $g = \mathrm{gcd}(a, p)$ where $g \vert a$ and $g \vert p$. Then
 $g \in A^\ast$, i.e. $(a, p) = (1)$. Then $1 = xa + yp$ for some $x, y
 \in A$. Then $b = xab + ypb$, and since $p \vert a$ we have
@@ -1062,7 +1062,7 @@ where
 $$
 \frac{a}{b} = p^r \frac{a^\prime}{b^\prime}
 $$
-with $p \not\vert a^\prime$, $p \not\vert b^\prime$. Observe that the
+with $p \not{\vert} a^\prime$, $p \not{\vert} b^\prime$. Observe that the
 order of the product
 $\mathrm{ord}_p(xy) = \mathrm{ord}_p(x) + \mathrm{ord}_p(y)$.
 
@@ -1225,7 +1225,7 @@ f(x) = a_n x^n + \cdots + a_1 x + a_0, \quad
 n \geq 1, a_i \in A, a_n \neq 0.
 $$
 Assume there is an irreducible element $p \in A$ such that
-$p \not\vert a_n$, $p \vert a_i$ for $i \neq n$, $p^2 \not\vert
+$p \not{\vert} a_n$, $p \vert a_i$ for $i \neq n$, $p^2 \not{\vert}
 a_0$. Then $f(x)$ is irreducible in $K[x]$.
 \end{theorem}
 \begin{proof}
@@ -1257,13 +1257,13 @@ h(x) = c_s x^s + \cdots + c_1 x + c_0
 $$
 with $r, s \geq 1$ and $r + s = n$. Then
 $a_0 = b_0 c_0$, so since $p \vert a_0$ and
-$p^2 \not\vert a_0$, suppose $p \vert b_0$ and
-$p \not\vert c_0$. Furthermore
-$a_n = b_r c_s$, so since $p \not\vert a_n$ we have
-$p \not\vert b_r$, $p \not\vert c_s$.
+$p^2 \not{\vert} a_0$, suppose $p \vert b_0$ and
+$p \not{\vert} c_0$. Furthermore
+$a_n = b_r c_s$, so since $p \not{\vert} a_n$ we have
+$p \not{\vert} b_r$, $p \not{\vert} c_s$.
 
 Let $b_t$ be the smallest coefficient of $g(x)$ such that
-$p \not\vert b_t$, so that
+$p \not{\vert} b_t$, so that
 $p \vert b_{t-1}, \dots, p \vert b_0$. Note that
 $r \geq t > 0$.
 Then
@@ -1272,12 +1272,12 @@ a_t = b_0 c_t + b_1 c_{t-1} + \cdots + b_t c_0.
 $$
 We have $t \leq r < n$, and since $r + s = n$, $s \geq 1$
 we know $t < n$. This means $p \vert a_t$, but this is a contradiction
-since $p \not\vert b_t$ and $p \not\vert c_0$.
+since $p \not{\vert} b_t$ and $p \not{\vert} c_0$.
 \end{proof}
 
 \begin{xmpl}
 $x^5 - 18$ is irreducible in $\mathbb{Q}[x]$. Take
-$p = 2$. Then $2^2 \not\vert 18$ and $2 \vert 18$, so this is
+$p = 2$. Then $2^2 \not{\vert} 18$ and $2 \vert 18$, so this is
 irreducible.
 
 Let $p$ be prime and
@@ -1312,7 +1312,7 @@ Observe that
 $$
 p \vert {p \choose i} = \frac{p!}{i!(p-i)!}
 $$
-and $p^2 \not\vert p$, so $f(x+1)$ is irreducible by Eisenstein's criterion.
+and $p^2 \not{\vert} p$, so $f(x+1)$ is irreducible by Eisenstein's criterion.
 \end{xmpl}
 
 \begin{remark}
