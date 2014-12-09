@@ -4,6 +4,28 @@
 
 \begin{document}
 
+\section{The Integers}
+\begin{itemize}
+  \item{
+    Euclidean division says that for any integers $a, b$, there exist unique
+    integers $q$, $r$ such that $a = bq + r$ and $0 \leq r < |b|$.
+
+    Common in algebra are arguments like the following: take some algebraic
+    object $X$ and let $f: X \to \mathbb{Z}_+$ be a map such that
+    $f(X) \neq \varnothing$. Then $\mathrm{Im}(f)$ is a nonempty
+    subset of the positive integers, so it has a smallest element
+    $a_0$. Now let $a$ be arbitrary in $X$ and write
+    $f(a) = q a_0 + r$. Then $r < a_0$ and so $r = 0$, which often
+    tells us something nice about how $a$ relates to $f^{-1}(a_0)$.
+  }
+  \item{
+    The GCD of two numbers $\mathrm{gcd}(a, b) = g$ is the number such
+    that $x \vert a$ and $x \vert b$ implies $x \vert g$. If two
+    integers have GCD one, they are said to be coprime. We may always
+    write $g = ac + bd$ for some $c, d$.
+  }
+\end{itemize}
+
 \section{Groups}
 \subsection{Constructions}
   \begin{itemize}
@@ -82,6 +104,10 @@ $$
 $$
 If $H$ is normal in $G$, this means $|G / H| = [G : H]$.
 
+Every element of a finite group $G$ has an order that divides
+the order of the group, since $\langle g \rangle$ is a subgroup
+and because of Lagrange's theorem.
+
 \begin{enumerate}
   \item{
     For any group homomorphism $\varphi : G \to H$,
@@ -92,6 +118,14 @@ If $H$ is normal in $G$, this means $|G / H| = [G : H]$.
     $$
     \bar{\varphi}(g \ker(\varphi)) = \varphi(g).
     $$
+    Indeed $\varphi = \bar{\varphi} \circ \pi_{\ker(\varphi)}$.
+    This means every group homomorphism $\varphi $ factors
+    through the quotient, i.e.
+    $$
+    G \to \frac{G}{\ker(\varphi)} \to H
+    $$
+    where the first homomorphism is surjective and the second is a group
+    isomorphism.
   }
   \item{
     Let $K \triangleleft G$, $H \triangleleft G$, and $K < H$. Then
@@ -248,9 +282,192 @@ If $|G| = pq$ with $p, q$ distinct primes then:
 
 \section{Abelian Groups}
 
+\subsection{Free Abelian Groups}
+An abelian group $A$ is \emph{free} if it is isomorphic to
+$$
+\mathbb{Z}[I] \triangleq \oplus_{i \in I} \mathbb{Z}
+$$
+for some set $I$, or equivalently if there is a subset (basis) $B$
+of $A$ such that every element of $A$ can be written as a cofinite
+linear combination with integer coefficients of elements of $B$.
+
+\begin{itemize}
+  \item{
+    For any abelian group $A$, set $I$ and set map $f : I \to A$
+    there is a unique homomorphism $\bar{f} : \mathbb{Z}[I] \to A$ such that
+    $f(\mathrm{inj}_i(1)) = f(i)$ for all $i \in I$.
+  }
+  \item{
+    A surjective homomorphism $f$ into a free abelian group $A^\prime$ has a right inverse
+    given by making a choice $g(a_i) = f^{-1}(a_i)$ for each $a_i$ in the basis of
+    the target of $f$. Furthermore $A = \ker(f) \oplus \mathrm{Im}(g)$ and the
+    restriction $f|_{\mathrm{Im}(g)} : \mathrm{Im}(g) \to A^\prime$ is an isomorphism, so
+    $A = \ker{f} \oplus A^\prime$.
+  }
+  \item{
+    In an abelian group all subgroups are normal, so when $A = B + C$ and
+    $B \cap C = \{0\}$ we have $A \simeq B \times C = B \oplus C$.
+
+    In a free abelian group all subgroups are free.
+  }
+  \item{
+    Every basis of a free abelian group $A$ has the same cardinality,
+    called the \emph{rank} of $A$.
+  }
+\end{itemize}
+
+\subsection{Finitely Generated Abelian Groups}
+Terminology:
+\begin{itemize}
+  \item{
+    An abelian group $A$ is \emph{torsion} when every element has finite
+    order. A group is torsion-free if it is not torsion, i.e. $na = 0$
+    implies $n = 0$ or $a = 0$.
+  }
+  \item{
+    An abelian group is \emph{finitely generated} when there is a
+    finite subset of $A$ such that every element can be written as
+    linear combinations of this subset. Note that for a free abelian group we
+    only require that each element admits some representation as a
+    finite linear combination of elements from some basis set -- in a
+    free abelian group the basis may be infinite. An abelian group $A$
+    is finitely generated if and only if there is a surjective map
+    $\mathbb{Z}^n \to A$ for some $n$.
+  }
+  \item{
+    An abelian group that is both torsion and finitely generated is
+    finite. A finite group is of course torsion and finitely
+    generated.
+
+    An abelian group that is torsion-free and finitely generated is
+    free. The map $A \to A$ given by $a \mapsto Na$ is injective
+    since $A$ is torsion-free, and has image $NA$ so $NA \simeq A$ in
+    this case, for any $N$.
+  }
+  \item{
+    The \emph{torsion part} of an abelian group consists of all its
+    torsion elements. The \emph{cotorsion} or \emph{torsion-free part}
+    is $A / A_{tor}$. This is torsion free since the only torsion free
+    element is $0 + A_{tor}$.
+  }
+  \item{
+    If $A$ is finitely generated then its cotorsion is finitely
+    generated and therefore free. In this case, since the canonical
+    projection $\pi : A \to A / A_{tor} = \mathbb{Z}^n$ is surjective,
+    $A \simeq \ker(f) \oplus \mathbb{Z}^n$.
+  }
+  \item{
+    The $m$ torsion $A[m]$ consists of all elements whose order divides
+    $m$. The $p$-power torsion $A[p^\infty]$ consists of all elements
+    whose order divides a power of $p$. For coprime $r, s$,
+    $A[rs] = A[r] \oplus A[s]$. This means in particular that the
+    $m$ torsion has the decomposition
+    $$
+    A[m] = A[p_1^{k_1}] \oplus \cdots \oplus A[p_n^{k_n}]
+    $$
+    where $m = \prod_i p_i^{k_i}$ is the prime factorization of
+    $m$. Indeed this factorization applies for any finite abelian
+    group of order $m$.
+  }
+  \item{
+    For a finite abelian group $A$ with
+    $|A| = \prod_i p_i^{k_i}$, we have
+    $A[p_i^\infty] = A[p_i^k]$. Note that $A$ is abelian and so every
+    subgroup is normal, and therefore each $p_i$-Sylow of $A$ is
+    unique.
+
+    Let $P$ be the $p_i$-Sylow of $A$ and let $x \in P$. Then
+    $|x|$ divides $|P| = p_i^{k_i}$, so $x \in A[p_i^{k_i}]$.
+
+    Take $x \neq 0 \in A[p_i^{k_i}]$ and note that $|x|$ divides
+    $p_i^{k_i}$ by definition, so $|x| = p_i^k$ for some
+    $k \leq k_i$. But $|x|$ divides $|A[p_i^{k_i}]|$, so
+    $A[p_i^{k_i}]$ is a $p_i$-group and therefore contained in the
+    unique $p_i$-Sylow $P$. We conclude that $A[p_i^{k_i}] = P$ so
+    that $|A[p_i^{k_i}]| = p_i^{k_i}$.
+
+    Furthermore, $A[p_i^{k_i}] < A[p_i^\infty]$, so $A[p_i^\infty]$ is
+    a $p$-group with order $\geq |A[p_i^{k_i}]|$ and therefore its
+    order is the same.
+  }
+  \item{
+    Indeed, any torsion abelian group $A$ is isomorphic to
+    $\oplus_p A[p^\infty]$, where $p$ is taken over all primes. The
+    isomorphism $\oplus_p A[p^\infty] \to A$ is given by
+    $(a_p)_p \mapsto \sum_p a_p$.
+  }
+  \item{
+    For any finite abelian group we can write down the isomorphism
+    classes by:
+    \begin{itemize}
+      \item{factoring the order of the group,}
+      \item{taking multiplicative partitions of each $p$-power
+        factor,}
+      \item{assembling each unique combination that takes one choice
+        from each of these sets,}
+      \item{simplifying the expression for each isomorphism class by
+        multiplying coprime factors.}
+    \end{itemize}
+
+    For any finitely generated abelian group we can extend this
+    procedure by observing that the torsion part is finitely generated
+    and torsion and thus finite. The cotorsion is finitely generated
+    and torsion-free and thus free, so it is isomorphic to
+    $\mathbb{Z}^r$ for some $r$. Therefore every finitely generated
+    abelian group is isomorphic to a direct sum of cyclic groups. This
+    is the \emph{structure theorem for finitely generated abelian groups.}
+  }
+\end{itemize}
+
 \section{Free Groups}
 
 \section{Rings}
+\begin{itemize}
+  \item{
+    It is possible for a ring element to have a left inverse but no
+    right inverse, in which case it is not a unit. If both inverses
+    exist they are equal. The units $A^\ast$ of a ring $A$ form a
+    group under multiplication.
+  }
+  \item{
+    A \emph{division ring} is a nonzero ring such that $A^\ast = A -
+    \{ 0 \}$. A \emph{field} is a commutative divison ring.
+  }
+  \item{
+    An ideal $I$ is an additive subgroup of $A$ such that
+    $AI \subset I$. An ideal $Ax = \{ax \mid a \in A\}$ is the ideal
+    generated by $x$. $I + J$ and $I \cap J$ are ideals for any ideals
+    $I$, $J$.
+  }
+  \item{
+    The quotient ring $A / I$ is the additive quotient group with
+    multiplication $(x + I)(y + I) = xy + I$. The kernel of any ring
+    homomorphism $A \to B$ is a two-sided ideal and factors as
+    $A \to A / \ker(f) \to B$.
+  }
+  \item{
+    A prime ideal is an ideal such that $ab \in I$ implies $a \in I$
+    or $b \in I$. A maximal ideal $M$ is an ideal such that for any
+    ideal $J$, $M \subset J \subset A = (1)$ implies $J = M$ or
+    $J = A$. A maximal ideal is prime. Every proper ideal in $A$ is
+    contained in a maximal ideal.
+  }
+  \item{
+    A domain is a nonzero ring such that $xy = 0$ implies $x = 0$ or
+    $y = 0$. $I$ is a prime ideal if and only if $A / I$ is a
+    domain. $M$ is a maximal ideal if and only if $A / M$ is a field.
+  }
+\end{itemize}
+
+A partial order $\leq$ is a relation that is reflexive, transitive, and
+antisymmetric. If either $x \leq y$ or $y \leq x$, this relation is a
+total order. A poset is \emph{inductively ordered} if every totally
+ordered subset $T \subset S$ has an upper bound in $S$. A maximal
+element $m$ is one such that $m$ is not $\leq x$ for any $x$.
+
+Zorn's lemma: Every nonempty inductively ordered poset has at least
+one maximal element.
+
 
 \section{Noetherian Rings}
 
