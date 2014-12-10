@@ -1049,6 +1049,87 @@ observer $A - K C$ have stable eigenvalues.
 \section{Realizations}
 
 \section{Time-Varying Systems}
+The time varying system
+$$
+\dot{x}(t) = A(t) x(t) + B(t) u(t)
+$$
+in general has the solution
+$$
+x(t) =
+\left[
+  I
++ \int_{t_0}^{t} A(\sigma_1) \dif\sigma_1
++ \int_{t_0}^t \int_{t_0}^{\sigma_1} A(\sigma_2) \dif\sigma_2
+\dif\sigma_1
++ \cdots
+\right]
+x_0 =
+\Phi(t, t_0) x(t_0).
+$$
+$\Phi(t, t_0)$ has the following properties:
+\begin{enumerate}
+  \item{
+    $\Phi(t, t) = I$.
+  }
+  \item{
+    $\frac{\partial}{\partial t} \Phi(t, t_0) = A(t) \Phi(t, t_0)$.
+  }
+  \item{
+    $\frac{\partial}{\partial t_0} \Phi(t, t_0) = -\Phi(t, t_0) A(t_0)$.
+  }
+  \item{
+    $\Phi(t, t_0) = \Phi(t, \sigma) \Phi(\sigma, t_0)$.
+  }
+  \item{
+    $\Phi(t, \tau)$ is nonsingular and
+    $\Phi^{-1}(t, \tau) = \Phi(\tau, t)$.
+  }
+\end{enumerate}
+In particular cases we can find the transition matrix explicitly:
+\begin{enumerate}
+  \item{
+    If $A(t) = A$, then $\Phi(t, t_0) = e^{A(t - t_0)}$.
+  }
+  \item{
+    If $A(t) = a(t)$, a scalar function, then
+    $\Phi(t, t_0) = \exp\left\{\int_{t_0}^{t} a(\tau) \dif \tau\right\}$.
+  }
+  \item{
+    If $A(t)$ is a diagonal matrix of scalar functions $a_i(t)$, then
+    $\Phi(t,t_0)$ has the corresponding $\Phi_i(t, t_0)$ along the diagonal.
+  }
+  \item{
+    If $M, N$ commute and
+  }
+  \item{
+    If $A(t)$ is upper triangular, then we have
+    $\dot{x}_n = a_{nn}(t) x_n(t)$ so
+    \begin{align*}
+      x_n(t) &=
+        \exp\left\{\int_{t_0}^t a_{nn}(\tau) \dif\tau\right\},
+    \end{align*}
+    and
+    $\dot{x}_{n-1}(t) = a_{n-1,n-1}(t)x_{n-1}(t) +  a_{n-1,n}x_n(t)$
+    so
+    $$
+
+    $$
+  }
+\end{enumerate}
+
+A time-variant system is uniformly stable if
+$\| x(t) \| \leq \gamma \| x(t_0) \|$ for all time and asymptotically
+stable if
+$\| x(t) \| \leq \gamma e^{-\lambda(t - t_0)} \| x(t_0) \|$ for all time.
+
+\subsection{Floquet Decomposition}
+If $A(t + T) = A(t)$ for some $T$, we can find a constant $R$ such
+that $e^{RT} = \Phi(T, 0)$. If $\phi(T, 0)$ is diagonalizable with
+diagonalization transformation $Q^{-1} \Phi(T, 0) Q$, then
+$R = \frac{1}{T} Q R_1 Q^{-1}$ where $R_1$ has the natural logarithm
+of each eigenvalue of $\Phi(T, 0)$ along its diagonal. Then the
+Lyapunov (bounded and continuously differentiable) transformation
+given by $P(t) = \Phi(t,0)e^{-Rt}$
 
 \section{Laplace and $z$-Transforms}
 
