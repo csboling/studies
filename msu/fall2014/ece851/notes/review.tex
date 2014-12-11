@@ -27,6 +27,21 @@
 
 \section{Preliminaries}
 
+\subsection{Matrix Inverse}
+For a $2 \times 2$ matrix, the inverse is given by
+$$
+\left[\begin{array}{c c}
+  a & b \\
+  c & d
+\end{array}\right]^{-1}
+=
+\frac{1}{ad - bc}
+\left[\begin{array}{r r}
+   d & -b \\
+  -c &  a
+\end{array}\right].
+$$
+
 \subsection{Matrix Exponential}
 The matrix exponential is given by
 $$
@@ -164,7 +179,11 @@ $$
 H(s) = C(sI - A)^{-1} B,
 $$
 from which the identity $e^{At} = \mathcal{L}^{-1}\{(sI - A)^{-1}\}$
-is evident. Note that a similarity transformation on the state model
+is evident. In a discrete-time system the transfer function is
+$$
+H(z) = C(zI - A)^{-1} B + D.
+$$
+Note that a similarity transformation on the state model
 ($\hat{A} = P^{-1} A P$), etc. does not affect the transfer function of
 the system.
 
@@ -222,7 +241,7 @@ completely determine the stability of the system. In the
 continuous-time case we require that
 $\mathcal{Re}\{\lambda_i\} < 0$ for each eigenvalue $\lambda_i$. In
 the discrete-time case it is instead necessary that
-$|lambda_i| < 1$ for the system to be stable.
+$|\lambda_i| < 1$ for the system to be stable.
 
 \section{Controllability and Observability Tests}
 
@@ -1047,6 +1066,144 @@ so that the controller $\mathcal{A} + \mathcal{B} F$ and
 observer $A - K C$ have stable eigenvalues.
 
 \section{Realizations}
+For a proper rational transfer function
+$$
+H(s) - H(\infty)
+  = \frac{\beta_{n-1}s^{n-1} + \cdots + \beta_0}
+         {s^d + \alpha_{d-1}s^{d-1} + \cdots + \alpha_0}
+$$
+we can simply write down a controller form of the system:
+\begin{align*}
+A &=
+\left[\begin{array}{c c c c}
+  0         & 1         & \cdots & 0      \\
+  0         & 0         & \cdots & 0      \\
+  \vdots    & \vdots    & \ddots & \vdots \\
+  0         & 0         & \cdots & 1      \\
+  -\alpha_0 & -\alpha_1 & \cdots & \alpha_{n-1}
+\end{array}\right], \\
+B &=
+\left[\begin{array}{c}
+0      \\
+0      \\
+\vdots \\
+1
+\end{array}\right], \\
+C &=
+\left[\begin{array}{c c c c}
+  \beta_0 & \beta_1 & \cdots & \beta_{n-1}
+\end{array}\right], \\
+D &= H(\infty).
+\end{align*}
+
+\subsection{Controller Form Realization}
+\begin{enumerate}
+  \item{
+    Find least common multiples of all denominators polynomials in the
+    $j$-th column and call this $d_j(s)$. Let $\mu_j = \deg d_j(s)$.
+  }
+  \item{
+    Write
+    $$
+    d_j(s) =
+    s^{\mu_j} + L_j [1, s, \cdots, s^{\mu_j - 1}]^\top
+    $$
+    so that $D(s) = \Lambda(s) + \mathrm{blkdiag}(L_j) S(s)$.
+  }
+  \item{
+    Write $[H(s) - H(\infty)]D(s) = MS(s)$ where
+    $M = [M_1, M_2, M_m]$.
+  }
+  \item{
+    The realization is
+    \begin{align*}
+      A &= \bar{A} - \bar{B} L, \\
+      B &= \bar{B}, \\
+      C &= M, \\
+      D &= H(\infty)
+    \end{align*}
+    where
+    $$
+    \bar{A} = \mathrm{blkdiag}\{\bar{A}_j\}, \quad
+    \bar{B} = \mathrm{blkdiag}\{\bar{B}_j\}
+    $$
+    and $\bar{A}_j$ is $\mu_j \times \mu_j$ with ones in the
+    superdiagonal, $\bar{B}_j$ is $\mu_j \times 1$ with 1 in the last entry.
+  }
+  \item{
+    An observer form realization can be found by applying this process
+    to $H^\top(s)$ and taking the transpose of every matrix in the
+    controller form realization.
+  }
+\end{enumerate}
+
+\subsection{Minimal Realization}
+Sylvester inequality:
+$$
+     \min\{\mathrm{rank}(A), \mathrm{rank}(B)\}
+\geq \mathrm{rank}(AB)
+\geq \mathrm{rank}(A) + \mathrm{rank}(B) - n
+$$
+where $A$ is $m \times n$.
+
+We can write
+$$
+H(s) = D + \sum_{k=0}^{\infty} \frac{1}{s^{k+1}} C A^k B,
+$$
+and $D, C A^k B$ are known as Markov parameters.
+
+A realization is minimal if and only if it is controllable and observable.
+\begin{enumerate}
+  \item{
+    Test controllability of the realization.
+  }
+  \item{
+    If uncontrollable, take it to uncontrollable form and use the
+    controllable subset $A_{11}$, $B_1$.
+  }
+  \item{
+    If a controllable realization is unobservable, take it to
+    unobservable form and use the observable subset
+    $A_{11}$, $C_1$.
+  }
+\end{enumerate}
+There is a similarity transformation between any two minimal realizations.
+
+\subsection{Parallel Realization}
+If the roots of the least common multiple of the denominator $d(s)$
+are distinct and real:
+\begin{enumerate}
+  \item{
+    Write
+    $$
+    K_i = \lim_{s \to \lambda_i} (s - \lambda_i) (H(s) - H(\infty)),
+    $$
+    and
+    $$
+    \rho_i = \mathrm{rank} K_i.
+    $$
+  }
+  \item{
+    Factor $K_i = C_i B_i$ with $C_i$ $p \times \rho_i$, $B_i$ $\rho_i
+    \times m$ and $\mathrm{rank}{C_i} = \mathrm{rank}(B_i) = \rho_i$.
+  }
+  \item{
+    Form the realization by multiplying $\lambda_i$ by $I_{\rho_i}$
+    and building block diagonal matrices.
+  }
+\end{enumerate}
+
+\begin{enumerate}
+  \item{
+    Factor denominator into $d_j(s)$ and write partial fraction
+    expansion of $H(s) - H(\infty)$ into strictly proper functions.
+  }
+  \item{
+    Find a minimal realization of each $H_i(s)$. Construct the
+    realization block-diagonally.
+  }
+\end{enumerate}
+
 
 \section{Time-Varying Systems}
 The time varying system
@@ -1065,6 +1222,11 @@ x(t) =
 \right]
 x_0 =
 \Phi(t, t_0) x(t_0).
+$$
+The forced solution is then
+$$
+x(t) = \Phi(t, t_0) x(t_0)
+     + \int_{t_0}^t \Phi(t, \tau) B(\tau) u(\tau) \dif\tau.
 $$
 $\Phi(t, t_0)$ has the following properties:
 \begin{enumerate}
@@ -1088,6 +1250,16 @@ $\Phi(t, t_0)$ has the following properties:
 In particular cases we can find the transition matrix explicitly:
 \begin{enumerate}
   \item{
+    Generally speaking, if $A(t)A(\tau) = A(\tau)A(t)$ for all $t$,
+    then
+    $$
+    \Phi(t, t_0) =
+    \exp\left\{
+      \int_{t_0}^t A(\tau) \dif \tau
+    \right\}
+    $$
+  }
+  \item{
     If $A(t) = A$, then $\Phi(t, t_0) = e^{A(t - t_0)}$.
   }
   \item{
@@ -1106,14 +1278,44 @@ In particular cases we can find the transition matrix explicitly:
     $\dot{x}_n = a_{nn}(t) x_n(t)$ so
     \begin{align*}
       x_n(t) &=
-        \exp\left\{\int_{t_0}^t a_{nn}(\tau) \dif\tau\right\},
+        \exp\left\{\int_{t_0}^t a_{nn}(\tau) \dif\tau\right\} x_n(t_0) =
+               \Phi_{nn}(t, t_0) x_n(t_0),
     \end{align*}
     and
     $\dot{x}_{n-1}(t) = a_{n-1,n-1}(t)x_{n-1}(t) +  a_{n-1,n}x_n(t)$
     so
+    \begin{align*}
+    x_{n-1}(t)
+    &=  \Phi_{n-1, n-1}(t, t_0) x_{n-1}(t_0)
+     + \int_{t_0}^t \Phi_{n-1,n-1}(t, \tau)
+                   a_{n-1,n}(\tau)
+                   x_n(\tau) \dif \tau, \\
+    x_{n-2}(t)
+    &= \cdots
+    \end{align*}
+    where
     $$
-
+    \Phi_{n-1,n-1}(t, t_0) =
+    \exp\left\{
+      \int_{t_0}^t a_{n-1,n-1}(\tau) \dif\tau
+    \right\}
     $$
+  }
+  \item{
+    When
+    $$
+    A(t) = \sum_{i=1}^n M_i f_i(t)
+    $$
+    for constant matrices $M_i$ which are all pairwise commutative and
+    $f_i(t)$ are scalar functions, we have
+    $$
+    \Phi(t, t_0) =
+    \prod_{i=1}^n
+    \exp\left\{
+      M_i \int_{t_0}^t f_i(\tau) \dif\tau
+    \right\}
+    $$
+    because in this case $e^{M_i + M_j} = e^{M_i}e^{M_j}$.
   }
 \end{enumerate}
 
@@ -1122,14 +1324,63 @@ $\| x(t) \| \leq \gamma \| x(t_0) \|$ for all time and asymptotically
 stable if
 $\| x(t) \| \leq \gamma e^{-\lambda(t - t_0)} \| x(t_0) \|$ for all time.
 
+A time-variant system is BIBO stable if it is uniformly asymptotically
+stable and $B, C, D$ are bounded for all time.
+
 \subsection{Floquet Decomposition}
+A change of variables $x(t) = P(t) z(t)$ results in the system
+$$
+  \dot{z}(t)
+= F(t) z(t)
+= [P^{-1}(t) A(t) P(t) - P^{-1}(t) \dot{P}(t)]z(t)
+$$
+so that
+$$
+\Phi_F(t, t_0) = P^{-1}(t) \Phi_A(t, t_0) P(t_0)
+$$
+
 If $A(t + T) = A(t)$ for some $T$, we can find a constant $R$ such
 that $e^{RT} = \Phi(T, 0)$. If $\phi(T, 0)$ is diagonalizable with
 diagonalization transformation $Q^{-1} \Phi(T, 0) Q$, then
 $R = \frac{1}{T} Q R_1 Q^{-1}$ where $R_1$ has the natural logarithm
 of each eigenvalue of $\Phi(T, 0)$ along its diagonal. Then the
 Lyapunov (bounded and continuously differentiable) transformation
-given by $P(t) = \Phi(t,0)e^{-Rt}$
+given by $P(t) = \Phi(t,0)e^{-Rt}$, which is nonsingular and periodic
+with period $T$. Then
+$$
+\dot{P} = A P - P R
+$$
+so
+$$
+\dot{z}(t) = R z(t)
+$$
+where $R$ is constant.
+
+Uniform stability, asymptotic stability, and input-output
+transformation are preserved under a Lyapunov transformation.
+
+\subsection{Controllability etc.}
+A time-variant system is controllable on $t_0, t_f$ iff.
+$$
+W_C(t_0, t_f) =
+\int_{t_0}^{t_f} \Phi(t_0, t) B(t) B^\top(t) \Phi^\top(t_0, t) \dif t
+$$
+is positive definite, which is true iff.
+$$
+x_a^\top \Phi(t_0, t) B(t) = 0
+$$
+has no nontrivial solutions for any $t$ in $[t_0, t_f]$.
+
+It is observable iff.
+$$
+W_O(t_0, t_f) =
+\int_{t_0}^{t_f} \Phi^\top(t, t_0) C^\top(t) C(t) \Phi(t, t_0) \dif t
+$$
+which is true iff.
+$$
+C(t) \Phi(t, t_0) x_a = 0
+$$
+has no nontrivial solutions for any $t$ in $[t_0, t_f]$.
 
 \section{Laplace and $z$-Transforms}
 
