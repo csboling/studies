@@ -1,0 +1,121 @@
+\section{Number Systems}
+This course concerns the set of complex numbers
+$$
+\mathbb{C} = \{ x + yi : x, y \in \mathbb{R} \}
+$$
+where $i^2 = -1$, i.e. $i \notin \mathbb{R}$. For some such
+$z = x + yi$ we call $x$ the real part $\mathrm{Re}~z$ and
+$y$ the imaginary part $\mathrm{Im}~z$. We see that
+$$
+           \mathbb{N}
+\subsetneq \mathbb{Z}
+\subsetneq \mathbb{Q}
+\subsetneq \mathbb{R}
+\subsetneq \mathbb{C}
+$$
+since we can identify $x \in \mathbb{R}$ with
+$x + 0i \in \mathbb{C}$. We define operations on the complex numbers by
+$$
+(x_1 + y_1 i) + (x_2 + y_2 i) = (x_1 + x_2) + (y_1 + y_2) i
+$$
+and
+$$
+  (x_1 + y_1 i) \cdot (x_2 + y_2 i)
+= (x_1 x_2 - y_1 y_2) + (x_1 y_2 + x_2 y_1)i.
+$$
+We can formally expand this product as
+$$
+x_1 x_2 + x_1 y_2 i + x_2 y_1 i + y_1 y_2 i^2
+$$
+to see that this coincides with the product of binomials.
+We will observe that $\mathbb{C}$ is a field, and will see how
+to find the multiplicative inverse $\mathbb{z}^{-1}$ later.
+
+The \emph{complex conjugate} of a complex number $z = x + yi$ is given by
+$\bar{Z} = x - yi$. We observe the following properties:
+\begin{itemize}
+  \item{
+    $\bar{\bar{z}} = z$.
+  }
+  \item{
+    $\bar{z} = z \iff z \in \mathbb{R}$.
+  }
+  \item{
+    $z + \bar{z} = 2 \mathrm{Re}~z$.
+  }
+  \item{
+    $z - \bar{z} = 2i \mathrm{Im}~z$.
+  }
+  \item{
+    $\bar{z \pm w} = \bar{z} \pm \bar{w}$.
+  }
+  \item{
+    $\bar{zw} = \bar{z}\bar{w}$.
+  }
+  \item{
+    $z\bar{z} = x^2 + y^2 \geq 0$.
+  }
+\end{itemize}
+
+For $z = x + yi \in \mathbb{C}$ we define the absolute value of $z$ by
+$$
+|z| = \sqrt{x^2 + y^2}
+$$
+so that $z \bar{z} = |z|^2$. This means
+\begin{align*}
+  |zw|^2 &= (zw)\bar{(zw)} = (zw)(\bar{z}\bar{w}) \\
+         &= (z \bar{z})(w \bar{w}) = |z|^2|w|^2.
+\end{align*}
+We can also see that $|\bar{z}| = |z|$ and
+$|\mathrm{Re}~z| \leq |z|$, $|\mathrm{Im}~z| \leq |z|$.
+
+Now note that
+$$
+z \cdot \bar{z} = x^2 + y^2 > 0
+$$
+so
+$$
+z \frac{x - y i}{x^2 + y^2} = 1
+$$
+and then
+$$
+z^{-1} = \frac{x}{x^2 + y^2} - \frac{y}{x^2 + y^2} i.
+$$
+
+Define $z^0 = 1$ and $z^n = \prod_{i=1}^n z$ for any positive $n$.
+Define $z^n = \prod_{i=1}^{-n} z^{-1}$ for negative $n$. We can also
+check that $|z^n| = |z|^n$ and $|z^{-1}| = |z|^{-1}$.
+
+\section{Geometry}
+We can view every $z = x + yi \in \mathbb{C}$ as a point $(x,y)$ on the plane
+$\mathbb{R}^2$. Under this interpretation the conjugate map is a reflection
+about the real axis and the modulus $|z|$ is equal to the distance from such a
+point to the origin. Addition follows the parallelogram rule, which gives the
+triangle inequality $|z + w| \leq |z| + |w|$. This is because
+\begin{align*}
+      |z + w|^2
+&=    z \bar{z} + z\bar{w} + \bar{(z\bar{w})} + |w|^2 \\
+&=    |z|^2 + |w|^2 + 2 \mathrm{Re}(z\bar{w}) \\
+&\leq |z|^2 + |w|^2 + 2|z||\bar{w}| \\
+&=    (|z| + |w|)^2.
+\end{align*}
+
+\section{Polar Form}
+
+The expression $z = x + yi$ is called the \emph{rectangular form}
+of $z$. Suppose $x = r \cos \theta$, $y = r \sin \theta$. We see that
+$x^2 + y^2 = r^2 (\cos^2 \theta + \sin^2 \theta)$ and so
+$r = \sqrt{x^2 + y^2} = |z| \geq 0$, equalling zero if and only if $z = 0$.
+Further we have
+$$
+\cos \theta = \frac{x}{r}, \quad
+\sin \theta = \frac{y}{r}.
+$$
+The solution $\theta$ is therefore not unique. We call such a $\theta$ an
+\emph{argument} of $z$ and write $\theta = \arg z$. We may understand
+$\theta$ as an element in the quotient group $\mathbb{R} / 2 \pi \mathbb{Z}$.
+The obvious choice of representative is called the \emph{principal argument}
+$\mathrm{Arg}~z$, the unique $\theta \in \arg z$ that lies in $[0, 2\pi)$.
+We might instead choose $\mathrm{Arg}~z$ to fall in $(-\pi, \pi]$.
+
+We write $z = r e^{i\theta}$ to mean $z = r (cos \theta + i \sin \theta)$.
