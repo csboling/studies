@@ -21,9 +21,8 @@
 
 \begin{document}
 
-\begin{titlepage}
 \maketitle
-\end{titlepage}
+\tableofcontents
 
 \section{Preliminaries}
 
@@ -197,7 +196,7 @@ system described by the matrices
 \bar{D}(k) &=
   C(t_k^\prime)
   \int_{t_k}^{t_k^\prime} \phi(t_k^\prime, \tau) B(\tau) \dif \tau
-+ D(t_k^\prime
++ D(t_k^\prime)
 \end{align*}
 when the output sampling times are given by $t_k^\prime$ and the input
 is modified at times $t_k$.
@@ -245,6 +244,8 @@ $|\lambda_i| < 1$ for the system to be stable.
 
 \section{Controllability and Observability Tests}
 
+\subsection{Definitions}
+
 We are interested in questions of controllability and
 observability. Here are some definitions:
 \begin{itemize}
@@ -283,6 +284,8 @@ observability. Here are some definitions:
     eigenvalues are stable.
   }
 \end{itemize}
+
+\subsection{Conditions}
 
 The following are equivalent conditions for
 controllability/reachability of continuous time systems.
@@ -334,7 +337,7 @@ $(A,C)$.
 \begin{itemize}
   \item{
     The observability Gramian $W_o(0, T)$ has rank $n$ for some $T$,
-    in which case
+    in which case we can recover the original state $x_0$ by
     $$
     x_0 =
     W_O^{-1}(0, T)\int_0^T e^{A^\top \tau} C^\top \tilde{y}(\tau) \dif
@@ -481,7 +484,8 @@ $$
 \end{array}\right],
 $$
 where $(A_{11}, B_1)$ is controllable. The eigenvalues of $A_{11}$ are
-controllable. Furthermore note that the transformed controllability
+controllable. The eigenvalues of $A_{22}$ are uncontrollable.
+Furthermore note that the transformed controllability
 matrix $\hat{\mathcal{C}} = Q^{-1} \mathcal{C}$ has the controllable
 subspace of the system as its range.
 
@@ -550,6 +554,8 @@ $$
   C_1 & 0
 \end{array}\right].
 $$
+The eigenvalues of $A_{11}$ are observable. The eigenvalues of
+$A_{22}$ are unobservable.
 Furthermore the matrix $\hat{\mathcal{O}} = \mathcal{O} Q$ has a null
 space equal to the unobservable subspace of $(\hat{A}, \hat{C})$.
 
@@ -657,7 +663,8 @@ A_C + B_C F =
 \end{array}\right]
 $$
 so we can directly reassign the characteristic polynomial of $A$ by
-setting $f_i = \alpha_i - d_i$. More generally,
+setting $f_i = \alpha_i - d_i$.
+More generally,
 $$
 F_C = B_m^{-1} [ A_{dm} - A_m ]
 $$
@@ -1019,13 +1026,28 @@ $
   C & 0
 \end{array}\right] = n + m.
 $
+
+In the discrete-time case note that we instead use
+$$
+\mathcal{A} =
+\left[\begin{array}{r r}
+ A & 0    \\
+-C & I_m
+\end{array}\right], \quad
+\mathrm{rank}
+\left[\begin{array}{r r}
+I_n - A & B \\
+    C   & 0
+\end{array}\right].
+$$
 In this case the dynamics are given by
 $$
 \mathcal{A} + \mathcal{B} F =
 \left[\begin{array}{r r}
   A + BF_1 & BF_2 \\
   -C       & 0
-\end{array}\right].
+\end{array}\right]
+\l
 $$
 Incorporating an observer we arrive at the closed-loop integral
 control system
@@ -1061,9 +1083,11 @@ $$
   r
 \end{array}\right]
 $$
+where $e = x - \hat{x}$
 and will asymptotically approach the equilibrium $y = r$ if designed
 so that the controller $\mathcal{A} + \mathcal{B} F$ and
-observer $A - K C$ have stable eigenvalues.
+observer $A - K C$ are designed ($F$ and $K$ are chosen) to have
+stable eigenvalues.
 
 \section{Realizations}
 For a proper rational transfer function
