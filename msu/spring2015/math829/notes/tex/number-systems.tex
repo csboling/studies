@@ -119,3 +119,127 @@ $\mathrm{Arg}~z$, the unique $\theta \in \arg z$ that lies in $[0, 2\pi)$.
 We might instead choose $\mathrm{Arg}~z$ to fall in $(-\pi, \pi]$.
 
 We write $z = r e^{i\theta}$ to mean $z = r (cos \theta + i \sin \theta)$.
+
+\begin{theorem}
+  $$
+  e^{i\theta_1} \cdot e^{i \theta_2} = e^{i(\theta_1 + \theta_2)}
+  $$
+\end{theorem}
+\begin{proof}
+  \begin{align*}
+     (\cos \theta_1 + i \sin \theta_1)(\cos \theta_2 + i \sin \theta_2)
+  &= (\cos \theta_1 \cos \theta_2 - \sin \theta_1 \sin \theta_2)
+   + i(\cos \theta_1 \sin \theta_2 + \sin \theta_1 \cos \theta_2) \\
+  &= \cos (\theta_1 + \theta_2) + i \sin (\theta_1 + \theta_2)
+  \end{align*}
+\end{proof}
+It follows that $\arg z_1 z_2 = \arg z_1 + \arg z_2$,
+$\arg z^{-1} = -\arg z$, and $\arg z^n = n \arg z$. Then
+for $z = r e^{i\theta}$, $z^n = r^n e^{i n \theta}$.
+
+\subsection{Power Roots}
+Given $z \in \mathbb{C}$ and $n \in \mathbb{Z}$, we can find $w$
+such that $w^n = z$. If $z = 0$ then $w = 0$, so suppose $z \neq 0$.
+Write $z = |z| e^{i \theta}$. Take $w = r e^{i \phi}$. To have
+$w^n = z$ we must have have $|w^n| = |z|$, so
+$|w^n| = |w|^n = |z|$ and thus $|w| = |z|^{\frac{1}{n}}$. Furthermore
+we must have $e^{i n \phi} = e^{i \theta}$. Then $\phi = \frac{\theta}{n}$
+gives one solution, i.e. $w = |z|^{\frac{1}{n}} e^{i \frac{\theta}{n}}$
+satisfies the desired property. To find all roots we need
+$n \phi = \theta + 2 k \pi$ for some $k \in \mathbb{Z}$. This gives
+$\phi_k = \frac{\theta}{n} + \frac{k}{n} 2\pi$. Therefore
+$$
+w_k = |z|^{\frac{1}{n}} e^{i\left(\frac{\theta}{n} + \frac{k}{n} 2\pi\right)}
+$$
+Observing that $\phi_{k + n} = \phi_k + 2\pi$, $w_k = w_{k+n}$, so there
+are exactly $n$ distinct $w$, called the $n$th roots of $z$. Note that
+if $n \geq 3$ then these roots are vertices of a regular $n$-gon.
+
+\section{Complex Functions}
+
+\subsection{Complex Exponential}
+For $z = x + yi = r e^{i\theta}$, we define the \emph{exponential}
+$\mathbb{C} \to \mathbb{C}$ by
+$$
+\exp(z) = e^x e^{iy} = e^x \cos y + i e^x \sin y.
+$$
+If $z \in \mathbb{R}$, this agrees with the real exponential function.
+This function has the following properties.
+\begin{enumerate}
+  \item{
+    $e^{z_1} e^{z_2} = e^{z_1 + z_2}$, since
+    \begin{align*}
+       e^{x_1 + i y_1} e^{x_2 + i y_2}
+    &= e^{x_1} e^{x_2} e^{i y_1} e^{i y_2} \\
+    &= e^{x_1 + x_2} e^{i(y_1 + y_2)}.
+    \end{align*}
+  }
+  \item{
+    $|e^z| = |e^x||e^{iy}| = e^x > 0$ so
+    $|e^z| = e^{\mathrm{Re}~z}$.
+  }
+  \item{
+    $\arg e^{z} = \mathrm{Im}~z$.
+  }
+  \item{
+    $\forall z \in \mathbb{C}$ with
+    $z \neq 0$, $\exists w \in \mathbb{C}$ such that
+    $e^w = z$. Indeed for $z = r e^{i \theta}$,
+    this is satisfied by $w = \log r + i \theta$.
+  }
+  \item{
+    The exponential function has the period $2 \pi i$,
+    i.e. $e^{z + 2 n \pi i} = e^z$, $\forall n \in \mathbb{Z}$.
+    This means that the $w$ above satisfying $e^w = z$ is not unique.
+  }
+\end{enumerate}
+
+\subsection{Complex Logarithm}
+We define the \emph{logarithm}
+$\log : \mathbb{C} \to \mathbb{C} + i \mathbb{R} / 2 \pi \mathbb{Z}$
+by
+$$
+\log z = \{ w \in \mathbb{C} : e^w = z \}
+$$
+and note that $\log z = \log |z| + i \arg z$. We define the
+\emph{principal logarithm}
+by $\mathrm{Log}~z = \log |z| + i \mathrm{Arg}~z$.
+
+For example,
+$$
+  \mathrm{Log}(1 - i)
+= \log(\sqrt{2}) + i \mathrm{Arg}(1 - i)
+= \log(\sqrt{2}) \pm i \frac{1}{4} \pi.
+$$
+depending on the branch cut chosen for the principal argument.
+
+\section{Complex Valued Functions}
+Let $S \subset \mathbb{C}$ and $f : S \to \mathbb{C}$. We can write
+such a function in rectangular form as
+$$
+f(x + iy) = u(x, y) + i v(x, y)
+$$
+where $u, v : S \times T \to \mathbb{R}$ for some
+$S, T \subset \mathbb{R}$. For example,
+\begin{enumerate}
+  \item{
+    $f(z) = \mathrm{Im}~z$ has the form $u(x,y) = y$, $v(x,y) = 0$.
+  }
+  \item{
+    $f(z) = |z|$ is given by $u = \sqrt{x^2 + y^2}$, $v = 0$.
+  }
+  \item{
+    $f(z) = z^2$ is given by $u = x^2 - y^2$, $v = 2xy$.
+  }
+  \item{
+    $f(z) = e^z$ is given by $u = e^x \cos y$, $v = e^x \sin y$.
+  }
+  \item{
+    $f(z) = z^{-1}$ is given by $u = \frac{x}{x^2 + y^2}$, $v = -\frac{y}{x^2 + y^2}$.
+  }
+  \item{
+    $f(z) = \mathrm{Log}~z$ is given by $u = \log \sqrt{x^2 + y^2}$,
+    $v = \mathrm{Arg}~z$ or
+    $v = \mathrm{arccot}\left(\frac{x}{y}\right)$ for $y > 0$.
+  }
+\end{enumerate}
