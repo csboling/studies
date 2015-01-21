@@ -11,7 +11,7 @@
   $$
   assign stalks
   $$
-  \cdots \longleftarrow \mathbb{R}^3 \longrightarrow \mathbb{R}^2 
+  \cdots \longleftarrow \mathbb{R}^3 \longrightarrow \mathbb{R}^2
          \longleftarrow \mathbb{R}^3 \longrightarrow \cdots
   $$
   so that
@@ -47,21 +47,50 @@
   $$
   (y, m_1, m_2)_n \mapsto (y, m_1, m_2)_{n+1}
   $$
-  uses the map 
-  $\mathscr{S}(n+1 \rightsquigarrow (n, n+1))^{-1}_{(m_1)_n} \circ 
+  uses the map
+  $\mathscr{S}(n+1 \rightsquigarrow (n, n+1))^{-1}_{(m_1)_n} \circ
      \mathscr{S}(n \rightsquigarrow (n, n+1))$
   where
   $$
   S(n+1 \rightsquigarrow (n,n+1))^{-1}_{(m_1)_n}
-    :       (\frac{1}{2} (m_2)_{n+1} + y_{n+1}, (m_2)_{n+1}) 
+    :       (\frac{1}{2} (m_2)_{n+1} + y_{n+1}, (m_2)_{n+1})
     \mapsto (y, (m_1)_n, (m_2)_{n+1})
   $$
- 
-  \section*{Exercise 3.4} 
-                  (-1, 1, 1)
-  (y, m_1, m_2)    -> (-y, m_1, m_2)
-     |                     |
-     v                     v
-  (m_1/2 + y, m_1) -> (m_1/2 + y, m_1
-                   id
+
+  \begin{defn}[Presheaf]
+    Let $C$ be a category. A \emph{presheaf} on $C$ is a functor
+    $C^{\mathrm{op}} \to V$, where $V$ is another category.
+
+    Let $(X, \tau)$ be a topological space. The category with
+    open sets of $\tau$ as objects and inclusions as morphisms
+    is the category of open sets $\mathrm{Op}(X)$.
+  \end{defn}
+
+  A sheaf is a covariant functor from the face category of a simplicial
+  complex to the category of vector spaces. Given a simplicial complex
+  $X$ with $k$-skeletons $X_k$ and a sheaf $\mathscr{F}$, define
+  $$
+  C^k(X; \mathscr{F}) = \oplus_{a \in X_k} \mathscr{F}(a)
+  $$
+  and the coboundary maps
+  $d^k : C^k(X; \mathscr{F}) \to C^{k+1}(X; \mathscr{F})$ by
+  $$
+  d^k(s(b)) = \sum_{a \in X_k} [b:a] \mathscr{F}(a \leadsto b) s(a)
+  $$
+  for any map $s : X_k \to C^k(X; \mathscr{F})$.
+
+  A simplicial map $f : X \to Y$ can (?) be regarded as a functor
+  between the face categories of two simplices, so that a
+  sheaf morphism $\mathscr{F} \to \mathscr{G}$ between a sheaf
+  $\mathscr{F}$ on $X$ and a sheaf $\mathscr{G}$ on $Y$ is a natural
+  transformation  $\mathscr{G} \to \mathscr{F} \circ f$ between sheaf functors
+  from the face category of $Y$ to the category of vector spaces.
+
+% \section*{Exercise 3.4}
+%                 (-1, 1, 1)
+% (y, m_1, m_2)    -> (-y, m_1, m_2)
+%    |                     |
+%    v                     v
+% (m_1/2 + y, m_1) -> (m_1/2 + y, m_1
+%                  id
 \end{document}
