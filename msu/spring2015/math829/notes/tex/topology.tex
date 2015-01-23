@@ -1,0 +1,389 @@
+\section{Topology of Complex Numbers}
+
+Define the closure $\bar{S} = S \cup \partial S$.
+For $S \subset \mathbb{C}$, every $w \in \bar{S}$ can be expressed
+as a limit of a sequence in $S$ and vice versa. This means
+$S$ is closed iff. it contains the limits of all convergent sequences
+in $S$.
+
+The topology on $\mathbb{C}$ is the same as the topology on
+$\mathbb{R}^2$.
+
+\begin{theorem}
+  $z_n \to w$ iff. $\mathrm{Re} z_n \to \mathrm{Re} w$ and
+  $\mathrm{Im} z_n \to \mathrm{Im} w$.
+\end{theorem}
+
+Using this theorem we get $z_n \to z_0$, $w_n \to w_0$
+implies that $z_n \pm w_n \to z_0 \pm w_0$,
+$z_n w_n \to z_0 w_0$, and $z_n / w_n \to z_0 / w_0$ if
+$w_n, w_0 \neq 0$.
+
+\begin{xmpl}
+  To show $z_n w_n \to z_0 w_0$, we write
+  $$
+  z_n = x_n + i y_n, \quad w_n = u_n + i v_n
+  $$
+  and assume $x_n \to x_0$, $y_n \to y_0$,
+  $u_n \to u_0$, $v_n \to v_0$. Then
+  $$
+      z_n w_n
+  =   (x_n u_n - y_n v_n) + i (x_n v_n + y_n u_n)
+  \to (x_0 u_0 - y_0 v_0) - i (x_0 v_0 + y_0 u_0)
+  =   z_0 w_0.
+  $$
+\end{xmpl}
+
+\begin{defn}[Cauchy sequence]
+  A sequence of complex numbers $(z_n)$ is said to be
+  \emph{Cauchy} if
+  $$
+  \forall \varepsilon > 0, \exists N . \forall m, n \geq N,
+  |z_m - z_n| < \varepsilon.
+  $$
+\end{defn}
+
+\begin{obsv}
+  \begin{enumerate}
+    \item{
+      If $(z_n)$ is convergent, then it is Cauchy.
+    }
+    \item{
+      If $(z_n)$ is Cauchy, then $(\mathrm{Re}~z_n)$
+      and $(\mathrm{Im}~z_n)$ are also Cauchy. This is because
+      $$
+           | \mathrm{Re}~z_n - \mathrm{Re}~z_m|
+      =    |\mathrm{Re}(z_n - z_m)|
+      \leq |z_n - z_m|.
+      $$
+      It follows that $(z_n)$ is Cauchy iff. $(z_n)$ is convergent.
+    }
+  \end{enumerate}
+\end{obsv}
+
+\begin{defn}[Boundedness]
+  We say that $S$ is \emph{bounded} if
+  $\exists R \in \mathbb{R}$, $R > 0$ such that $|z| \leq R$,
+  $\forall z \in S$.
+\end{defn}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      A finite set $\{ z_1, \dots, z_n \}$ is bounded by
+      $R = \max \{ |z_1|, \dots, |z_n| \}$.
+    }
+    \item{
+      $D(\alpha, r)$ and $\bar{D}(\alpha, r)$ are bounded
+      by $R = |\alpha| + r$.
+    }
+    \item{
+      If $S_1$ and $S_2$ are bounded then $S_1 \cup S_2$ is bounded,
+      since we may take $R = \max \{ R_1, R_2 \}$.
+    }
+    \item{
+      If $S^\prime$ is bounded and $S \subset S^\prime$, then $S$ is bounded.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{theorem}
+  Every convergent sequencei s bounded.
+\end{theorem}
+
+\begin{proof}
+  Suppose $z_n \to z_0$. Then there exists an $N \in \mathbb{N}$ such that
+  $|z_n - z_0| < 1$ if $n > N$. Thus
+  $$
+  \{ z_n, n \in \mathbb{N} \} \subset \{ z_1, \dots, z_N \} \cup D(z_0, 1),
+  $$
+  which is the union of a finite set and a disk.
+\end{proof}
+
+\begin{theorem}[Bolzano-Weierstrass]
+  Every bounded sequence of complex numbers contains a convergent
+  subsequence.
+\end{theorem}
+\begin{proof}
+  Let $(z_n)$ be a bounded sequence of complex numbers. Then
+  $(x_n) = (\mathrm{Re}~z_n)$ and $(y_n) = (\mathrm{Im}~z_n)$ are bounded
+  sequences of real numbers. Applying the Bolzano-Weierstrass theorem
+  for real numbers, we have a convergent subsequence of $(x_n)$
+  denoted $(x_{n_k})$. Then the subsequence $(y_{n_k})$ is still bounded
+  and thus has a convergent subsequence $(y_{n_{k_l}})$.
+
+  Now $(x_{n_{k_l}})$ is a subsequence of $(x_{n_k})$ and therefore convergent.
+  Thus $(z_{n_{k_l}}) = (x_{n_{k_l}} + i y_{n_{k_l}})$ is a convergent subsequence of
+  $(z_n)$.
+\end{proof}
+
+\begin{defn}[Compact set]
+  There are several equivalent definitions:
+  \begin{enumerate}
+    \item{
+      A subset $S \subset \mathbb{C}$ is said to be compact if
+      whenever $\{ U_\alpha : \alpha \in A \}$ is a family of
+      open sets such that $S \subset \bigcup_{\alpha \in A} U_\alpha$,
+      then there exists $\alpha_1, \dots, \alpha_n$ such that
+      $S \subset \bigcup_{k = 1}^n \alpha_k$,
+      i.e. every open cover of $S$ admits a finite subcover.
+    }
+    \item{
+      $S$ is compact if every sequence in $S$ contains a convergent
+      subsequence whose limit is in $S$. This is valid for all metric
+      spaces.
+    }
+    \item{
+      $S \subset \mathbb{C}$ is compact if it is both bounded and closed.
+      This is valid only in finite-dimensional Euclidean spaces.
+    }
+  \end{enumerate}
+\end{defn}
+
+\begin{theorem}
+  Definition 2 is equivalent to Definition 3 for complex numbers.
+\end{theorem}
+\begin{proof}
+  Suppose $S$ is compact in the sense of Def. 2. If $S$ is not
+  bounded, then for every $n \in \mathbb{N}$ we can find
+  $z_n \in S$ with $|z_n| > n$. Then $|z_n| \to \infty$, so
+  every subsequence $(z_{n_k})$ also has $|z_{n_k}| \to \infty$,
+  so $z_{n_k}$ cannot converge. This contradicts our assumption,
+  so $S$ is bounded.
+
+  Suppose $S$ is not closed. Then there exists a $z_n \in S$ with
+  $z_n \to \alpha$ and $\alpha \notin S$. Any subsequence of
+  $z_n$ also converges to $\alpha$, but this contradicts Definition 2.
+  Therefore $S$ is closed.
+
+  If $S$ is closed and bounded, then the Bolzano-Weierstrass theorem
+  shows that every sequence in $S$ contains a convergent subsequence.
+  Since $S$ is closed, the limit of every such subsequence is in $S$,
+  as desired.
+\end{proof}
+
+\begin{theorem}
+  Let $(S_n)_{n=1}^\infty$ be a sequence of nonempty compact subsets of
+  $\mathbb{C}$ such that $S_n \supset S_{n+1}$. Then
+  $\bigcap_{n=1}^{\infty} S_n \neq \varnothing$.
+\end{theorem}
+\begin{proof}
+  Since $S_n \neq \varnothing$, pick any $z_n \in S_n$. Then
+  $(z_n)$ is a sequence in $S_1$, since $S_n \subset S_1$. Since
+  $S_1$ is compact, $(z_n)$ contains a convergent subsequence
+  $(z_{n_k})$. Call its limit $v$. We have $v \in S_1$. Fix any
+  $m \in \mathbb{N}$. If $k \geq m$ then $n_k \geq k \geq m$.
+  We see that
+  $$
+    v
+  =   \lim_{k \to \infty} z_{n_k}
+  =   \lim_{\substack{k \geq m \\ k \to \infty}} z_{n_k}
+  \in S_m
+  $$
+  since $S_m$ is closed, so $v \in \bigcap_{m=1}^\infty S_m$.
+\end{proof}
+
+Let $A, B \subset \mathbb{C}$ such that $A, B \neq \varnothing$.
+The distance between $A$ and $B$ is
+$$
+\mathrm{dist} (A, B) = \inf \{ |z - w| : z \in A, w \in B \}.
+$$
+We note that this distance is symmetric and nonnegative.
+If $A \cap B \neq \varnothing$, then the distance is zero.
+However, if the distance is zero, this does not imply that
+$A$ and $B$ are disjoint. For example, consider $A = (0, \infty)$
+and $B = \{ 0 \}$.
+
+\begin{theorem}
+  Let $A$, $B$ be nonempty subsets of $\mathbb{C}$. If $A$ is
+  compact and $B$ is closed, then there exists $z_0 \in A$
+  and $w_0 \in B$ such that $|z_0 - w_0| = \mathrm{dist}(A, B)$.
+  In other words $\min \{ |z - w| : z \in A, w \in B \}$ exists.
+\end{theorem}
+\begin{proof}
+  By definition, we can find two sequences
+  $(z_n)$ in $A$ and $(w_n)$ in $B$
+  such that $|z_n - w_n| \to \mathrm{dist}(A, B)$.
+  Since $A$ is compact, $A$ is bounded and so $(z_n)$ is bounded.
+  Since $(|z_n - w_n|)$ is convergent it is bounded. This implies
+  that $(w_n)$ is bounded, because $|w_n| \leq |z_n| + |z_n - w_n|$.
+  $A$ is compact and so $(z_n)$ has a convergent subsequence
+  $(z_{n_k})$ such that $z_0 = \lim z_{n_k} \in A$. Applying the
+  Bolzano-Weierstrass theorem to the bounded subsequence $(w_{n_k})$
+  we find a convergent subsequence $(w_{n_{k_l}})$. Let
+  $w_0 = \lim w_{n_{k_l}}$. Then $w_0 \in B$ since $B$ is closed.
+
+  Now $z_{n_{k_l}} \to z_0 \in A$, $w_{n_{k_L}} \to w_0$ in $B$,
+  and $|z_{n_{k_l}} - w_{n_{k_l}}| \to \mathrm{dist}(A, B)$.
+  From the triangle inequality,
+  $$
+       |z_{n_{k_l}} - w_{n_{k_l}}|
+  \leq |z_{n_{k_l}} - z_0| + |z_0 - w_0| + |w_0 - w_{n_{k_l}}|
+  $$
+  so that
+  $$
+       |z_{n_{k_l}} - w_{n_{k_l}}| - |z_0 - w_0|
+  \leq |z_{n_{k_l}} - z_0| + |w_{n_{k_l}} - w_0|.
+  $$
+  Additionally
+  $$
+       |z_0 - w_0|
+  \leq |z_0 - z_{n_{k_l}}| + |z_{n_{k_l}} - w_{n_{k_l}}| + |w_{n_{k_l}} - w_0|
+  $$
+  so that
+  $$
+       |z_0 - w_0| - |z_{n_{k_l}} - w_{n_{k_l}}|
+  \leq |z_{n_{k_l}} - z_0| + |w_{n_{k_l}} - w_0|,
+  $$
+  and therefore
+  $$
+  \left||z_0 - w_0| - |z_{n_{k_l}} - w_{n_{k_l}}|\right|
+  \leq |z_{n_{k_l}} - z_0| + |w_{n_{k_l}} - w_0|.
+  $$
+  Therefore $|z_{n_{k_l}} - w_{n_{k_l}}| \to |z_0 - w_0|$,
+  and since $|z_{n_{k_l}} - w_{n_{k_l}}| \to \mathrm{dist}(A, B)$,
+  it follows that $\mathrm{dist}(A, B) = |z_0 - w_0|$.
+
+  If $A$ is compact, $B$ is closed, and $\mathrm{dist}(A,B) = 0$,
+  then $A \cap B \neq \varnothing$, which implies that
+  $\mathrm{dist}(A, B) > 0$.
+\end{proof}
+
+\begin{xmpl}
+  The theorem does not hold if $A$ is only assumed to be closed.
+  Let $A = \mathbb{N}$, $B = \{ n + \frac{1}{2n} : n \in \mathbb{N} \}$.
+  These have empty intersection and zero distance.
+\end{xmpl}
+
+Let $S \subset \mathbb{C}$, $\alpha \in \bar{S}$, $f : S \to \mathbb{C}$.
+We say that
+$$
+w = \lim_{\substack{z \to \alpha \\ z \in S}} f(z)
+$$
+if for every sequence $(z_n)$ in $S$, we have $f(z_n) \to w$. Equivalently,
+$$
+\forall \varepsilon > 0 .
+\exists \delta > 0 .
+\forall z \in D(\alpha, \delta) . |f(z) - w| < \varepsilon.
+$$
+If $\alpha \in S$ and
+$f(\alpha) = \lim_{\substack{z \to a \\ z \in S}} f(z)$, then
+we say that $f$ is continuous at $\alpha$. If $f$ is continuous at every
+$\alpha \in S$, we say that $f$ is continuous.
+
+\begin{theorem}
+  Let $S, T \subset \mathbb{C}$.
+  \begin{enumerate}
+    \item{
+      If $f : S \to \mathbb{C}$ and
+      $g: S \to \mathbb{C}$ are continuous, then $f + g$, $f - g$,
+      $f \cdot g$ are continuous. If $g(z) \neq 0$, then
+      $f / g$ is continuous at $z$.
+    }
+    \item{
+      If $f : S \to \mathbb{C}$ and $g : T \to \mathbb{C}$ are continuous
+      and $f(S) \subset T$, then $g \circ f$ is continuous.
+    }
+  \end{enumerate}
+\end{theorem}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      $f(z) = z$ is continuous on $\mathbb{C}$.
+      $f(z) = C$ is continuous on $\mathbb{C}$ for constant
+      $C \in \mathbb{C}$.
+    }
+    \item{
+      Let $a_0, a_1, \dots, a_n \in \mathbb{C}$. A function
+      $P(z) = \sum_{k=0}^n a_k z^k$, i.e. a polynomial with
+      complex coefficients, is continuous. If $a_n \neq 0$,
+      we say that $P$ has degree $n$. If $a_n = 1$ we say
+      that $P$ is monic.
+    }
+    \item{
+      $\mathrm{Re}~z$ and $\mathrm{Im}~z$ are continuous on $\mathbb{C}$.
+      Fix $\alpha \in \mathbb{C}$. Given $\varepsilon > 0$, let
+      $\delta = \varepsilon > 0$. If $|z - \alpha| < \delta$, then
+      $$
+           |\mathrm{Re}~z - \mathrm{Re}~\alpha|
+      =    |\mathrm{Re}~(z - \alpha)|
+      \leq |z - \alpha| < \delta = \varepsilon.
+      $$
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{theorem}
+  Let $S \subset \mathbb{C}$ be compact. Let $f : S \to \mathbb{C}$ be
+  continuous. Then
+  \begin{enumerate}
+    \item{
+      $f(S) = \{ f(z) : z \in S \}$ is compact.
+    }
+    \item{
+      $f$ is bounded on $S$, i.e. $\exists M \in \mathbb{R}$,
+      $M \geq 0$ such that $|f(z)| \leq M, \forall z \in S$.
+    }
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \begin{enumerate}
+    \item{
+      Let $(w_n)$ be a sequence in $f(S)$. Then $w_n = f(z_n)$
+      for some $z_n \in S$. Since $S$ is compact, $(z_n)$ has a convergent
+      subsequence $(z_{n_k})$ whose limit, say $z_0$, is in $S$. Since
+      $f$ is continuous, $w_{n_k} = f(z_{n_k}) \to f(z_0) \in f(S)$,
+      so $(w_n)$ has a convergent subsequence.
+    }
+    \item{
+      This follows from the first part since $f(S)$ is bounded.
+    }
+  \end{enumerate}
+\end{proof}
+
+\begin{defn}[Relatively open and closed]
+  Let $U \subset S \subset \mathbb{C}$. We say that $U$ is
+  \emph{relatively open} in $S$ if $\forall z_0 \in U$,
+  $\exists r > 0$ such that $D(z, r) \cap S \subset U$.
+  Equivalently, there exists an open set $V \subset \mathbb{C}$
+  such that $U = V \cap S$.
+
+  A set $K \subset S$ is \emph{relatively closed} if
+  $S \backslash K$ is relatively open in $S$.
+  Equivalently, $K$ is relatively closed in $S$ if there exists a closed set
+  $F \subset \mathbb{C}$ such that $K = F \cap S$.
+
+\end{defn}
+
+The set of relatively open subsets of $S$ gives a topology of $S$,
+noting that $\varnothing$ and $S$ are both relatively open and closed.
+If $S$ is open, then $U$ is relatively open in $S$ if and only if $U$
+is open and $U \subset S$. Note that a set relatively open in
+$\mathbb{R}$ agrees with an open set in $\mathbb{R}$ under the usual
+topology.
+
+\begin{theorem}
+  Let $f : S \to T \subset \mathbb{C}$. Then $f$ is continuous on
+  $S$ if and only if for all relatively open sets $U$ in $T$,
+  the preimage $f^{-1}(T)$ is relatively open in $S$.
+\end{theorem}
+
+Note that for $f(z) = |z - z_0|$, $D(z, z_0) = f^{-1}((-\infty, r))$
+and $\mathbb{C} - D(z, z_0) = f^{-1}((r, \infty))$.
+
+\begin{defn}[Connected set]
+  We say that $S \subset \mathbb{C}$ is \emph{connected} if the only
+  relatively clopen sets in $S$ are $\varnothing$ and $S$.
+
+  $S$ is \emph{path-connected} if $\forall z_0, w_0 \in S$ there exists
+  a continuous function $\gamma : [0, 1] \to S$ such that $\gamma(0) = z_0$,
+  $\gamma(1) = w_0$. $S$ is path-connected implies that $S$ is connected.
+  If $S$ is open, then connectedness implies path-connectedness.
+\end{defn}
+
+\begin{defn}[Complex domain]
+  A \emph{complex domain} or \emph{domain} is a nonempty connected open
+  subset of $\mathbb{C}$.
+\end{defn}
