@@ -1,0 +1,125 @@
+\section{Complex Differentiability}
+
+Let $U$ be open and $z_0 \in U$, and let
+$f : U \to \mathbb{C}$. If the limit
+$$
+\lim_{z \to z_0} \frac{f(z) - f(z_0)}{z - z_0}
+$$
+exists, we say that $f$ is complex-differentiable at
+$z_0$ and denote this limit by $f^\prime(z_0)$. We may also say
+$$
+f^\prime(z_0) = \lim_{h \to 0} \frac{f(z_0 + h) - f(z_0)}{h}.
+$$
+
+\begin{defn}[Holomorphic and Entire Functions]
+If $f$ is complex differentiable at every $z_0 \in U$, then
+we say that $f$ is complex differentiable on $U$, we also say
+that $f$ is \emph{holomorphic} on $U$. If $f$ is holomorphic on
+$\mathbb{C}$, we say that $f$ is an \emph{entire function}.
+\end{defn}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Let $w_0 \in \mathbb{C}$, $f(z) = w_0$. Such $f$ is
+      differentiable and $f^\prime(z) = 0$.
+    }
+    \item{
+      Let $f(z) = z$. Then $\frac{f(z) - f(z_0)}{z - z_0} = 1$
+      and so $f$ is differentiable and $f^\prime(z) = 1$.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{obsv}
+  Assume $f$ and $g$ are differentiable at $z_0$.
+  \begin{enumerate}
+    \item{ Then $f$ and
+      $f$ and $g$ are continuous at $z_0$.
+    }
+    \item{
+      $(f + g)^\prime(z_0) = f^\prime(z_0) + g^\prime(z_0)$.
+    }
+    \item{
+      $$
+      (f\cdot g)^\prime(z_0) = f^\prime(z_0) g(z_0) + f(z_0) g^\prime(z_0).
+      $$
+    }
+    \item{
+      If $g(z_0) \neq 0$, then
+      $$
+        \left(\frac{f}{g}\right)^\prime(z_0)
+      = \frac{f^\prime(z_0) g(z_0) - f(z_0) g^\prime(z_0)}{g(z_0)^2}.
+      $$
+      In particular, when $f(z) = 1$,
+      $$
+      \left(\frac{1}{g}\right)^\prime(z_0) = -\frac{g^\prime(z_0)}{g(z_0)^2}.
+      $$
+    }
+    \item{
+      If $g$ is differentiable at $f(z_0)$, then
+      $$
+      (g \circ f)^\prime(z_0) = g^\prime(f(z_0)) f^\prime(z_0).
+      $$
+    }
+  \end{enumerate}
+\end{obsv}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      $\frac{d}{dz} (z^n) = n z^{n-1}$ for any $z \in \mathbb{C}$, $n \in \mathbb{N}$.
+    }
+    \item{
+      The polynomials $P(z) = \sum_{k=0}^n a_k z^k$ are entire, and
+      $\deg P^\prime \deg P - 1$ for $\deg P \geq 1$. If $\deg P = 0$ then
+      $P^\prime(z) = 0$.
+    }
+    \item{
+      For $n \in \mathbb{C}$, $f(z) = z^{-n}$ is holomorphic on $\mathbb{C} - \{ 0 \}$.
+      We see from the quotient rule that
+      $$
+      f^\prime(z) = \frac{-n z^{n-1}}{(z^n)^2} = -n z^{-n - 1},
+      $$
+      so the derivative rule for $z^n$ holds for any $n \in \mathbb{Z}$.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\section{Cauchy-Riemann Equations}
+
+\begin{theorem}
+  Let $U \subset \mathbb{C}$ be open and $z_0 = x_0 + i y_0 \in U$.
+  Let $f : U \to \mathbb{C}$. Write $f(x + i y) = u (x, y) + i v(x, y)$
+  where $u, v : \mathbb{R}^2 \to \mathbb{R}$.
+  $f$ is complex differentiable at $z_0$ if and only if:
+  \begin{enumerate}
+    \item{
+      Both $u$ and $v$ are totally differentiable at $(x_0, y_0)$,
+      meaning $\exists a, b \in \mathbb{R}$ such that
+      $$
+      \lim_{(x, y) \to (x_0, y_0)}
+        \frac{u(x,y) - (u(x_0, y_0) + a(x - x_0) + b(y - y_0))}
+             {\sqrt{(x - x_0)^2 + (y - y_0)^2}}
+      = 0
+      $$
+      and similarly for $v$.
+      This means that near $(x_0, y_0)$, $u(x,y)$ can be approximated
+      by $f(x, y) = u(x_0, y_0) + a(x - x_0) + b(y - y_0)$, which has
+      the tangent plane of the graph of $u$ at $(x_0, y_0)$ as its
+      image. This means that for $y = y_0$ and letting $x \to x_0$,
+      $u_x(x_0, y_0) = a$ and for $x = x_0$ letting $y \to y_0$,
+      $u_y(x_0, y_0) = b$. Total differentiability implies the
+      existence of partial derivatives, but not vice-versa.
+    }
+    \item{
+      The partial derivatives of $u$ and $v$ at $(x_0, y_0)$ satisfy
+      \begin{align*}
+            \frac{\partial u}{\partial x} (x_0, y_0)
+        &=  \frac{\partial v}{\partial y} (x_0, y_0) \\
+            \frac{\partial u}{\partial y} (x_0, y_0)
+        &= -\frac{\partial v}{\partial y} (x_0, y_0)
+      \end{align*}
+    }
+  \end{enumerate}
+\end{theorem}
