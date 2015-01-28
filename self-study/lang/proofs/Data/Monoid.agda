@@ -3,7 +3,6 @@ module Data.Monoid where
 open import Relation.Binary.PropositionalEquality
 open ≡-Reasoning
 open import Data.Nat
-open import Data.Nat.Properties.Simple
 open import Data.Nat.Properties
 open import Data.Product
 open import Function
@@ -45,6 +44,7 @@ record Monoid (G : Set) : Set where
   ⨂ : (k m n : ℕ) → (suc n ≡ m + k) → (ℕ → G) → G
   ⨂ k m n p x = ⨂₁ k (λ ν → x (m + ν))
 
+{-
   absorbₗ-arith : ∀ k m n → (suc n ≡ suc m + k) ≡ (n ≡ m + k)
   absorbₗ-arith k m n =
     begin
@@ -58,7 +58,8 @@ record Monoid (G : Set) : Set where
     ≡⟨ cong (λ t → n ≡ t) $ +-comm (m k) ⟩
       n ≡ k + m
     ∎
-
+-}
+{-
   -- associativity properties of the iterated product
   ⨂-ejectₗ : ∀ n → (x : ℕ → G)
             → ⨂₁ (suc n) x ≡ x 1 ⊗ ⨂₁ n (λ ν → x (suc ν))
@@ -128,3 +129,4 @@ record Monoid (G : Set) : Set where
     ≡⟨ refl ⟩
       ⨂₁ (suc (m + n)) x
     ∎
+-}
