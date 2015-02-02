@@ -1,0 +1,281 @@
+\begin{defn}[Power Series]
+Let $(a_n)_{n=1}^\infty$ be a sequence of complex numbers.
+Then a \emph{power series} is a limit of the form
+$$
+           \sum_{n=0}^\infty a_n z^n
+\triangleq \lim_{n \to \infty} \sum_{k=0}^n a_k z^k.
+$$
+\end{defn}
+
+For what $z$ does series converge or diverge?
+If $f(z) = \sum_{n=0}^\infty a_n z^n$, defined only
+for $z$ such that the series converges, then what
+are the properties of $f$?
+
+\begin{theorem}
+  Let $R = \frac{1}{\limsup |a_n|^{\frac{1}{n}}}$.
+  Then the series converges if $|z| < R$ and diverges
+  if $|z| > R$. We assume $1 / 0 = \infty$ and
+  $1 / \infty = 0$. If $R = 0$, the series converges
+  only at $z = 0$. If $R = \infty$, the series converges
+  for all $z$. If $0 < R < \infty$, then for $|z| = R$
+  the series may or may not converge. We define this
+  $R$ as the \emph{radius of convergence}.
+\end{theorem}
+
+\begin{prop}[Root and ratio tests]
+  If $\lim |a_n|^{\frac{1}{n}}$ exists, then
+  $\limsup |a_n|^{\frac{1}{n}} = \lim |a_n|^{\frac{1}{n}}$.
+
+  If $\lim \frac{|a_n|}{|a_{n+1}|}$ exists, then
+  $R = \lim \frac{|a_n|}{|a_{n+1}|}$.
+\end{prop}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      $\sum_{n=0}^\infty z^n$, i.e. $a_n = 1$ $\forall n$.
+      Then $R = \frac{1}{1} = 1$.
+    }
+    \item{
+      $\sum_{n=0}^\infty n! z^n$ has $\frac{|a_n|}{|a_{n+1}|} = \frac{1}{n+1} \to 0$.
+      Therefore $R = 0$.
+    }
+    \item{
+      $\sum_{n=0}^\infty \frac{z^n}{n!}$ has $\frac{|a_n|}{|a_{n+1}|} = n + 1 \to \infty$,
+      so $R = \infty$.
+    }
+    \item{
+      Take $a_n = \frac{n!}{n^n}$. Then
+      \begin{align*}
+           \frac{|a_n|}{a_{n+1}|}
+        &= \frac{\frac{n!}{n^n}}{\frac{(n+1)!}{(n+1)^{n+1}}}
+         = \frac{n!}{(n+1)!}\frac{(n+1)^{n+1}}{n^n} \\
+        &= \frac{(n+1)^n}{n^n}
+         = (1 + \frac{1}{n})^n \to e.
+      \end{align*}
+    }
+    \item{
+      For $\alpha \in \mathbb{C}$, define
+      ${\alpha \choose 0} = 1$,
+      $$
+        {\alpha \choose n}
+      = \frac{\alpha(\alpha - 1) \cdots (\alpha - n + 1}
+             {n!}.
+      $$
+      In this case the ratio test does not apply for
+      $\alpha$ a nonnegative integer, since this yields the
+      indeterminate form $\frac{0}{0}$. Otherwise we have
+      $$
+          \left|\frac{a_n}{a_{n+1}}\right|
+      =   \left|\frac{n+1}{\alpha - n}\right|
+      \to 1.
+      $$
+      But if $\alpha$ is a nonnegative integer then
+      $a_n = 0$ for $n > \alpha + 1$, so this power series
+      is in fact a polynomial and thus $R = \infty$.
+
+      We will see later that this series converges to
+      $(1 + z)^\alpha$ in $D(0, 1)$ if the branch of
+      the $\log(1 + z)$ in $D(0, 1)$ is chosen such that
+      $\log 1 = 0$.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{theorem}
+  Let $f(z) = \sum_{n=0}^\infty a_n z^n$ for $|z| < R$.
+  Then $f$ is holomorphic on $D(0, R)$ and
+  $$
+  f^\prime(z) = \sum_{n=1}^\infty n a_n z^{n-1}
+  $$
+  on $D(0, R)$, and this series also has radius of convergence $R$.
+  This is also a holomorphic power series, and inductively
+  $f \in C^\infty(D(0, R), \mathbb{C})$.
+\end{theorem}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Consider $\sum_{n=0}^\infty \frac{z^n}{n!}$ and recall that $R = \infty$.
+      Let $f(z) = \sum_{n=0}^\infty \frac{z^n}{n!}$. Then $f$ is entire and
+      \begin{align*}
+         f^\prime(z)
+      &= \sum_{n=1}^\infty n \frac{z^{n-1}}{n!}
+       = \sum_{n=1}^\infty \frac{z^{n-1}}{(n-1)!} \\
+      &= \sum_{m}^\infty \frac{z^m}{m!} = f,
+      \end{align*}
+      so $f(z) = C e^z$. Since $f(0) = 1$ and $e^0 = 1$,
+      we conclude that $f(z) = e^z$.
+
+      Given $r \in \mathbb{C}$ we also have
+      $$
+      e^{rz} = \sum_{n=0}^\infty \frac{r^n}{n!}z^n.
+      $$
+      In particular
+      $$
+      e^{iz} = \sum_{n=0}^\infty \frac{i^n}{n!} z^n
+      $$
+      and
+      $$
+      e^{-iz} = \sum_{n=0}^\infty \frac{(-i)^n}{n!} z^n
+      $$
+      so that
+      $$
+        \cos z
+      = \frac{e^{iz} + e^{-iz}}{2}
+      = \frac{1}{2} \sum_{n=0}^\infty \frac{i^n + (-i)^n}{n!} z^n.
+      $$
+      If $n$ is odd then $i^n + (-i)^n = i^n + (-1)^n i^n = 0$.
+      If $n$ is even then
+      $i^n + (-i)^n = i^{2k} + (-i)^{2k} = (-1)^k + (-1)^k = 2(-1)^k$.
+      Therefore
+      $$
+      \cos z = \sum_{k=0}^\infty \frac{(-1)^k}{(2k)!} z^{2k}.
+      $$
+      Similarly
+      $$
+      \sin z = \sum_{k=0}^\infty \frac{(-1)^k}{(2k+1)!} z^{2k+1}.
+      $$
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{defn}[Partial sum, absolute convergence]
+  The \emph{partial sum} of a series $\sum_{n=1}^\infty z_n$
+  is given by
+  $s_n = \sum_{k=1}^n z_k = z_1 + \cdots + z_n$.
+  We say that the series converges/diverges if the sequence
+  $(s_n)$ converges/diverges. Scalar multiples and sums of
+  convergent series also converge. If $\sum a_n$ converges,
+  we must have $a_n \to 0$, since $s_n$ and $s_{n-1}$ have
+  the same limit, so $a_n = s_n - s_{n-1} \to 0$. We say
+  that $\sum a_n$ \emph{converges absolutely} if
+  $\sum |a_n|$ converges.
+\end{defn}
+
+Let $t_n = \sum_{k=1}^n |a_n|$ and $s_n = \sum_{k=1}^n a_k$.
+We show that $(t_n)$ is Cauchy implies that $(s_n)$ is Cauchy.
+In fact, $s_n - s_m = \sum_{k=m+1}^n a_k$ and
+$t_n - t_m = \sum_{k=m+1}^n |a_k|$, so
+$$
+|s_n - s_m| \leq \sum_{k=m+1}^n |a_k| = t_n - t_m,
+$$
+from which the assertion follows.
+
+Let $\sum a_n$ be a series of complex numbers and
+$\sum c_n$ be a series of nonnegative real numbers.
+If $|a_n| \leq c_n$ $\forall n$
+and $\sum c_n$ converges, then $\sum a_n$
+converges absolutely.
+
+\subsection{Sequences and Series of Functions}
+\begin{defn}[Pointwise Convergence]
+Let $S \subset \mathbb{C}$ and $f_n : S \to \mathbb{C}$.
+Then $(f_n)$ \emph{converges pointwise} on $S$
+if $\forall z \in S$, $(f_n(z))$ converges.
+\end{defn}
+
+\begin{defn}[Supremum norm]
+  If $f : S \to \mathbb{C}$, then
+  $$
+  \| f \|_S \triangleq \sup_{z \in S} |f(z)|.
+  $$
+  It can be confirmed that this is a norm on the
+  space of functions $S \to \mathbb{C}$.
+\end{defn}
+
+\begin{defn}[Uniform Convergence]
+  The sequence $(f_n)$ \emph{converges uniformly} to $f$
+  on $S$ if $\lim_{n \to \infty} \|f_n - f\|_S = 0$.
+  Equivalently, $\forall \varepsilon > 0$,
+  $\exists N \in \mathbb{N}$ such that
+  $\forall x \in S$ and $\forall n > N$,
+  $|f_n(z) - f(z)| < \varepsilon$. Here $N$ is
+  independent of $z$. Uniform convergence implies
+  pointwise convergence.
+\end{defn}
+
+\begin{theorem}
+  Let $(f_n)$ be a sequence of continuous functions which converges
+  uniformly to $f$ on $S$. Then $f$ is continuous on $S$.
+\end{theorem}
+
+\begin{proof}
+  Let $z_0 \in S$, $\varepsilon > 0$. We can find $N$ such that
+  $\|f_N - f\| < \frac{\varepsilon}{3}$. We can then find
+  $\delta > 0$ such that
+  $|z - z_0| < \delta \implies |f_N(z) - f_N(z_0)| < \frac{\varepsilon}{3}$
+  since $f_N$ is continuous. But then
+  \begin{align*}
+         |f(z) - f(z_0)|
+  & \leq |f(z) - f_N(z)| + |f_N(z) - f_N(z_0)| + |f_N(z_0) - f(z_0)| \\
+  & < \varepsilon.
+  \end{align*}
+\end{proof}
+
+\begin{defn}[Uniformly Cauchy]
+  A sequence $(f_n)$ is \emph{uniformly Cauchy} on $S$
+  if $\forall \varepsilon > 0$, $\exists N$ such that $\forall n, m > N$,
+  $\| f_n - f_m \|_S < \varepsilon$.
+\end{defn}
+
+\begin{theorem}
+  $(f_n)$ is uniformly Cauchy on $S$ if and only if
+  $f_n \to f$ uniformly on $S$ for some $f : S \to \mathbb{C}$.
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+    \item[($\impliedby$)]{
+      This follows from the fact that the supremum norm
+      obeys the triangle inequality.
+    }
+    \item[($\implies$)]{
+      For any $z \in S$,
+      $|f_n(z) - f_m(z)| \leq \| f_n - f_m \|_S$.
+      From the definition of a uniform Cauchy sequence, we see that
+      $(f_n(z))$ is a Cauchy sequence of complex numbers for any $z$.
+      Let $f(z)$ be the limit of this convergent sequence. Then
+      $f : S \to \mathbb{C}$ is such that $f_n \to f$ pointwise.
+
+      Now fix $\varepsilon > 0$. Then there is an $N$ such that
+      $n, m > N \implies \| f_n - f_m \|_S < \frac{\varepsilon}{2}$,
+      so $|f_n(z) - f_m(z)| < \frac{\varepsilon}{2}$.
+      Fix $n > N$ and let $z \in S$. Let $m \to \infty$. Then
+      $|f_n(z) - f(z)| \leq \frac{\varepsilon}{2}$ so
+      $\| f_n - f \|_S \leq \frac{\varepsilon}{2}$.
+    }
+  \end{itemize}
+\end{proof}
+
+Consider a series of functions
+$$
+\sum_{n=1}^\infty f_n(z)
+$$
+with partial sum sequence $s_n(z) = \sum_{k=1}^n f_k(z)$.
+We say that $\sum f_n$ converges pointwise (uniformly) if $(s_n)$
+converges pointwise (uniformly). If every $f_n$ is continuous and
+$\sum f_n$ converges uniformly, then every $s_n$ is continuous
+so $f(z) = \sum f_n(z)$ is continuous.
+
+\begin{theorem}
+  Let $\sum c_n$ be a series of nonnegative real numbers.
+  Assume that $\sum c_n$ converges. Let $f_n : S \to C$
+  and suppose $\| f_n \|_S \leq c_n$ for all $n$. Then
+  $\sum f_n$ converges uniformly and absolutely on $S$.
+\end{theorem}
+
+\begin{proof}
+  Note that $|f_n(z)| \leq \|f_n\|_S \leq c_n$, so
+  $\sum f_n$ converges absolutely. Note that the
+  partial sum sequence is uniformly Cauchy on $S$.
+  Indeed, if $n > m$ then
+  $$
+       \| s_n - s_m \|
+  =    \left\| \sum_{k=m+1}^n f_k \right\|
+  \leq \sum_{k=m+1}^n \| f_k \| \leq \sum_{k=n+1}^n c_k
+  $$
+  and since the partial sum sequence for $\sum c_k$ is Cauchy
+  it follows that $(s_n)$ is uniformly Cauchy.
+\end{proof}
