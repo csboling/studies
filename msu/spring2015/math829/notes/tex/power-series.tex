@@ -279,3 +279,152 @@ so $f(z) = \sum f_n(z)$ is continuous.
   and since the partial sum sequence for $\sum c_k$ is Cauchy
   it follows that $(s_n)$ is uniformly Cauchy.
 \end{proof}
+
+Recall that
+$$
+\limsup x_n = \lim U_n = \inf \{ U_n : n \geq 1 \}
+$$
+where $U_n = \sup \{ x_k : k \geq n \}$.
+Note that if $L > \limsup x_n$, then $L$ is not
+a lower bound of $\{ U_n \}$, i.e.
+$\exists n_0$ such that $L > U_{n_0}$.
+Similarly if $L < \limsup x_n$, then
+$L$ is not an upper bound of
+$\{ x_k : k \geq n \}$, i.e.
+$\forall n \in \mathbb{N}$,
+$\exists k \geq n$ such that $x_k > L$.
+
+\begin{theorem}
+  Consider the power series $\sum a_n z^n$.
+  Let
+  $$
+  R = \frac{1}{\limsup |a_n|^{1 / n}}.
+  $$
+  Then the series diverges if  $|z| > R$, converges absolutely if
+  $|z| < R$, and if $R > r > 0$ then the series converges
+  uniformly on $\bar{D}(0, r)$.
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+    \item{
+      Suppose $|z| > R$. Then
+      $\frac{1}{|z|} < \frac{1}{R} = \limsup |a_n|^{1 / n}$.
+      Then for any $n$ there exists a $k \geq n$ such that
+      $|a_k|^{1 / k} > \frac{1}{|z|}$, so
+      $|a_k z^k| = (|a_k|^{1 / k} |z|)^k > 1$. Therefore
+      $a_n z^n {\not \to} 0$, so the sum diverges.
+    }
+    \item{
+      In the case where $R = 0$ there is nothing to prove.
+      Assume $R > 0$ and $r \in (0 , R)$. Choose
+      $L \in (r, R)$. Since $L < R$,
+      $\frac{1}{L} > \frac{1}{R} = \limsup |a_n|^{1 / n}$
+      so that $|a_k|^{1 / k} < \frac{1}{L}$ whenever
+      $k \geq n_0$, for some $n_0$. Then $|a_k L^k| < 1$,
+      so the sequence $(a_n L^n)$ is bounded.
+
+      Now let $x = \frac{r}{L} \in (0, 1)$. Then when $|z| \leq r$,
+      $$
+      |a_n z^n| \leq |a_n| r^n = |a_n L^n| x^n \leq C x^n,
+      $$
+      and $\sum_{n=0}^\infty C x^n$ converges since $|x| < 1$. By the
+      comparison test, the series converges on $\bar{D}(0, r)$.
+
+      Since the series converges absolutely on this set for every
+      $r \in (0, R)$, it converges on $D(0, R)$.
+    }
+  \end{itemize}
+\end{proof}
+
+\begin{corol}
+  Suppose $R > 0$, and let $f(z) = \sum_{n=0}^\infty a_n z^n$.
+  $f$ is continuous on $\bar{D}(0, r)$ for all $r \in (0, R)$.
+\end{corol}
+
+\subsection{Differentiation of Power Series}
+
+\begin{lemma}
+  The series $\sum_{n=1}^\infty a_n z^{n-1}$ also has radius $R$.
+\end{lemma}
+\begin{proof}
+  $\sum n a_n z^{n-1}$ has the same radius as $\sum n a_n z^n$ since
+  $z \sum n a_n z^{n-1} = \sum n a_n z^n$. To find the radius of
+  $\sum n a_n z^n$, we have
+  $$
+  |n a_n|^{1 / n} = n^{1 / n} |a_n|^{1 / n} \to \frac{1}{R}
+  $$
+  since $n^{1 / n} \to 1$.
+\end{proof}
+
+\begin{theorem}
+  The function $f(z) = \sum_{n=0}^\infty a_n z^n$ is
+  holomorphic on its region of convergence, and its derivative
+  is $f^\prime(z) = \sum_{n=0}^\infty n a_n z^{n-1}$.
+\end{theorem}
+
+\begin{proof}
+  Let
+  $$
+  f(z) = \sum_{n=0}^\infty a_n z^n, \quad
+  g(z) = \sum_{n=0}^\infty n a_n z^{n-1}.
+  $$
+  Fix $w \in D(0, R)$. Then
+  \begin{align*}
+     \frac{f(z) - f(w)}{z - w} - g(w)
+   &= \frac{1}{z - w} \sum_{n=0}^\infty a_n (z^n - w^n)
+    - \sum_{n=0}^\infty n a_n w^{n-1} \\
+   &= \sum_{n=1}^\infty a_n \left(\frac{z^n - w^n}{z - w} - nw^{n-1}\right) \\
+   &= \sum_{n=2}^\infty a_n
+        ( z^{n-1} + z^{n-2} w + z^{n-3} w^2 + \cdots + w^{n-1} - n w^{n-1} \\
+   &= \sum_{n=2}^\infty a_n \sum_{k=1}^{n-1} (z^k w^{n-1-k} - w^{n-1}) \\
+   &= \sum_{n=2}^\infty a_n \sum_{k=1}^{n-1} w^{n-1-k}(z^k - w^k) \\
+   &= (z - w) \sum_{n=2}^\infty a_n
+                \sum_{k=1}^{n-1} w^{n-1-k}
+                  \sum_{j=0}^{k-1} x^j w^{k-1-j} \\
+   &= (z - w) \sum_{n=2}^\infty a_n
+                \sum_{k=1}^{n-1}
+                  \sum_{j=0}^{k-1} z^j w^{n - 2 - j}.
+  \end{align*}
+  Choose $L \in (|w|, R)$ and let $\varepsilon = L - |w|$.
+  If $|z - w| < \varepsilon$ then $|z| < L$ and $|w| < L$ so
+  \begin{align*}
+        \left\| \frac{f(z) - f(w)}{z - w} - g(w) \right|
+  &\leq |z - w| \sum_{n=2}^\infty |a_n \sum_{k=1}^{n-1} \sum_{j=0}^{k-1} L^{n-2} \\
+  &=    |z - w| \sum_{n=2}^\infty |a_n| \frac{n(n-1)}{2} L^{n-2}
+   =    |z - w| U.
+  \end{align*}
+  Since $L < R$ we know that this converges and so $U < \infty$, so
+  the limit of the expression above is 0 and thus $f^\prime(w) = g(w)$.
+\end{proof}
+
+\begin{remark}
+  \begin{itemize}
+    \item{
+      Observe that the \emph{primitive of $f$} given by
+      $$
+      F(z) = C + \sum_{n=0}^\infty \frac{a_n}{n + 1} z^{n+1}
+      $$
+      gives $F^\prime(z) = f(z)$.
+    }
+    \item{
+      The $k$ derivative is given by
+      $$
+      f^{(k)}(z) = \sum_{n=k}^\infty a_n z^{n-k} \prod_{j=0}^{k-1} (n - j),
+      $$
+      and when $k = n$ the product term is $n!$. Therefore
+      $f^{(k)}(0) = k! a_k$, so we may recover the coefficients $a_k$ from
+      $$
+      a_k = \frac{f^{(k)}(0)}{k!}
+      $$
+      so that
+    }
+    \item{
+      We may also consider the power series centered at $z_0$
+      $$
+      \sum_{n=0}^\infty (z - z_0)^n,
+      $$
+      and here the series converges if $|z - z_0| < \frac{1}{\limsup |a_n|^{1 / n}}$.
+    }
+  \end{itemize}
+\end{remark}
