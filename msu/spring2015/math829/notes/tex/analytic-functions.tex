@@ -1,0 +1,168 @@
+\begin{defn}[Analytic function]
+  Let $U \subset \mathbb{C}$ be open and $f : U \to \mathbb{C}$.
+  We say that $f$ is \emph{analytic} on $U$ if
+  $$
+  \forall z_0 \in U, \exists r > 0, (a_n)_{n=0}^\infty .
+  f(z) = \sum_{n=0}^\infty a_n (z - z_0)^n
+  $$
+  on $D(z_0, r) \subset U$.
+\end{defn}
+
+From the differentiability of power
+series, we see that $f$ is holomorphic on $D(z_0, r)$ and
+$f^\prime$ is also the sum of the power series in $D(z_0, r)$.
+It follows that $f$ is holomorphic on $U$ and $f^\prime$ is also
+analytic on $U$. We conclude that
+$f \in C^\infty(U, \mathbb{C})$. Moreover,
+$$
+a_n = \frac{f^{(n)}(z_0)}{n!}.
+$$
+We will prove later that holomorphic functions are analytic,
+and thus every complex-differentiable function is infinitely
+differentiable. Such a phenomenon does not exist in real analysis.
+
+\begin{defn}[Zeros of a function]
+Let $f$ be analytic on $U$ and let $z_0 \in U$. A
+\emph{zero} of $f$ is some $z \in U$ such that $f(z) = 0$.
+\end{defn}
+
+Let the power series expansion of $f$ at $z_0$ be
+$$
+\sum_{n=0}^\infty a_n (z - z_0)^n, z \in D(z_0, r).
+$$
+There are 3 possibilities:
+\begin{enumerate}
+  \item{
+    $a_0 \neq 0$. Then $f(z_0) = a_0 \neq 0$. Since $f$ is
+    continuous, there exists an $r^\prime \in (0, r)$ such that
+    $f$ has no zero on $D(z_0, r^\prime)$.
+  }
+  \item{
+    $a_0 = 0$ but not all $a_n = 0$. Let $m$ be the first
+    $n$ such that $a_n \neq 0$. Then
+    $$
+    f(z) = \sum_{n=m}^\infty a_n (z - z_0)^n, |z - z_0| < r.
+    $$
+    Let
+    $$
+    g(z) = \sum_{n=0}^\infty a_n (z - z_0)^{n - m} a_n (z - z_0)
+         = \sum_{k=0}^\infty a_{m+n} (z - z_0)^k, |z - z_0| < r.
+    $$
+    Then $g$ is continuous on $D(z_0, r)$ and
+    $f(z) = (z - z_0)^m g(z)$ on $D(z_0, r)$.
+    $g(z_0) = a_m \neq 0$, so $g$ is nonvanishing on $D(z_0, r^\prime)$
+    for some $r^\prime \in (0, r)$. Since $(z - z_0)^m = 0$ only at
+    $z = z_0$, we see that $f$ has only one zero in
+    $D(z_0, r^\prime)$, which is at $z_0$.
+  }
+  \item{
+    All $a_n = 0$. Then $f = 0$ on $D(z_0, r)$.
+  }
+\end{enumerate}
+It follows that the set of zeros of $f$ is relatively closed in
+$\mathrm{dom} f$.
+
+Recall that an \emph{accumulation point} of a set $S$ is some
+$z_0 \in \mathbb{C}$ such that $\forall r > 0$,
+$D(z_0, r) \cap S$ is infinite. This implies $z_0 \in \bar{S}$.
+If $S = \mathbb{N}$, $S$ has no accumulation point.
+
+\begin{lemma}
+  $z_0$ is an accumulation point of $S$ iff. exists a
+  sequence $(z_n)$ in $S \backslash \{ z_0 \}$ such that $z_n \to z_0$.
+\end{lemma}
+
+\begin{proof}
+  \begin{itemize}
+    \item[($\implies$)]{
+      $\forall n \in \mathbb{N}$, the set
+      $S \cap (D(z_0, \frac{1}{n}) \backslash \{ z_0 \})$ is not empty.
+      Pick $z_n$ in this set. Then $(z_n)$ is a sequence in
+      $S \backslash \{z_0\}$, and $|z_n - z_0| < \frac{1}{n}$.
+    }
+    \item[($\impliedby$)]{
+      Suppose $z_0$ is not an accumulation point of $S$. Then
+      $\exists r > 0$ such that $D(z_0, r) \cap S$ is finite.
+      Then $D(z_0, r) \cap \{ z_n : n \in \mathbb{N} \}$ is
+      finite, so $\inf_{n \in \mathbb{N}} |z_n - z_0| > 0$,
+      so $z_n {\not \to} z_0$.
+    }
+  \end{itemize}
+\end{proof}
+
+\begin{theorem}[Uniqueness Theorem]
+  Let $U$ be a domain (a connected nonempty open set).
+  \begin{enumerate}[(i)]
+    \item{
+      Suppose $f$ is analytic on $U$, and is not constantly 0.
+      Then the set of zeros of $f$ has no accumulation point on $U$.
+    }
+    \item{
+      Supose $f$, $g$, are analytic on $U$ and there is $S \subset U$
+      with an accumulation point in $U$ such that $f(z) = g(z)$
+      for all $z \in S$. Then $f = g$ on $U$.
+    }
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \begin{enumerate}[(i)]
+    \item{
+      Let $Z \subset U$ denote the set of zeros of $f$. Then $Z$ is
+      relatively closed in $U$. Let $A$ be the set of
+      accumulation points of $Z$ in $U$. Then $A \subset Z$.
+      Since $f$ is not zero everywhere, $Z \subsetneq U$.
+
+      We now show that $A$ is relatively closed.
+      Let $(z_n)$ be a sequence in $A$ such that $z_n \to z_0 \in U$.
+      If some $z_n = z_0$, then $z_0 \in A$. If
+      $\forall n, z_n \neq z_0$, then there is a sequence in
+      $A \backslash \{ z_0 \} \subset Z$ such that $z_n \to z_0$.
+      We have seen that $z_0$ is an accumulation point of $Z$.
+      Again we get $z_0 \in A$. Therefore $A$ is relatively closed in
+      $U$.
+
+      Next, we show that $A$ is relatively open. Suppose $z_0 \in A$. Then for any
+      $r > 0$, $D(z_0, r)$ contains infinitely many zeros of $f$, and so
+      we must have $f = 0$ on some disk around $z_0$, i.e.
+      $D(z_0, r^\prime) \subset Z$. Then $D(z_0, r^\prime) \subset A$,
+      since every one of its points is an accumulation point, so
+      $A$ is relatively open.
+
+      Since $A$ is relatively closed and relatively open in $U$, and since
+      $U$ is connected, we have either $A = \varnothing$ or $A = U$. But
+      $A \subset Z \subsetneq U$, so $A \neq U$. Therefore $A = \varnothing$,
+      as desired.
+    }
+    \item{
+      Let $h = f - g$. Then $h$ is analytic. The assumption implies that
+      $S \subset Z$, where $Z$ is the set of zeros of $h$. Since $S$ has
+      an accumulation point on $U$, it follows that $h = 0$, so $f = g$.
+    }
+  \end{enumerate}
+\end{proof}
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      We will show later that holomorphic functions are analytic,
+      so that the uniqueness theorem holds for analytic functions.
+    }
+    \item{
+      We know that the complex exponential function is an extension
+      of the real exponential function. The uniqueness theorem shows
+      that there is only one extension so that the function is
+      holomorphic on $\mathbb{C}$. In fact, if $f$ is holomorphic on
+      $\mathbb{C}$ such that $f(x) = e^x$ for all $x \in \mathbb{R}$,
+      then $f$ and $g(z) = e^z$ are both holomorphic on $\mathbb{C}$
+      and agree on $\mathbb{R}$, which has an accumulation point.
+      Therefore the theorem shows that $f = g$.
+    }
+    \item{
+      This also works for $\sin z$ and $\cos z$. Another proof of
+      $\sin^2 z + \cos^2 z = 1$ on $\mathbb{C}$ is that
+      $\sin^2 x + \cos^2 x = 1$ on $\mathbb{R}$ and that
+      $\sin^2 z$ and $\cos^2 z$ are holomorphic.
+    }
+  \end{enumerate}
+\end{remark}
