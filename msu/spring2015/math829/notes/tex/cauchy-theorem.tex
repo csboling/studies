@@ -1,0 +1,145 @@
+\section{Curves}
+
+\begin{defn}[Curves]
+  A \emph{curve} is a continuous function
+  $\gamma : [a, b] \to \mathbb{C}$ with $a < b \in \mathbb{R}$,
+  with \emph{beginning point} $\gamma(a)$, \emph{endpoint} $\gamma(b)$, and
+  \emph{image set} $\{ \gamma(t) : a \leq t \leq b \}$. Sometimes we use
+  $\gamma$ to denote its image set, which gives meaning to the notion that
+  $\gamma \subset D$. The \emph{reverse} of $\gamma$ is a function
+  $$
+  \gamma^{-}(t) = \gamma(a + b - t), \quad a \leq t \leq b,
+  $$
+  which has the same image set as $\gamma$ and the opposite endpoints,
+  i.e. $\gamma^{-}(a) = \gamma(b)$.
+
+  A curve is called \emph{closed} if $\gamma(a) = \gamma(b)$ We say that
+  $\gamma$ is $C^1$ if its real part $\mathrm{Re}~\gamma$ and imaginary part
+  $\mathrm{Im}~\gamma$ (real functions) both have continuous derivatives.
+  Thus
+  $$
+  \gamma^\prime(t) = (\mathrm{Re}~\gamma)^\prime(t)
+                  + i (\mathrm{Im}~\gamma)^\prime(t).
+  $$
+  The curve $\gamma$ is called \emph{piecewise $C^1$} if
+  there exists a partition
+  $$
+  a = x_1 < x_2 < \cdots < x_n = b
+  $$
+  such that $\left.\gamma\right|_{[x_{k-1}, x_k]}$ is $C^1$
+  for every $k$.
+\end{defn}
+
+Curves will always be assumed to be piecewise $C^1$.
+
+\begin{defn}[Length of a curve]
+  We define
+  $$
+  L(\gamma) = \int_a^b |\gamma^\prime(t)| \dif t
+  $$
+  for $C^1$ curves and
+  $$
+  L(\gamma) = \sum_{k=1}^n \int_{x_{k-1}}^{x_k} |\gamma^\prime(t)| \dif t
+  $$
+  for piecewise $C^1$ curves.
+\end{defn}
+
+We observe that
+\begin{align*}
+   L(\gamma^{-})
+&= \int_a^b |-\gamma^\prime(t)| \dif t \\
+&= \int_a^b |\gamma^\prime(a + b - t)| \dif t \\
+&= -\int_b^a |\gamma^{\prime}(s)| \dif s \\
+&= L(\gamma).
+\end{align*}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Let $z_0, w_0 \in \mathbb{C}$ and
+      $$
+      \gamma(t) = (1-t)z_0 + t w_0.
+      $$
+      Then $\gamma(0) = z_0$ and $\gamma(1) = w_0$,
+      and the image set of $\gamma$ is the line segment
+      connecting $z_0$ and $w_0$, and
+      since $\gamma^\prime(t) = w_0 - z_0$ we have
+      $L(\gamma) = |w_0 - z_0|$. We denote this curve by
+      $[z_0, w_0]$.
+    }
+    \item{
+      For $z_0 \in \mathbb{C}$ and $r > 0$, define
+      $\gamma(t) = z_0 + r e^{it}$, $0 \leq t \leq 2\pi$.
+      We see that $\gamma(0) = z_0 + r = \gamma(2\pi)$,
+      so this is a closed curve with a circle of radius
+      $r$ centered on $z_0$ as its image set.
+      We have $\gamma^\prime(t) = i r e^{it}$, so
+      $$
+      L(\gamma) = \int_0^{2\pi} r dt = 2 \pi r.
+      $$
+    }
+    \item{
+      Suppose two curves $\gamma : [a, b] \to \mathbb{C}$
+      and $\eta: [c, d] \to \mathbb{C}$ satisfy
+      $\gamma(b) = \eta(c)$. Define the curve
+      $$
+      \gamma \oplus \eta : [a + c, b + d] \to \mathbb{C}
+      $$
+      by
+      $$
+        (\gamma \oplus \eta)(t)
+      = \left\{\begin{array}{l l}
+          \gamma(t - c), & \quad a + c \leq t \leq b + c \\
+          \gamma(t - b), & \quad b + c \leq t \leq b + d
+        \end{array}\right.
+      $$
+      Then $\gamma \oplus \eta$ is also piecewise $C^1$,
+      has beginning point $\gamma(a)$ and endpoint $\eta(d)$,
+      has the union of the image sets of these curves as its
+      image set, and has the sum of the lengths of these curves
+      as its length. We extend this notion to the curve
+      $\oplus_{k=1}^n \gamma_k$ for $\gamma_k$ with suitable
+      endpoints.
+    }
+    \item{
+      If $\gamma$, $\eta$ have the same endpoints, then
+      $\gamma \oplus \eta^{-}$ is closed.
+
+      If $z_0, \dots, z_n \in \mathbb{C}$ then
+      $\oplus_{k=0}^{n-1}[z_k, z_{k+1}]$ is called
+      a \emph{polygonal curve}. and is closed if $z_0 = z_n$.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+Let $\gamma : [a, b] \to \mathbb{C}$ and
+$\phi : [c, d] \to [a, b]$ be $C^1$ such that
+$\phi^\prime > 0$ and $\phi(c) = d$, $\phi(d) = b$.
+Then $\gamma \circ \phi$ is a curve defined on
+$[c, d]$, and the endpoints and image of
+$\gamma \circ \phi$ agree with those of $\gamma$
+since $\phi$ is onto. We see
+\begin{align*}
+   L(\gamma \circ \phi)
+&= \int_c^d |(\gamma \circ \phi)^\prime(t)| \dif t \\
+&= \int_c^d |\gamma^{\prime}(\phi(t)) \cdot \phi^\prime(t)| \dif t \\
+&= \int_c^d |\gamma^\prime(\phi(t))| \phi^\prime(t) \dif t \\
+&= \int_a^b |\gamma^\prime(s)| \dif s \\
+&= L(\gamma)
+\end{align*}
+where $s = \phi(t)$. We call $\gamma \circ \phi$ a reparametrization
+of $\gamma$. There are multiple definitions of $\gamma \oplus \eta$
+but they are reparametrizations of each other.
+
+Suppose $f$ is holomorphic on an open set $U$ and $\gamma \subset U$.
+Then $f \circ \gamma$ is also a curve with
+$$
+(f \circ \gamma)^(t) = f^\prime(\gamma(t)) \cdot \gamma^\prime(t).
+$$
+
+Recall that $D$ is a \emph{domain} if $D$ is open, nonempty, and
+any two points in $D$ can be connected by a continuous
+curve in $D$. It is then possible to connect these curves by
+a piecewise $C^1$ curve. The image of this curve is a compact
+set, and then a polygonal curve can be used to approximate this
+continuous curve with a piecewise $C^1$ curve.
