@@ -143,3 +143,631 @@ curve in $D$. It is then possible to connect these curves by
 a piecewise $C^1$ curve. The image of this curve is a compact
 set, and then a polygonal curve can be used to approximate this
 continuous curve with a piecewise $C^1$ curve.
+
+\begin{theorem}
+  Suppose $f$ is holomorphic on a domain $U$ such that
+  $f^\prime = 0$ on $U$. Then $f$ is constant.
+\end{theorem}
+
+\begin{proof}
+It suffices to show that $\forall z_0, w_0 \in U$,
+$f(z_0) = f(w_0)$. Since $U$ is connected, there exists a
+$C^1$ curve $\gamma: [a, b] \to U$ such that
+$\gamma(a) = z_0$ and $\gamma(b) = w_0$. Then
+$$
+  (f \circ \gamma)^\prime(t)
+= f^\prime(\gamma(t)) \gamma^{\prime}(t)
+= 0
+$$
+so that
+$$
+f(w_0) = (f \circ \gamma)(b) = (f \circ \gamma)(a) = f(z_0).
+$$
+This implies that if $f$ on a domain $U$ has primitives
+($g$ such that $g^\prime = f$) then such a primitive is unique
+up to an additive constant, since if $g_1, g_2$ are primitives
+then $(g_1 - g_2)^\prime = 0$ so that $g_1 - g_2$ is constant.
+\end{proof}
+
+\section{Integrals over Curves}
+\begin{defn}[Integration of a curve]
+Let $F : [a, b] \to \mathbb{C}$ be continuous. Write
+$$
+F(t) = u(t) + i v(t)
+$$
+where $u, v : [a, b] \to \mathbb{R}$. Then
+$$
+  \int_{a}^{b} F(t) \dif t \triangleq
+  \int_{a}^{b} u(t) \dif t
++ i \int_{a}^{b} v(t) \dif t.
+$$
+\end{defn}
+
+\begin{obsv}
+  \begin{enumerate}
+    \item{
+      $$
+        \int_a^b (F(t) + G(t)) \dif t
+      = \int_a^b F(t) \dif t + \int_{a^b} g(t) \dif t.
+      $$
+    }
+    \item{
+      $$
+        \int_a^b C F(t) \dif t
+      = C \int_a^b F(t) \dif t
+      $$
+      for any $C \in \mathbb{C}$.
+    }
+    \item{
+      $$
+           \left|\int_a^b F(t) \dif t\right|
+      \leq \int_a^b |F(t)| \dif t.
+      $$
+      Let $L = \int_a^b F(t) \dif t$. Then there is some
+      $C \in \mathbb{C}$ with $|C| = 1$ such that
+      $CL = |L|$. But then
+      \begin{align*}
+          \left|\int_a^b F(t) \dif t \right|
+      &= |L| = CL \\
+      &= C \int_a^b F(t) \dif t \\
+      &= \int_a^b C F(t) \dif t \\
+      &= \int_a^b \mathrm{Re}(C F(t)) \dif t \\
+      &\leq \int_a^b |C F(t)| \dif t \\
+      &= \int_a^b |F(t)| \dif t.
+      \end{align*}
+    }
+  \end{enumerate}
+\end{obsv}
+
+\begin{defn}[Integration of functions over curves]
+Let $f$ be continuous on an open set $U$ and let
+$\gamma$ be a curve in $U$. The integral of
+$f$ over $\gamma$ is defined to be
+$$
+\int_\gamma f
+=
+\int_\gamma f(z) \dif z
+\triangleq
+\sum_{k=1}^n
+\int_{x_{k-1}}^{x_k} f(\gamma(t)) \gamma^\prime(t) \dif t
+$$
+where $\{x_k\}_{k=0}^n$ is a partition of $[a,b]$
+making $\gamma$ piecewise continuous.
+\end{defn}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Consider the integral over the circle
+      $$
+      \int_{\{|z| = r\}} \bar{z} \dif z
+      $$
+      where $\gamma(t) = re^{it}$, so
+      $\gamma^\prime(t) = i r e^{it}$
+      and $\bar{\gamma(t)} = re^{-it}$. Then
+      \begin{align*}
+         \int_\gamma \bar{z} \dif z
+      &= \int_0^{2\pi}
+          \overline{\gamma(t)} \cdot \gamma^\prime(t) \dif t
+       = \int_0^{2\pi} r^2 i \dif t \\
+      &= 2 \pi r^2 i.
+      \end{align*}
+    }
+    \item{
+      Consider the line segment $[1, 1+i]$ given by
+      $\gamma(t) = (1-t)1 + t(1+i) = 1 + it$
+      so that $\gamma^\prime(t) = i$.
+      Then
+      \begin{align*}
+         \int_\gamma \frac{\dif z}{z}
+      &= \int_0^1 \frac{\gamma^\prime(t)}{\gamma(t)} \dif t
+       = \int_0^1 \frac{i}{1 + it} \dif t \\
+      &= \int_0^1 \frac{i(1 - it)}{(1+it)(1-it)} \dif t \\
+      &= \int_0^1 \frac{t}{1 + t^2} \dif t
+       + i \int_0^1 \frac{1}{1 + t^2} \dif t \\
+      &= \left.\frac{1}{2} \log (1 + t^2)\right|_0^1
+       + i\left.\arctan(t)\right|_0^1
+       = \frac{1}{2} \log 2 + i \frac{\pi}{2}.
+      \end{align*}
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{obsv}
+  \begin{enumerate}
+    \item{
+      The integral of a curve does not change if the curve is
+      reparameterized. Let $\gamma : [a, b] \to \mathbb{C}$ and
+      $\phi : [c, d] \to [a, b]$. Then
+      \begin{align*}
+         \int_{\gamma \circ \phi} f
+      &= \int_c^d
+           f((\gamma \circ \phi)(t)) \cdot
+           (\gamma \circ \phi)^\prime(t)
+           \dif t \\
+      &= \int_c^d
+           f(\gamma(\phi(t)))
+           \gamma^\prime(\phi(t))
+           \phi^\prime(t)
+           \dif t \\
+      &= \int_a^b
+           f(\gamma(s)) \gamma^\prime(s) \dif s \\
+      &= \int_\gamma f
+      \end{align*}
+      under the change of variable $s = \phi(t)$.
+    }
+    \item{
+      $$
+      \int_{\gamma^{-}} f = -\int_{\gamma} f.
+      $$
+    }
+    \item{
+      $$
+        \int_{\oplus_{i=1}^n \gamma_i} f
+      = \sum_{i=1}^n \int_{\gamma_i} f.
+      $$
+    }
+  \end{enumerate}
+\end{obsv}
+
+\begin{theorem}[Fundamental theorem of calculus]
+  Let $f$ be continuous on an open set $U$ and suppose that
+  $g$ is a primitive of $f$ in $U$. Let $\gamma$ be a curve
+  in $U$ that starts from $\alpha$ and ends at $\beta$.
+  Then
+  $$
+  \int_\gamma f = g(\beta) - g(\alpha).
+  $$
+\end{theorem}
+
+\begin{proof}
+Suppose $\gamma : [a, b] \to U$. Then
+\begin{align*}
+   \int_\gamma f
+&= \int_a^b f(\gamma(t)) \gamma^\prime(t) \dif t \\
+&= \int_a^b g^\prime(\gamma(t)) \gamma^\prime(t) \dif t \\
+&= \int_a^b (g \circ \gamma)^\prime \dif t \\
+&= (g \circ \gamma)(b) - (g \circ \gamma)(a) \\
+&= g(\beta) - g(\alpha)
+\end{align*}
+by the fundamental theorem of real calculus.
+
+To make this proof more rigorous we must take care of the
+partition points of a piecewise $C^1$ $\gamma$, but in general
+this is correct. For example in the integral of $\frac{1}{z}$ we
+considered earlier, primitives do not exist in the whole plane
+and require a choice of branch cut.
+
+If $\gamma$ is closed, then this means $\int_\gamma f = 0$.
+\end{proof}
+
+\begin{xmpl}
+Let $\gamma(t) = e^{it}$ and $f(z) = z^n$, $n \in \mathbb{Z}$.
+If $n \neq -1$, then $g(z) = \frac{z^{n+1}}{n+1}$ is a primitive
+of $f$ in $U$ so
+$$
+\int_\gamma z^n \dif z = 0, \quad n \neq -1.
+$$
+If $n = -1$ then
+\begin{align*}
+   \int_\gamma z^{-1} \dif z
+&= \int_0^{2\pi}
+     \frac{\gamma^\prime(t)}{\gamma(t)} \dif t \\
+&= \int_0^{2\pi} i \dif t \\
+&= 2 \pi i,
+\end{align*}
+and it follows that $\frac{1}{z}$ has no primitive in
+$\mathbb{C} \backslash \{ 0 \}$.
+\end{xmpl}
+
+\begin{theorem}
+  Let $f$ be continuous on a domain $U$. The following are equivalent:
+  \begin{enumerate}
+    \item{
+      $f$ has a primitive in $U$.
+    }
+    \item{
+      If $\gamma_1, \gamma_2$ are curves in $U$ that have the
+      same endpoints, then $\int_{\gamma_1} f = \int_{\gamma_2} f$.
+    }
+    \item{
+      If $\gamma$ is a closed curve in $U$, then
+      $\int_\gamma f = 0$.
+    }
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+    \item{
+      (i) implies (iii) from the previous theorem.
+    }
+    \item{
+      (iii) implies (ii). Note that
+      $\gamma_1 \oplus \gamma_2^{-}$ is a closed curve, so
+      $$
+      0
+      =
+      \int_{\gamma_1 \oplus \gamma_2^{-}} f
+      =
+      \int_{\gamma_1} f + \int_{\gamma_2^{-}} f
+      =
+      \int_{\gamma_1} f - \int_{\gamma_2} f.
+      $$
+    }
+    \item{
+      (ii) implies (i). Fix $z_0 \in U$. Since $U$ is path-connected,
+      for every $z \in U$ there is a (non-unique) curve $\gamma_z$ in $U$ from
+      $z_0$ to $z$. Define
+      $$
+      g(z) = \int_{\gamma_z} f,
+      $$
+      which is well-defined since $g(z)$ does not depend on the choice of curve,
+      only the endpoints.
+
+      Suppose $[z, w] subset U$. By definition,
+      $$
+      g(z) = \int_{\gamma_z} f, \quad
+      g(w) = \int_{\gamma_w} f.
+      $$
+      Since $\gamma_z \oplus [z, w]$ has the same endpoints as $\gamma_w$,
+      we have
+      $$
+      \int_{\gamma_w} f
+      =
+      \int_{\gamma_z \oplus [z, w]} f
+      =
+      \int_{\gamma_z} f + \int_{[z,w]} f,
+      $$
+      so $g(w) - g(z) = \int_{[z,w]} f$.
+
+      \begin{lemma}
+        Let $f, g$ be defined on an open set $U$ and suppose $f$ is continuous.
+        Suppose whenever $[z, w] \subset U$ we have
+        $g(w) - g(z) = \int_{[z, w]} f$. Then $g$ is a primitive of $f$ in $U$.
+      \end{lemma}
+      \begin{proof}
+        Recall that the line segment $[z, w]$ is parameterized by
+        $\gamma(t) = z + t(w-z)$. Then
+        $$
+        g(w) - g(z)
+        =
+        \int_{[z, w]} f
+        =
+        \int_0^1 f(z + t(w-z))(w-z) \dif t.
+        $$
+        If $w \neq z$ then
+        $$
+        \frac{g(w) - g(z)}{w - z}
+        =
+        \int_0^1 f(z + t(w - z)) \dif t.
+        $$
+        Since
+        $$
+        f(z) = \int_0^1 f(z) \dif t,
+        $$
+        we have
+        $$
+        \left|\frac{g(w) - g(z)}{w - z} - f(z)\right|
+        \leq
+        \int_0^1 |f(z + t(w-z)) - f(z)| \dif t.
+        $$
+
+        Now fix $z \in U$, $\varepsilon > 0$. Since $f$
+        is continuous at $z$, there exists a $\delta$ such that
+        $D(z, \delta) \subset U$ implies that $[z, w] \subset U$ and
+        $|f(w) - f(z)| < \varepsilon$.
+        If $|w - z| < \delta$ and $0 \leq t \leq 1$
+        $$
+        |z + t(w-z) - z + w| = t |w-z| < \delta
+        $$
+        so that
+        $$
+        f(z + t(w-z)) - f(z)| < \int_0^1 \varepsilon \dif t = \varepsilon.
+        $$
+        It follows that
+        $$
+        \left|\frac{g(w) - g(z)}{w - z} - f(z)\right| < \varepsilon
+        $$
+        so
+        $$
+        \lim_{w \to z} \frac{g(w) - g(z)}{w - z} = f(z),
+        $$
+        i.e. $g^\prime(z) = f(z)$ as desired.
+      \end{proof}
+    }
+  \end{itemize}
+\end{proof}
+
+\begin{lemma}
+$$
+\left| \int_\gamma f \right| \leq \| f \|_\gamma L(\gamma).
+$$
+\end{lemma}
+\begin{proof}
+Let $\gamma : [a, b] \to \mathbb{C}$. Then
+\begin{align*}
+      \left| \int_\gamma f \right|
+&=    \left| int_a^b f(\gamma(t)) gamma^\prime(t) \dif t \right| \\
+&\leq \int_a^b |f(\gamma(t))| |\gamma^\prime(t)| \dif t \\
+&\leq \int_a^b \| f \|_\gamma |\gamma^\prime(t)| \dif t \\
+&=    \| f \|_\gamma L(\gamma).
+\end{align*}
+\end{proof}
+
+Observe that we do not have
+$$
+\left| \int_\gamma f \right| \leq \int_\gamma |f|
+$$
+since the right side may not even be a real number.
+
+\begin{theorem}
+Let $(f_n)$ be a sequence of continuous functions on $U$
+converging uniformly to $f$ on $U$. Let $\gamma$ be a curve in $U$.
+Then
+$$
+\lim_{n \to \infty} \int_\gamma f_n = \int_\gamma f.
+$$
+If $\sum f_n$ is a series of continuous functions on $U$ that
+uniformly converges to $f$ on $U$ then
+$$
+\int_\gamma \sum_n f_n = \sum_n \int_\gamma f_n.
+$$
+\end{theorem}
+\begin{proof}
+$f$ is continuous because it is the limit of continuous functions so
+$\int_\gamma f$ is well defined. Now
+\begin{align*}
+      \left| \int_\gamma f_\gamma - \int_\gamma f \right|
+&=    \left| \int_\gamma f_n - f \right| \\
+&\leq \| f_n - f \|_\gamma L(\gamma) \\
+&\leq \| f_n - f \|_U L(\gamma),
+\end{align*}
+and since $L(\gamma) \in \mathbb{R}$ and $\| f_n - f \|_U \to 0$, so
+$\int_\gamma f_n \to \int_\gamma f$.
+
+Let $s_n(z)$ be the partial sum sequence. Then $s_n \to \sum f_n$ uniformly,
+so
+$$
+\int_\gamma \sum f_n = \lim \int_\gamma s_n.
+$$
+But $\int s_n$ is the partial sum for $\sum \int_\gamma f_n$.
+\end{proof}
+
+\begin{proof}[Derivatives of power series]
+Let
+$$
+f(z) = \sum_{n=0}^\infty a_n z^n, \quad
+g(z) = \sum_{n=0}^\infty n a_{n-1} z^{n-1}
+$$
+on $U = D(0, R)$. Let $f_n(z) = a_n z^n$ and
+$g_n(z) = f_n^\prime(z) = n a_n z^{n-1}$. Let $z_0, w_0 \in U$.
+We may pick $r \in (0, R)$ such that $z_0, w_0 \in D(0, r)$.
+Since $f_n$ is a primitive of $g_n$, we have
+$$
+\int_{[z_0, w_0]} g = f_n(w_0) - f_n(z_0)
+$$
+so
+$$
+\int_{[z_0, w_0]} g = \int_{[z_0, w_0]} \sum g_n
+=
+\sum (f_n(w_0) - f_n(z_0))
+=
+f(w_0) - f(z_0).
+$$
+Thus $f$ is a primitive of $g$.
+\end{proof}
+
+\section{Goursat Theorem}
+\begin{defn}[Diameter of a set]
+Define
+$$
+\mathrm{diam}(S) \triangleq
+\sup \{ |z - w| : z, w \in S \}, \quad
+S \neq \varnothing.
+$$
+If $S$ is bounded then $\mathrm{diam}(S) < \infty$.
+\end{defn}
+\begin{defn}[Triangle integral]
+If $\Delta$ is a triangle with vertices $A, B, C$
+oriented in the counterclockwise direction, then we write
+$$
+\int_{\partial \Delta} = \int_{[A, B]} + \int_{[B, C]} + \int_{[C, A]}.
+$$
+\end{defn}
+
+\begin{theorem}
+Let $f$ be holomorphic on a closed triangle $\Delta$, meaning that
+$f$ is holomorphic on an open set $U$ containing $\Delta$. Then
+$$
+\int_{\partial \Delta} f = 0.
+$$
+Here the condition means that there exists an open set
+$U$ such that $\Delta \subset U$, and $f$ is holomorpphic on $U$.
+\end{theorem}
+
+\begin{proof}
+Decompose $\Delta$ into 4 triangles $\Delta_j$ of similar shape using
+the midpoints of its sides. Then
+$$
+C = \int_{\partial \Delta} f = \sum_{k=1}^4 \int_{\partial \Delta_k} f.
+$$
+Then there exists a $j_0 \in \{1,2,3,4\}$ such that
+$$
+\left|\int_{\partial \Delta_{j_0}}\right| \geq \frac{|C|}{4}.
+$$
+Let $\Delta^{(0)} = \Delta$, $\Delta^{(1)} = \Delta_{j_0}$. We may
+further decompose $\Delta^{(1)}$ into four similar triangles using
+their midpoints. Then one of these triangles, denoted $\Delta^{(2)}$,
+satisfies
+$$
+     \left| \int_{\partial \Delta} f \right|
+\geq \frac{1}{4}\left|\int_{\partial \Delta^{(2)}} f \right|
+\geq \frac{|C|}{4^2}.
+$$
+Thus we get a sequence
+$$
+\Delta = \Delta^{(0)} \supset \Delta^{(1)} \supset \cdots
+$$
+of similar triangles, with the size of $\Delta^{(n)}$ equal to
+$\frac{1}{2^n}$ that of $\Delta$, and
+$$
+\left| \int_{\partial \Delta^{(n)}} f \right| \geq \frac{|C|}{4^n}.
+$$
+Since each $\Delta^{(n)}$ is compact and nonempty, this sequence
+has nonempty intersection, so pick $z_0 \in \cap \Delta^{(n)}$.
+Since $z_0 \in \Delta$, $f$ is complex differentiable at $z_0$.
+
+Define
+$$
+h(z)
+=
+\left\{\begin{array}{l l}
+  \frac{f(z) - f(z_0)}{z - z_0} - f^\prime(z_0), &
+  \quad z \in U \backslash \{ z_0 \} \\
+  0, & \quad z = z_0
+\end{array}\right..
+$$
+Note that $h$ is continuous on $U$ and
+$$
+f(z) = f(z_0) + f^\prime(z_0)(z-z_0) + h(z)(z - z_0).
+$$
+
+Let $P(z) = f(z_0) + f^\prime(z_0) (z - z_0)$. Then
+$P$ is a polynomial of degree at most 1, and
+$f(z) = P(z) + h(z)(z - z_0)$. Since $P$ is a polynomial
+it has a primitive in $\mathbb{C}$, so
+$$
+\int_{\partial \Delta^{(n)}} P = 0, \forall n.
+$$
+Thus
+$$
+\int_{\partial \Delta^{(n)}} f
+= \int_{\partial \Delta^{(n)}} h(z) (z - z_0) \dif z.
+$$
+
+Now
+$$
+  \mathrm{diam}(\Delta^{(n)})
+= \frac{1}{2^n} \mathrm{diam}(\Delta)
+< \infty
+$$
+and
+$$
+  L(\partial \Delta^{(n)})
+= \frac{1}{2^n} L(\partial \Delta)
+< \infty.
+$$
+Since $z_0 \in \Delta$,
+$|z - z_0| \leq \mathrm{diam}(\Delta^{(n)})$
+for any $z \in \partial \Delta^{(n)}$. Thus
+\begin{align*}
+\frac{|C|}{4^n}
+&\leq \int_{\partial \Delta^{(n)}} h(z) (z-z_0) \dif z
+&\leq \|h\|_{\partial \Delta^{(n)}}
+      \mathrm{diam}(\Delta^{(n)})
+      L(\partial\Delta^{(n)}) \\
+&\leq \|h\|_{\partial \Delta^{(n)}}
+      \frac{\mathrm{diam}(\Delta)}{2^n}
+      \frac{L(\partial \Delta)}{2^n}
+\end{align*}
+so that
+$$
+|C| \leq \|h\|_{\partial \Delta^{(n)}}
+         \mathrm{diam}(\Delta)
+         L(\partial \Delta).
+$$
+Since $h$ is continuous at $z_0$ with $h(z_0) = 0$
+and
+$$
+        \Delta^{(n)}
+\subset D\left(z_0, \mathrm{diam}(\Delta^{(n)})\right)
+=       D\left(z_0, \frac{\mathrm{diam}(\Delta)}{2^n}\right)
+$$
+we must have $\| h \|_{\Delta^{(k)}} \to 0$. Then $|C| = 0$ so $C = 0$.
+\end{proof}
+
+\begin{defn}[Convex and star domains]
+Let $U$ be open.
+We call $U$ a \emph{convex domain} if $\forall z_0, w_0 \in U$,
+$[z_0, w_0] \subset U$. We call $U$ a \emph{star domain} if
+$\exists z_0 \in U$ such that $\forall w_0 \in U$,
+$[z_0, w_0] \subset U$ and we call $z_0$ its center.
+\end{defn}
+
+\begin{obsv}
+  \begin{enumerate}
+    \item{
+      $D(z_0, r)$ is a star domain with $z_0$ as center. In fact,
+      it is also a convex domain.
+    }
+    \item{
+      Any convex domain is a star domain, with every point as a center.
+    }
+    \item{
+      Let $U$ be a star domain with center $z_0$. Let $z_1, z_2 \in U$.
+      Suppose $[z_1, z_2] \in U$ and $z_0, z_1, z_2$ are not on the same
+      line. Then the triangle with vertices $z_i$ is contained in $U$.
+    }
+  \end{enumerate}
+\end{obsv}
+
+\begin{theorem}
+If $f$ is holomorphic on a star domain $U$, then $f$ has a primitive on $U$.
+\end{theorem}
+\begin{proof}
+Let $z_0$ be a center of $U$. Define $g$ on $U$ such that
+$$
+g(z) = \int_{[z_0, z]} f, z \in U
+$$
+which is well-defined since these line segments lie in $U$ for any
+$z \in U$. Then for any $z_1, z_2 \in U$ we have
+$$
+\int_{[z_1, z_2]} f + \int_{[z_2, z_0]} f + \int_{[z_0, z_1]} f = 0.
+$$
+
+\begin{enumerate}
+  \item{
+    Suppose $z_0, z_1, z_2$ are colinear. Then without loss of generality
+    $$
+    \int_{[z_0, z_2]} f = \int_{[z_0, z_1]} f + \int_{[z_1, z_2]} f.
+    $$
+  }
+  \item{
+    Suppose $z_0, z_1, z_2$ are not colinear. Then
+    $\Delta z_0, z_2, z_2 \subset U$ and we may apply the Goursat theorem.
+  }
+\end{enumerate}
+It follows that if $[z_1, z_2] \subset U$ then
+$$
+g(z_2) - g(z_1) = \int_{[z_1, z_2]} f
+$$
+so $g^\prime = f$ on $U$.
+\end{proof}
+
+\begin{corol}
+If $f$ is holomorphic on a star domain $U$, then for any closed curve
+$\gamma \subset U$ we have $\int_\gamma f = 0$. If $f$ is holomorphic on
+an open set $U$ and $D(z_0, r) \subset U$, then $\int_{D(z_0, r)} f = 0$.
+\end{corol}
+
+\section{Cauchy Theorem}
+
+\begin{defn}[Simple and Jordan curves]
+A continuous curve $\gamma: [a, b] \to \mathbb{C}$ is called
+\emph{simple} if it is one-to-one. It is called a
+\emph{simple closed curve} if the above holds except that
+$\gamma(a) = \gamma(b)$. A simple closed curve is also called
+a \emph{Jordan curve}.
+\end{defn}
+
+\begin{theorem}[Jordan Curve Theorem]
+Let $\gamma$ be a Jordan curve. Then $\mathbb{C} \backslash \gamma$
+is disjoint union of two domains, one bounded and one unbounded,
+and $\gamma$ is the boundary of both domains. We use
+$\mathrm{Int}(\gamma)$ to denote the bounded domain.
+\end{theorem}
+
+\begin{theorem}[Cauchy Theorem for Jordan Curves]
+
+\end{theorem}
