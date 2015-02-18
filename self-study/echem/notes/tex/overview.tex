@@ -1,0 +1,72 @@
+\section{Mass Transfer}
+
+A common assumption or use case is that all reactions are faster
+than mass transfer. For instance, under the conditions:
+\begin{enumerate}
+  \item{
+    The heterogeneous reactions (those at the electrode surface)
+    are dominated charge-transfer (fast)
+  }
+  \item{
+    The homogeneous reactions (which are the same throughout the
+    bulk solution) are mobile and reversible
+  }
+\end{enumerate}
+it follows that
+\begin{enumerate}
+  \item{
+    Homogeneous reactions are approximately at equilibrium
+  }
+  \item{
+    Surface concentrations of electrochemically active redox
+    reactants have a Nernstian relationship with the electrode potential
+  }
+  \item{
+    The reaction rate is limited by the mass transfer, i.e.
+    $$
+    v_{mt} \approx v_{rxn} = \frac{i}{nFA}
+    $$
+    where $v_{rxn}$ is the net reaction rate, $i$ is the electrode current,
+    $n$ is the net number of electrons exchanged, $F$ is the number of
+    Coulombs of charge in one mole of electrons, and $A$ is the reactive
+    surface area of the electrode.
+  }
+\end{enumerate}
+
+This is the \emph{reversible} case, and in the one-dimensional case the
+flux $J_i$ of a species $i$ at a distance $x$ from the electrode is given by
+the Nernst-Planck equation
+\begin{align*}
+J_i(x) &= \text{diffusion} + \text{migration} + \text{convection} \\
+       &= -D_i \frac{\partial C_i}{\partial x}
+          -\frac{z_i F}{RT} D_i C_i \frac{\partial \phi}{\partial x}
+          +C_i v(x),
+\end{align*}
+where $D_i$ is the diffusion coefficient, $z_i$ is the charge, $C_i$ is
+the concentration, and $v(x)$ is the velocity of a volume element.
+Note that $n F A J = i$, since the flux describes the flow rate of
+ions and each has a charge, so this corresponds to a current density.
+
+Assume for instance that there is an excess of supporting electrolyte
+(eliminating the diffusion term), there is no vibration or agitation in
+the solution (eliminating the convection term), and the concentration
+gradient of a species $O$ is linear. Then
+$$
+v_{mt} = \frac{D_O}{\delta_O}(C_O^\ast - C_O(0))
+$$
+where $C_O^\ast$ is the bulk concentration so that
+$$
+\frac{i}{nFA} = \frac{D_O}{\delta_O}(C_O^\ast - C_O(0))
+$$
+for a net anodic reaction (converting anions into oxidants O) and
+$$
+\frac{i}{nFA} = \frac{D_R}{\delta_R}(C_R(0) - C_O^\ast)
+$$
+for a net cathodic reaction (converting cations into reductants R).
+
+When the concentration at the electrode is zero (i.e. all
+faradaic reactants have been consumed) the current has a maximum
+value, the limiting current
+$$
+i_l = n F A m_O C_O^\ast.
+$$

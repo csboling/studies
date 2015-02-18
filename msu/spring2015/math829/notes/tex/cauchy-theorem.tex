@@ -759,6 +759,11 @@ A continuous curve $\gamma: [a, b] \to \mathbb{C}$ is called
 \emph{simple closed curve} if the above holds except that
 $\gamma(a) = \gamma(b)$. A simple closed curve is also called
 a \emph{Jordan curve}.
+
+A Jordan curve has positive (negative) orientation if it is
+oriented counterclockwise (clockwise).
+
+A Jordan curve will be assumed to be piecewise $C^1$.
 \end{defn}
 
 \begin{theorem}[Jordan Curve Theorem]
@@ -769,5 +774,98 @@ $\mathrm{Int}(\gamma)$ to denote the bounded domain.
 \end{theorem}
 
 \begin{theorem}[Cauchy Theorem for Jordan Curves]
+Let $J$ be a Jordan curve. Suppose $f$ is holomorphic on
+$\mathrm{Int}(J) \cup J$. Then
+$$
+\int_J f = 0.
+$$
+\end{theorem}
 
+\begin{proof}
+Without loss of generality, assume that $J$ is positively oriented
+(since if $J$ is negatively oriented then $J^{-}$ is positively oriented).
+
+Let $U$ denote the open set on which $f$ is holomorphic. Then
+$\mathrm{Int}(J) \cup J \subset U$. Since $\mathrm{Int}(J) \cup J$ is
+compact (since it is closed and bounded), $\exists r > 0$ such that
+$\forall z_0 \in \mathrm{Int}(J) \cup J$, $D(z_0, r) \subset U$.
+
+We use horizontal lines and vertical lines to divide $\mathrm{Int}(J)$
+into finitely many smaller, rectangular
+Jordan domains, i.e. interiors of Jordan curves,
+each with diameter less than $r$. Call them $J_k$, $1 \leq k \leq n$.
+We choose a positive orientation for each. We claim that
+$$
+\int_J f = \sum_{k=1}^n \int_{J_k} f
+$$
+because the sides shared between two $J_i$ will cancel each other.
+
+Now $J_k \subset \mathrm{Int}(J) \cup J$, $\mathrm{diam}(J_k) < r$.
+Pick $z_k \in J_k$, so $z_k \in \mathrm{Int}(J) \cup J$. Since
+$J_k \subset D(z_k, r) \subset U$, $f$ is holomorphic on
+$D(z_k, r)$, which is a star domain. Since $J_k$ is a closed
+curve in $D(z_k, r)$, this means $\int_{J_k} f = 0$.
+\end{proof}
+
+\begin{defn}[Simply connected domain]
+A domain $U$ is said to be \emph{simply connected} if
+for any Jordan curve $J \subset U$, we have
+$\mathrm{Int}(J) \subset U$.
+\end{defn}
+
+\begin{theorem}
+If $f$ is holomorphic on a simply connected domain $U$, then $f$
+has a primitive in $U$.
+\end{theorem}
+\begin{proof}
+Fix $z_0 \in U$ and let $z \in U$. There is a simple curve
+$\gamma_z$ in $U$ from $z_0 \to z$. Define
+$$
+g(z) = \int_{\gamma_z} f.
+$$
+We show that the definition does not depend on the choice of $\gamma_z$.
+
+Suppose $\gamma_1, \gamma_2$ are simple polygonal curves from $z_0$ to $z$.
+We wish to show that their integrals are equal.
+\begin{enumerate}
+  \item{
+    If $\gamma_1 \cap \gamma_2 = \{z_0, z\}$ then
+    $J = \gamma_1 \oplus \gamma_2^{-}$ is a Jordan curve. Since $U$ is
+    simply connected, $\mathrm{Int}(J) \cup J \subset U$and so
+    from Cauchy's theorem $\int_J f = 0$ so that
+    $\int_{\gamma_1} f = \int_{\gamma_2} f$.
+  }
+  \item{
+    If there are intersections in between, take finitely many points
+    $z_i$ of intersection. Consider
+    $\gamma_1$ and $\gamma_2$ restricted to the segment $[z_{k-1}, z_k]$.
+    If they overlap on this segment then they are the same curve and thus
+    have equal integral. If they intersect only at endpoints then
+    their integrals are equal (and zero).
+    Finally
+    $$
+    \int_{\gamma_1} f = \sum_{k=1}^n \int_{\gamma_1[z_{k-1}, z_k]} f = \int_{\gamma_2} f.
+    $$
+  }
+\end{enumerate}
+
+Suppose $z, w \in U$ such that $[z, w] \subset U$. Let $\gamma_z$ be a
+simple polygonal curve from $z_0$ to $z$. We may assume
+$\gamma_z \cap [z, w] = \{ z \}$. $\gamma_z \oplus [z, w]$ is a simple
+polygonal curve in $U$ from $z_0$ to $w$. Then
+$$
+g(w) - g(z) = \int_{\gamma_2 \oplus [z, w]} f - \int_{\gamma_z} f = \int_{[z, w]} f
+$$
+and thus $g$ is a primitive of $f$.
+\end{proof}
+
+\section{Cauchy's Formula}
+\begin{theorem}
+Suppose $J_0, J_1, \dots, J_n$ are mutually disjoint Jordan curves such that
+$\mathrm{Int}(J_k) \cup J_k$ are mutually disjoint for $1 \leq k \leq n$
+and all lie within $\mathrm{Int}(J_0)$. Suppose all these curves are positively
+oriented. Then
+$$
+\int_{J_0} f = \sum_{k=1}^n \int_{J_k} f.
+$$
 \end{theorem}
