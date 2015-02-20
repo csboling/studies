@@ -864,8 +864,228 @@ and thus $g$ is a primitive of $f$.
 Suppose $J_0, J_1, \dots, J_n$ are mutually disjoint Jordan curves such that
 $\mathrm{Int}(J_k) \cup J_k$ are mutually disjoint for $1 \leq k \leq n$
 and all lie within $\mathrm{Int}(J_0)$. Suppose all these curves are positively
-oriented. Then
+oriented. Let
+$$
+U = \mathrm{Int}(J_0)
+    \backslash
+    \cup_{k=1}^n( \mathrm{Int}(J_k) \cup J_k)
+$$
+and suppose $f$ is holomorphic on $U$ and $J_k$.
+Then
 $$
 \int_{J_0} f = \sum_{k=1}^n \int_{J_k} f.
 $$
 \end{theorem}
+\begin{proof}
+We may divide $U$ into Jordan domains $\mathrm{Int}(C_1)$ and
+$\mathrm{Int}(C_2)$. We have
+\begin{align*}
+0 &= \int_{C_1} f + \int_{C_2} f
+   = \int_{J_0} f + \sum_{k=1}^n \int_{J_k^{-}} f \\
+  &= \int_{J_0} f - \sum_{k=1}^n \int_{J_k} f.
+\end{align*}
+\end{proof}
+
+\begin{theorem}[Cauchy's formula for Jordan curves]
+Let $J$ be a positively oriented Jordan curve. Suppose $f$
+is holomorphic on $\mathrm{Int}(J) \cup J$. Then
+$$
+f(w) = \frac{1}{2 \pi i} \int_J \frac{f(z)}{z - w} \dif z, \quad
+w \in \mathrm{Int}(J).
+$$
+\end{theorem}
+\begin{proof}
+Let $w \in \mathrm{Int}(J)$ and
+$$
+g(z) = \frac{f(z)}{z - w}.
+$$
+Note that $g$ is not holomorphic on $\mathrm{Int}(J) \cup J$ because $w$ is a
+singularity.
+
+Let $R > 0$ such that $D(w, R) \subset \mathrm{Int}(J)$. Let $r \in (0, R)$.
+Then $\{|z - w| = r \} \subset \mathrm{Int}(J)$. Then $g$ is holomorphic
+on $J$, the circle $\{|z - w| = r\}$ and the domain between these two
+Jordan curves. From the previous theorem
+$$
+\int_J g = \int_{\{|z - w| = r\}} g.
+$$
+Since the left side does not depend on $r$,
+$$
+\int_J g = \lim_{r \to 0} \int_{\{|z - w| = r\}} g.
+$$
+Then
+$$
+g(z) = \frac{f(z) - f(w)}{z - w} + \frac{f(w)}{z - w}
+$$
+and $\gamma = \{|z - w| = r\}$ is parameterized by
+$$
+\gamma(t) = w + r e^{it}, \quad 0 \leq t \leq 2\pi
+$$
+so that $\gamma^\prime(t) = i r e^{it}$.
+Then
+\begin{align*}
+   \int_{\{|z - w| = r\}}
+     \frac{f(w)}{z - w}
+     \dif z
+&= \int_{0}^{2 \pi}
+     \frac{f(w)}{\gamma(t) - w}
+     \gamma^\prime(t)
+     \dif t \\
+&= \int_0^{2\pi}
+     \frac{f(w)}{re^{it}}
+     i re^{it}
+     \dif t \\
+&= 2 \pi i f(w).
+\end{align*}
+Since $f$ is differentiable at $w$,
+$$
+\lim_{z \to w} \frac{f(z) - f(w)}{z - w} = f^\prime(w) \in \mathbb{C},
+$$
+so there exists $\delta, M$ such that when $|z - w| < \delta$ we have
+$$
+\left|
+  \frac{f(z) - f(w)}{z - w}
+\right|
+\leq M
+$$
+and then
+$$
+\left|
+  \int_{\{|z - w| = r\}}
+    \frac{f(z) - f(w)}{z - w}
+    \dif z
+\right|
+\leq
+  M \cdot L(\{|z - w| = r\})
+= M \cdot 2 \pi r
+$$
+when $r < \delta$. It follows that
+$$
+\lim_{r \to 0}
+  \int_{\{|z - w| = r\}}
+    \frac{f(z) - f(w)}{z - w}
+    \dif z
+= 0.
+$$
+It follows that $\int_J g = 2 \pi i f(w)$.
+\end{proof}
+
+Note that if the singularity lies on the curve then
+the integral is not well defined so the formula does not hold.
+
+\begin{theorem}
+Let $J$, $f$ be as in the previous theorem. Then for any
+$w_0 \in \mathrm{Int}(J)$,
+$$
+f(w) =
+\sum_{n=0}^\infty
+  (w - w_0)^n
+  \frac{1}{2 \pi i}
+  \int_J
+    \frac{f(z)}{(z - w_0)^{n+1}}
+    \dif z, \quad
+|w - w_0| < \mathrm{dist}(w_0, J).
+$$
+Therefore $f$ is analytic on $\mathrm{Int}(J)$, and
+we have Cauchy's formula:
+$$
+f^{(n)}(w_0) =
+\frac{n!}{2 \pi i}
+\int_J
+  \frac{f(z)}{(z - w_0)^{n+1}}
+  \dif z.
+$$
+\end{theorem}
+\begin{proof}
+Fix $w_0 \in \mathrm{Int}(J)$. Let $R = \mathrm{dist}(w_0, J) > 0$.
+If $z \in J$ then $|z - w_0| \geq R$. Suppose
+$|w - w_0| < \mathrm{dist}(w_0, J) = R$. Then
+$w \in \mathrm{Int}(J)$. From Cauchy's formula,
+$$
+f(w) = \frac{1}{2 \pi i} \int_J \frac{f(z)}{z - w} \dif z.
+$$
+We now try to express $\frac{1}{z - w}$ as a power series
+$$
+\frac{1}{z - w} = \sum_{n=0}^\infty a_n (w - w_0)^n.
+$$
+Now
+$$
+|w - w_0| < R \leq |z - w_0|
+$$
+for $z \in J$ so
+$$
+\left|\frac{w - w_0}{z - w_0}\right| < 1.
+$$
+Using the geometric series, we write
+\begin{align*}
+   \frac{1}{z - w}
+&= \frac{1}{(z - w_0) - (w - w_0)} \\
+&= \frac{\frac{1}{z - w_0}}{1 - \frac{w - w_0}{z - w_0}} \\
+&= \frac{1}{z - w_0}
+   \sum_{n=0}^\infty
+     \left(
+       \frac{w - w_0}{z - w_0}
+     \right)^n \\
+&= \sum_{n=0}^\infty
+     \frac{(w - w_0)^n}{(z - w_0)^{n+1}}
+\end{align*}
+so that
+$$
+f(w) =
+\frac{1}{2 \pi i}
+\int_J
+  f(z)
+  \sum_{n=0}^\infty
+    \frac{(w - w_0)^n}{(z - w_0)^{n+1}}
+    \dif z.
+$$
+We show that we can switch the order of the summation
+by showing that
+$$
+\sum_{n=0}^\infty f(z) \frac{(w - w_0)^n}{z - w_0)^{n+1}}
+$$
+converges uniformly on $J$.
+From the comparison test,
+$$
+\left|
+  f(z) \frac{(w - w_0)^n}{(z - w_0)^{n+1}}
+\right|
+\leq
+\| f \|_J
+\frac{|w - w_0|^n}{R^{n+1}}
+=
+\frac{\| f \|_J}{R}
+\left(\frac{|w - w_0|}{R}\right)^n.
+$$
+Since
+$$
+\left|
+  \frac{|w - w_0|}{R}
+\right|
+< 1,
+$$
+we have
+$$
+\sum_{n=0}^\infty
+  \frac{\| f \|_J}{R}
+  \left(\frac{|w - w_0|}{R}\right)^n
+< \infty
+$$
+and the comparison test implies uniform convergence.
+\end{proof}
+
+\begin{corol}
+If $f$ is holomorphic on an open set $U$, then $f$ is analytic on $U$,
+so $f$ is infinitely many times complex differentiable. Moreover,
+$\forall z_0 \in U$ we have
+$$
+f(z) = \sum_{n=0}^\infty \frac{f^{(n)}(z_0)}{n!} (z - z_0)^n
+$$
+for all $z \in D(z_0, R)$ where $R = \infty$ if $U = \mathbb{C}$ and
+$R = \mathrm{dist}(z_0, \partial U)$ if $U \subsetneq \mathbb{C}$.
+\end{corol}
+
+\begin{proof}
+The first statement follows from the previous theorem by choosing
+$J = \{ |z - z_0| = r \}$ such that $\bar{D}(z_0, r) \subset U$.
+\end{proof}
