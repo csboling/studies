@@ -74,5 +74,3 @@ tail-⊆ {L = x :: xs} = drop (⊆-refl xs)
 ⊆-trans p q | stop   = empty-⊘
 ⊆-trans p q | drop r = ⊆-trans r (⊆-implies-tail-⊆ q)
 ⊆-trans p q | keep r = ⊆-trans ? (⊆-implies-tail-⊆ q)
-
--- ⊆-trans tail-⊆ q : ys ⊆ zs
