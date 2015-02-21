@@ -1,58 +1,78 @@
 module Basic.Sets where
 
-infixl 30 _==_
+infixl 0 _==_
 data _==_ {A : Set}(x : A) : A → Set where
   refl : x == x
 
-data ℕ : Set where
-  zero : ℕ
-  suc  : ℕ → ℕ
+infixl 10 _∘_
+_∘_ : {A : Set}{B : A → Set}{C : (x : A) → B x → Set}
+      (g : {x : A} → (y : B x) → C x y)
+      (f : (x : A) → B x)
+      → ((x : A) → C x (f x))
+(g ∘ f) x = g (f x)
 
-data Fin : ℕ → Set where
-  fzero : {n : ℕ} → Fin (suc n)
-  fsuc  : {n : ℕ} → Fin n → Fin (suc n)
+cong : ∀ {A B}
+       {x y : A}
+       (f : A → B) → (x == y) → (f x == f y)
+cong f refl = refl
 
-infixl 20 _::_
-data Vec (A : Set) : ℕ → Set where
-  []   : Vec A zero
-  _::_ : {n : ℕ} →
-         A → Vec A n
-         → Vec A (suc n)
+symm : ∀ {A}
+       {x y : A} →
+       (x == y) → (y == x)
+symm refl = refl
 
-infixl 10 _!_
-_!_ : {n : ℕ}{A : Set} →
-      Vec A n → Fin n → A
-[]        ! ()
-(x :: xs) ! fzero    = x
-(x :: xs) ! (fsuc i) = xs ! i
+trans : ∀ {A}
+        {x y z : A} →
+        (x == y) → (y == z) → (x == z)
+trans refl refl = refl
 
+{-
+∘-assoc : ∀ {A B C D}
+          (h : C → D)
+          (g : B → C)
+          (f : A → B) →
+          h ∘ (g ∘ f) == (h ∘ g) ∘ f
+∘-assoc h g f = {!!}
+-}
 
-vmap : {A B : Set}{n : ℕ} → (A → B) → Vec A n → Vec B n
-vmap _ []        = []
-vmap f (x :: xs) = f x :: vmap f xs
+data List (A : Set) : Set where
+  []   : List A
+  _::_ : A → List A → List A
 
-infixl 90 _$_
-_$_ : {n : ℕ}{A B : Set} →
-        Vec (A → B) n → Vec A n → Vec B n
-[] $ []               = []
-(f :: fs) $ (x :: xs) = f x :: (fs $ xs)
+tail : {A : Set} → List A → List A
+tail []        = []
+tail (x :: xs) = xs
 
-head : {A : Set}{n : ℕ} → Vec A (suc n) → A
-head (x :: xs) = x
+infixl 20 _⊆_
+data _⊆_ {A : Set} : List A → List A → Set where
+  stop : [] ⊆ []
+  drop : ∀ {x xs ys} → xs ⊆ ys →       xs  ⊆ (x :: ys)
+  keep : ∀ {x xs ys} → xs ⊆ ys → (x :: xs) ⊆ (x :: ys)
 
-vec : {n : ℕ}{A : Set} → A → Vec A n
-vec {zero}  x = []
-vec {suc n} x = x :: vec {n} x
+empty-⊘ : {A : Set}{l : List A} → [] ⊆ l
+empty-⊘ {l = []}      = stop
+empty-⊘ {l = x :: xs} = drop (empty-⊘ {l = xs})
 
-Matrix : Set →  ℕ → ℕ → Set
-Matrix A m n = Vec (Vec A n) m
+⊆-refl : {A : Set}(xs : List A) → xs ⊆ xs
+⊆-refl []        = stop
+⊆-refl (x :: xs) = keep (⊆-refl xs)
 
-transpose : ∀ {A m n} → Matrix A m n → Matrix A n m
-transpose []          = vec []
-transpose (xs :: xss) = (vmap (_::_) xs) $ transpose xss
+tail-⊆ : {A : Set}{L : List A} →
+         tail L ⊆ L
+tail-⊆ {L = []}      = stop
+tail-⊆ {L = x :: xs} = drop (⊆-refl xs)
 
-transpose-correct : ∀ {A m n}
-                    {M : Matrix A m n}
-                    {i : Fin m} {j : Fin n} →
-                    ((M ! i) ! j) == (((transpose M ! j) ! i))
-transpose-correct = {!!}
+⊆-implies-tail-⊆ : {A : Set}{xs ys : List A} →
+                   xs ⊆ ys → tail xs ⊆ ys
+⊆-implies-tail-⊆ stop     = stop
+⊆-implies-tail-⊆ (drop p) = drop (⊆-implies-tail-⊆ p)
+⊆-implies-tail-⊆ (keep p) = drop p
+
+⊆-trans : {A : Set}{xs ys zs : List A} →
+          xs ⊆ ys → ys ⊆ zs → xs ⊆ zs
+⊆-trans p q with p
+⊆-trans p q | stop   = empty-⊘
+⊆-trans p q | drop r = ⊆-trans r (⊆-implies-tail-⊆ q)
+⊆-trans p q | keep r = ⊆-trans ? (⊆-implies-tail-⊆ q)
+
+-- ⊆-trans tail-⊆ q : ys ⊆ zs
