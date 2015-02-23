@@ -1092,3 +1092,128 @@ The second statement easily follows.
 We may chose $r > 0$ arbitrarily close to $R$ such that
 $\bar{D}(z_0, r) \subset U$.
 \end{proof}
+
+\section{Morera's Theorem}
+
+\begin{theorem}
+Suppose $f$ is continuous on a domain $U$ and satisfies that for any
+closed curve $\gamma$ in $U$, $\int_\gamma f = 0$. Then $f$ is analytic.
+\end{theorem}
+
+\begin{proof}
+We have seen before that $f$ has a primitive $F$ in $U$. Since $F$ is
+holomorphic on $U$, it is analytic on $U$, so must $F^\prime = f$ be.
+\end{proof}
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      We have shown that a function is holomorphic iff. it is analytic,
+      and we know that analyticity implies infinite complex
+      differentiability. Thus if $f$ is complex differentiable on an open
+      set, then it is infinitely differentiable on that set. From now on
+      we will use holomorphic and analytic interchangeably.
+    }
+    \item{
+      The corollary to Cauchy's formula tells us that the radius of the power
+      series
+      $$
+      \sum_{n=0}^\infty \frac{f^{(n)}(z_0)}{n!} (z - z_0)^n
+      $$
+      is at least $\mathrm{dist}(z_0, \partial U$ if $U \neq \mathbb{C}$.
+      The equality may not hold.
+    }
+    \item{
+      If $U = \mathbb{C}$, i.e. $f$ is entire, then $R = \infty$ at every
+      $z_0$. Thus the power series expansion holds for all $z$.
+    }
+    \item{
+      Sometimes we can say that $R = \mathrm{dist}(z_0, U)$. For example,
+      suppose that $f$ is holomorphic on $\mathbb{C} \backslash F$ where
+      $F$ is closed without accumulation points. Suppose $|f(z)| \to \infty$
+      when $z \to \alpha$ for all $\alpha \in F$. Then we can say
+      $R_{z_0} = \mathrm{dist}(z_0, F)$, since suppose $R > \mathrm{dist}(z_0, F)$.
+      Then $\sum_{n=0}^\infty \frac{f^{(n)}(z_0)}{n!} (z - z_0)^n$ converges in
+      $D(z_0, R)$ to a continuous function $f$, which must agree with $f$ on
+      the smaller disk $D(z_0, \mathrm{dist}(z_0, F))$, which has compact closure
+      and thus $f$ is bounded on this smaller disk. This contradicts that
+      $|f(z)| \to \infty$ as $z \to \alpha \in F$.
+    }
+  \end{enumerate}
+\end{remark}
+
+\begin{theorem}[Liouville's Theorem]
+Every bounded entire function is constant.
+\end{theorem}
+\begin{proof}
+Let $f$ be a bounded entire function, so that $|f(z)| \leq M$ for
+some $M > 0$. Since $f$ is entire, for any $z \in \mathbb{C}, R > 0$
+we have
+$$
+f^\prime(z)
+=
+\frac{1}{2 \pi i}
+\int_{|w - z| = R}
+  \frac{f(w)}{w - z}
+  \dif w.
+$$
+Then
+$$
+|f^\prime(z)|
+\leq
+\frac{1}{2 \pi}\frac{M}{R^2}
+L(\{|w - z| = R\})
+= \frac{M}{R}.
+$$
+This holds for all $R > 0$ so $|f^\prime(z)| = 0$, and thus
+$f$ is constant.
+\end{proof}
+
+\begin{theorem}[Fundamental Theorem of Algebra]
+Every non-constant complex polynomial has a zero in $\mathbb{C}$.
+\end{theorem}
+
+\begin{proof}
+Let $P(z) = \sum_{k=0}^n a_k z^k$, $n \geq $, $a_n \neq 0$. Suppose
+$P$ has no zero in $\mathbb{C}$. Then $Q = \frac{1}{P}$ is entire.
+We will show that $Q$ is bounded and thus constant, which implies $P$
+is constant, a contradiction.
+
+Note that
+$$
+\frac{P(z)}{a_n z^n}
+=
+  1
++ \frac{a_{n-1}}{a_n} \frac{1}{z}
++ \frac{a_{n-2}}{a_n} \frac{1}{z^2}
++ \cdots
++ \frac{a_0}{a_n}    \frac{1}{z^n}.
+$$
+As $|z| \to \infty$,
+$\left|\frac{a_{n-k}}{a_n}\frac{1}{z^k}\right| \to 0$
+so that $\frac{P(z)}{a_n z^n} \to 1$ as $|z| \to \infty$.
+Since $|a_n z^n| \to \infty$ as $|z| \to \infty$, we get
+$|P(z)| \to \infty$ as $|z| \to \infty$. Thus $|Q(z)| \to 0$
+as $|z| \to \infty$. Therefore there is a $R > 0$ such that
+if $|z| > R$ then $|Q(z)| < 1$. Since $Q$ is continuous on
+$\bar{D}(0, R)$ it is bounded on $\bar{D}(0, R)$. This means
+$\exists M < \infty$ such that $|Q(z)| \leq M$ for all $|z| \leq R$.
+Therefore $Q$ is bounded.
+\end{proof}
+
+\begin{corol}
+For any non-constant polynomial $P$, $P(z) = \prod_{k=1}^n (z - z_k)$.
+\end{corol}
+\begin{proof}[Sketch]
+If $z_1$ is a zero of $P$ then
+\begin{align*}
+P(z)
+&=
+   P(z) - P(z_1)
+ = \sum_{k=0}^n a_k (z^k - z_1^k) \\
+&= (z - z_1) \sum_{k=1}^n a_k \frac{z^k - z_1^k}{z - z_1}
+ = (z - z_1) P_1(z),
+\end{align*}
+where $P_1$ is a polynomial of degree $n-1$. If $n - 1 \geq 1$, then
+$P_1$ is not constant and so $P_1$ has a zero, so we may proceed inductively.
+\end{proof}

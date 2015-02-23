@@ -1,0 +1,28 @@
+\section{Differentiability of the Logarithm}
+
+Let $U$ be an open set with $0 \notin U$.
+Recall that $L(z)$ is called a branch of $\log z$ in $U$ if $L$
+is continuous on $U$ and $e^{L(z)} = z$ for all $z \in U$. We will now
+show that $L$ is holomorphic and $L^\prime = \frac{1}{z}$.
+
+\begin{theorem}
+Suppose $f$ is a primitive of $\frac{1}{z}$ in a domain $U$. Then
+$\exists C \in \mathbb{C}$ such that $f + C$ is a branch of $\log z$ on $U$.
+\end{theorem}
+
+\begin{proof}
+Let $g(z) = \frac{e^{f(z)}}{z}$. Then
+$$
+  g^\prime(z)
+= \frac{e^{f(z)}f^\prime(z)}{z} - \frac{e^{f(z)}}{z^2}
+= 0.
+$$
+Since $U$ is connected this means $g$ is constant, so
+$g(z) = C_0$.
+
+There exists $C \in mathbb{C}$ such that $e^C = \frac{1}{C_0}$. Then
+$$
+e^{f(z) + C} = \frac{e^{f(z)}}{C_0} = \frac{e^{f(z)}}{g(z)} = z,
+$$
+so $f + C$ is a branch of $\log z$ in $U$.
+\end{proof}
