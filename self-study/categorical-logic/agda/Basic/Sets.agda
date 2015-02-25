@@ -1,5 +1,9 @@
 module Basic.Sets where
 
+data Bool : Set where
+  True  : Bool
+  False : Bool
+
 infixl 0 _==_
 data _==_ {A : Set}(x : A) : A → Set where
   refl : x == x
@@ -27,6 +31,12 @@ trans : ∀ {A}
 trans refl refl = refl
 
 {-
+import Basic.Relation
+==-preorder : Basic.Relation.Preorder (_==_)
+==-preorder = record{ refl = refl; trans = trans }
+-}
+
+{-
 ∘-assoc : ∀ {A B C D}
           (h : C → D)
           (g : B → C)
@@ -34,46 +44,6 @@ trans refl refl = refl
           h ∘ (g ∘ f) == (h ∘ g) ∘ f
 ∘-assoc h g f = {!!}
 -}
-
-data List (A : Set) : Set where
-  []   : List A
-  _::_ : A → List A → List A
-
-tail : {A : Set} → List A → List A
-tail []        = []
-tail (x :: xs) = xs
-
-infixl 20 _⊆_
-data _⊆_ {A : Set} : List A → List A → Set where
-  stop : [] ⊆ []
-  drop : ∀ {x xs ys} → xs ⊆ ys →       xs  ⊆ (x :: ys)
-  keep : ∀ {x xs ys} → xs ⊆ ys → (x :: xs) ⊆ (x :: ys)
-
-empty-⊘ : {A : Set}{l : List A} → [] ⊆ l
-empty-⊘ {l = []}      = stop
-empty-⊘ {l = x :: xs} = drop (empty-⊘ {l = xs})
-
-⊆-refl : {A : Set}(xs : List A) → xs ⊆ xs
-⊆-refl []        = stop
-⊆-refl (x :: xs) = keep (⊆-refl xs)
-
-tail-⊆ : {A : Set}{L : List A} →
-         tail L ⊆ L
-tail-⊆ {L = []}      = stop
-tail-⊆ {L = x :: xs} = drop (⊆-refl xs)
-
-⊆-implies-tail-⊆ : {A : Set}{xs ys : List A} →
-                   xs ⊆ ys → tail xs ⊆ ys
-⊆-implies-tail-⊆ stop     = stop
-⊆-implies-tail-⊆ (drop p) = drop (⊆-implies-tail-⊆ p)
-⊆-implies-tail-⊆ (keep p) = drop p
-
-⊆-trans : {A : Set}{xs ys zs : List A} →
-          xs ⊆ ys → ys ⊆ zs → xs ⊆ zs
-⊆-trans stop     q        = empty-⊘
-⊆-trans (drop p) q        = ⊆-trans p (⊆-implies-tail-⊆ q)
-⊆-trans (keep p) (drop q) = drop (⊆-trans (keep p) q)
-⊆-trans (keep p) (keep q) = keep (⊆-trans p q)
 
 
 
