@@ -26,3 +26,194 @@ e^{f(z) + C} = \frac{e^{f(z)}}{C_0} = \frac{e^{f(z)}}{g(z)} = z,
 $$
 so $f + C$ is a branch of $\log z$ in $U$.
 \end{proof}
+
+\begin{theorem}
+Let $U \subset \mathbb{C} \backslash \{ 0 \}$ be a
+simply connected domain. Then there is a branch of $\log z$ in $U$
+which is a primitive of $\frac{1}{z}$ on $U$.
+\end{theorem}
+
+\begin{proof}
+Since $\frac{1}{z}$ is holomorphic on $U$ and $U$ is simply connected,
+there exists a primitive for $\frac{1}{z}$ on $U$. Let $f$ be such a
+primitive. Then there exists a $C$ such that $g = f + C$ is a branch of
+the logarithm in $U$, and we are done because $g^\prime = f^\prime = \frac{1}{z}$.
+\end{proof}
+
+\begin{lemma}
+If $f$ is a continuous function on a domain $U$ such that
+$f(z) \in \mathbb{Z}$ for all $z \in U$ then $f$ is constant.
+\end{lemma}
+
+\begin{proof}
+Let $z_0 \in U$ and $n_0 = f(z_0) \in \mathbb{Z}$. Let
+$A = f^{-1}(\{n_0\})$. Since $\{n_0\}$ is closed, $A$ is
+relatively closed in $U$. Since $f(z) \in \mathbb{Z}$ for all
+$z \in U$, $A = f^{-1}((n_0 - \frac{1}{2}, n_0 + \frac{1}{2}))$.
+Since $(n_0 - \frac{1}{2}, n_0 + \frac{1}{2})$ is an open subset
+of $\mathbb{R}$, we conclude that $A$ is also relatively open.
+Since $U$ is connected, this means either $A = \varnothing$ or
+$A = U$. Since $z_0 \in A$ it cannot be that $A = \varnothing$,
+so $A = U$, i.e. $f \equiv n_0$.
+\end{proof}
+
+\begin{theorem}
+If $L$ is a branch of the logarithm on an open set $U$, then
+$L$ is a primitive of $\frac{1}{z}$ in $U$.
+\end{theorem}
+
+\begin{proof}
+Let $z_0 \in U$. Then $\exists r > 0$ such that $D(z_0, r) \subset U$.
+Since $D(z_0, r)$ is simply connected, there is a branch of $\log z$
+in $D(z_0, r)$ which is a primitive of $\frac{1}{z}$ in $D(z_0, r)$.
+Call this branch $M(z)$. Then
+$$
+e^{L(z)} = z = e^{M(z)},
+$$
+so we must have $\frac{L(z) - M(z)}{2 \pi i} \in \mathbb{Z}$ for
+every $z \in D(z_0, r)$. Since $\frac{L - M}{2 \pi i}$ is continuous
+on this disk we must have $\frac{L - M}{2 \pi i}$ is constant, so
+$L - M$ is constant on $D(z_0, r)$. Since $M$ is a primitive of
+$\frac{1}{z}$ on $D(z_0, r)$, so is $L$, since they differ by a constant.
+Then $L^\prime(z_0) = \frac{1}{z_0}$ for all $z_0 \in U$, so $L$ is a
+primitive of $\frac{1}{z}$ in $U$.
+\end{proof}
+
+\begin{defn}[Branch of the Logarithm of a Function]
+Let $f$ be an analytic function on an open set $U$
+which does not take the value $0$. We say that $g$ is a branch of
+$\log f$ if
+\begin{enumerate}
+  \item{
+    $g$ is continuous on $U$
+  }
+  \item{
+    $e^{g(z)} = f(z)$ for all $z \in U$.
+  }
+\end{enumerate}
+If $g$ is holomorphic then differentiating gives
+$$
+g^\prime(z) = \frac{f^\prime(z)}{f(z)}.
+$$
+We can also show that $g$ is holomorphic and a primitive
+of $\frac{f^\prime}{f}$, using an appropriately adapted argument
+to the process followed above. Essentially
+we substitute $\log f$ and $\frac{f^\prime}{f}$ for $\log z$ and
+$\frac{1}{z}$, respectively.
+\end{defn}
+
+\begin{theorem}[Mean Value Theorem]
+Let $f$ be holomorphic on a closed disk $\bar{D}(z_0, r)$.
+Then
+\begin{align*}
+   f(z_0)
+&= \frac{1}{2 \pi}
+   \int_0^{2\pi}
+     f(z_0 + r e^{i \theta})
+     \dif \theta \\
+&= \frac{1}{\pi r^2}
+     \int_{|z - z_0| \leq r}
+       f(z) \dif x \dif y.
+\end{align*}
+\end{theorem}
+
+\begin{proof}
+Cauchy's formula gives
+\begin{align*}
+   f(z_0)
+&= \frac{1}{2 \pi i}
+   \oint_{|z - z_0| = r}
+     \frac{f(z)}{z - z_0}
+     \dif z \\
+&= \frac{1}{2 \pi i}
+   \int_0^{2 \pi}
+     \frac{f(z_0 + r e^{i\theta})}
+          {re^{i \theta}}
+     i r e^{i \theta}
+     \dif \theta \\
+&= \frac{1}{2 \pi}
+   \int_0^{2\pi}
+     f(z_0 + r e^{i \theta})
+     \dif \theta.
+\end{align*}
+Next,
+$$
+  2 \pi s f(z_0)
+= \int_0^{2 \pi}
+    f(z_0 + s e^{i\theta}) s
+    \dif \theta, \quad
+0 \leq s \leq r
+$$
+so
+\begin{align*}
+   \pi r^2 f(z_0)
+&= \int_0^r
+     2 \pi s f(z_0)
+     \dif s
+&= \int_0^r \int_0^{2\pi}
+     f(z_0 + s e^{i\theta}) s
+     \dif s \dif \theta \\
+&= \int_{|z - z_0| \leq r}
+     f(z)
+     \dif x \dif y.
+\end{align*}
+\end{proof}
+
+\begin{theorem}
+Let $f$ be holomorphic on $\bar{D}(z_0, r)$.
+Suppose $|f(z_0)| \geq |f(z)|$ for every $z \in D(z_0, r)$.
+Then $f$ is constant on $D(z_0, r)$ (and thus on
+$\bar{D}(z_0, r)$ since $f$ is continuous).
+\end{theorem}
+
+\begin{proof}
+We first show $|f|$ is constant on $D(z_0, r)$, from which it
+follows that $f$ is constant on this disk. If $|f|$ is not
+constant then $\exists z_1 \in D(z_0, r)$ such that
+$|f(z_1)| < |f(z_0)|$. Let $\varepsilon = |f(z_0)| - |f(z_1)| > 0$.
+Since $|f|$ is continuous, $\exists \delta > 0$ such that
+$D(z_1, \delta) \subset D(z_0, r)$ and
+$|f(z)| < |f(z_1)| + \frac{\varepsilon}{2}$ for any $z \in D(z, \delta)$.
+Let $D_0 = D(z_0, r)$ and $D_1 = D(z_1, \delta)$.
+\end{proof}
+
+\begin{corol}
+Let $f$ be holomorphic on a domain $U$. Suppose $|f|$ attains a local
+maximum at some $z_0 \in U$, i.e. $\exists r > 0$ such that
+$|f(z_0)| \geq |f(z)|$, $\forall z \in D(z_0, r)$. Then $f$ is constant
+on $U$.
+\end{corol}
+
+\begin{proof}
+From the previous theorem $f$ is constant on $D(z_0, r)$, so
+$f - f(z_0) \equiv 0$ on $D(z_0, r)$. From the uniqueness theorem,
+$f - f(z_0) \equiv 0$ on $U$.
+\end{proof}
+
+\begin{theorem}[Maximum Modulus Principle]
+Let $U$ be a bounded domain and let $\bar{U}$ be its closure.
+Suppose $f$ is holomorphic on $U$ and continuous on $\bar{U}$.
+Then $\exists z_0 \in \partial U$ such that $|f(z_0)| \geq |f(z)|$
+$\foral z \in \bar{U}$, i.e. the maximum modulus of the function is
+attained at some point on the boundary.
+\end{theorem}
+
+\begin{proof}
+$U$ is bounded, so $\bar{U}$ is bounded. Since $\bar{U}$ is closed,
+$\bar{U}$ is compact. Then $f$ is continuous on a compact set, so
+$\exists z_0 \in \bar{U}$ such that $|f|$ attains its maximum at
+$z_0$. If $z_0 \in \partial U$, we are done. If $z_0 \in U$, then
+$f$ is constant on $U$ and thus constant on $\bar{U}$, so we may
+take any point on the boundary to satisfy the theorem.
+\end{proof}
+
+\begin{corol}
+Suppose $f$ and $g$ are holomorphic on $U$ and continuous on $\bar{U}$.
+Suppose $f = g$ on $\partial U$. Then $f = g$ on $U$.
+\end{corol}
+
+\begin{proof}
+Let $h = f - g$. Then $h$ is holomorphic on $U$ and continuous on
+$\bar{U}$. Since $f = g$ on $U$, $h \equiv 0$ on $\partial U$, and from
+the maximum modulus principle this means $h \equiv 0$ on $U$.
+\end{proof}

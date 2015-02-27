@@ -1,0 +1,164 @@
+\section{Harmonic Functions}
+
+\begin{defn}[Harmonic functions, Laplace operator]
+Let $n \in \mathbb{N}$, $U \subset \mathbb{R}^n$ be open.
+Let $f : U \to \mathbb{C}$. If $f$ is $C^2$ on $U$ and
+satisfies
+$$
+           \Delta f(x)
+\triangleq \sum_{k=1}^n \frac{\partial^2 f}{\partial x_k^2}(x) = 0
+$$
+for all $x \in U$, then we say that $f$ is a \emph{harmonic function}.
+The symbol $\Delta$ is called the \emph{Laplace operator}.
+\end{defn}
+
+We focus on $n = 2$ and identify $\mathbb{R}^2$ with $\mathbb{C}$.
+Here the Laplace operator is
+$$
+\Delta f(z)
+\triangleq
+  \frac{\partial^2 f}{\partial x^2}(z)
++ \frac{\partial^2 f}{\partial y^2}(z).
+$$
+Note that $f$ is harmonic iff. $\mathrm{Re} f$ and
+$\mathrm{Im} f$ are harmonic.
+
+\begin{theorem}
+If $f$ is holomorphic on $U$ then it is harmonic on $U$.
+\end{theorem}
+\begin{proof}
+Write $f = u + iv$. We know that $f$ is infinitely many times
+complex differentiable and thus $u, v \in C^\infty \subset C^2$.
+Furthermore by the Cauchy-Riemann equations
+$$
+u_x = v_y, \quad u_y = -v_x
+$$
+so that
+$$
+\Delta u = u_{xx} + u_{yy} = (v_y)_x + (-v_x)_y = 0
+$$
+and
+$$
+\Delta v = v_{xx} + v_{yy} = (-u_y)_x + (u_x)_y = 0.
+$$
+\end{proof}
+
+From now on we assume that a harmonic function is
+always real-valued.
+
+\begin{lemma}
+Let $u$ be a real-valued $C^2$ function on an open set
+$U \subset \mathbb{C}$. Then $u$ is harmonic on $U$ iff.
+$u_x - i u_y$ is holomorphic on $U$.
+\end{lemma}
+
+\begin{proof}
+\begin{itemize}
+  \item[($\implies$)]{
+    If $u \in C^2$ then $u_x, u_y \in C^1$. We check the
+    Cauchy-Riemann equations for $(u_x, -u_y)$.
+    $(u_x)_x = (-u_y)_y$ is equivalent to $\Delta u = 0$,
+    and $(u_x)_y = -(-u_y)_x$ is equivalent to $u_{xy} = u_{yx}$.
+  }
+  \item[($\impliedby$)]{
+    In this case $(u_x, -u_y)$ satisfies the Cauchy-Riemann equations
+    so $(u_x)_x = (-u_y)_y$ and thus $\Delta u = 0$.
+  }
+\end{itemize}
+\end{proof}
+
+\begin{defn}
+Let $u$ be harmonic on a domain $U$. If a real-valued function $v$
+satisfies that $u + iv$ is holomorphic on $U$, then we say that
+$v$ is a harmonic conjugate of $u$ in $U$.
+\end{defn}
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      The $v$ must also be harmonic, because it is the imaginary part
+      of a holomorphic (and thus harmonic) function.
+    }
+    \item{
+      A harmonic conjugate, if it exists, is unique up to an additive
+      constant. If $v$ is a harmonic conjugate of $u$ in $U$, then so
+      is $v + C$ for any real $C \in \mathbb{R}$. On the other hand,
+      if $v$ and $\tilde{v}$ are both harmonic conjugates of $u$, then
+      $v_x = \tilde{v}_x$ and $v_y = \tilde{v}_y$. Since $U$ is connected,
+      this means $\tilde{v} - v$ is constant.
+    }
+    \item{
+      If $v$ is a harmonic conjugate of $u$ then $-u$ is a harmonic
+      conjugate of $v$. Note that $-i(u + iv) = v - iu$.
+    }
+  \end{enumerate}
+\end{remark}
+
+\begin{theorem}
+Let $u$ be harmonic on a simply connected domain. Then there is a harmonic
+conjugate of $u$ in $U$.
+\end{theorem}
+
+\begin{proof}
+Let $f = u_x - i u_y$. Then $f$ is holomorphic on $U$. Since $U$ is simply
+connected, there exists a primitive $F$ of $f$ in $U$. Write
+$F = \tilde{u} + i \tilde{v}$. Then
+\begin{align*}
+   u_x - i u_y
+&= f = F^\prime
+ = \tilde{u}_x + i \tilde{v}_x \\
+&= \tilde{u}_y - i \tilde{v}_y,
+\end{align*}
+so $u_x = \tilde{u}_x$ and
+$u_y = \tilde{u}_y$. Since $U$ is connected,
+this means $\tilde{u} - u \equiv C$. Then
+$$
+  F - C
+= \tilde{u} - C + i \tilde{v}
+= u + i \tilde{v}
+$$
+is holomorphic, so $\tilde{v}$ is a harmonic
+conjugate of $u$ in $U$.
+\end{proof}
+
+\begin{remark}
+\begin{enumerate}
+  \item{
+    The assumption that $U$ is simply connected cannot be removed.
+    Let $D = C \backslash \{ 0 \}$ and let
+    $$
+    u(z) = \frac{1}{2} \log |z| = \frac{1}{2} \log (x^2 + y^2).
+    $$
+    Then
+    $$
+    u_x = \frac{x}{x^2 + y^2}, \quad
+    u_y = \frac{y}{x^2 + y^2}
+    $$
+    so
+    $$
+    u_{xx} = \frac{1}{x^2 + y^2} - \frac{2 x^2}{(x^2 + y^2)^2}, \quad
+    u_{yy} = \frac{1}{x^2 + y^2} - \frac{2 y^2}{(x^2 + y^2)^2},
+    $$
+    and thus $u_{xx} + u_{yy} = 0$, i.e. $u$ is harmonic on $D$.
+
+    Suppose there exists a harmonic conjugate $v$ of this $u$.
+    Then $f = u + iv$ is holomorphic on $\mathbb{C} \backslash \{ 0 \}$,
+    so
+    $$
+      f^\prime
+    = u_x - i u_y
+    = \frac{x}{x^2 + y^2} - \frac{iy}{x^2 + y^2}
+    = \frac{1}{z}
+    $$
+    which means $f$ is a primitive of $\frac{1}{z}$ in
+    $\mathbb{C} \backslash \{ 0 \}$, a contradiction.
+  }
+  \item{
+    A harmonic conjugate always exists locally, and on a small disk
+    a harmonic function $h$ is the real part of a holomorphic function $f$
+    We know that $f$ is infinitely complex differentiably, so we coonclude that
+    $h$ is infinitely differentiable in that disk. Therefore a harmonic
+    function must be $C^\infty$.
+  }
+\end{enumerate}
+\end{remark}
