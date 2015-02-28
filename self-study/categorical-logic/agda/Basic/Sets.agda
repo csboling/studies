@@ -5,8 +5,8 @@ data Bool : Set where
   False : Bool
 
 infixl 0 _==_
-data _==_ {A : Set}(x : A) : A → Set where
-  refl : x == x
+data _==_ {A : Set} : (x y : A) → Set where
+  refl : {x : A} → x == x
 
 infixl 10 _∘_
 _∘_ : {A : Set}{B : A → Set}{C : (x : A) → B x → Set}
