@@ -15,6 +15,13 @@ _∘_ : {A : Set}{B : A → Set}{C : (x : A) → B x → Set}
       → ((x : A) → C x (f x))
 (g ∘ f) x = g (f x)
 
+∘-assoc : ∀ {A B C D}
+          (h : C → D)
+          (g : B → C)
+          (f : A → B) →
+          h ∘ (g ∘ f) == (h ∘ g) ∘ f
+∘-assoc h g f = refl
+
 cong : ∀ {A B}
        {x y : A}
        (f : A → B) → (x == y) → (f x == f y)
@@ -35,15 +42,3 @@ import Basic.Relation
 ==-preorder : Basic.Relation.Preorder (_==_)
 ==-preorder = record{ refl = refl; trans = trans }
 -}
-
-{-
-∘-assoc : ∀ {A B C D}
-          (h : C → D)
-          (g : B → C)
-          (f : A → B) →
-          h ∘ (g ∘ f) == (h ∘ g) ∘ f
-∘-assoc h g f = {!!}
--}
-
-
-

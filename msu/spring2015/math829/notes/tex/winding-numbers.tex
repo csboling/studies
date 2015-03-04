@@ -1,0 +1,209 @@
+\section{Winding Number}
+
+\begin{defn}[Winding number]
+Let $\gamma$ be a closed curve and
+$\alpha \in \mathbb{C} \backslash \gamma$. The \emph{winding number}
+of $\gamma$ with respect to $\alpha$ is
+$$
+           W(\gamma, \alpha)
+\triangleq \frac{1}{2 \pi i}
+           \int_\gamma
+             \frac{1}{z - \alpha}
+             \dif z.
+$$
+\end{defn}
+
+\begin{xmpl}
+Suppose that $\gamma$ is a Jordan curve. If $\alpha \in \mathrm{Ext}(\gamma)$,
+applying Cauchy's theorem gives $W(\gamma, \alpha) = 0$. If
+$\alpha \in \mathrm{Int}(\gamma)$, then applying Cauchy's formula gives
+$$
+W(\gamma, \alpha) = \pm 1
+$$
+depending on whether $\gamma$ is positively or negatively oriented.
+\end{xmpl}
+
+\begin{lemma}
+$W(\gamma, \alpha) \in \mathbb{Z}$.
+\end{lemma}
+
+\begin{proof}
+Suppose $\gamma : [a, b] \to \mathbb{C}$. Define
+$$
+  F(t)
+= \int_a^t
+    \frac{\gamma^\prime(s)}{\gamma(s) - \alpha}
+    \dif s, \quad
+a \leq t \leq b.
+$$
+Then $F$ is continuous on $[a, b]$, $F(a) = 0$, and
+$F(b) = 2 \pi i W(\gamma, \alpha)$. Furthermore
+$$
+F^\prime(t) = \frac{\gamma^\prime(t)}{\gamma(t) - \alpha}
+$$
+for $t \in [a, b]$ except at partition points
+$$
+a = x_0 < x_1 < \cdots < x_n = b.
+$$
+Compute
+\begin{align*}
+   \frac{d}{dt}
+     e^{-F(t)} \cdot (\gamma(t) - \alpha)
+&= e^{-F(t)} \gamma^\prime(t)
+ + e^{-F(t)} (-F^\prime(t))(\gamma(t) - \alpha) \\
+&= 0
+\end{align*}
+and so $e^{-F(t)} (\gamma(t) - \alpha)$ is constant on
+each subinterval $[x_{k-1}, x_k]$ and so constant throughout
+$[a,b]$. Therefore $\exists C \in \mathbb{C}$ such that
+$$
+e^{F(t)} = C(\gamma(t) - \alpha), \quad a \leq t \leq b.
+$$
+Since $\gamma$ is closed, this means $e^{F(b)} = e^{F(a)} = 1$ and
+thus $F(b) \in 2 \pi i \mathbb{Z}$.
+\end{proof}
+
+\begin{remark}
+Let $\theta_0 \in \arg \frac{1}{z}$. From
+$\gamma(t) - \alpha = \frac{1}{C}e^{F(t)}$ we see that
+$\mathrm{Im} F(t) + \theta_0$ is an argment of
+$\gamma(t) - \alpha$. Suppose $h$ is continuous on
+$[a, b]$ such that $h(t) \in \arg(\gamma(t) - \alpha)$.
+Then
+$$
+\frac{h(t) - (\mathrm{Im} F(t) + \theta_0)}{2 \pi i} \in \mathbb{Z}
+$$
+and is continuous on $[a, b]$. Therefore
+$h - (\mathrm{Im} F + \theta_0)$ is constant. We conclude that
+\begin{align*}
+   W(\gamma, \alpha)
+&= \frac{F(b) - F(a)}{2 \pi i}
+ = \frac{i \mathrm{Im} F(b) - i \mathrm{Im} F(a)}
+        {2 \pi i} \\
+&= \frac{h(b) - h(a)}{2 \pi i},
+\end{align*}
+which means that the winding number is the total increment of
+$\arg (z - \alpha)$ along $\gamma$.
+\end{remark}
+
+\begin{lemma}
+$\alpha \mapsto W(\gamma, \alpha)$ is continuous on
+$\mathbb{C} \backslash \gamma$.
+\end{lemma}
+
+\begin{proof}
+Fix $\alpha_0 \in \mathbb{C} \backslash \gamma$. Let
+$\alpha_n \in \mathbb{C} \backslash \gamma$ such that
+$\alpha_n \to \alpha$. We want to show that
+$$
+    \int_\gamma \frac{\dif z}{z - \alpha_n}
+\to \int_\gamma \frac{\dif z}{z - \alpha_0},
+$$
+which is true if $\frac{1}{z - \alpha_n} \to \frac{1}{z - \alpha_0}$
+uniformly.
+
+Let $r = \mathrm{dist}(\alpha_0, \gamma) > 0$. Note
+$$
+\left|
+  \frac{1}{z - \alpha_n}
+- \frac{1}{z - \alpha_0}
+\right|
+=
+\frac{|\alpha_n - \alpha_0}
+     {|z - \alpha_n||z - \alpha_0|}.
+$$
+Suppose $|\alpha_n - \alpha_0| < \frac{r}{2}$. Then
+\begin{align*}
+      |z - \alpha_n|
+&\geq |z - \alpha_0| - |\alpha_n - \alpha_0| \\
+&>    r - \frac{r}{2} = \frac{r}{2}.
+\end{align*}
+Then
+$$
+\left|
+  \frac{1}{z - \alpha_n}
+- \frac{1}{z - \alpha_0}
+\right|
+\leq
+\frac{|\alpha_n - \alpha_0|}{r \frac{r}{2}}
+$$
+when $|\alpha_n - \alpha_0| < \frac{r}{2}$.
+\end{proof}
+
+\begin{corol}
+$\alpha \mapsto W(\gamma, \alpha)$ is constant on each connected component
+of $\mathbb{C} \backslash \gamma$.
+\end{corol}
+
+\begin{proof}
+This follows since the restriction of this function to each connected
+component is constant and integer-valued on a domain.
+\end{proof}
+
+\begin{lemma}
+$W(\gamma, \alpha) = 0$ if $\alpha$ lies on the unbounded component of
+$\mathbb{C} \backslash \gamma$.
+\end{lemma}
+
+\begin{proof}
+Since $\gamma$ is bounded, there exists an $M$ such that $|z| \leq M$ for all
+$z \in \gamma$. If $|\alpha| \geq 2 M$, then
+$$
+|z - \alpha| \geq |\alpha| - |z| \geq \frac{M}{2},
+$$
+so $\left|\frac{1}{z - \alpha}\right| \leq \frac{2}{M}$ if
+$|\alpha| \geq 2 M$. So $\frac{1}{z - \alpha} \to 0$ as
+$\alpha \to \infty$ uniformly for $z \in \gamma$. Therefore
+$$
+\lim_{\alpha \to \infty} W(\gamma, \alpha) = 0.
+$$
+Since $W(\gamma, \dot)$ is constant on the unbounded component
+of $\mathbb{C} \backslash \gamma$, the constant has to be 0.
+\end{proof}
+
+\begin{defn}[Contour]
+A \emph{contour} is a ``sum'' of finitely many closed curves
+$\gamma_k$, $1 \leq k \leq n$, which may or may not have intersections.
+Then
+$$
+\int_\gamma f = \sum_{k=1}^n \int_{\gamma_k} f, \quad
+W(\gamma, \alpha) = \sum_{k=1}^n W(\gamma_k, \alpha)
+$$
+where
+$$
+\alpha \in \mathbb{C} \backslash \bigcup_{k=1}^n \gamma_k
+       =   \mathbb{C} \backslash \gamma.
+$$
+\end{defn}
+
+If we cross the curve from the left of the curve to the right
+of the curve, the winding number decreases by one. If we cross
+from the right to the left, the winding number increases.
+
+\begin{theorem}[General Cauchy's Theorem]
+Let $f$ be holomorphic on a domain $U$. Let $\gamma$ be a
+contour in $U$ such that $W(\gamma, \alpha) = 0$ for all
+$\alpha \in \mathbb{C} \backslash U$. Then $\int_\gamma f = 0$.
+\end{theorem}
+
+\begin{xmpl}
+Let $V = \{ \alpha : W(\gamma, \alpha) = 0 \}$. Then the theorem
+condition means
+$$
+\mathbb{C} \backslash U \subset V
+\iff
+\mathbb{C} \backslash V \subset U.
+$$
+\end{xmpl}
+
+\begin{theorem}[Cauchy's Formula]
+Let $f, U, \gamma$ as before. Let $z_0 \in U \backslash \gamma$. Then
+$$
+  \frac{1}{2 \pi i}
+  \int_\gamma
+    \frac{f(z)}
+         {z - z_0}
+    \dif z
+= W(\gamma, z_0) f(z_0)
+$$
+\end{theorem}

@@ -162,3 +162,170 @@ conjugate of $u$ in $U$.
   }
 \end{enumerate}
 \end{remark}
+
+We can find the harmonic conjugate of a harmonic function in a simply
+connected domain as follows.
+Let
+$$
+u(x, y) = x^2 + 2xy - y^2.
+$$
+Then $u_x = 2x + 2y$, $u_y = 2x - 2y$,
+$u_{xx} = 2$, $u_{yy} = -2$, so $\Delta u = 0$.
+
+We want a harmonic conjugate $v$ such that $u_x = v_y$,
+$u_y = -v_x$. We have $v_y = 2x + 2y$, so
+$v = 2xy + y^2 + h(x)$. Then
+$v_x = 2y + h^\prime(x)$, so since $v_x = 2y - 2x$ we have
+$h^\prime(x) = -2x$. Then $h(x) = -x^2 + C$. Therefore
+$$
+v(x, y) = 2xy + y^2 - x^2 + C
+$$
+is a harmonic conjugate of $u$ for any $C$.
+
+\begin{theorem}[Mean Value Theorem for harmonic functions]
+Let $u$ be harmonic on $D(z_0, R)$. Then for any $r \in (0, R)$,
+\begin{align*}
+   u(z_0)
+&= \frac{1}{2 \pi}
+   \int_0^{2 \pi}
+     u(z_0 + r e^{i \theta})
+     \dif \theta \\
+&= \frac{1}{\pi r^2}
+   \int_{|z - z_0| \leq r}
+     u(z)
+     \dif x \dif y.
+\end{align*}
+\end{theorem}
+
+\begin{proof}
+Since $D(z_0, R)$ is simply connected, there exists $f$ that is
+holomorphic on $D(z_0, R)$ such that $u = \mathrm{Re} f$. From the
+MVT for holomorphic functions, the above formulas hold with
+$u$ replaced by $f$.
+\end{proof}
+
+\begin{corol}
+If $u$ attains its maximum at $z_0$, then $u$ is constant.
+\end{corol}
+\begin{proof}
+Let $f$ be holomorphic on $D(z_0, R)$ such that $u = \mathrm{Re} f$.
+Then $\exp \circ f$ is holomorphic on $D(z_0, R)$ and $|e^f| = e^u$.
+$u$ attains its maximum at $z_0$ if and only if $|e^f|$ attains its
+maximum at $z_0$, in which case $e^f$ is constant, so
+$u = \log |e^f|$ is constant.
+\end{proof}
+
+\begin{theorem}[Maximum Principle for harmonic functions
+Let $u$ be harmonic on a domain $D$.
+\begin{enumerate}[(i)]
+  \item{
+    Suppose that $u$ has a local maximum at $z_0 \in D$.
+    Then $u$ is constant.
+  }
+  \item{
+    If $D$ is bounded and $u$ is continuous on $\bar{D}$, then
+    $\exists z_0 \in \partial D$ such that
+    $u(z_0) = \max \{ u(z) : z \in \bar{D} \}$.
+  }
+  \item{
+    The above statements also hold with $\max$ replaced by
+    $\min$.
+  }
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+  \begin{enumerate}[(i)]
+    \item{
+      From the corollary above, there exists an $r_0 > 0$
+      such that $u$ is constant on $D(z_0, r_0$. Let
+      $w \in D$. Since $D$ is connected, we may find disks
+      $D_k = D(z_k, r_k)$, $0 \leq k \leq n$ such that
+      $D_{k-1} \cap D_k \neq \varnothing$, and $w \in D_n$.
+      Since each $D_k$ is simply connected, we can find $f_k$
+      holomorphic on $D_k$ such that $u = \mathrm{Re} f_k$ on $D_k$.
+      Since $u$ is constant on $D_0$, the Cauchy-Riemann equations
+      require that $\mathrm{Im} f_0$ is constant also, so $f_0$ is
+      constant. Furthermore $u$ is constant on $D_0 \cap D_1$,
+      so $f_1$ is constant on $D_0 \cap D_1$, and from the Uniqueness
+      Theorem this means $f_1$ is constant on $D_1$, etc.
+      Therefore $u$ is constant on $D_k$. Since $w \in D_n$, we have
+      $u(w) = u(z_0)$. Since $w$ was chosen arbitrarily, $u$ is constant.
+    }
+    \item{
+      $\bar{D}$ is compact and $u$ is continuous on $\bar{D}$, so
+      $u$ attains a maximum $u(z_0)$ for some $z_0 \in \bar{D}$.
+      If $z_0 \in \partial D$, we are done. If $z_0 \in D$, then $u$ is
+      constant by (i) and we may take any $z_0 \in \partial D$.
+    }
+    \item{
+      This follows by the same argument and the observation that $-u$ is
+      also harmonic.
+    }
+  \end{enumerate}
+\end{proof}
+
+\begin{corol}
+Suppose $u$, $v$ are harmonic on a bounded domain $D$ and are
+continuous on $\bar{D}$. Suppose $u = v$ on $\partial D$. Then
+$u = v$ on $\bar{D}$.
+\end{corol}
+
+\begin{proof}
+Let $h = u - v$. Then $h$ is harmonic on $D$, continuous on
+$\bar{D}$, and $h \equiv 0$ on $\partial D$. Since $h$
+attains its maximum and minimum both on $\partial D$,
+$h$ has to be constantly zero.
+\end{proof}
+
+\begin{defn}[Wirtinger derivatives]
+We define the Wirtinger differential operators
+$$
+  \frac{\partial}{dz}
+= \frac{1}{2}
+  \left(
+      \frac{\partial}{\partial x}
+  - i \frac{\partial}{\partial y}
+  \right), \quad
+  \frac{\partial}{d\bar{z}}
+= \frac{1}{2}
+  \left(
+      \frac{\partial}{\partial x}
+  + i \frac{\partial}{\partial y}
+  \right).
+$$
+For example, for a function $f = u + iv$
+not necessarily holomorphic but with $u, v \in C^1$,
+$$
+  \frac{\partial f}{\partial z}
+= \frac{u_x + v_y}{2} + i \frac{v_x - u_y}{2}
+$$
+and
+$$
+  \frac{\partial f}{\partial \bar{z}}
+= \frac{u_x - v_y}{2} + i \frac{u_y + v_x}{2}.
+$$
+
+Note that
+$\frac{\partial f}{\partial \bar{z} \equiv 0$ is equivalent
+to the Cauchy-Riemann equations. If $f$ is holomorphic, then
+$f_z = f^\prime$. Observe also that
+\begin{align*}
+   \frac{\partial}{dz} \frac{\partial}{\partial \bar{z}}
+&= \frac{1}{4}
+   \left(
+     \frac{\partial}{\partial x} - i \frac{\partial}{\partial y}
+   \right)
+   \left(
+     \frac{\partial}{\partial x} + i \frac{\partial}{\partial y}
+   \right) \\
+&= \frac{\Delta}{4}
+ = \frac{\partial}{\partial \bar{z}} \frac{\partial}{\partial z}.
+\end{align*}
+If $u$ is harmonic then $(u_z)_{\bar{z}} = 0$, and
+$u_z$ is holomorphic.
+\end{defn}
+
+\begin{remark}
+The smoothness, MVT, MP also hold for harmonic function in
+$\mathbb{R}^n$, $n \geq 3$.
+\end{remark}
