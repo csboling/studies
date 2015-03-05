@@ -2,6 +2,7 @@ module Basic.List where
 
 open import Basic.Sets
 
+infixl 10 _::_
 data List (A : Set) : Set where
   []   : List A
   _::_ : A → List A → List A
@@ -13,6 +14,11 @@ map f (x :: xs) = f x :: map f xs
 tail : {A : Set} → List A → List A
 tail []        = []
 tail (x :: xs) = xs
+
+infixl 5 _∈_
+data _∈_ {A : Set}(x : A) : List A → Set where
+  hd : ∀ {xs}   → x ∈ x :: xs
+  tl : ∀ {y xs} → x ∈ xs → x ∈ y :: xs
 
 infixl 20 _⊆_
 data _⊆_ {A : Set} : List A → List A → Set where
