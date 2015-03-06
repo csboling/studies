@@ -207,3 +207,28 @@ $$
 = W(\gamma, z_0) f(z_0)
 $$
 \end{theorem}
+
+\begin{proof}
+Construct 
+$$
+\eta = \gamma + (-W(\gamma, z_0)) \{ |z - z_0| = r \}
+$$
+and observe that
+$$
+W(\eta, \alpha) = W(\gamma, \alpha)
+$$
+for $\alpha \in \mathbb{C} \backslash U$
+and $W(\eta, z_0) = 0$. Then $W(\gamma, \alpha) = 0$ for
+$\alpha \in \mathbb{C} \backslash (U \backslash \{ z_0 \}$
+so from Cauchy's theorem
+\begin{align*}
+   0 
+&= \int_\eta   \frac{f(z)}{z - z_0} \dif z \\
+&= \int_\gamma \frac{f(z)}{z - z_0} \dif z
+ - W(\gamma, z_0) \int_{|z - z_0| = r} \frac{f(z)}{z - z_0)} \dif z
+\end{align*}
+so
+$$
+\int_\gamma \frac{f(z)}{z - z_0} \dif z = W(\gamma, z_0) 2 \pi i f(z_0).
+$$
+\end{proof}

@@ -1,0 +1,106 @@
+\section{Laurent Series}
+
+\begin{defn}[Laurent Series]
+A \emph{Laurent series} is a series of the form
+$$
+\sum_{n=-\infty}^\infty a_n z^n, \quad a_n \in \mathbb{C}
+$$
+which converges if both
+$$
+\sum_{n=0}^\infty a_n z^n
+$$
+and
+\begin{align*}
+   \sum_{n=-\infty}^{-1} a_n z^n
+&= \sum_{m=1}^\infty a_{-m} z^{-m} \\
+&= \sum_{m=1}^\infty a_{-m} \left(\frac{1}{z}\right)^m.
+\end{align*}
+\end{defn}
+
+Suppose $\sum a_n z^n$ has radius $R_+$ and
+$\sum a_{-m} w^m$ is $R_-$. Then the Laurent series
+converges when $|z| < R_+$ and $\left|\frac{1}{z}\right| < R_-$,
+i.e. $\frac{1}{R_-} < |z| < R_+$. Therefore the series converges
+on an annulus.
+
+Let
+$$
+f(z) = \sum_{n=-\infty}^\infty a_n z^n = f_+(z) + f_-(z)
+$$
+on $A$ where
+$$
+f_-(z) = \sum_{n=-\infty}^{-1} a_n z^n = g\left(\frac{1}{z}\right)
+$$
+and
+$$
+g(w) = \sum_{m=1}^\infty a_{-m} w^m.
+$$
+Then $f_+$ is holomorphic on $\{ |z| < R_+ \}$ and
+$g$ is holomorphic on $\{ |z| < R_- \}$, so
+$f$ is holomorphic on this annulus. Furthermore
+$$
+  f^\prime(z)
+= \sum_{m=1}^\infty n a_n z^{n-1}
++ f_-^\prime(z)
+$$
+where
+\begin{align*}
+   f_-^\prime(z)
+&= \sum_{m=1}^\infty
+     m a_{-m}
+     \left(\frac{1}{z}\right)^{m-1}
+     \frac{-1}{z^2} \\
+&= \sum_{m=1}^\infty (-m) a_{-m} z^{-(m+1)} \\
+&= \sum_{n=-\infty}^{-1} n a_n z^{n-1}
+\end{align*}
+so that
+$$
+f^\prime(z) = \sum_{n=-\infty}^\infty n a_n z^{n-1}
+$$
+on the annulus $A$.
+
+\begin{theorem}
+Let $0 \leq r < R \leq \infty$. Suppose that $f$ is holomorphic
+on the annulus $A(0, r, R)$. Then $f$ has a Laurent series expansion
+where
+$$
+a_n = \frac{1}{2 \pi i} \int_{|z| = t} \frac{f(z)}{z^{n+1}} \dif z
+$$
+for $n \in \mathbb{Z}$, $t \in (r, R)$.
+\end{theorem}
+
+\begin{proof}
+Observe that the value of $a_n$ does not depend on the choice of $t$.
+Recall that
+$$
+\frac{1}{1 - z} = \sum_{n=0}^\infty z^n, \quad |z| < 1.
+$$
+For $|z| < |z_0|$, $\left|\frac{z}{z_0}\right| < 1$ so that
+\begin{align*}
+   \frac{1}{z - z_0}
+&= \frac{-\frac{1}{z_0}}{1 - \frac{z}{z_0}}
+ = -\frac{1}{z_0} \sum_{n=0}^\infty \left(\frac{z}{z_0}\right)^n \\
+&= \sum_{n=0}^\infty -\frac{1}{z_0^{n+1}} z^n.
+\end{align*}
+If $|z| > |z_0|$, then $\left|\frac{z_0}{z}\right| < 1$ so
+\begin{align*}
+   \frac{1}{z - z_0}
+&= \frac{\frac{1}{z}}{1 - \frac{z_0}{z}}
+ = \frac{1}{z}
+   \sum_{n=0}^\infty
+     \left(\frac{z_0}{z}\right)^n \\
+&= \sum_{n=0}^\infty
+     \frac{z_0^n}{z^{n+1}} \\
+&= \sum_{m=-\infty}^{-1} \frac{z^m}{z_0^{m+1}}.
+\end{align*}
+
+\end{proof}
+
+To find the Laurent series of
+$$
+  f(z)
+= \frac{1}{(z-1)(z-2)}
+= \frac{1}{z - 2} - \frac{1}{z - 1}
+$$
+and we can then find a Laurent series of $f$
+on the annulus $A(0, 1, 2)$.
