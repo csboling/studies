@@ -35,7 +35,8 @@ There are 3 possibilities:
   \item{
     $a_0 \neq 0$. Then $f(z_0) = a_0 \neq 0$. Since $f$ is
     continuous, there exists an $r^\prime \in (0, r)$ such that
-    $f$ has no zero on $D(z_0, r^\prime)$.
+    $f$ has no zero on $D(z_0, r^\prime)$. In this case
+    $U \backslash Z = U$.
   }
   \item{
     $a_0 = 0$ but not all $a_n = 0$. Let $m$ be the first
@@ -54,9 +55,13 @@ There are 3 possibilities:
     for some $r^\prime \in (0, r)$. Since $(z - z_0)^m = 0$ only at
     $z = z_0$, we see that $f$ has only one zero in
     $D(z_0, r^\prime)$, which is at $z_0$.
+
+    In this case $U \backslash Z = U \backslash \{ z_0 \}$
+    is relatively open in $U$.
   }
   \item{
-    All $a_n = 0$. Then $f = 0$ on $D(z_0, r)$.
+    All $a_n = 0$. Then $f = 0$ on $D(z_0, r)$. In this case
+    $U \backslash Z = \varnothing$.
   }
 \end{enumerate}
 It follows that the set of zeros of $f$ is relatively closed in
@@ -92,7 +97,7 @@ If $S = \mathbb{N}$, $S$ has no accumulation point.
 
 \begin{theorem}[Uniqueness Theorem]
   Let $U$ be a domain (a connected nonempty open set).
-  \begin{enumerate}[label=(\alph*)]
+  \begin{enumerate}[(a)]
     \item{
       Suppose $f$ is analytic on $U$, and is not constantly 0.
       Then the set of zeros of $f$ has no accumulation point on $U$.
@@ -106,7 +111,7 @@ If $S = \mathbb{N}$, $S$ has no accumulation point.
 \end{theorem}
 
 \begin{proof}
-  \begin{enumerate}[label=(\alph*)]
+  \begin{enumerate}[(a)]
     \item{
       Let $Z \subset U$ denote the set of zeros of $f$. Then $Z$ is
       relatively closed in $U$. Let $A$ be the set of

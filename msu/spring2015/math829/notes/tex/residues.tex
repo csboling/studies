@@ -70,7 +70,141 @@ for $n \in \mathbb{Z}$, $t \in (r, R)$.
 \end{theorem}
 
 \begin{proof}
-Observe that the value of $a_n$ does not depend on the choice of $t$.
+Observe from Cauchy's formula
+that the value of $a_n$ does not depend on the choice of $t$.
+Let $w \in A$. Choose $s, S$ such that
+$$
+r < s < |w| < S < R.
+$$
+Let $\varepsilon = \frac{\min \{ |w| - s, S - |w| \}}{2}$.
+Now let $J_1 = \{ |z| = S \}$, $J_2 = \{ |z| = s \}$,
+$J_3 = \{ |z - w| = \varepsilon \}$.
+
+The function $z \mapsto \frac{f(z)}{z - w}$ is holomorphic
+on each of these circles and the domain inside $J_1$
+and outside $J_2, J_3$. From Cauchy's formula,
+$$
+  \int_{J_1}
+    \frac{f(z)}
+         {z - w}
+    \dif z
+- \int_{J_2}
+    \frac{f(z)}
+         {z - w}
+    \dif z
+= 2 \pi i f(w).
+$$
+Now expand $\frac{1}{z - w}$ as a Laurent series
+in $w$. If $z \in J_1$ then $|z| = S > |w|$, so
+\begin{align*}
+   \frac{1}{z - w}
+&= \frac{\frac{1}{z}}
+        {1 - \frac{w}{z}}
+ = \frac{1}{z}
+   \sum_{n=0}^\infty
+     \left(
+       \frac{w}{z}
+     \right)^n \\
+&= \sum_{n=0}^\infty
+     \frac{w^n}{z^{n+1}}.
+\end{align*}
+If $z \in J_2$ then
+\begin{align*}
+   \frac{1}{z - w}
+&= \frac{\frac{1}{w}}
+        {\frac{z}{w} - 1}
+ = -\frac{1}{w}
+    \sum_{n=0}^\infty
+      \left(
+        \frac{z}{w}
+      \right)^n \\
+&= -\sum_{n=0}^\infty
+      \frac{z^n}{w^{n+1}}
+ = -\sum_{m=-\infty}^{-1} \frac{w^n}{z^{n+1}}
+\end{align*}
+under the change of index $m =-1 - n$.
+Then
+\begin{align*}
+   2 \pi i f(w)
+&= \int_{J_1}
+     \sum_{n=0}^\infty
+       \frac{f(z)}
+            {z^{n+1}}
+       w^n
+       \dif z
+ + \int_{J_2}
+     \sum_{n=-\infty}^{-1}
+       \frac{f(z)}
+            {z^{n+1}}
+       w^n
+       \dif z.
+\end{align*}
+If the sums commute with the integrals, then
+we have
+\begin{align*}
+2 \pi i f(w)
+&= \sum_{n=0}^\infty
+     \int_{J_1}
+       \frac{f(z)}
+            {z^{n+1}}
+       w^n
+       \dif z
+ + \sum_{n=-\infty}^{-1}
+     \int_{J_2}
+       \frac{f(z)}
+            {z^{n+1}}
+       w^n
+       \dif z \\
+&= \sum_{n=0}^\infty
+     a_n w^n
+ + \sum_{n=-\infty}^{-1}
+     a_n w^n
+ = \sum_{n=-\infty}^\infty a_n w^n.
+\end{align*}
+To show that this is true, we need to show that
+$$
+\sum_{n=0}^\infty \frac{f(z)}{z^{n+1}} w^n
+$$
+converges uniformly on $J_1$ and
+$$
+\sum_{n=-\infty}^{-1} \frac{f(z)}{z^{n+1}} w^n
+$$
+converges uniformly on $J_2$. Note that
+\begin{align*}
+      \left|
+        \frac{f(z)}{z^{n+1}} w^n
+      \right|
+&\leq \frac{\| f \|_{J_1}}
+           {S^{n+1}}
+      |w|^n
+ =    \frac{\| f \|_{J_1}}
+           {S^{n+1}}
+      \left(
+        \frac{|w|}{S}
+      \right)^n,
+\end{align*}
+and since $\frac{|w|}{S} < 1$ the series converges
+from the comparison test.
+
+Next
+\begin{align*}
+       \left|
+        \frac{f(z)}
+             {z^{n+1}}
+        w^n
+       \right|
+& \leq \frac{\| f \|_{J_2}}
+            {S^{n+1}}
+  =    \left(
+         \frac{S}{|w|}
+       \right)^{-n}
+\end{align*}
+and $\left|\frac{S}{|w|}\right| < 1$.
+\end{proof}
+
+We will later see that the Laurent series expansion is unique,
+and use this theorem to calculate integrals.
+
 Recall that
 $$
 \frac{1}{1 - z} = \sum_{n=0}^\infty z^n, \quad |z| < 1.
@@ -94,8 +228,6 @@ If $|z| > |z_0|$, then $\left|\frac{z_0}{z}\right| < 1$ so
 &= \sum_{m=-\infty}^{-1} \frac{z^m}{z_0^{m+1}}.
 \end{align*}
 
-\end{proof}
-
 To find the Laurent series of
 $$
   f(z)
@@ -104,3 +236,295 @@ $$
 $$
 and we can then find a Laurent series of $f$
 on the annulus $A(0, 1, 2)$.
+
+Suppose $f$ is analytic at $z_0$. The power series coefficients can
+be recovered from the Taylor series expansion. How can we recover
+the Laurent series coefficients on an annulus when $f$ is not
+holomorphic at $z_0$?
+
+\begin{xmpl}
+  \begin{itemize}
+    \item{
+      The Laurent expansion of $e^{\frac{1}{z}}$ at $0$ is
+      $$
+        e^{\frac{1}{z}}
+      = \sum_{n=0}^{\infty}
+          \frac{\left(\frac{1}{z}\right)^n}
+               {n!}
+      = \sum_{n=-\infty}^0 \frac{z^n}{(-n)!}
+      $$
+      so that
+      $$
+        \int_{|z| = 1}
+          e^{\frac{1}{z}} \dif z
+      = 2 \pi i a_{-1} = 2 \pi i.
+      $$
+    }
+    \item{
+      If $f$ is holomorphic on $A(z_0, r, R)$ then
+      there exists a unique $(a_n)_{n \in \mathbb{Z}}$ such that
+      $$
+      f(z) = \sum_{n=-\infty}^{\infty} a_n (z - z_0)^n
+      $$
+      on that annulus where
+      $$
+      a_n = \frac{1}{2 \pi i}
+            \int_{|z - z_0| = t}
+              \frac{f(z)}{(z - z_0)^{n+1}}
+              \dif z,
+      $$
+      $n \in \mathbb{Z}$.
+    }
+  \end{itemize}
+\end{xmpl}
+
+\section{Singularities}
+\begin{defn}[Isolated singularity, principal part]
+Suppose $f$ is holomorphic on $U$,
+$z_0 \notin U$, but $\exists r > 0$ such that
+$D(z_0, r) \backslash \{ z_0 \} \subset U$. Then
+we say that $z_0$ is an \emph{(isolated) singularity} of $f$.
+Then $f$ has a Laurent expansion in $\{ 0 < |z - z_0| < r\}$
+given by
+$$
+\sum_{n=-\infty}^\infty a_n (z - z_0)^n
+$$
+where
+$$
+a_n = \frac{1}{2 \pi i}
+      \int_{|z - z_0| = t}
+        \frac{f(z)}{(z - z_0)^{n+1}}
+        \dif z.
+$$
+We call
+$$
+\sum_{n=-\infty}^{-1} (z - z_0)^n
+$$
+the \emph{principal part} of $f$ at $z_0$.
+\end{defn}
+
+\begin{defn}[Types of singularities]
+Singularities may have the following forms:
+\begin{itemize}
+  \item{
+    If $a_n = 0$, $\forall n \leq -1$ then the
+    principal part vanishes. If we define $f(z_0) = a_0$,
+    then we extend $f$ to be holomorphic on
+    $U \cup \{ z_0 \}$. Such $z_0$ is called a \emph{removable
+    singularity}.
+  }
+  \item{
+    Not all $n \leq -1$ are zero, and there are only
+    finitely many that are nonzero. Then
+    $\exists m \in \mathbb{N}$ such that $a_{-m} \neq 0$
+    and $\forall n < -m$, $a_n = 0$, so that
+    $f(z) = \sum_{n=-m}^\infty a_m (z - z_0)^n$. In this case
+    $z_0$ is called a \emph{pole} of $f$, and the
+    \emph{order} of the pole is $m$. A pole of order 1 is called
+    a \emph{simple pole}. For example, $\frac{1}{z}$ has a simple
+    pole at $0$.
+  }
+  \item{
+    There are infinitely many $n \leq -1$ such that $a_n \neq 0$.
+    In this case $z_0$ is called an \emph{essential singularity}.
+    For example, $e^{\frac{1}{z}}$ has an essential singularity at
+    $0$.
+  }
+\end{itemize}
+
+Throughout the following, let $z_0$ be a singularity of $f$ and the
+Laurent expansion of $f$ at $z_0$ be
+$$
+f(z) = \sum_{n=-\infty}^{\infty} a_n (z - z_0)^n, \quad
+0 < |z - z_0| < r.
+$$
+Assume the following:
+\begin{enumerate}
+  \item{
+    The $a_n$ are not all 0.
+  }
+  \item{
+    There are at most finitely many $n < 0$ such that
+    $a_n \neq 0$, i.e. $z_0$ is not an essential singularity.
+  }
+\end{enumerate}
+Then there exists a unique $m \in \mathbb{Z}$ such that
+$a_m \neq 0$ and $a_n = 0$, $\forall n < m$. We write
+$$
+f(z) = \sum_{n=m}^{\infty} a_m (z - z_0)^n.
+$$
+We say that the order of $f$ at $z_0$ is $m$ and write
+$\ord_{z_0} f = m$.
+
+\begin{itemize}
+  \item{
+    If $m \geq 0$, then $z_0$ is a removable singularity.
+  }
+  \item{
+    If $m \geq 1$, then after removing the singularity
+    $z_0$ is a zero of $f$ since $a_0 = 0$ in the holomorphic
+    continuation. We say that such a zero has order $m$. A
+    zero of order 1 is called a simple zero.
+    $z_0$ is a zero of $f$ of order $m$ if and only if
+    $$
+    f^{(n)}(z_0) = 0, \quad 0 \leq n \leq m - 1
+    $$
+    and $f^{(m)}(z_0) \neq 0$.
+  }
+  \item{
+    If $m < 0$, then $z_0$ is a pole of order $|m|$.
+    Note that $\ord z_0 f = m$ if and only if there exists
+    some function $g$ holomorphic on $D(z_0, r)$ for some $r$
+    such that $f(z) = (z - z_0)^m g(z)$ on this disk.
+    To see this, write
+    \begin{align*}
+       f(z)
+    &= \sum_{n=m} a_n (z - z_0)^n
+     = \sum_{k=0}^\infty a_{m+k} (z - z_0)^{m+k} \\
+    &= (z - z_0)^m \sum_{k=0}^\infty a_{m+k} (z - z_0)^k \\
+    &= (z - z_0)^m g(z).
+    \end{align*}
+    Note also that $g(z_0) = a_m \neq 0$
+  }
+\end{defn}
+
+Note that if $g, h$ are holomorphic at $z_0$ such that
+$g(z_0)$ and $h(z_0)$ are not 0, then $g \cdot h$ and
+$\frac{g}{h}$ are also holomorphic at $z_0$, and
+$(g \cdot h)(z_0)$ and $\frac{g}{h}(z_0)$ are not 0.
+The radius of the holomorphic domain for the product or quotient
+may be different.
+
+If $\ord z_0 f = m$ and $\ord z_0 g = n$, then there exists
+$F$ and $G$ holomorphic at $z_0$, with $F(z_0), G(z_0) \neq 0$
+such that
+$f(z) = (z - z_0)^m F(z)$ and $g(z) = (z - z_0)^m G(z)$
+in a disc centered at $z_0$ except at $z_0$. Then
+$$
+f(z) g(z) = (z - z_0)^{m + n} F(z) G(z)
+$$
+and
+$$
+\frac{f(z)}{g(z)} = (z - z_0)^{m - n} \frac{F(z)}{G(z)}.
+$$
+Therefore
+$$
+  \ord_{z_0} (f \cdot g)
+= \ord_{z_0} f + \ord_{z_0} g, \quad
+  \ord_{z_0} \left(\frac{f}{g}\right)
+= \ord_{z_0} f - \ord_{z_0} g.
+$$
+Furthermore, for any nonzero constant $C$,
+$\ord z_0 C = 0$, so it follows that
+$\ord_{z_0} \frac{1}{f} = -\ord_{z_0} f$.
+
+That is, there is a group homomorphism
+$\mathrm{\ord}_{z_0} : \mathrm{Mer}(\{z_0\})^\times \to \mathbb{Z}$.
+
+\begin{xmpl}
+$\ord_0 z = 1$ since $z = 0$ at 0, $z^\prime = 1 \neq 0$ at 0.
+$\ord_0 \sin z = 1$ since $\sin 0 = 0$, $\cos 0 = 1 \neq 0$.
+Then $\ord_0 \frac{\sin z}{z} = 0 = \ord \frac{z}{\sin z}$.
+Since $f(z) = \frac{\sin z}{z}$ is holomorphic on
+$\mathbb{C} \backslash \{ 0 \}$, and
+$\ord_0 \frac{\sin z}{z} = 0$, 0 is a removable singularity of
+$f$, and so $f$ can be extended to be holomorphic at 0.
+\end{xmpl}
+
+\begin{defn}[Meromorphic function]
+Let $U$ be open. Suppose that $S \subset U$ has no accumulation points
+in $U$. If $f$ is holomorphic on $U \backslash S$ and every $z_0 \in
+S$
+is a pole of $f$, we say that $f$ is \emph{meromorphic} on $U$.
+\end{defn}
+
+We may construct a meromorphic function by the quotient of two
+holomorphic functions. Assume $U$ is a domain and $f, g$ are
+holomorphic on $U$. Suppose $g$ is not constant 0. Let $Z$ denote
+the zeros of $g$. Then $Z$ has no accumulation points in $U$.
+Let $h \frac{f}{g}$. Then $h$ is holomorphic on $U \backslash Z$,
+and every $z_0 \in Z$ is a singularity of $h$. Furthermore since
+$\ord_{z_0} h = \ord_{z_0} f - \ord_{z_0} g$. $z_0$ is either
+removable (if $\ord z_0 h \geq 0$ or a pole (if $\ord z_0 h < 0$).
+After removing all removable singularities, we get a meromorphic
+function on $U$.
+
+\begin{xmpl}
+$\tan z = \frac{\sin z}{\cos z}$, $\cot z = \frac{\cos z}{\sin z}$
+are meromorphic on $\mathbb{C}$.
+
+The zeros of $\cos z$ are at $n \pi + \frac{\pi}{2}$, $n \in
+\mathbb{Z}$, and at these zeros
+$$
+\cos(n \pi + \frac{\pi}{2}) = 0, \quad
+-\sin(n \pi + \frac{\pi}{2}) \neq 0
+$$
+and so the order of $\cos z$ is 1 at each such $z_0$ is
+zero, and the order of $\sin z$ is 0 at each $z_0$, so
+$\ord_{z_0} \tan z = -1$. Therefore every singularity of
+$\tan z$ (at $n \pi + \frac{\pi}{2}$) is a simple pole.
+Similarly the singularities of $\cot z$ (at $n \pi$)
+are simple poles.
+\end{xmpl}
+
+\begin{defn}[Rational function]
+If $P$, $Q$ are polynomials, then $R = \frac{P}{Q}$ is called a
+rational function, which is meromorphic on $\mathbb{C}$.
+\end{defn}
+
+\begin{theorem}
+  The following are equivalent.
+  \begin{enumerate}[(i)]
+    \item
+      {
+        $z_0$ is a removable singularity.
+      }
+    \item
+      {
+        $\lim_{z \to z_0} f(z)$ exists and is finite.
+      }
+    \item
+      {
+        $\exists r > 0$ such that $f$ is bounded on
+        $D(z_0, r) \backslash \{ z_0 \}$.
+      }
+  \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+    \item[(i) $\implies$ (ii)]
+      {
+        After removing the singularity $z_0$ we have a holomorphic
+        function $g$, so that $\lim_{z \to z_0} f(z) = g(z_0) \in \mathbb{C}$.
+      }
+    \item[(ii) $\implies$ (iii)]
+      {
+        Since $\lim_{z \to z_0} f(z) = C \in \mathbb{C}$, there exists
+        an $r > 0$ such that $|f(z) - f(z_0)| < 1$ if $|z - z_0| < r$.
+        Then $|f(z)| < |f(z_0)| + 1$ on $D(z_0, r) \backslash \{ z_0 \}$.
+      }
+    \item[(iii) $\implies$ (i)]
+      {
+        Suppose $|f(z)| \leq M \in \mathbb{R}$ for all
+        $z \in D(z_0, r) \backslash \{ z_0 \}$.
+        Recall that
+        $$
+          a_n
+        = \frac{1}{2 \pi i}
+          \int_{|z - z_0| = t}
+            \frac{f(z)}{(z - z_0)^{n+1}}
+            \dif z
+        $$
+        so that
+        \begin{align*}
+              |a_n|
+        &\leq \frac{1}{2 \pi} \frac{M}{t^{n+1}} 2 \pi t \\
+        &=    M t^{-n}, \forall 0 < t < r.
+        \end{align*}
+        If $n < 0$, $-n > 0$, so
+        $\lim_{t \to 0} t^{-n} = 0$. Since
+        $|a_n| \leq M t^{-n}$, we have $a_n = 0$.
+      }
+  \end{itemize}
+\end{proof}

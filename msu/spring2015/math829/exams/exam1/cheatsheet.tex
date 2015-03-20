@@ -1,10 +1,11 @@
-\documentclass[8pt]{article}
+\documentclass[10pt]{article}
 
+\usepackage[a4paper,margin=1cm]{geometry}
 \usepackage{amsmath,amsfonts,amssymb}
+\newcommand\dif{\mathop{}\!\mathrm{d}}
 
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
-
 
 \begin{document}
 The radius of a power series may be found by
@@ -22,7 +23,7 @@ with partial sum
 $$
 \sum_{n=0}^{N-1} z^n = \frac{1 - z^N}{1 - z}.
 $$
-Useful for estimating path integrals:
+Useful for estimating path integrals if $f$ is continuous:
 $$
 \left|
   \int_\gamma f
@@ -30,6 +31,11 @@ $$
 \leq
 \| f \|_\gamma L(\gamma)
 $$
+
+The Cauchy theorem: Let $f$ be holomorphic on a domain $U$
+and $\gamma$ be a contour in $U$ such that $W(\gamma, z)$
+for all $z \in \mathbb{C} \backslash U$. Then
+$\int_\gamma f = 0$.
 
 The Cauchy theorem implies that
 for $f$ holomorphic on $\mathrm{Int}(J) \cup J$,
@@ -46,7 +52,15 @@ $$
   \frac{f(z)}
        {z - w}
   \dif z
-= 2 \pi i f(w).
+= 2 \pi i f(w)
+$$
+while more generally
+$$
+\frac{1}{2 \pi i}
+\int_\gamma
+  \frac{f(z)}{z - z_0}
+  \dif z
+= W(\gamma, z_0) f(z_0).
 $$
 
 Observing
@@ -78,15 +92,30 @@ $$
     \dif z.
 $$
 
-The mean value theorems for $f$ ($u$) holomorphic (harmonic)
-on a closed (open) disk $D(z_0, r)$:
+The mean value theorem for harmonic functions
+(and thus for holomorphic functions) is
 $$
-  f(z_0)
+  u(z_0)
 = \frac{1}{2 \pi}
   \int_0^{2 \pi}
-    f(z_0 + re^{i\theta})
-    \dif \theta, \quad
-u
+    u(z_0 + re^{i\theta})
+    \dif \theta
+= \frac{1}{\pi r^2}
+  \int_{D(z_0, r)}
+    u(z)
+    dx dy
 $$
+
+The winding number is given by
+$$
+  W(\gamma, z_0)
+= \frac{1}{2 \pi i}
+  \int_\gamma
+    \frac{1}{z - z_0}
+    \dif z
+$$
+and $2\pi W(\gamma, \alpha)$ is equal to the increment
+of $\arg (z - \alpha)$ along $\gamma$. Crossing the curve
+from right to left increments the winding number.
 
 \end{document}
