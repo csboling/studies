@@ -1,0 +1,92 @@
+\documentclass[8pt]{article}
+
+\usepackage{amsmath,amsfonts,amssymb}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+
+\begin{document}
+The radius of a power series may be found by
+$$
+  \frac{1}{\lim |a_n|^{1/n}}
+= \lim \frac{|a_n|}{|a_{n+1}|}
+= \lim \frac{1}{\limsup |a_n|^{1 / n}}.
+$$
+
+The limit of the geometric series is
+$$
+\sum_{n=0}^\infty z^n = \frac{1}{1 - z}, \quad |z| < 1
+$$
+with partial sum
+$$
+\sum_{n=0}^{N-1} z^n = \frac{1 - z^N}{1 - z}.
+$$
+Useful for estimating path integrals:
+$$
+\left|
+  \int_\gamma f
+\right|
+\leq
+\| f \|_\gamma L(\gamma)
+$$
+
+The Cauchy theorem implies that
+for $f$ holomorphic on $\mathrm{Int}(J) \cup J$,
+$$
+  f(w)
+= \frac{1}{2 \pi i}
+  \int_J
+    \frac{f(z)}{z - w}
+    \dif z.
+$$
+This hinges on the fact that
+$$
+\int_{|z - w| = r}
+  \frac{f(z)}
+       {z - w}
+  \dif z
+= 2 \pi i f(w).
+$$
+
+Observing
+$$
+  \frac{f(z)}{z - w}
+= \frac{f(z)}{z - w_0}
+  \sum_{n=0}^\infty
+    \frac{(w - w_0)^n}
+         {(z - w_0)^n}
+$$
+by a geometric expansion gives
+$$
+  f(w)
+= \sum_{n=0}^\infty
+    (w - w_0)^n
+    \frac{1}{2 \pi i}
+    \int_J
+      \frac{f(z)}{(z - w_0)^{n+1}}
+      \dif z, \quad
+  |w - w_0| < \mathrm{dist}(w_0, J)
+$$
+for any $w \in \mathrm{Int}(J)$
+so that
+$$
+  f^{(n)}(w_0)
+= \frac{n!}{2 \pi i}
+  \int_J
+    \frac{f(z)}{(z - w_0)^{n+1}}
+    \dif z.
+$$
+
+The mean value theorems for $f$ ($u$) holomorphic (harmonic)
+on a closed (open) disk $D(z_0, r)$:
+$$
+  f(z_0)
+= \frac{1}{2 \pi}
+  \int_0^{2 \pi}
+    f(z_0 + re^{i\theta})
+    \dif \theta, \quad
+u
+$$
+
+\end{document}
