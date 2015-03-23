@@ -201,7 +201,75 @@ system described by the matrices
 when the output sampling times are given by $t_k^\prime$ and the input
 is modified at times $t_k$.
 
-\subsection{Equilibrium Points and Stability}
+\section{Preliminaries}
+
+\subsection{Matrix Exponential}
+The matrix exponential is given by
+$$
+e^{A} = \sum_{k=0}^\infty \frac{A^k}{k!}
+$$
+which can be computed by the inverse Laplace transform
+$$
+e^{At} = \mathcal{L}^{-1}\{(sI - A)^{-1}\}
+$$
+or in some special cases:
+$$
+\left[\begin{array}{c c c c}
+  \lambda_1 & 0          & \cdots & 0      \\
+  0         & \lambda_2  & \cdots & 0      \\
+  \vdots    & \vdots     & \ddots & \vdots \\
+  0         & 0          & \cdots & \lambda_n
+\end{array}\right]
+\mapsto
+\left[\begin{array}{c c c c}
+  e^{\lambda_1} & 0           & \cdots & 0      \\
+  0           & e^{\lambda_2} & \cdots & 0      \\
+  \vdots      & \vdots      & \ddots & \vdots \\
+  0           & 0           & \cdots & e^{\lambda_n}
+\end{array}\right]
+$$
+
+Note that $e^{A} e^{B} = e^{A + B}$ if any only if $A$ and $B$ commute.
+
+\subsection{Cayley-Hamilton Theorem}
+The Cayley-Hamilton theorem states that every matrix satisfies its own
+characteristic polynomial. That is, let
+$$
+\det (sI - A) = \alpha(s) = \sum_{k=0}^{n} \alpha_k s^k.
+$$
+Then $\sum_{k=0}^{n} \alpha_k A^k = 0$. A consequence of this is
+that
+$$
+A^n = \sum_{k=0}^{n-1} \beta_k A^k,
+$$
+so $A^n$ can be written as a linear combination of lesser powers of
+$A$ and therefore
+$$
+\mathrm{rank}
+\left[\begin{array}{c}
+  I      \\
+  A      \\
+  A^2    \\
+  \cdots \\
+  A^n    \\
+  A^{n+1} \\
+  \cdots \\
+  A^{n+k}
+\end{array}\right]
+=
+\mathrm{rank}
+\left[\begin{array}{c}
+  I      \\
+  A      \\
+  A^2    \\
+  \cdots \\
+  A^n
+\end{array}\right]
+$$
+for any $k \geq 1$.
+
+\section{Equilibrium Points and Stability}
+>>>>>>> old ece851 review
 A dynamical system
 $$
 \dot{x} = f(x)
@@ -1046,8 +1114,7 @@ $$
 \left[\begin{array}{r r}
   A + BF_1 & BF_2 \\
   -C       & 0
-\end{array}\right]
-\l
+\end{array}\right].
 $$
 Incorporating an observer we arrive at the closed-loop integral
 control system
