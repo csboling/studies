@@ -1,0 +1,72 @@
+\section{Applications}
+
+\subsection{Rouche's Theorem}
+
+Suppose $\ord_{z_0} f = m$. Then $f(z) = (z - z_0)^m g(z)$
+where $g$ is holomorphic at $z_0$ and $g(z_0) \neq 0$. Then
+$$
+  f^\prime(z)
+= m (z - z_0)^{m-1} g(z)
++ (z - z_0)^m g^\prime(z)
+$$
+so
+$$
+  \frac{f^\prime(z)}{f(z)}
+= \frac{m}{z - z_0}
++ \frac{g^\prime(z)}{g(z)}.
+$$
+But $g$ and thus $g^\prime$ are holomorphic at $z_0$ and
+$g(z_0) \neq 0$, so $\frac{g^\prime(z)}{g(z)}$ has no
+negative terms in the expansion about $z_0$, so
+$$
+  \mathrm{Res}_{z_0} \frac{f^\prime}{f}
+= m
+= \ord_{z_0} f.
+$$
+
+\begin{theorem}
+Let $f$ be meromorphic on $U$ and let $\gamma$ be
+a positively oriented Jordan curve in $U$ such that
+$\gamma$ does not pass through any zeros or poles of $f$
+and $\mathrm{Int}(\gamma) \subset U$. Then
+$$
+  \int_\gamma
+    \frac{f^\prime}{f}
+= 2 \pi i
+  \sum_{j=1}^n
+    \ord_{z_i} f
+$$
+where $z_i$ are the zeros and poles of $f$ that lie inside $\gamma$.
+\end{theorem}
+\begin{proof}
+From the previous observation, a singularity of
+$\frac{f^\prime}{f}$ is either a zero or a pole of $f$, so
+$\mathrm{Res}_{z_i} \frac{f^\prime}{f} = \ord_{z_0} f$ from the
+previous observation, and so
+$$
+  \int_\gamma \frac{f^\prime}{f}
+= 2 \pi i
+  \sum_{j=1}^n
+    \mathrm{Res}_{z_i} \frac{f^\prime}{f}
+= 2 \pi i
+  \sum_{j=1}^n
+    \ord_{z_i} f.
+$$
+\end{proof}
+
+If $z_0$ is a zero (pole) of $f$ of order $m$, we say that
+there exist $m$ zeros (poles) of $f$ at $z_0$. Using this terminology,
+we say that
+$$
+\int_\gamma \frac{f^\prime}{f} = 2 \pi i (Z - P),
+$$
+where $Z$ is the number of zeros inside $\gamma$ counting
+multiplicities and $P$ is the number of poles inside $\gamma$
+counting multiplicities.
+
+\begin{theorem}
+Let $J$ be a Jordan curve and $f$, $g$ analytic on $J \cup
+\mathrm{Int}(J)$. Suppose $|f(z) - g(z)| < |f(z)|$ for all
+$z \in J$. Then $f, g$ have the same number of zeros inside
+$J$, counting multiplicities.
+\end{theorem}
