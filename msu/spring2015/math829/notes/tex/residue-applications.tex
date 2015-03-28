@@ -68,5 +68,175 @@ counting multiplicities.
 Let $J$ be a Jordan curve and $f$, $g$ analytic on $J \cup
 \mathrm{Int}(J)$. Suppose $|f(z) - g(z)| < |f(z)|$ for all
 $z \in J$. Then $f, g$ have the same number of zeros inside
-$J$, counting multiplicities.
+$J$, counting multiplicities inside $J$.
 \end{theorem}
+
+\begin{proof}
+It suffices to show that
+$\int_J \frac{g^\prime}{g} = \int_J \frac{f^\prime}{f}$.
+Let $h = g - f$ and $g_t = f + th$. Then
+$g_0 = f$ and $g_1 = g$. Since $|h| < |f|$ on $J$,
+we see that $\forall t \in [0, 1]$, $g_t \neq 0$
+on $J$.
+
+Let
+$$
+  m(t)
+= \frac{1}{2 \pi i}
+  \int_J
+    \frac{g_t^\prime}{g_t}
+= \frac{1}{2 \pi i}
+  \int_J
+    \frac{f^\prime + t h^\prime}
+         {f + t h},
+$$
+so that $m(t)$ is the number of zeros
+of $g_t$ counting multiplicity and in particular
+$m(0)$ counts the zeros of $f$, $m(1)$ counts the
+zeros of $g$ so that $m(t) \in \mathbb{Z}$ for
+$t \in [0, 1]$. We may show that $m$ is
+continuous on $[0, 1]$, so it must be constant.
+Then $m$ is constant on $[0, 1]$, so
+$m(1) = m(0)$.
+\end{proof}
+
+\begin{xmpl}
+Let $P(z) = z^8 - 5z^3 + z - 2$.
+\begin{itemize}
+  \item{
+    Find the zeros
+    counting multiplicities of $P$ inside $\{|z| < 1\}$.
+    Compare $P$ with $f(z) = -5z^3$. On $\{|z| = 1\}$,
+    \begin{align*}
+       |P(z) - f(z)|
+    &= |z^8 + z - 2|
+    \leq |z|^8 + |z| + |-2| = 4,
+    \end{align*}
+    and $|f(z)| = |-5z^3| = 5 > |P(z) - f(z)|$. Then
+    from Rouche's theorem, $P$ has the same number of
+    zeros inside the disk $\{ |z| < 1 \}$ as $f$, which
+    is 3.
+  }
+  \item{
+    Let $f(z) = z^8$. On $\{|z| = 2\}$,
+    $$
+      |P(z) - f(z)|
+    = |-5z^3 + z - 2|
+    \leq 5 \cdot 8 + 2 + 2 = 44 < 256
+    $$
+    so $P$ has the same number of zeros as $f$ inside
+    $\{ |z| = 2 \}$, namely 8.
+  }
+\end{itemize}
+\end{xmpl}
+
+There is a method to determine whether a polynomial has
+zeros with multiplicity greater than 1. If $z_0$ is a zero
+of $P$ of order $m \geq 2$, then $z_0$ is a zero of $P^\prime$
+of order $m - 1$, so $z_0$ is a zero of $\mathrm{gcd}(P, P^\prime)$.
+To find the greatest common denominator of two polynomials
+we can use the same division algorithm as for integers.
+
+$P = x^3 + x^2 + x + 1$, $P^\prime = 3x^2 + 2x + 1$
+Then
+$$
+  \frac{x^3 + x^2 + x + 1}{3x^2 + 2x + 1}
+= \frac{x}{3} + \frac{1}{9}
+$$
+with remainder $\frac{4}{9} x + \frac{8}{9}$ so that
+$$
+  \frac{3x^2 + 2x + 1}{\frac{4}{9} x + \frac{8}{9}}
+= \frac{27}{4} x - 9
+$$
+with constant remainder $9$, so these polynomials are
+coprime.
+
+Take $P = x^4 - 2x^2 + 1$ so that $P^\prime = 4x^3 - 4x$
+so
+$$
+  \frac{x^3 - 2x^2 + 1}{4x^3 - 4x}
+= \frac{x}{4}
+$$
+with remainder $-x^2 + 1$ so that
+$$
+  \frac{4x^3 - 4x}{-x^2 + 1}
+= -
+$$
+so that $(x^4 - 2x^2 + 1, 4x^3 - 4x) = -x^2 + 1$, which has
+zeros at $\pm 1$, so these are the multiple zeros of $P$.
+
+\begin{proof}[Fundamental Theorem of Algebra]
+Suppose $P(z) = a_n z^n + a_{n-1} z^{n-1} + \cdots + a_0$, and
+$a_n \neq 0$. Compare $P$ with $f(z) = a_n z^n$. Observe that
+$$
+  \frac{P(z) - f(z)}{f(z)}
+= \frac{a_{n-1}}{a_n}\frac{1}{z}
++ \frac{a_{n-2}}{a_n}\frac{1}{z^2}
++ \cdots
++ \frac{a_0}{a_n} \frac{1}{z^n}.
+$$
+This goes to zero as $|z| \to \infty$, and in particular
+$\exists M > 0$ such that
+$$
+  \left|\frac{P(z) - f(z)}{f(z)}\right|
+< 1 \quad |z| < R, \forall R > M
+$$
+so $|P(z) - f(z)| < |f(z)|$ on $\{|z| = R\}$. Then
+$P$ has the same number of zeros as $f$, which is $n$.
+Since this holds for any $R > M$, $P$ has exactly $n$
+zeros counting multiplicity in $\mathbb{C}$.
+\end{proof}
+
+\begin{theorem}[Open Mapping Theorem]
+Let $f$ be analytic on an open set $U$ such that $f$
+is not constant on any disc. Then $f(U)$ is open.
+\end{theorem}
+
+\begin{proof}
+Let $w_0 \in f(U)$. We will show $\exists \varepsilon > 0$
+such that $D(w_0, \varepsilon) \subset f(U)$. Suppose
+$z_0 \in U$, $f(z_0) = w_0$ and
+$$
+  f(z)
+= \sum_{n=0}^\infty a_n (z - z_0)^n
+$$ near $z_0$.
+Then $a_0 = w_0$, so $f - w_0 = 0$ at $z_0$.
+Let $m = \ord_{z_0} (f - w_0) \in mathbb{N}$, so that
+$a_m \neq 0$ and
+$$
+f(z) = w_0 + \sum_{n=m}^\infty a_n (z - z_0)^n
+$$
+near $z_0$. Let $g(z) = w_0 + a_m (z - z_0)^m$ and
+$$
+  h(z)
+= \frac{f(z) - g(z)}{(z - z_0)^m}
+= \sum_{n=m+1}^\infty a_n (z - z_0)^{n-m}.
+$$
+Therefore $h$ is analytic at $z_0$ and $h(z_0) = 0$.
+
+Pick $r > 0$ such that
+$\bar{D}(z_0, r) \subset U$ and
+$\| h \|_{|z - z_0| = r} < \frac{|a_m|}{2}$. Let
+$\varepsilon = \frac{|a_m|}{2} r^m > 0$, and fix
+$w \in D(w_0, \varepsilon)$. Let $f_w(z) = f(z) - w$
+and $g_w(z) = g(z) - w$. We will show that
+$w \in f(D(z_0, r))$, which is equivalent to showing
+that $f_w$ has a zero in $D(z_0, r)$
+
+Compare $f_w$ with $g_w$. First, $g_w$ has a zero in
+$D(z_0, r)$ since
+$$
+     g_w(z) = 0
+\iff w_0 - w + a_n(z - z_0)^m = 0
+\iff (z - z_0)^m = \frac{w - w_0}{a_m}.
+$$
+Therefore $g_w$ has $m$ roots, where
+$$
+  |z - z_0|
+= \left(\frac{|w - w_0|}{|a_m|}\right)^{1 / m}
+< \left(\frac{\varepsilon}{|a_m|}\right)^{1 / m}
+= \frac{r}{2^{1 / m}}
+< r.
+$$
+We wish to show that $|f_w - g_w| < |g_w|$.
+\end{proof}
