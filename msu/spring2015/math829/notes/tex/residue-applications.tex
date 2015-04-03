@@ -193,6 +193,43 @@ is not constant on any disc. Then $f(U)$ is open.
 \end{theorem}
 
 \begin{proof}
+Let $z_0 \in U$ and $w_0 = f(z_0) \in f(U)$, so
+since $f$ is not constant we have a well-defined
+$m = \ord_{z_0} (f - w_0) \geq 1$. Then
+$$
+f(z) = w_0 + \sum_{n=m}^\infty a_n (z - z_0)^n, \quad |z - z_0| < r
+$$
+and let
+$$
+g(z) = w_0 + a_m (z - z_0)^m, \quad
+h(z) = \frac{f(z) - g(z)}{(z - z_0)^m}
+     = \sum_{n=m+1}^\infty a_n (z - z_0)^{n - m}.
+$$
+Let $r > 0$ such that
+$\ h \|_{|z - z_0| = r} < \frac{|a_m|}{2}$ and
+$\varepsilon = \frac{|a_m|}{2} r^m$.
+
+Let $w \in D(w_0, \varepsilon)$, and define
+$f_w = f - w$, $g_w = g - w$. On $\{|z - z_0| = r\}$,
+\begin{align*}
+      |g_w(z)|
+&=    |a_m (z - z_0)^m + w_0 - w|
+ \geq |a_m| r^n - |w - w_0| \\
+&>    |a_m|r^m -\varepsilon
+ =    \frac{|a_m|}{2} r^m \\
+&>    r^m \| h \|_{|z - z_0| = r}
+ \geq |(z - z_0)^m h(z)| \\
+&=    |f(z) - g(z)|
+ =    |f_w(z) - g_w(z)|.
+\end{align*}
+Then from Rouche's theorem, $f_w$ has the same number of zeros as
+$g_w$ in $D(z_0, r)$, which is $m$. Therefore
+$\exists z \in D(z_0, r)$ such that $f(z) = w$. Then
+$w \in f(D(z_0, r)) \subset f(U)$. Since $w$ was chosen arbitrarily
+in $D(w_0, \varepsilon)$, we get $D(w_0, \varepsilon) \subset f(U)$.
+\end{proof}
+
+\begin{proof}
 Let $w_0 \in f(U)$. We will show $\exists \varepsilon > 0$
 such that $D(w_0, \varepsilon) \subset f(U)$. Suppose
 $z_0 \in U$, $f(z_0) = w_0$ and
@@ -239,4 +276,82 @@ $$
 < r.
 $$
 We wish to show that $|f_w - g_w| < |g_w|$.
+\end{proof}
+
+
+\begin{remark}
+If $U$ is a domain, the assumption that $f$ is not constant
+on any disk is equivalent to the assumption that $f$ is not
+constant. In this case, $f(U)$ is either a single point or
+an open set.
+\end{remark}
+
+\begin{defn}[Analytic isomorphisms and automorphisms]
+An analytic function defined on an open set $U$ is called
+an \emph{analytic isomorphism}
+(or \emph{biholomorphism}) if there is an analytic
+function $g$ define on $f(U)$ such that $g(f(z)) = z$
+for every $z \in U$. If $f(U) = U$ then we say $f$ is
+an analytic automorphism of $U$. We say that $f$ is a local
+analytic isomorphism at $z_0$ if there is an open set $U \ni z_0$
+such that $f$ is an analytic isomorphism on $U$.
+
+More concisely, an analytic isomorphism is an isomorphism in the
+category with open subsets of $\mathbb{C}$ as objects and
+holomorphisms as morphisms.
+\end{defn}
+
+\begin{theorem}
+Let $f$ be holomorphic and injective on an open set $U$. Then
+$f$ is a biholomorphism.
+\end{theorem}
+
+\begin{proof}
+Define $g = f^{-1}$ on $f(U)$. Such $g$ is well-defined since
+$f$ is injective. It remains to show that $g$ is holomorphic.
+
+From the open mapping theorem, for any open set $O \subset U$,
+$g^{-1}(0) = f(0)$ is open. Thus $g$ is continuous.
+
+Let $Z$ denote the set of zeros of $f^\prime$. Then $Z$ has no
+accumulation point in $U$. Let $U^\prime = U \backslash Z$, and
+fix $w_0 \in f(U^\prime) = f(U) \backslash f(Z)$. Let
+$z_0 = g^{-1}(w_0) \in U^\prime$, $f(z_0) = w_0$.
+Consider
+$$
+  \frac{g(w) - g(w_0)}{w - w_0}
+= \frac{g(w) - g(w_0)}{f(g(w)) - f(g(w_0))}.
+$$
+If $w \to w_0$, then $g(w) \to g(w_0)$. Since
+$f^\prime(g(w_0)) = f^\prime(z_0) \neq 0$, we have
+$$
+  \lim_{w \to w_0}  \frac{g(w) - g(w_0)}{w - w_0}
+= \frac{1}{f^\prime(z_0)}
+$$
+exists. Thus $g$ is holomorphic on $U^\prime$.
+
+Since $g$ is continuous on $U$, every $z \in Z$ is
+a removable singularity. After removing these singularities
+we have that $g$ is holomorphic on $U$.
+
+Since $z = g(f(z))$, $1 = g^\prime(f(z)) f^\prime(z)$, so
+$f^\prime(z) \neq 0$ for any $z$, and therefore in fact
+$Z = \varnothing$. However, $f^\prime(z) \neq 0$ for all $z$
+does not imply that $f$ is an analytic isomorphism, for instance
+$e^z$.
+\end{proof}
+
+\begin{theorem}[Inverse Mapping Theorem]
+If $f$ is holomorphic at $z_0$ and $f^\prime(z_0) \neq 0$, then
+$f$ is a local analytic isomorphism at $z_0$.
+\end{theorem}
+
+\begin{proof}
+Let $w_0 = f(z_0)$. Recall $m = \ord_{z_0} (f - w_0)$. Since
+$f^\prime(z_0) \neq 0$, $m = 1$. We found $r, e > 0$ such that
+$\forall D(w_0, \varepsilon$, $f_w = f - w$ has $m$ zeros in
+$D(z_0, r)$. Since $m = 1$, there is a unique $z \in D(z_0, r)$
+such that $f(z) = w$. Let
+$U = D(z_0, r) \cap f^{-1}(D(w_0, \varepsilon))$.
+Then $z_0 \in U$ and $f$ is injective on $U$.
 \end{proof}
