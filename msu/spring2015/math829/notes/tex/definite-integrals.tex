@@ -1,0 +1,712 @@
+\section{Evaluating Definite Integrals}
+
+We have the definite of an improper integral on the real line as
+$$
+           \int_{-\infty}^\infty
+             f(x)
+             \dif x
+\triangleq \lim_{R \to \infty}
+             \int_{-R}^0
+               f(x)
+               \dif x
+         + \lim_{R \to \infty}
+             \int_0^R
+               f(x)
+               \dif x.
+$$
+Assume $f$ is holomorphic on the closed upper half plane
+${\Im z > 0}$ except at finitely many singularities $z_k$
+in the open upper half plane. Choose $R > 0$ such that $|z_k| < R$
+for $1 \leq k \leq n$. Let $S_R$ denote the semicircle
+$\gamma(t) = R e^{it}$, $0 \leq t \leq \pi.$ Then we have a
+positively oriented Jordan curve
+$$
+\Gamma := [-R, R] \oplus S_R
+$$
+so that
+$$
+  2 \pi i \sum_{k=1}^n Res_{z_k} f
+= \int_{\Gamma} f
+= \int_{[-R, R]} f + \int_{S_R} f
+= \int_{-R}^{R}
+    f(x)
+    \dif x
+$$
+since
+$$
+  \int_{[-R, R]} f
+= \int_{-R}^R f(-R(1 - t) + R t) 2 R \dif t
+= \int_{-R}^R f(u) \dif u.
+$$
+If $\lim_{R \to \infty} \int_{S_R} f = 0$ then this means
+$$
+  \lim_{R \to \infty}
+  \int_{-R}^R
+    f(x) \dif x
+= 2 \pi i
+  \sum_{k=1}^n
+    \Res_{z_k} f.
+$$
+If this limit exists, we denote it by
+$$
+  \lim_{R \to \infty}
+  \int_{-R}^R
+    f(x) \dif x
+= \mathrm{P.V.}
+    \int_{-\infty}^\infty
+      f(x)
+      \dif x,
+$$
+the \emph{principal value} of the improper integral.
+
+\begin{enumerate}
+  \item{
+    If $\int_{-\infty}^\infty f(x) \dif x$ exists, then its
+    principal value also exists and they are equal.
+  }
+  \item{
+    If the principal value exists, the improper integral may not
+    exist. For instance, consider $f(x) = x$. This is an odd function,
+    so $\int_{-R}^R x \dif x = 0$. But
+    $\int_0^R x \dif x = \frac{x^2}{2} \to \infty$ and
+    $\int_{-R}^0 x \dif x = -\frac{x^2}{2} \to -\infty$, and
+    $-\infty + \infty$ is not defined.
+  }
+  \item{
+    If $f \geq 0$ or is even, then the existence of the principal
+    value implies the existence of the improper integral. Moreover, if
+    $f$ is even and $\int_{-\infty}^\infty f(x) \dif x$ exists, then
+    $$
+      \int_0^\infty f(x) \dif x
+    = \int_{-\infty}^0 f(x) \dif x
+    = \frac{1}{2}
+      \int_{-\infty}^\infty f(x) \dif x.
+    $$
+  }
+\end{enumerate}
+
+\begin{xmpl}
+  Consider the integral
+  $$
+  \int_{-\infty}^\infty \frac{\dif x}{x^4 + 1}.
+  $$
+  The function $f(z) = \frac{1}{z^4 + 1}$ is meromorphic and has
+  simple poles at the 4th roots of -1, two of which lie in the
+  upper half plane. Since the integrand is even, we proceed by:
+  \begin{enumerate}
+    \item{
+       computing the residues of $f$ at
+       $\frac{1}{\sqrt{2}}(\pm 1 + i)$, namely
+       $$
+         \Res_{z_i} f
+       = \frac{1}{\left.(z^4 + 1)^\prime\right|_{z_i}}
+       = \frac{1}{4z_i^3}
+       = -\frac{z_i}{4}
+       $$
+       so that
+       $$
+         2 \pi i (\Res_{z_1} f + \Res_{z_2} f)
+       = -\frac{2\pi i}{4}(z_1 + z_2) = \frac{\pi}{\sqrt{2}}.
+       $$
+     }
+     \item{
+       showing that $\int_{S_R} f \to 0$ by estimating
+       $$
+            \left|
+              \int_{S_R} f
+            \right|
+       \leq \| f \|_{S_R} L(S_R)
+       =    \frac{\pi R}{R^4 - 1} \to 0
+       $$
+       since $|z^4 + 1| \geq |z^4| - 1 = R^4 - 1$.
+     }
+     \item{
+       concluding that
+       $\int_{-\infty}^\infty f(x) \dif x = \frac{\pi}{\sqrt{2}}$.
+     }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{xmpl}
+  Consider
+  $$
+  \int_0^\infty \frac{\sin x}{x} \dif x.
+  $$
+  We know that $\frac{\sin z}{z}$ extends to an entire function
+  since its only singularity $z$ is removable. However,
+  $\int_{S_R} \frac{\sin z}{z} \dif z$ is hard to work with since
+  $\sin z$ is unbounded on this semicircle. Instead let
+  $$
+  f(z) = \frac{e^{iz}}{z} = \frac{\cos z + i \sin z}{z},
+  $$
+  which has exactly one pole at $z = 0$. We cannot integrate $f$ over
+  the $\Gamma$ defined previously, since this function is not defined
+  at 0. Instead we choose
+  $$
+    \Gamma
+  = [\varepsilon, R]
+  \oplus S_R
+  \oplus [-R, -\varepsilon]
+  \oplus S_{\varepsilon}^{-}
+  $$
+  and $f$ has no pole inside $\Gamma$. Therefore
+  \begin{align*}
+     0
+  &= \int_{\Gamma} f
+   = \int_{\varepsilon}^R
+       \frac{e^{ix}}{x}
+       \dif x
+   + \int_{-R}^{-\varepsilon}
+       \frac{e^{ix}}{x}
+       \dif x
+   + \int_{S_R} f
+   - \int_{S_\varepsilon} f.
+  \end{align*}
+  Notice that
+  \begin{align*}
+    \int_\varepsilon^R
+      \frac{e^{ix}}{x}
+      \dif x
+  + \int_{-R}^{-\varepsilon}
+      \frac{e^{ix}}{x}
+      \dif x
+  = \int_\varepsilon^R
+      \frac{e^{ix}}{x}
+      \dif x
+  - \int_{varepsilon}^R
+      \frac{e^{-ix}}{x}
+      \dif x
+  = 2i
+    \int_\varepsilon^R
+      \frac{\sin x}{x}
+      \dif x.
+  \end{align*}
+  Next,
+  \begin{enumerate}
+    \item{
+      $$
+           \left|
+             \int_{S_R} f
+           \right|
+      \leq \| f \|_{S_R} L(S_R)
+      =    \pi
+      $$
+      since
+      $$
+        |f(z)|
+      = \frac{|e^{iz}|}{|z|}
+      = \frac{e^{\Re (i z)}}{R}
+      = \frac{e^{-\Im z}}{R}
+      \leq \frac{1}{R},
+      $$
+      so this inequality cannot be used to show
+      the integral over the semicircle goes to zero.
+      Instead use
+      \begin{align*}
+            \left|
+              \int_{S_R} f
+            \right|
+      &=    \left|
+              \int_0^\pi
+                \frac{e^{i R e^{it}}}{Re^{it}}
+                i R e^{it}
+                \dif t
+            \right|
+       =    \left|
+              \int_0^\pi
+                e^{i R e^{it}}
+                \dif t
+            \right| \\
+      &\leq \int_0^\pi
+              |e^{i R e^{it}}|
+              \dif t
+       =    \int_0^\pi
+              e^{-R \sin t}
+              \dif t
+       =    2 \int_0^{\pi / 2}
+                e^{-R \sin t}
+                \dif t.
+      \end{align*}
+      Now $\sin x$ is concave on $[0, \pi]$ since
+      $\sin^{\prime\prime} x = - \sin x \leq 0$ on $[0, \pi]$,
+      so $\sin x \geq \frac{x}{\pi / 2}$ on $[0, \pi / 2]$.
+      Therefore
+      \begin{align*}
+            2 \int_0^{\pi / 2}
+                e^{-R \sin t}
+                \dif t
+      &\leq 2 \int_0^{\pi / 2} e^{-\frac{R t}{\pi / 2}}
+       =    2 \frac{\pi / 2}{R}
+            \int_0^R
+              e^{-s}
+              \dif s
+       \leq \frac{\pi}{R}
+            \int_0^\infty
+              e^{-s}
+              \dif s \\
+      &=    \frac{\pi}{R}.
+      \end{align*}
+      Therefore $\left| \int_{S_R} f \right| \to 0$ as $R \to \infty$.
+    }
+    \item{
+      We compute $\lim_{\varepsilon \to 0} \int_{S_\varepsilon}
+      \frac{e^{iz}}{z}$.
+      Recall that the curve $S_\varepsilon$ is parameterized by
+      $\gamma(t) = \varepsilon e^{it}$, $0 \leq t \leq 2 \pi$.
+      For $\varepsilon > 0$, $\Theta \in (0, 2 \pi)$, let
+      $\gamma_{\varepsilon, \theta}$ denote the curve
+      $\gamma(t) = \varepsilon e^{it}$, $0 \leq t \leq \theta$.
+
+      \begin{lemma}
+        Suppose $f$ has a simple pole at 0. Then
+        $$
+          \lim_{\varepsilon \to 0}
+            \int_{\gamma \varepsilon \theta} f
+        = i \theta
+          \Res_0 f.
+        $$
+      \end{lemma}
+      \begin{proof}
+        Let $a = \Res_0 f$. We may write
+        $$
+        f(z) = \frac{a}{z} + h(z),
+        $$
+        where $h(z)$ is holomorphic at 0. We compute
+        $$
+          \int_\gamma
+            \frac{a}{z}
+        = \int_0^\theta
+            \frac{a}{\varepsilon e^{it}}
+            i \varepsilon e^{it}
+            \dif t
+        = i a \theta.
+        $$
+        Since $h$ is bounded near 0 and
+        $L(\gamma) = \varepsilon \theta \to 0$,
+        we get $\int_\gamma h \to 0$ as $\varepsilon \to 0$.
+        Then
+        $$
+          \lim_{\varepsilon \to 0}
+            \int_{\gamma_{\varepsilon, \theta}} f
+        = \lim_{\varepsilon \to 0}
+            \int_{\gamma_{\varepsilon, \theta}}
+            \frac{a}{z}
+        = i \theta a.
+        $$
+      \end{proof}
+      If $\theta = \pi$ and $f(z) = \frac{e^{i z}}{z}$, we get
+      $$
+        \lim_{\varepsilon \to 0}
+          \int_{S_\epsilon}
+            \frac{e^{iz}}{z}
+      = i \pi
+      $$
+      and so
+      \begin{align*}
+         0
+      &= \int_\varepsilon^R
+           \frac{e^{ix}}{x}
+           \dif x
+       + \int_{-R}^{-\varepsilon}
+           \frac{e^{ix}}{x}
+           \dif x
+       + \int_{S_R}
+           \frac{e^{iz}}{z}
+           \dif z
+       - \int_{S_\varepsilon}
+           \frac{e^{iz}}{z}
+           \dif z
+       = 2 i
+         \int_0^\infty
+           \frac{\sin x}{x}
+           \dif x
+       + 0
+       - i \pi
+      \end{align*}
+      as $R \to \infty$, $\varepsilon \to 0$. So
+      $\int_0^\infty \frac{\sin x}{x} \dif x = \frac{\pi}{2}$.
+    }
+\end{enumerate}
+\end{xmpl}
+
+\begin{xmpl}
+Compute
+$$
+\int_{-\infty}^\infty
+  \frac{\cos (a x)}{1 + x^2}
+  \dif x
+$$
+for $a \in \mathbb{R}$. First assume $a \geq 0$.
+Let $f(z) = \frac{e^{iaz}}{1 + z^2}$, which has poles
+at $\pm i$. Let $R > 1$ and let
+$\Gamma = [-R, R] \oplus S_R$. $f$ has 1 singularity
+inside $\Gamma$, so $\int_\Gamma f = 2 \pi i \Res_i f$.
+Then
+\begin{align*}
+  \int_\Gamma f
+&= \int_{-R}^{R}
+     \frac{e^{i a x}}
+          {1 + x^2}
+ + \int_{S_R}
+     \frac{e^{i a z}}{1 + z^2}
+     \dif z
+ = \int_{-R}^{R}
+     \frac{\cos(ax)}
+          {1 + x^2}
+     \dif x
+ + i
+   \int_{-R}^{R}
+     \frac{\sin(ax)}
+          {1 + x^2}
+     \dif x
+ + \int_{S_R}
+     \frac{e^{i a z}}{1 + z^2}
+     \dif z \\
+&= \int_{-R}^{R}
+     \frac{\cos(ax)}
+          {1 + x^2}
+     \dif x
+ + \int_{S_R}
+     \frac{e^{i a z}}{1 + z^2}
+     \dif z.
+\end{align*}
+
+Note that for $z \in S_R$,
+$|e^{i a z}| = e^{-a \Im z} \leq 1$ and
+$|1 + z^2| \geq |z|^2 - 1 = R^2 - 1$
+so that
+$$
+  \left|
+    \int_{S_R}
+      \frac{e^{i a z}}{1 + z^2}
+      \dif z
+  \right|
+\leq \frac{1}{R^2 - 1} \pi R \to 0.
+$$
+Using the fact that the integrand is even,
+$$
+  \int_{-\infty}^\infty
+    \frac{\cos(ax)}{1 + x^2}
+    \dif x
+= 2 \pi i \Res_i f
+= 2 \pi i \frac{e^{a i i}}{(z^2 + 1)^\prime|_i}
+= \pi e^{-a}.
+$$
+If $a < 0$, we may use $\cos(-ax) = \cos (ax)$.
+\end{xmpl}
+
+\section{Fourier Transform}
+Given $f$ on $\mathbb{R}$ satisfying certain properties,
+the Fourier transform of $f$ is defined to be
+$$
+  \hat{f}(t)
+= \int_{-\infty}^{\infty}
+    e^{i t x} f(x) \dif x
+= \int_{-\infty}^\infty
+    \cos(tx) f(x) \dif x
++ i
+  \int_{-\infty}^\infty
+    \sin(tx) f(x) \dif x, \quad t \in \mathbb{R}.
+$$
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      If $f(x) = \frac{1}{1 + x^2}$,
+      $$
+      \hat{f}(a) = \pi e^{-|a|}.
+      $$
+    }
+    \item{
+      $$\hat{f}(0) = \int_{-\infty}^\infty f(x) \dif x.$$
+    }
+    \item{
+      Consider $f(x) = e^{-\frac{x^2}{2}}$. Then
+      let $I = \int_{-\infty}^\infty e^{-\frac{x^2}{2}} \dif x$.
+      We write
+      \begin{align*}
+         I^2
+      &= \int_{-\infty}^\infty
+           e^{-\frac{x^2}{2}}
+           \dif x
+         \cdot
+         \int_{-\infty}^\infty
+           e^{-\frac{y^2}{2}}
+           \dif y
+       = \int_{-\infty}^\infty
+         \int_{-\infty}^\infty
+           e^{-\frac{x^2 + y^2}{2}}
+           \dif x \dif y \\
+      &= \int_0^{2\pi}
+         \int_0^\infty
+           e^{-\frac{r^2}{2}} r \dif r \dif \theta
+       = 2 \pi (-e^{-\frac{r^2}{2}})|_0^\infty
+       = 2 \pi
+      \end{align*}
+      so that $I = \sqrt{2 \pi}$. Now we compute
+      $$
+        \hat{f}(a)
+      = \int_{-\infty}^\infty
+          e^{i a x}
+          e^{-\frac{x^2}{2}}
+          \dif x
+      = \int_{-\infty}^\infty
+          e^{-\frac{x^2}{2} + i a x} \dif x.
+      $$
+      Since
+      $$
+        -\frac{x^2}{2} + i a x
+      = -\frac{1}{2}(x - i a)^2 - \frac{a^2}{2}
+      $$
+      we have
+      $$
+        \hat{f}(a)
+      = e^{-\frac{a^2}{2}}
+        \int_{-\infty}^\infty
+          e^{-\frac{1}{2}(x - ia)^2}
+          \dif x.
+      $$
+      Now let $f = e^{-\frac{z^2}{2}}$ and note that
+      $$
+        \int_{-R}^R
+          e^{-\frac{1}{2}(x - ia)^2}
+          \dif x
+      = \int_{[-R - i a, R - i a]} f.
+      $$
+      Let $\Gamma$ be the boundary of the rectangle given by
+      $-R \leq \Re z \leq R$ and $-a \leq \Im z \leq 0$.
+      Then
+      \begin{align*}
+         0
+      &= \int_\Gamma f
+       =  \int_{-R}^R e^{-\frac{x^2}{2}} \dif x
+        - \int_{[-R-ia, R - ia]} f
+        + \int_{[R, R - i a]} f
+        + \int_{[-R-ia, -R]} f.
+      \end{align*}
+      We will show that
+      $$
+      \int_{[\pm R, \pm R - i a]} f \to 0.
+      $$
+      $$
+           \left|
+             \int_{[\pm R, \pm R - i a]} f
+           \right|
+      \leq \| f \|_{[\pm R, \pm R - ia]} |a|.
+      $$
+      But
+      $$
+           |e^{-\frac{z^2}{2}}|
+      \leq e^{-\Re(\frac{z^2}{2})}
+      =    e^{-\frac{1}{2}(x^2 - y^2)}
+      \leq e^{\frac{1}{2}(a^2 - R^2)}
+      $$
+      on $[\pm R, \pm R - ia]$, so this integral goes to 0
+      as $R \to \infty$. Therefore
+      $$
+      \lim_{R \to \infty}
+        \int_{-R}^R
+          e^{-\frac{1}{2}(x - i a)^2}
+          \dif x
+      = \sqrt{2 \pi}
+      $$
+      so that
+      $$
+      \lim_{R \to \infty}
+        \int_{-R}^R
+          e^{i a x}
+          e^{-\frac{1}{2}x^2}
+          \dif x
+      = \sqrt{2 \pi} e^{-\frac{a^2}{2}}
+      $$
+      so that $\hat{f} = \sqrt{2 \pi} e^{-\frac{x^2}{2}}$, i.e.
+      the normal distribution is an eigenfunction of the Fourier
+      transform.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\subsection{Trigonometric Integrals}
+We wish to integrate
+$$
+\int_0^{2\pi} Q(\cos \theta, \sin \theta) \dif \theta
+$$
+where $Q(x, y)$ is a rational function. We see that
+$$
+   \int_0^{2\pi}
+     Q(\cos \theta, \sin \theta)
+     \dif \theta
+=  \int_{|z| = 1}
+     Q\left(
+       \frac{z + z^{-1}}{2},
+       \frac{z - z^{-1}}{2 i}
+      \right)
+     \frac{\dif z}
+          {i z}.
+$$
+We may then use the residue formula to compute such integrals.
+
+\begin{xmpl}
+  Compute
+  \begin{align*}
+  I &= \int_0^{2\pi}
+         \frac{1}{a + \sin \theta}
+         \dif \theta
+     = \int_{|z| = 1}
+         \frac{1}{a + \frac{z - z^{-1}}{2i}}
+         \frac{\dif z}{i z} \\
+    &= \int_{|z| = 1}
+         \frac{2}{z^2 - 1 + 2iaz}
+         \dif z
+  \end{align*}
+  with $a > 1$. We rewrite the
+  denominator as $(z+ia)^2 + a^2 - 1$, so that the
+  zeros are at $z_1 = -ia \pm i \sqrt{a^2 - 1}$. We
+  see that $|z_2| = a + \sqrt{a^2 - 1} > a > 1$ and
+  $z_1 z_2 = -1$, so $|z_1| < 1$. Then we compute
+  \begin{align*}
+     2 \pi i \cdot \Res_{z_1} \frac{2}{f(z)}
+  &= 2 \pi i \frac{2}{f^\prime(z_1)}
+   = 4 \pi i \frac{1}{(2z + 2ia)|_{z = z_1}} \\
+  &= \frac{4 \pi i}{2 i \sqrt{a^2 - 1}}
+   = \frac{2 \pi}{\sqrt{a^2 - 1}}.
+  \end{align*}
+\end{xmpl}
+
+Now consider an integrand with a branch cut.
+\begin{xmpl}
+  Compute
+  $$
+    \int_0^\infty
+      \frac{1}{1 + x^a}
+      \dif x, \quad
+    a > 1.
+  $$
+  Let
+  $$
+    f(z)
+  = \frac{1}{1 + z^a}
+  = \frac{1}{1 + e^{a L(z)}}
+  $$
+  where $L(z)$ is a branch of the logarithm.
+
+  Let $A_r$ be a curve parameterized by
+  $$
+  \gamma(t) = r e^{it}, \quad 0 \leq t \leq \frac{2 \pi}{a}.
+  $$
+  Fix $R > 1 > \varepsilon > 0$. Let
+  $$
+    \Gamma
+  =      [\varepsilon, R]
+  \oplus A_R
+  \oplus [R e^{i \frac{2 \pi}{a}}, \varepsilon e^{i \frac{2 \pi}{a}}]
+  oplus  A_\varepsilon^{-}.
+  $$
+  Choose the branch $L(z)$ to be a branch of $\log z$ in
+  $\mathbb{C} \backslash \{ r e^{i \theta_0} : r \geq 0 \}$
+  where $\theta_0 = \frac{\pi}{a} - \pi$, such that
+  $L(x) = \log x$ if $x \in \mathbb{R}$ and $x > 0$. Then
+  $L$ is well-defined and holomorphic on this domain, and
+  $L^\prime(z) = \frac{1}{z}$. Namely
+  $L(z) = \log |z| + i \theta(z)$ where
+  $\theta(z) \in \arg z$ such that
+  $\frac{\pi}{a} - \pi < \theta(z) < \frac{\pi}{a} + \pi$.
+
+  Then $f$ is holomorphic on
+  this domain except at the singularities of the denominator.
+  We next calculate the zeros of $1 + e^{a L(z)}$. Since
+  $-1 = e^{i \pi}$ we have $a L(z) = i \pi + 2 n \pi i$ for any
+  $n \in \mathbb{Z}$, or where $L(z) = i \pi \frac{2n + 1}{a}$.
+
+  On $\Gamma$ and $\mathrm{Int}(\Gamma)$,
+  $\Im(L(z)) \in \left[0, \frac{2 \pi}{a}\right]$ The only zero
+  is then at $n = 0$, i.e. $z_0 = e^{\frac{i \pi}{a}}$.
+
+  Observe now
+  \begin{itemize}
+    \item{
+      $$
+        \int_{[\varepsilon, R]} f
+      = \int_\varepsilon^R
+          \frac{1}{1 + x^a}
+          \dif x.
+      $$
+    }
+    \item{
+      $$
+         \int_{[R e^{i \frac{2\pi}{a}},
+                \varepsilon e^{i \frac{2\pi}{a}}]}
+           f
+       = -\int_{\varepsilon}^R
+            f(te^{i \frac{2\pi}{a}}) e^{i \frac{2\pi}{a}}
+            \dif t
+      $$
+      and $L(te^{i \frac{2\pi}{a}}) = \log(t) + i \frac{2\pi}{a}$
+      so that
+      $$
+        f(t e^{i \frac{2 \pi}{a}})
+      = \frac{1}{1 + e^{a \log t + i 2 \pi}}
+      = \frac{1}{1 + t^a}.
+      $$
+    }
+    \item{
+      Therefore
+      \begin{align*}
+          \int_{\gamma} f
+       &= \int_{A_R} f
+        - \int_{A_\varepsilon} f
+        + \int_{[\varepsilon, R]} f
+        + \int_{[R e^{i \frac{2\pi}{a}},
+                \varepsilon e^{i \frac{2 \pi}{a}}]}
+             f \\
+       &= \int_{A_R} f
+        - \int_{A_\varepsilon} f
+        + (1 - e^{i \frac{2\pi}{a}})
+          \int_\varepsilon^R
+            \frac{1}{1 + x^a}
+            \dif x.
+      \end{align*}
+      Since
+      $$
+          \Res_{z_0} f
+        = \frac{1}
+               {e^{a L(z)} a L^\prime(z)|z_0}
+        = \frac{1}
+               {-\frac{a}{z_0}} = -\frac{z_0}{a},
+      $$
+      if $\int_{A_R} f \to 0$ and $\int_{A_\varepsilon} f \to 0$
+      then
+      $$
+        \int_0^\infty
+          \frac{\dif x}{1 + x^a}
+      = -2 \pi i \frac{e^{i\frac{\pi}{a}}}
+                      {a(1 - e^{i\frac{2\pi}{a}})}
+      = \frac{\frac{\pi}{a}}
+             {\sin \frac{\pi}{a}}.
+      $$
+    }
+    \item{
+      Since $|e^{a L(z)}| = |z|^a$, on $A_R$ we have
+      $$
+      |1 + e^{a L(z)}| \geq |e^{a L(z)}| - 1 = R^a - 1
+      $$
+      and so
+      $$
+           \left|
+             \int_{A_R} f
+           \right|
+      \leq \frac{2 \pi R}{R^a - 1}
+      \to  0.
+      $$
+      On $A_\varepsilon$,
+      $$
+      |1 + e^{a L(z)}| \geq 1 - |e^{a L(z)}| = 1 - \varepsilon^a
+      $$
+      so
+      $$
+      \frac{2 \pi \varepsilon}{1 - \varepsilon^a} \to 0
+      $$
+      as $\varepsilon \to 0$, since $\varepsilon < 1$.
+    }
+  \end{itemize}
+\end{xmpl}
