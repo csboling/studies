@@ -710,3 +710,84 @@ Now consider an integrand with a branch cut.
     }
   \end{itemize}
 \end{xmpl}
+
+\section{Methods for calculating residues}
+
+\subsection{Laurent expansion}
+Suppose $f$, $g$ are holomorphic on $\{ z : 0 < |z - z_0| < r \}$.
+Suppose $z_0$ is either a pole or a removable singularity of $f$ or
+$g$, and that neither $f$ nor $g$ are constant 0 near $z_0$. Then
+$\ord_{z_0} f$ and $\ord_{z_0} g$ are well-defined. Suppose the
+Laurent series of $f$ and $g$ at $z_0$ are known and we wish to use
+them to calculate the Laurent series of $f \cdot g$ and $f / g$
+at $z_0$. For simplicity, assume $z_0 = 0$ and let
+$m_1 = \ord_{z_0} f$ and $m_2 = \ord_{z_0} g$. Then we write
+$$
+f(z) = \sum_{n=m_1}^\infty a_n z^n, \quad
+g(z) = \sum_{n=m_2}^\infty b_n z^n.
+$$
+Then $\ord_0 (f \cdot g) = m_1 + m_2$ and
+$$
+  f(z) \cdot g(z)
+= \sum_{n = m_1 + m_2} c_n z^n.
+$$
+In fact we may assume that $m_1 = m_2 = 0$, for otherwise we can
+``shift'' the series. We have (formally)
+$$
+      \left( \sum a_{n_1} z^{n_1} \right)
+\cdot \left( \sum b_{n_2} z^{n_2} \right)
+=     \sum_n
+        \left(
+          \sum_{n_1 + n_2 = n} a_{n_1} b_{n_2}
+        \right).
+$$
+This can be proven rigorously by observing
+$$
+  c_n
+= \frac{(f g)^{(n)}(0)}{n!}
+= \frac{1}{n!}
+  \sum_{k=0}^n
+    {n \choose k}
+    f^{(k)}(0)
+    g^{(n-k)}(0).
+$$
+We also have, for
+$\ord_0 \frac{f}{g} = m_1 - m_2$,
+$$
+  \frac{f}{g}(z)
+= \sum_{n=m_1-m_2}^\infty d_n z^n.
+$$
+
+\begin{xmpl}
+Let $f(z) = \frac{1}{1 - z}$, $g(z) = -\log (1 - z)$.
+We want to calculate the Laurent series of $\frac{f}{g}$
+centered at 0. We have
+$$
+f(z) = \sum_{n=0}^\infty z^n, \quad
+g(z) = \sum_{n=0}^\infty \frac{z^{n+1}}{n + 1}
+$$
+so that when $h = f / g$ we have $f = h \cdot g$, i.e.
+\begin{align*}
+   \sum_{n=0}^\infty z^n
+&= \left(
+     \sum_{n=-1}^\infty
+       a_n z^n
+   \right)
+   \left(
+     \sum_{n=0}^\infty
+       \frac{z^{n+1}}{n+1}
+   \right)
+ = \left(
+     \sum_{n=0}^\infty
+       a_{n-1} z^{n-1}
+   \right)
+   \left(
+     \sum_{n=0}^\infty
+       \frac{z^{n+1}}{n+1}
+   \right) \\
+&= \sum_{n=0}^\infty
+     \sum_{k=0}^{n-1}
+       a_{k-1} z^{k-1}
+       \frac{z^{n-k}}{n - k}
+\end{align*}
+\end{xmpl}
