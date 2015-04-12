@@ -1,0 +1,212 @@
+\begin{defn}[Conformal Mapping]
+A conformal mapping is an analytic isomorphism.
+For open sets $U$ and $V$, let $\mathrm{Iso}(U, V)$ denote the
+set of analytic isomorphisms $f$ such that $f(U) = V$. Let
+$\mathrm{Aut}(U) = \mathrm{Iso}(U, U)$. Observe that
+$\mathrm{Aut}(U)$ has an obvious group structure given by
+function composition.
+\end{defn}
+
+The name comes from the following observation. Let $U$ be open
+and $f$ be holomorphic on $U$. Suppose $\gamma : [a, b] \to U$
+is $C^1$ and let $\beta = f \circ \gamma$. Then $\beta$ is a
+$C^1$ curve in $f(U)$ and
+$\beta^\prime(t) = f^\prime(\gamma(t)) \gamma^\prime(t)$. If
+$\gamma^\prime(t) \neq 0$, then $\arg \gamma^\prime(t)$ gives the
+direction of the curve $\gamma$ at $\gamma(t)$. If
+$f^\prime(\gamma(t)) \neq 0$ then the direction of $\beta$ at
+$t$ is
+$$
+  \arg \beta^\prime(t)
+= \arg f^\prime(\gamma(t)) + \arg \gamma^\prime(t).
+$$
+
+Now suppose $f$ is an analytic isomorphism. Then $f^\prime$ is never
+zero. Suppose two $C^1$ curves in $U$, $\gamma$ and $\eta$, intersect
+at $z_0 = \gamma(t_0) = \eta(t_1)$. The angle between $\gamma$ and
+$\eta$ at $z_0$ is
+$$
+  \theta
+= \arg \gamma^\prime(t_0) - \arg \eta^\prime(t_1),
+$$
+while the angle between $f \circ \gamma$ and $f \circ \eta$ at
+$f(z_0)$ is
+$$
+  \arg (f \circ \gamma)^\prime(t_0)
+- \arg (f \circ \eta)^\prime(t_0).
+$$
+
+\begin{lemma}[Schwarz Lemma]
+Let $\mathbb{D} = D(0, 1)$. Write $M_c$ for the function
+$M_c(z) = c z$. If $|c| = 1$, then $M_c$ is a rotation by
+$\arg c$ and so in this case $M_c \in \mathrm{Aut}(\mathbb{D})$.
+
+Let $f : \mathbb{D} \to \mathbb{D}$ be analytic such that $f(0) = 0$.
+Then
+\begin{enumerate}[(i)]
+  \item{
+    $|f(z)| \leq |z|$, $\forall z \in \mathbb{D}$ and $|f^\prime(0)| \leq 1$.
+  }
+  \item{
+    If $|f^\prime(0)| = 1$ or
+    $\exists z_0 \in \mathbb{D} \setminus \{ 0 \}$ such that
+    $|f(z_0)| = z_0$, then $f = M_c$ for some $c \in \mathbb{C}$ with
+    $|c| = 1$. In particular, if $f^\prime(0) = 1$ or $f(z_0) = z_0$
+    for some $z_0 \in \mathbb{D} \setminus \{ 0 \}$, then $c = 1$,
+    i.e. $f = \id$.
+  }
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+
+\begin{enumerate}[(i)]
+  \item{
+    Define $h$ on $\mathbb{D}$ by
+    $$
+      h(z)
+    = \left\{
+        \begin{array}{c c}
+          \frac{f(z)}{z}, & \quad z \in \mathbb{D} \setminus \{ 0 \} \\
+          f^\prime(0),     & \quad z = 0
+        \end{array}\right.
+    $$
+    First, $0$ is a singularity of $\frac{f(z)}{z}$, and since
+    $\lim_{z \to 0} \frac{f(z) - f(0)}{z - 0} = f^\prime(0)$, $0$ is a
+    removable singularity. Therefore $h$ is analytic on $\mathbb{D}$.
+    Fix $r \in (0, 1)$. On the circle $\{|z| = r\}$,
+    $|h(z)| = \frac{|f(z)|}{|z|} < \frac{1}{r}$, so from the maximum
+    modulus principle $|h(z)| < \frac{1}{r}$ for any $|z| \leq r$.
+
+    We will show that $|h(z)| \leq 1$. If this is not true, then
+    there is a $z_0 \in \mathbb{D}$ such that $|h(z_0)| > 1$.
+    We know $|z_0| < 1$ and $\frac{1}{|h(z_0)|} < 1$, so we may pick
+    $r \in (\max \{ |z_0|, \frac{1}{|h(z_0)|} \}, 1)$, so $r \in(0, 1)$
+    $|z_0| < r$ and $|h(z_0)| > \frac{1}{r}$, a contradiction of the
+    previous observation. Therefore $|h(z)| \leq 1$ for any $z$, from
+    which the conclusion holds.
+  }
+  \item{
+    If $|f^\prime(0)| = 1$, then $|h(0)| = 1$.
+    If $|f(z_0)| = |z_0|$ for some
+    $z_0 \in \mathbb{D} \setminus \{ 0 \}$,
+    then $|h(z_0)| = 1$. We already know $|h(z)| \leq 1$,
+    so $h$ attains its maximum on $\mathbb{D}$, which happens
+    only if $h \equiv c = 1$. If $f^\prime(0) = 1$, then if
+    $f(z_0) = z_0$ then $h(z_0) = 1$. In either case $c = 1$ and so
+    $f = M_1 = \id$.
+  }
+\end{enumerate}
+\end{proof}
+
+\begin{remark}
+If $f \in \mathrm{Aut}(\mathbb{D})$ and $f(0) = 0$, then
+$f^{-1}(0) = 0$. From Schwarz' lemma part 1,
+$$
+|f(z)| \leq |z|, \quad |f^{-1}(z)| \leq |z|
+$$
+on $\mathbb{D}$. Then $|f(z)| = |z|$ and so $f = \id$.
+\end{remark}
+
+\section{Classification of Analytic Isomorphisms}
+\subsection{Automorphisms of the Disk}
+We will completely characterize $\mathrm{Aut}(\mathbb{D})$.
+Let $\alpha \in \mathbb{D}$ and define
+$$
+g_\alpha(z) = \frac{\alpha - z}{1 - \bar{\alpha} z}.
+$$
+Then $g_\alpha$ has one pole at $\frac{1}{\bar{\alpha}}$, which has
+modulus greater than 1 so $g_\alpha$ is holomorphic on $\bar{\mathbb{D}}$.
+
+Now
+\begin{align*}
+   (g_\alpha \circ g_\alpha)(z)
+&= \frac{\alpha - \frac{\alpha - z}
+                       {1 - \bar{\alpha} z}}
+        {1 - \bar{\alpha} \frac{\alpha - z}
+                               {1 - \bar{\alpha} z}}
+ = \frac{\alpha(1 - \bar{\alpha} z) - (\alpha - z)}
+        {(1 - \bar{\alpha} z) - \bar{\alpha}(\alpha - z)} \\
+&= \frac{z(1 - \alpha \bar{\alpha})}
+        {1 - \alpha \bar{\alpha}}
+ = z,
+\end{align*}
+so $g_\alpha^{-1} = g_\alpha$.
+
+Suppose $|z| = 1$. Then
+\begin{align*}
+   |g_\alpha(z)|
+&= \frac{|\alpha - z|}
+        {|1 - \bar{\alpha} z|}
+ = \frac{|\alpha - z|}
+        {\left|\frac{1}{z} - \bar{\alpha}\right| |z|} \\
+&= \frac{|\alpha - z|}
+        {|\bar{z} - \bar{\alpha}|}
+ = \frac{|\alpha - z|}
+        {|\overline{z - \alpha}|}
+ = 1,
+\end{align*}
+so from the maximum modulus principle $|g_\alpha(z)| \leq 1$ for
+any $z$ in the disk. In fact we must have $|g_\alpha(z)| < 1$, since
+otherwise $|g_\alpha(z)| = 1$ and thus $g_\alpha$ is constant, which
+contradicts that $g_\alpha$ is one-to-one. Thus
+$g_\alpha \in \mathrm{Aut}(\mathbb{D})$.
+
+\begin{theorem}
+Every $f \in \mathrm{Aut}(\mathbb{D})$ factors as
+$f = M_c \circ g_\alpha$ for some $c \in \{ |z| = 1 \}$ and
+$\alpha \in \mathbb{D}$.
+\end{theorem}
+
+\begin{proof}
+$M_c, g_\alpha \in \mathrm{Aut}(D)$, so
+$M_c \circ g_\alpha \in \mathrm{Aut}(D)$.
+If $f \in \mathrm{Aut}(\mathbb{D})$, let
+$\alpha = f^{-1}(0) \in D$ and let
+$h = f \circ g_\alpha$. Then
+$h \in \mathrm{Aut}(\mathbb{D})$ and
+$h(0) = f(g_\alpha(0)) = f(\alpha) = 0$, so
+$h = M_c$ for some $c \in \partial \mathbb{D}$.
+Hence $f = h \circ g_\alpha = M_c \circ g_\alpha$.
+\end{proof}
+
+\begin{remark}
+Applying Schwarz' lemma with the map $g_\alpha$, we
+can obtain, we can obtain some inequalities of
+analytic maps $f \in \mathrm{End}(\mathbb{D})$ which
+may not fix $0$.
+If $z \in \mathbb{D}$, $w = f(z) \in \mathbb{D}$, then
+$h : g_w \circ f \circ g_z$ takes 0 to 0, so
+we can get an inequality for $f$.
+\end{remark}
+
+\subsection{Automorphisms of the Upper Half-Plane}
+Let $\mathbb{H} = \{ z \in \mathbb{C} : \Im z > 0 \}$.
+\begin{theorem}
+$$
+  f(z)
+= \frac{z - i}{z + i}
+\in \mathrm{Iso}(\mathbb{H}, \mathbb{D}).
+$$
+\end{theorem}
+\begin{proof}
+$f$ has only one singularity, at $-i$, which is outside $\mathbb{H}$.
+Let $z = x + iy \in \mathbb{H}$. Then $y > 0$ so
+$$
+  |f(z)|^2
+= \frac{|x + i(y - 1)|^2}
+       {|x + i(y + 1)|^2}
+= \frac{x^2 + (y - 1)^2}
+       {x^2 + (y + 1)^2}
+< 1.
+$$
+If $w = f(z) = \frac{z - i}{z + i}$ then
+$w (z + i) = z - i$ so that
+$i w + i = z - z w$, whence
+$z = \frac{i (1 + w)}{1 - w}$. Then $f$ is injective.
+It remains to show that $f(\mathbb{H}) = \mathbb{D}$. To see this,
+we need to show
+$$
+g(w) = i \frac{1 + w}{1 - w} \in \mathbb{H}.
+$$
+\end{proof}
