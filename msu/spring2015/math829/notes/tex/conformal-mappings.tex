@@ -209,4 +209,677 @@ we need to show
 $$
 g(w) = i \frac{1 + w}{1 - w} \in \mathbb{H}.
 $$
+
+We have found $f^{-1}(w) = -i \frac{w + 1}{w - 1}$, and it remains
+to show that $f^{-1}(w) \in \mathbb{H}$ for all $w \in \mathbb{D}$.
+Let $w \in \mathbb{D}$ and write
+$$
+w = r \cos \theta + i r \sin \theta
+$$
+where $r \in [0, 1)$ and $\theta \in [0, 2 \pi)$. Then
+\begin{align*}
+   f^{-1}(w)
+&= -i \frac{r \cos \theta + 1 + i r \sin \theta}
+           {r \cos \theta - 1 + i r \sin \theta} \\
+ = -i \frac{r \cos \theta + 1 + i r \sin \theta}
+           {r \cos \theta - 1 + i r \sin \theta}
+      \frac{r \cos \theta + 1 - i r \sin \theta}
+           {r \cos \theta - 1 - i r \sin \theta} \\
+&= -\frac{i}{|c|^2}
+    [(r \cos \theta)^2 - (1 + i r \sin \theta)^2] \\
+&= -\frac{i}{|c|^2}
+    [ r^2 \cos^2 \theta - 1 + r^2 \sin^2 \theta
+    - 2 i r \sin \theta] \\
+&= -\frac{i}{|c|^2}
+   (r^2 - 1 - i 2 r \sin \theta)
+ = \frac{-2 r \sin \theta + i(1 - r^2)}
+        {|c|^2}
+\end{align*}
+so that
+$$
+  \Im(f^{-1}(w))
+= \frac{1 - r^2}
+       {|r \cos \theta - 1 + i r \sin \theta|^2}
+> 0
+$$
+so $f^{-1}(w) \in \mathbb{H}$.
 \end{proof}
+
+Let $z_0 = x_0 + i y_0 \in \mathbb{H}$ and
+$$
+  h_{z_0}(z)
+= \frac{z - z_0}{z - \overline{z_0}}.
+$$
+We have shown $h_i \in \mathrm{Iso}(\mathbb{H}, \mathbb{D})$.
+We may write
+\begin{align*}
+   h_{z_0}(z)
+&= \frac{z - x_0 - i y_0}
+        {z - x_0 + i y_0}
+ = \frac{\frac{z - x_0}{y_0} - i}
+        {\frac{z - x_0}{y_0} + i},
+\end{align*}
+and the map $z \mapsto \frac{z - x_0}{y_0}$ is a translation by
+a real number followed by a scaling by a positive real number, so
+this map is an automorphism of $\mathbb{H}$. Thus
+$h_{z_0} \in \mathrm{Iso}(\mathbb{H}, \mathbb{D})$.
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      Every $f \in \mathrm{Aut}(\mathbb{H})$ can be expressed as
+      $f = h_{z_2}^{-1} \circ M_c \circ h_{z_1}$ for some
+      $z_1, z_2 \in \mathbb{H}$ and $c$ with $|c| = 1$.
+      Choose any $z_1 \in \mathbb{H}$ and let
+      $z_2 = f(z_1) \in \mathbb{H}$. Then
+      $$
+          g = h_{z_2} \circ f \circ h_{z_1}^{-1}
+      \in \mathrm{Aut}(\mathbb{D}).
+      $$
+      Then
+      $$
+        g(0)
+      = (h_{z_2} \circ f \circ h_{z_1}^{-1})(0)
+      = h_{z_2} (z_2) = 0,
+      $$
+      so $g$ is an automorphism of the disk that fixes 0 and thus
+      $g$ is a rotation. From
+      $$
+      M_c = h_{z_2} \circ f \circ h_{z_1}^{-1}
+      $$
+      for some $c$, we get the desired result.
+    }
+    \item{
+      Combining Schwarz lemma with the maps $h_z$, we can obtain some
+      useful inequalities (see HW \#13).
+    }
+  \end{enumerate}
+\end{remark}
+
+\section{Riemann Sphere}
+\begin{defn}[Riemann Sphere]
+Add an additional element, denoted $\infty$, to $\mathbb{C}$, and let
+$\hat{\mathbb{C}} = \mathbb{C} \cup \{ \infty \}$. We call this the
+extended complex plane or the \emph{Riemann sphere}. We define a
+topology on $\hat{\mathbb{C}}$ with
+$$
+           D(\infty, r)
+\triangleq \{ \infty \} \cup \{z \in \mathbb{C} : |z| > \frac{1}{r} \}.
+$$
+The open subsets of $\hat{\mathbb{C}}$ are then the open disks, i.e.
+if $\infty \in U$ then the definition of open set coincides with the
+definition of open sets for $\mathbb{C}$. If $U$ is open in
+$\hat{\mathbb{C}}$ and $\infty \in U$, then $U \setminus \{ \infty \}$
+is open in $\mathbb{C}$. We see that $z \to \infty \iff |z| \to
+\infty$.
+\end{defn}
+
+There is a homeomorphism between $\hat{\mathbb{C}}$ and the 2-sphere
+$S^2$. Let $h : S^2 \to \hat{\mathbb{C}}$ be a map where
+$h(x, y, z)$ is the intersection between the $xy$ plane and
+the line connecting the point $(x, y, z) \in \mathbb{R}^3$ with
+the north pole of the sphere, i.e. $(0, 0, 1)$, for $(x, y, z) \neq
+(0, 0, 1)$, and $h(0, 0, 1) = \infty$. Explicitly,
+$$
+  h(x, y, z)
+= \left\{
+    \begin{array}{c c}
+      \frac{x + i y}{1 - z}, & \quad z \neq 1 \\
+      \infty,                & \quad z = 1
+    \end{array}
+  \right..
+$$
+This viewpoint gives a new description of simply connected domains.
+For a domain $D \subset \mathbb{C}$, $D$ is simply connected if and
+only if $\hat{\mathbb{C}} \setminus D$ is connected.
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Let $D = \mathbb{C} \setminus \{ 0 \}$. Then
+      $\mathbb{C} \setminus D = \{ 0 \}$ is connected, but
+      $\hat{\mathbb{C}} \setminus D = \{ 0, \infty \}$ is disconnected.
+    }
+    \item{
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\begin{defn}[$n$-connectedness]
+  We say that $D \subset \mathbb{C}$ is \emph{$n$-connected} if
+  $\hat{\mathbb{C}} \setminus D$ has $n$ connected components.
+  A 2-connected domain is also called doubly connected. For
+  example, every annulus is 2-connected.
+\end{defn}
+
+The Riemann sphere $\hat{\mathbb{C}}$ is a 1-dimensional complex
+manifold.
+
+\begin{defn}[Extended analytic function]
+Let $U \subset \mathbb{C}$ be an open set.
+A map
+$f : U \to \hat{\mathbb{C}}$ is called an
+\emph{extended analytic function} if for every $z_0 \in U$,
+either of the following is true:
+\begin{itemize}
+  \item{
+    $f(z_0) \subset \mathbb{C}$ and $f$ is analytic at $z_0$ in the
+    usual sense,
+  }
+  \item{
+    $f(z_0) = \infty$ and $\frac{1}{f}$ is analytic at $z_0$ with the
+    convention that $\frac{1}{\infty} = 0$.
+  }
+\end{itemize}
+\end{defn}
+
+This condition means that if $f(z_0) \neq \infty$, then $\exists r > 0$ such
+that $f(z) \neq \infty$ on $D(z_0, r)$. If $f(z_0) = \infty$, then
+either $\exists r > 0$ such that $f(z) = \infty$ for all
+$z \in D(z_0, r)$, or $\exists r > 0$ such that
+$f(z) \neq \infty \forall z \in D(z_0, r) \setminus \{ 0 \}$.
+In the last case, $z_0$ is a pole of $f$. Thus if $U$ is a domain,
+then either $f$ is constant $\infty$ or $f^{-1}(\infty)$ has no
+accumulation point in $U$. In the latter case,
+$f|_{U \setminus f^{-1}(\infty)}$ is meromorphic on $U$. On the other
+hand, if $f$ is meromorphic on $U$, then by defining
+$f(z) = \infty$ for every pole $z$ of $f$, we get an extended
+analytic function.
+
+\begin{defn}
+Suppose $U \subset \hat{\mathbb{C}}$ is open. Then a map
+$f : U \to \hat{\mathbb{C}}$ is called an extended analytic
+function if:
+\begin{enumerate}[(i)]
+  \item{
+    $f|{U \cap \mathbb{C}}$ is an extended analytic function
+    as defined before.
+  }
+  \item{
+    if $\infty \in U$, then the function $g$ defined by
+    $g(z) = f\left(\frac{1}{z}\right)$ is extended analytic
+    at 0.
+  }
+\end{enumerate}
+In the same spirit we may talk about the
+\emph{singularity at $\infty$}. We say that $\infty$ is
+a singularity of $f$ if $f$ is defined on a neighborhood of infinity
+$\{ z \in \mathbb{C} : |z| > R \}$ for some $R > 0$.
+For instance, if $f$ is entire then $\infty$ is a
+singularity. Defining $g(z) = f\left(\frac{1}{z}\right)$,
+0 is a singularity of $g$. The type of the singularity at $\infty$
+of $f$ is defined to be the type of the singularity at 0 of $g$.
+\end{defn}
+
+Suppose the Laurent series of $f$ in $\{ R < |z| < \infty \}$ is
+$\sum_{n=-\infty}^\infty a_n z^n$.. Then
+$$
+  g(z)
+= \sum_{n=-\infty}^\infty a_n z^{-n}
+= \sum_{n=-\infty}^\infty a_{-n} z^n, \quad
+  0 < |z| < \frac{1}{R}.
+$$
+We see that
+\begin{itemize}
+  \item{
+    $\infty$ is a removable singularity if $a_n = 0$, $\forall n > 0$,
+  }
+  \item{
+    $\infty$ is a pole if there exist finitely many $n > 0$ such that
+    $a_n \neq 0$.
+  }
+  \item{
+    $\infty$ is a pole if there exist infinitely many $n > 0$ such
+    that $a_n \neq 0$.
+  }
+\end{itemize}
+
+Suppose $f$ is entire. Then $\infty$ is removable if and only if
+$f \equiv a_0$, $\infty$ is a pole if and only if $f$ is a polynomial
+of degree $\geq 1$, and $\infty$ is an essential singularity
+otherwise.
+
+\begin{lemma}
+Every analytic isomorphism $f$ of $\mathbb{C}$ has the form
+$$
+f(z) = a z + b
+$$
+for some $a, b \in \mathbb{C}$ with $a \neq 0$.
+\end{lemma}
+
+\begin{proof}
+$f$ is entire. Consider the type of singularity of $f$ at $\infty$.
+We know that $f$ is not constant since $f$ is surjective,
+so $\infty$ is not removable. If $\infty$ is an essential singularity
+then $f(\{ |z| > 1 \})$ is dense in $\mathbb{C}$. But
+$f(\{ |z| > 1 \})$ is disjoint from $f(\{ |z| < 1 \})$ since $f$ is
+injective, and $f(\{ |z| < 1 \})$ is open. Therefore $f(\{|z| < 1\})$
+cannot be dense, a contradiction. Therefore $\infty$ is a pole, so
+$f$ is a polynomial.
+
+Next we see that since $f$ is an isomorphism, $f^\prime \neq 0$ for
+any $z \in \mathbb{C}$. $f^\prime$ is also a polynomial and nonzero,
+so from the fundamental theorem of algebra, $f^\prime$ is constant.
+Therefore $f(z) = az + b$.
+
+We can conclude also that
+$\mathrm{Iso}(\mathbb{C}, U) = \varnothing$ if $U \neq \mathbb{C}$
+and
+$$
+  \mathrm{Aut}(\mathbb{C})
+= \{ az + b : a, b \in \mathbb{C}, a \neq 0 \}.
+$$
+\end{proof}
+
+Let $P, Q$ be polynomials with $Q \nequiv 0$. Let
+$R = \frac{P}{Q}$. We know that $R$ is meromorphic on $\mathbb{C}$,
+so $R$ is extended analytic. We consider
+$$
+  R\left(\frac{1}{z}\right)
+= \frac{P\left(\frac{1}{z}\right)}
+       {Q\left(\frac{1}{z}\right)}
+= \frac{\tilde{P}(z)}
+       {\tilde{Q}(z)}
+$$
+with $\tilde{P}$, $\tilde{Q}$ some polynomials. If we suitably
+define $R(\infty)$, then $R$ is extended analytic on
+$\hat{\mathbb{C}}$. In fact, every function that is extended
+analytic on all of $\hat{\mathbb{C}}$ is a rational function,
+but we will not prove this.
+
+If $f$, $g$ are extended analytic functions such that
+$f(U) \subset V$, then $g \circ f$ is also extended analytic.
+If $f$ is injective on $U$ and $f(U) = V$, then we say
+$f$ is an extended analytic isomorphism of $U$ with $V$.
+In this case $f^{-1}$ is an extended analytic function on $V$.
+If $V = U$, we say that $f$ is an extended analytic automorphism.
+
+\subsection{M\"obius Transformation}
+There is a group homomorphism
+$\psi : \mathrm{GL}_2(\mathbb{C}) \to \mathrm{Aut}(\hat{\mathbb{C}})$
+given by
+$$
+  \psi\left(
+    \left[
+      \begin{array}{c c}
+        a & b \\
+        c & d
+      \end{array}
+    \right]
+  \right)(z)
+= \frac{a z + b}{c z + d}
+= f_M(z).
+$$
+We note that $f_{rM} = f_M$
+for any $r \in \mathbb{C} \setminus \{ 0 \}$.
+If $c = 0$, $f_M(z) = \frac{a}{d} z + \frac{b}{d}$
+and $f_M(\infty) = \infty$. If $c \neq 0$, then
+$f(-\frac{d}{c}) = \infty$, $f(\infty) = \frac{a}{c}$.
+These transformations are called \emph{M\"obius transformations}
+or \emph{linear fractional transformations}.
+
+\begin{xmpl}
+  \begin{itemize}
+    \item{
+      For
+      $$
+        M
+      = \left[
+          \begin{array}{c c}
+            a & b \\
+            0 & 1
+        \right]
+      $$
+      we have $f_M(z) = a z + b$.
+    }
+    \item{
+      For
+      $$
+        M
+      = \left[
+          \begin{array}{c c}
+            0 & 1 \\
+            1 & 0
+        \right]
+      $$
+      we have $f_M(z) = \frac{1}{z}$.
+    }
+    \item{
+      For
+      $$
+        M
+      = \left[
+          \begin{array}{c c}
+            -1            & \alpha \\
+            -\bar{\alpha} & 1
+        \right]
+      $$
+      we have $f_M = g_\alplha$.
+    }
+    \item{
+      For
+      $$
+        M
+      = \left[
+          \begin{array}{c c}
+            1 & -z_0 \\
+            1 & -\overline{z_0}
+        \right]
+      $$
+      we have $f_M(z) = \frac{z - z_0}{z - \overline{z_0}}$.
+    }
+    \item{
+      We can see
+      \begin{align*}
+         (f_{M_1} \circ f_{M_2})(z)
+      &= f_{M_1 \cdot M_2}(z)
+      \end{align*}
+      as long as $c_2 z + d_2 \neq 0$ and
+      $(c_1 a_2 + d_1 c_2)z + (c_1 b_2 + d_1 d_2) \neq 0$
+      so that this is a group homomorphism for all
+      $z \in \hat{\mathbb{C}}$ with a few exceptions. But
+      these exceptions do not in fact exist since
+      $f_{M_1}$, $f_{M_2}$, and $f_{M_1 \cdot M_2}$ are continuous
+      on $\hat{\mathbb{C}}$. Indeed, for any
+      $M \in \mathrm{GL}_2(\mathbb{C})$ we have
+      $$
+      f_M \circ f_{M^{-1}} = f_{M^{-1}} \circ f_M = f_I = \id,
+      $$
+      so $f_M \in \mathrm{Aut}(\hat{\mathbb{C}})$ and
+      $f_M^{-1} = f_{M^{-1}}$.
+    }
+  \end{itemize}
+\end{xmpl}
+
+\begin{theorem}
+Every $f \in \mathrm{Aut}(\mathbb{D})$ or
+$\mathrm{Aut}(\mathbb{H})$ is a M\"obius transformation.
+\end{theorem}
+
+\begin{proof}
+Let $f \in \mathrm{Aut}(\mathbb{D})$. Recall that we may
+express $f$ as $M_c \circ g_a$, both of which are Mobius
+transformations.
+
+Let $f \in \mathrm{Aut}(\mathbb{H})$. Recall that
+$$
+  h_i(z)
+= \frac{z - i}{z + i}
+\in \mathrm{Iso}(\mathbb{H}, \mathbb{D})
+$$
+so that
+$g = h_i \circ f \circ h_i^{-1} \in \mathrm{Aut}(\mathbb{D})$.
+But then $g$ is a M\"obius transformation and so is $h_i$,
+so $f$ is as well.
+\end{proof}
+
+\begin{defn}
+We define the following \emph{simple M\"obius transformations}:
+\begin{enumerate}
+  \item{
+    $M_a(z) = a z$, multiplication by $a \in \mathbb{C} \setminus 0$.
+  }
+  \item{
+    $T_b(z) = z + b$, translation by $b \in \mathbb{C}$.
+  }
+  \item{
+    $J(z) = \frac{1}{z}$, inversion.
+  }
+\end{enumerate}
+\end{defn}
+
+\begin{lemma}
+The simple M\"obius transformations generate the M\"obius group
+$\mathrm{PGL}_2(\mathbb{C})$.
+\end{lemma}
+
+\begin{proof}
+Suppose $c = 0$. Then
+\begin{align*}
+   f(z)
+&= \frac{az + b}{d}
+ = \frac{a}{d} z + \frac{b}{d} \\
+&= (T_{\frac{b}{a}} \circ M_{\frac{a}{d}})(z).
+\end{align*}
+Suppose $c \neq 0$. Then
+\begin{align*}
+   f(z) - \frac{a}{c}
+&= \frac{a z + b}{c z + d}
+ - \frac{a(z + \frac{d}{c})}
+        {c(z + \frac{d}{c})} \\
+&= \frac{b - \frac{ad}{c}}
+        {c z + d}
+ = \frac{b^\prime}{c z + d}
+\end{align*}
+so that
+$$
+  \frac{1}{f(z) - \frac{a}{c}}
+= \frac{cz + d}{b^\prime}
+$$
+or
+$$
+  f(z)
+= \frac{a}{c}
++ \frac{1}
+       {\frac{c}{b^\prime} z + \frac{d}{b}}
+=     T_{\frac{a}{c}}
+\circ J
+\circ T_{\frac{d}{b^\prime}}
+\circ M_{\frac{c}{b}}.
+$$
+\end{proof}
+
+\begin{defn}[Generalized circle]
+A \emph{generalized circle} is either a circle in
+$\mathbb{C}$ or the union of $\infty$ with a
+straight line in $\mathbb{C}$.
+
+A \emph{generalized disk} is either a disk in
+$\mathbb{C}$, or the exterior of a circle together
+with $\infty$, or a half-plane.
+\end{defn}
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      A straight line can be viewed as a circle with
+      radius $\infty$.
+    }
+    \item{
+      Every generalized circle divides $\hat{\mathbb{C}}$
+      into two generalized disks.
+    }
+    \item{
+      The stereographic projection generates a 1-1
+      correspondence between circles on $S^2$ and generalized
+      circles on $\hat{\mathbb{C}}$. The circles on $S^2$ that
+      pass through the north pole correspond to straight lines.
+    }
+  \end{enumerate}
+\end{remark}
+
+\begin{theorem}
+A M\"obius transformation maps generalized circles to generalized
+circles.
+\end{theorem}
+
+\begin{proof}
+It suffices to show that each simple M\"obius transformation
+maps generalized circles to generalized circles. This is obvious
+in the case of translation. Suppose $a = |a|e^{i \theta}$. Then
+$M_a = M_{|a|} \circ M_{e^{i \theta}}$, which is a rotation followed
+by a dilation, both of which preserve circles and straight lines.
+
+Consider $J(z) = \frac{1}{z}$. The equation of a circle or line
+in the $(x, y)$ plane has the form
+$$
+A(x^2 + y^2) + B x + C y + D = 0,
+$$
+since the equation for a circle is
+$$
+  0
+= (x - x_0)^2 + (y - y_0)^2
+= x^2 + y^2 - 2x_0 x - 2 y_0 y + (x_0^2 + y_0^2 - R^2).
+$$
+Suppose $u + i v = J(x + i y)$ and $(x, y)$ satisfies this equation.
+Then $J(u + iv)$ satisfies this equation since $J$ is its own inverse.
+Thus we have
+$$
+  x + iy
+= \frac{1}{u + iv}
+$$
+ so that
+$$
+  x
+= \frac{u}{u^2 + v^2}, \quad
+  y
+= \frac{-v}{u^2 + v^2}
+$$
+so that
+$$
+  A\left(
+    \left(
+      \frac{u}{u^2 + v^2}
+    \right)^2
+  + \left(
+      -\frac{v}{u^2 + v^2}
+    \right)^2
+  \right)
++ B \frac{u}{u^2 + v^2}
++ C \frac{-v}{u^2 + v^2}
++ D
+= 0
+$$
+or
+$$
+A + Bu + C(-v) + D(u^2 + v^2) = 0.
+$$
+\end{proof}
+
+Let $f$ be a M\"obius transformation and $C$ be a generalized
+circle. Let $C^\prime = f(C)$. $C$ divides $\hat{\mathbb{C}}$ into
+two generalized disks $D_1, D_2$, as does $C^\prime$ into
+$D_1^\prime$ and $D_2^\prime$. Then either
+$f(D_1) = D_1^\prime$ and $f(D_2) = D_2^\prime$ or
+$f(D_1) = D_2^\prime$ and $f(D_2) = D_1^\prime$. To find out which,
+we may pick $z_0 \in D_1$ and look at $f(z_0$. On the other hand,
+if $f$ maps a generalized disk onto a generalized disk, then
+$f$ maps a boundary of the disk onto the boundary of the other
+disk. For example, if $f \in \mathrm{Aut}(\mathbb{H})$, then it maps
+$\mathbb{R} \cup {\infty} \to \mathbb{R} \cup {\infty}$
+
+\begin{theorem}
+Given three distinct points $z_1, z_2, z_3$ and three distinct points
+$w_1, w_2, w_3$ in the Riemann sphere, there exists a unique M\"obius
+transformation such that $f(z_j) = w_j$, $j = 1, 2, 3$.
+\end{theorem}
+
+\begin{proof}
+For existence, it suffices to show that such $f$ exists if $w_1 = 0$,
+$w_2 = \infty$, $w = 1$. In fact, if we let $F_{z_1, z_2, z_3}$ denote
+a transformation that takes $z_1 \to 0$, $z_0 \to \infty$, and
+$z_3 \to 1$, then
+$$
+f = F_{w_1, w_2, w_3}^{-1} \circ F_{z_1, z_2, z_3}
+$$
+is the transformation that we need. Suppose $w_1 = 0$,
+$w_2 = \infty$, $w_3 = 1$. We note that
+$\frac{z - z_1}{z - z_2}$ takes $z_1 \to 0$, $z_2 \to \infty$,
+but not $z_3 \to 1$. But
+$$
+  f(z)
+= \frac{z_3 - z_2}
+       {z_3 - z_1}
+  \frac{z - z_1}
+       {z - z_2}
+$$
+and we can check directly that this proves the existence of
+such a transformation.
+
+Suppose $f, g$ are two M\"obius transformations meeting these
+criteria. Define
+$$
+h = F_{z_1,z_2,z_3} \circ g^{-1} \circ f \circ F_{z_1, z_2, z_3}^{-1}.
+$$
+Then $h$ is a M\"obius transformation that fixes $0, \infty, 1$.
+Since $h(\infty) = \infty$, $h$ is a polynomial. Since $h(0) = 0$,
+$b = 0$. Since $h(1) = 1$, $h(z) = z$, and thus $g = f$.
+\end{proof}
+
+Given $z_1, z_2, z_3$ and $w_1, w_2, w_3$, we can find a M\"obius
+transformation $f$ such that $f(z) = \frac{az + b}{cz + d}$.
+We can solve a group of linear equations to find $a, b, c, d$
+using $f(z_j) = w_j$. We may assume one of them is 1. If it is
+in fact 0, we get a contradiction, and then we may assume another
+is 1.
+
+\begin{defn}
+Let $z_1, z_2, z_3, z_4$ be distinct points. Their \emph{cross-ratio}
+is defined to be
+$$
+  [z_1, z_2, z_3, z_4]
+= \frac{z_1 - z_3}{z_2 - z_3}
+: \frac{z_1 - z_4}{z_2 - z_4}
+= \frac{(z_1 - z_3)(z_2 - z_4)}
+       {(z_2 - z_3_(z_1 - z_4)}.
+$$
+If any of these factors is $\infty$, we have instead e.g.
+$$
+  [z_1, z_2, z_3, \infty]
+= \frac{z_1 - z_3}{z_2 - z_3}.
+$$
+The cross-ratio satisfies some symmetry relations
+such as
+$$
+  [z_2, z_1, z_3, z_4]
+= [z_1, z_2, z_3, z_4]^{-1}
+= [z_1, z_3, z_4, z_3]
+$$
+and
+$$
+[z_1, z_2, z_3, z_4] = [z_3, z_4, z_1, z_2].
+$$
+\end{defn}
+
+\begin{theorem}
+M\"obius transformations preserve the cross-ratio,
+i.e.
+$$
+  [F(z_1), F(z_2), F(z_3), F(z_4)
+= [z_1, z_2, z_3, z_4]
+$$
+for any M\"obius transformation $F$.
+\end{theorem}
+\begin{proof}
+Consider the map $z_4 \mapsto [z_1, z_2, z_3, z_4]$.
+We observe that this is a M\"obius transformation that maps
+$z_1 \to \infty$, $z_2 \to 0$, $z_3 \to 1$. Thus this is the
+map $F_{z_2, z_1, z_3} (z_4)$, and
+\begin{align*}
+   F_{z_2, z_1, z_3}
+&= F_{z_2^\prime, z_1^\prime, z_3^\prime} \circ F(z_4)
+ = F_{z_2^\prime, z_1^\prime, z_3^\prime}(z_4^\prime) \\
+&= [z_1^\prime, z_2^\prime, z_3^\prime, z_4^\prime].
+\end{align*}
+\end{proof}
+
+\subsection{Riemann Mapping Theorem}
+
+\begin{defn}[Conformal equivalence]
+Let $D_1, D_2$ be two complex domains. We say that
+$D_1$ is \emph{conformally equivalent} to $D_2$ and write
+$D_1 \simeq D_2$ if
+$\mathrm{Iso}(D_1, D_2) \neq \varnothing$. This is
+an equivalence relation.
+\end{defn}
+
+\begin{theorem}[Riemann Mapping Theorem]
+Let $U \subsetneq \mathbb{C}$ be a simply connected domain.
+Let $z_0 \in U$. Then there exists an
+$f \in \mathrm{Iso}(U, \mathbb{D})$ such that $f(z_0) = 0$,
+and such $f$ is unique up to rotation, i.e. if
+$g \in \mathrm{Iso}(U, \mathbb{D})$ and $g(z_0) = 0$ then
+$g = M_c \circ f$ for some $c$ with $|c| = 1$.
+
+If we require that $f^\prime(z_0) = 0$, then $f$ is unique.
+\end{theorem}

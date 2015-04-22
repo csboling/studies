@@ -1,0 +1,241 @@
+\section{Analytic Continuation}
+
+\begin{defn}
+A sequence of functions $(f_n)$ on an open set $U$ is said
+to \emph{converge compactly} to a function $f$ in $U$ if
+for every compact set $K \subset U$, we have
+$f_n \to f$ uniformly on $K$.
+\end{defn}
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      Using the open covering definition of compact sets,
+      we see that $f_n \to f$ compactly in $U$ if and only
+      if $\forall z_0 \in U$, $\exists r > 0$ so that
+      $f_n \to f$ uniformly on $D(z_0, r) \subset U$.
+      For the latter condition we say that
+      $f_n \to f$ locally uniformly. That is, compact
+      convergence is equivalent to locally uniform convergence.
+    }
+    \item{
+      If every $f_n$ is continuous, then the limit $f$ is
+      continuous.
+    }
+  \end{enumerate}
+\end{remark}
+
+\begin{theorem}
+Let $(f_n)$ be a sequence of analytic functions on an open set $U$
+which converges compactly to $f$. Then $f$ is analytic on $U$, and
+$(f_n^\prime)$ converges compactly to $f^\prime$.
+\end{theorem}
+
+\begin{proof}
+Let $z_0 \in U$. Pick $r > 0$ such that $\bar{D}(z_0, r) \subset U$.
+Let $\gamma$ be any closed curve in $D(z_0, r)$. Since each $f_n$ is
+analytic on $D(z_0, r)$, we have $\int_\gamma f_n = 0$. Since
+$\gamma$ is compact, $f_n \to f$ uniformly on $\gamma$. Thus
+$$
+  \int_f \gamma
+= \lim_{n \to \infty} \int_\gamma f_n
+= 0.
+$$
+Since every $f_n$ is continuous, so is $f$. Then from Morera's
+theorem, $f$ is holomorphic on $D(z_0, r)$. Since $z_0$ was chosen
+arbitrarily, $f$ is holomorphic on $U$.
+
+To prove $f_n^\prime \to f^\prime$ compactly on $U$, it suffices to
+show that $f_n^\prime \to f^\prime$ uniformly on the closed disk
+$\bar{D}(z_0, r)$, i.e. to show locally uniform convergence.
+Pick $R > r$ such that $\bar{D}(z_0, R) \subset U$, and let
+$J = \partial D(z_0, R)$. From Cauchy's formula,
+$$
+  f_n^\prime(z) - f^\prime(z)
+= \frac{1}{2 \pi i}
+  \int_J
+    \frac{f_n(w) - f(w)}
+         {(w - z)^2}
+    \dif w, \quad
+\forall z \in D(z_0, R).
+$$
+Therefore
+$$
+     |f_n^\prime(z) - f^\prime(z)|
+\leq \frac{1}{2 \pi}
+     \frac{\| f_n - f \|_J}
+          {(\mathrm{dist}(z, J))^2}
+     \cdot 2 \pi R.
+$$
+If $z \in \bar{D}(z_0, r)$, then
+$\mathrm{dist}(z, J) \geq R - r$, so
+$$
+     \|f_n^\prime - f^\prime\|_{\bar{D}(z_0, r)}
+\leq \frac{R}{(R - r)^2}
+     \|f_n - f\|_J
+\to 0
+$$
+since $f_n \to f$ uniformly. So
+$f_n^\prime \to f$ uniformly on $\bar{D}(z_0, r)$.
+\end{proof}
+
+\begin{defn}
+We say a series of functions $\sum_{n=m}^\infty f_n$ converges
+compactly to $f$ in $U$ if the partial sum sequence converges to $f$
+compactly in $U$.
+\end{defn}
+
+Recall the comparison theorem: given $K \subset U$, if there exists
+$(c_n)$ depending on $K$ such that $\|f_n\|_K \leq c_n$, $\forall n$
+and $\sum c_n < \infty$ then $\sum f_n$ converges uniformly on $K$.
+If this is true for every compact $K \subset U$ then $\sum f_n$
+converges compactly on $U$.
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Suppose $\sum_{n=0}^\infty a_n z^n$ has radius $R > 0$. Recall that
+      this series converges uniformly on $\bar{D}(0, R_1)$ for all
+      $R_1 \in (0, R)$. If $K \subset D(0, R)$ is compact, then
+      $\exists R_1 \in (0, R)$ such that $K \subset D(0, R_1)$. Therefore
+      this series converges uniformly on $K$.
+    }
+    \item{
+      Consider
+      $$
+        \tilde{\zeta}(z)
+      = \sum_{n=1}^\infty \frac{1}{n^z}
+      = \sum_{n=1}^\infty e^{-z \log n}.
+      $$
+      Note that $n \in \mathbb{R}$ so no branch cut is needed.
+      We see that
+      $$
+        \left|
+          \frac{1}{n^z}
+        \right|
+      = e^{-\log n \cdot \Re(z)}
+      = \frac{1}{n^{\Re(z)}}.
+      $$
+      We know
+      $$
+      \sum_{n=1}^\infty
+        \frac{1}{n^p}
+      < \infty, \quad
+      p > 1
+      $$
+      so from the comparison  principle $\tilde{\zeta}$ converges uniformly
+      in $\{z : \Re(z) \geq p\}$, $\forall p > 1$. Since for
+      every compact subset $K$ of $\{ z : \Re(z) > 1 \}$ there is $p >
+      1$ such that $K \subset \{ z : \Re z \geq p \}$, we see that
+      $\tilde{\zeta}$ converges compactly on $\{ z : \Re z > 1 \}$.
+
+      From the theorem, the limit $\tilde{\zeta}(z)$ is analytic and
+      $$
+        \tilde{\zeta}^\prime(z)
+      = \sum_{n=1}^\infty
+          -\frac{\log n}{n^z}.
+      $$
+      Such $f$ has an analytic extension to
+      $\mathbb{C} \setminus \{ 1 \}$, namely the famous Riemann zeta
+      function. This function has trivial zeros at negative even
+      integers. The Riemann Hypothesis states that every nontrivial
+      zero of $\zeta$ lies on the line $\{ z : \Re z = \frac{1}{2} \}$.
+    }
+    \item{
+      Let $a, b \in \mathbb{R}$ and $U \subset \mathbb{C}$ be open.
+      Suppose $f : [a, b] \times U \to \mathbb{C}$ is a homotopy of
+      analytic functions on $U$. Then
+      $$
+      F(z) = \int_a^b f(t, z) \dif t
+      $$
+      is analytic on $U$ since the Riemann sum
+      $$
+        F_n(z)
+      = \sum_{k=1}^n
+          f(t_k, z)
+          (t_k - t_{k-1})
+      $$
+      is analytic on $U$ and $F_n \to F$ compactly.
+    }
+    \item{
+      Suppose $f$ is continuous on $\mathbb{R}$.
+      For any $n \in \mathbb{N}$,
+      $$
+        F_n(z)
+      = \int_{-n}^n
+          f(t) e^{i t z}
+          \dif t
+      $$
+      is analytic on $\mathbb{C}$. If there exists an open set $U$
+      such that
+      $$
+          F_n
+      \to \hat{f}(z)
+      =   \int_{-\infty}^{\infty}
+            f(t) e^{i t z}
+            \dif t
+      $$
+      compactly in $U$, then $\hat{f}$ is analytic on $U$.
+    }
+    \item{
+      Define
+      $$
+        \Gamma(t)
+      = \int_0^\infty
+          x^{t-1}
+          e^{-x}
+          \dif x
+      = \lim_{\varepsilon \to 0^+}
+        \lim_{R \to \infty}
+        \int_\varepsilon^R
+          x^{t-1}
+          e^{-x}
+          \dif x
+      $$
+      where $t \in \mathbb{C}$ and
+      $x^{t-1} = e^{(t-1)\log x}$. One can show that the limit
+      converges compactly in
+      $H_R = \{z \in \mathbb{C} : \Re z > 0\}$. Thus
+      $\Gamma$ is analytic on $H_R$. $\Gamma$ can be extended
+      analytically to
+      $\mathbb{C} \setminus \{ n \in \mathbb{Z} : n \leq 0 \}$
+      and every $n \in \mathbb{N} \cup \{ 0 \}$ is a simple pole
+      of $\Gamma$. This function obeys the functional equation
+      $\Gamma(n) = (n - 1)!$ for nonnegative integers.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+In summary we have the following methods to construct analytic
+functions or determine analyticity:
+\begin{enumerate}
+  \item{
+    Compute the complex derivative from the definition.
+  }
+  \item{
+    Construct a function from addition, multiplication, division, or
+    composition of analytic functions.
+  }
+  \item{
+    Check that a function satisfies the Cauchy-Riemann equation.
+  }
+  \item{
+    Use power series and Laurent series.
+  }
+  \item{
+    The primitive or local primitive of an analytic function is always analytic.
+  }
+  \item{
+    The derivative of an analytic function is always analytic.
+  }
+  \item{
+    The inverse or local inverse of an analytic function is analytic.
+  }
+  \item{
+    The limit of a compactly convergent sequence or series of analytic
+    functions is analytic.
+  }
+  \item{
+    The integral of a family of analytic functions is analytic.
+  }
+\end{enumerate}
