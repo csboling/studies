@@ -239,3 +239,209 @@ functions or determine analyticity:
     The integral of a family of analytic functions is analytic.
   }
 \end{enumerate}
+
+\subsection{Normal Families}
+\begin{defn}
+Let $U \subset \mathbb{C}$ be open. Let $\Phi$ be a family of analytic
+functions defined on $U$. We say $\Phi$ is a normal family if every
+sequence in $\Phi$ contains a subsequence which converges compactly in
+$U$. The limit does not have to lie in $\Phi$.
+\end{defn}
+
+\begin{remark}
+Let $\Sigma$ denote the set of analytic functions on $U$. It is
+possible to define a metric on $\Sigma$ such that $f_n \to f$
+compactly in $U$ iff. $d(f_n, f) \to 0$. We first construct a sequence
+of compact subsets $(K_n)$ of $U$ such that
+$K_n$ is contained in the interior of $K_{n+1}$ (the union of all open
+subsets of $K_{n+1}$ and $\bigcup_{n=1}^\infty K_n = U$.
+
+For example, let
+$$
+  K
+= \{ z \in U : |z| \leq n,
+     \mathrm{dist}(z, U^c) \geq \frac{1}{n} \}
+$$
+and define
+$$
+  d(f, g)
+= \sum_{n=1}^\infty
+    \frac{1}{2^n}
+    \frac{\|f - g\|_{K_n}}
+         {1 + \|f - g\|_{K_n}}.
+$$
+Observe that $d(f_n, f) \to 0$ if and only if
+$\|f_n - f\|_{K_n} \to 0$ for every $n$.
+Observe also that for all compact $K \subset U$, there exists an $n$
+such that $K \subset K_n$. Thus $\|f_n - f\|_{K_n} \to 0$ if and only
+if $f_n \to f$ compactly in $U$. Then $\Phi$ is a normal family if and
+only if $\Phi$ is relatively compact with respect to this metric, i.e.
+the closure of $\Phi$ is compact.
+\end{remark}
+
+\begin{defn}[Equicontinuous function]
+We say that $(f_n)$ is equicontinuous if $\forall \varepsilon > 0$,
+$\exists \delta > 0$ such that $\forall z, w \in K$ with
+$d_K(z, w) < \delta$, $d_L(f_n(z), f_n(w)) < \varepsilon$ for all $n$.
+\end{defn}
+
+\begin{theorem}[Arzela-Ascoli Theorem]
+Let $K$, $L$ be compact metric spaces. Let $f_n : K \to L$ be an
+equicontinuous set of functions. Then $(f_n)$ has a subsequence which
+converges uniformly in $K$.
+\end{theorem}
+
+\begin{proof}[(sketch)]
+Since $K$ is compact, $\exists (z_m)$ in $K$ which is dense in $K$.
+Let $n_k^0 = k$. Consider the values of $(f_{n_k^0})$ at $z_1$. Since
+$L$ is compact, $\exists$ a subsequence of $(f_{n_k^0})$, call it
+$(f_{n_k^1})$, such that $(f_{n_k^1}(z_1))$ converges. Then we look at
+$(f_{n_k^1})$ valued at $z_2$. Since $L$ is compact, there exists a
+subsequence of $(f_{n_k^2})$ of $(f_{n_k^1})$ such that
+$(f_{n_k^2}(z_2))$ converges. Repeating this argument gives
+$$
+        (f_k)
+=       (f_{n_k^0})
+\supset (f_{n_k^1})
+\supset (f_{n_k^2})
+\supset \cdots
+$$
+such that for all $m \in \mathbb{N}$, $(f_{n_k^m}(z_m))$ converges.
+Now let $n_k = n_k^k$, i.e. consider the diagonal of
+\begin{align*}
+  f_{n_1^1} & \supset & f_{n_1^2} & \supset & \cdots \\
+  f_{n_2^1} & \supset & f_{n_2^2} & \supset & \cdots \\
+  \vdots  & \supset & \cdots   & \supset & \ddots \\
+  \to z_1 &         & \to z_2  &         &
+\end{align*}
+so that $(f_{n_k})$ is a subsequence of $(f_k)$. Then
+$(f_{n_k}(z_m))$ converges for all $m$ because
+$(f_{n_k})$ is a subsequence of $(f_{n_k^m})$ except for the first
+$m-1$ items.
+
+Now $(f_{n_k})$ is a subsequence of $(f_k)$ and converges at every
+$z_m$. Using the denseness of $z_m$ and the equicontinuity of
+$(f_{n_k})$, we can conclude that $(f_n)$ converges uniformly on $K$.
+\end{proof}
+
+\begin{lemma}
+Suppose $K$ is a compact of an open set $U \subset\mathbb{C}$. Let
+$(f_n)$ be a sequence of analytic function on $U$. If $(f_n^\prime)$
+or $(f_n)$ is uniformly bounded on $U$, i.e. there exists $M > 0$
+such that $\| f_n^\prime \|$ or $\| f_n \| \leq M$ for all $n$,
+then $(f_n)$ is equicontinuous on $K$.
+\end{lemma}
+
+\begin{proof}
+Assume $(f_n^\prime)$ is uniformly bounded on $U$. Since $K \subset U$
+is compact, $\exists r > 0$ such that $\forall z_0 \in K$,
+$D(z_0, r) \subset U$.
+
+If $z, w \in K$ and $|z - w| < r$, then
+$[z, w] \subset D(z, r) \subset U$. So
+$$
+  |f_n(z) - f_n(w)|
+=    \left|
+       \int_{[w, z]}
+          f_n^\prime
+       \right|
+     \right|
+\leq \| f_n^\prime \| |w - z|
+\leq M |w - z|.
+$$
+For any $\varepsilon > 0$, let
+$\delta = \min \{ r, \frac{\varepsilon}{M} \}$. If
+$z, w \in K$ and $|z - w| < \delta$, then
+$$
+     |f_n(z) - f_n(w)|
+\leq M \delta
+<    \varepsilon.
+$$
+
+Next assume $(f_n)$ is uniformly bounded on $U$. Then
+$\exists M > 0$ such that $\| f_n \|_U \leq M$ for all $n$.
+Let $r > 0$ be as above and define
+$$
+  U^\prime
+= \bigcup_{z_0 \in K} D(z_0, \frac{r}{2})
+$$
+so that $K \subset U^\prime \subset U$ and $U^\prime$ is open
+and $\forall w_0 \in U^\prime$,
+$\bar{D}(w_0, \frac{r}{2}) \subset U$.
+
+If $z \in \bar{D}(w_0, \frac{r}{2})$, then
+$|z - w_0| \leq \frac{r}{2}$. Since
+$w_0 \in D(z_0, \frac{r}{2})$ for some $z_0 \in K$,
+$$
+|z - z_0| \leq |z - w_0| + |w_0 - z_0| = \frac{r}{2} + \frac{r}{2} = r
+$$
+so that $z \in D(z_0, r)$.
+
+Then
+$$
+  f_n^\prime(z_0)
+= \frac{1}{2 \pi i}
+  \int_{|z - z_0| = \frac{r}{2}}
+    \frac{f_n(z)}
+         {(z - z_0)^2}
+    \dif z
+$$
+so that
+$$
+     |f_n^\prime(z_0)|
+\leq \frac{1}{2 \pi}
+     \frac{M}{(r / 2)^2}
+     2 \pi
+     \frac{r}{2}
+=    \frac{2M}{r}.
+$$
+Thus $(f_n^\prime)$ is uniformly bounded by $\frac{2M}{r}$ on
+$U^\prime$. Since $K \subset U^\prime$, the first part of the proof
+implies that $(f_n)$ is equicontinuous on $K$.
+\end{proof}
+
+\begin{corol}
+Suppose $K$ is a compact subset of an open set $U \subset \mathbb{C}$.
+Let $(f_n)$ be a uniformly bounded sequence of analytic function on
+$U$.
+Then $(f_N)$ contains a subsequence which converges uniformly on $K$.
+\end{corol}
+\begin{proof}
+$(f_n)$ is equicontinuous on $K$, and since $(f_n)$ is uniformly
+bounded, $\exists M > 0$ so that $\| f_n \|_K \leq M$.
+Let $L = \bar{D}(0, M)$, so $L$ is compact and $f_n : K \to L$. Then
+from the A-A theorem, the desired consequent is shown.
+\end{proof}
+
+\begin{theorem}[Montel's Thoerem]
+Let $U \subset \mathbb{C}$ be open. Let $\Phi$ be a family of
+analytic functions on $U$. Then $\Phi$ is a normal family if and only
+if $\Phi$ is uniformly bounded on every compact subset of $U$.
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+    \item[($\implies$)]{
+      Suppose $\Phi$ is not uniformly bounded on some compact set $K
+      \subset U$. Then there exists a sequence $(f_n)$ in $K$ such
+      that $\| f_n \|_K \to \infty$, which contradicts that $(f_n)$
+      converges uniformly on $K$, which was implied by the assumption
+      that each $f \in \Phi$ was uniformly bounded.
+    }
+    \item[($\impliedby$)]{
+      For $m \in \mathbb{N}$, let
+      $$
+        K_m
+      = \{ z \in U : |z| \leq M, \mathrm{dist}(z, U^C) \geq
+      \frac{1}{m} \}.
+      $$
+      Then each $K_m$ is a compact subset of $U$, $K_m$ lies in the
+      interior of $K_{m+1}$, and $U = \cup_m K_m$.
+
+      Let $U_m = \union_{z \in K_m} D(z, \frac{1}{m} - \frac{1}{m +
+        1})$.
+      Then each $U_m$ is open, and $K \subset U_m \subset K_{m+1}$, so
+      $U = \cup U_m$.
+    }
+  \end{itemize}
+\end{proof}
