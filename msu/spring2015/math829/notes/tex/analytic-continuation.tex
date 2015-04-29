@@ -542,42 +542,263 @@ Moreover, if we require that $f^\prime(z_0) > 0$, then such $f$ is unique.
     Set $S = \sup_{f \in \Phi} |f^\prime(z_0)|$. Then there exists a
     sequence $(f_n)$ in $\Phi$ such that $|f_n^\prime(z_0)| \to S$.
     Since $\Phi$ is a family of analytic functions defined on $U$
-    which is uniformly bounded, by Montel's theorem it is a
-    normal family. Thus $(f_n)$ has a subsequence $(f_{n_k})$ which
+    which is uniformly bounded (since $|f| < 1$), by Montel's theorem
+    it is a normal family. Thus $(f_n)$ has a subsequence $(f_{n_k})$ which
     converges compactly in $U$. Let $f_0 = \lim f_{n_k}$. Then
     $f_0$ is analytic and $f_{n_k}^\prime \to f_0^\prime$ compactly
     in $U$. Especially, $f_{n_k}^\prime(z_0) \to f_0^\prime(z_0)$.
-    Thus $|f_0^\prime(z_0)| = S$.
+    Thus $|f_0^\prime(z_0)| = S > 0$,
+    so $f_0$ is not constant, so $|f_0(z)| < 1$. Therefore
+    $f_0(U) \subset \mathbb{D}$.
   }
   \item{
-    We show now that the $f_0$ so constructed is injective and that
-    $f_0(U) = \mathbb{D}$. Since $f_0^\prime(z_0) = S > 0$, $f_0$ is
-    not constant. Now each $f_{n_k}$ is analytic and injective, and
-    $f_{n_k} \to f_0$ cmpactly in $U$. Suppose $f_0$ is not injective.
-    Then there exist $z_1 \neq z_2$ in $U$ such that
-    $f_0(z_1) = f_0(z_2) = w_0$. Since $f$ is not constant,
-    $f_{w_0} = f - w_0$ is not constant zero, and has at least two
-    zeros, $z_1$ and $z_2$. Then there exists an $r > 0$ such that
-    $\bar{D}(z_i, r) \subset U$,
+    Suppose $f_0$ is not injective. Then we have $z_1, z_2 \in U$
+    such that $f_0(z_1) = f_0(z_2) = w_0$. Since $f_0$ is not constant,
+    $f_0 - w_0$ is not constantly zero, but $z_1$ and $z_2$ are zeros
+    of $f_0 - w_0$. Then $\exists r > 0$ such that
     $\bar{D}(z_1, r) \cap \bar{D}(z_2, r) = \varnothing$, and
-    $f - w_0 \neq 0$ on $\partial D(z_i, r)$. Since
-    $\partial D(z_i, r)$ is compact and $f$ is nonzero on these
-    compact sets, $\exists \varepsilon > 0$ such that
-    $|f(z) - w_0| \geq \varepsilon$ for all
-    $z \in \partial D(z_i, r)$. Since $f_{n_k} \to f$ compactly in
-    $U$, there exists a $k_0$ such that
-    $\|f_{n_{k_0}} - f\|_{\partial D(z_j, r)} < \varepsilon$. Then
+    $\bar{D}(z_j, r) \subset U$. Moreover, $f_0 - w_0$ has no zeros
+    on $C_j = \partial \bar{D}(z_j, r)$. Since $|f_0 - w_0|$ is
+    continuous and $C_j$ are compact, $\exists \varepsilon > 0$
+    such that $|f_0(z) - w_0| \geq \varepsilon$ for all
+    $z \in C_1 \cup C_2$. Since $f_{n_k} \to f$ compactly,
+    $f_{n_k} \to f_0$ uniformly on $C_1 \cup C_2$, so there exists
+    a $k_0$ such that $\| f_{n_{k_0}} - f_0 \|_{C_1 \cup C_2} <
+    \varepsilon$.
+    For $z \in C_1$,
+    \begin{align*}
+          |(f_{n_{k_0}}(z) - w_0) - (f_0(z) - w_0)|
+    &=    |f_{n_{k_0}}(z) - f_0(z)|
+     <    \varepsilon
+     \leq |f_0(z) - w_0|,
+    \end{align*}
+    so from Rouche's theorem $f_{n_{k_0}} - w_0$ also has at least one
+    zero on $D(z_1, r)$. Similarly, $f_{n_{k_0}} - w_0$ has a zero in
+    $D(z_0, r)$, and this contradicts that $f_{n_{k_0}}$ is injective,
+    which is assumed since $f_{n_{k_0}} \in \Phi$.
+    Therefore $f_0$ is injective.
+  }
+  \item{
+    Finally we show that $f_0(U) = \mathbb{D}$. Suppose
+    $a \in \mathbb{D} \setminus f(U)$. Let
+    $h_1 = g_a \circ f_0$, where $g_a$ is the automorphism of
+    $\mathbb{D}$ that swaps 0 and $a$. Then $h_1$ is injective
+    and analytic and has no zero in $\mathbb{U}$. Since
+    $U$ is simply connected, there exists an analytic $h_2$
+    $U$ such that $h_1 = h_2^2$, since on a simply connected open
+    set we may find an analytic branch of $\log \circ h_1$.  Then
+    $h_2$ is also injective and
     $$
-         |(f_{n_{k_0}} - w_0) - (f_0 - w_0)|
-    <    \varepsilon
-    \leq |f_0 - w|, \quad z \in \partial D(z_i, r).
+      |h_2(z)|
+    = |h_1(z)|^{1 / 2}
+    < 1,
     $$
-    From Rouche's theorem, $f_{n_k} - w_0$ and
-    $f_0 - w_0$ have the same number of zeros counting multiplicity
-    in each $D(z_i, r)$. Then $f_{n_k} - w_0$ has at least one zero
-    in each $D(z_j, r)$, so $f_{n_k}^{-1}(w_0)$ contains at least two
-    points, which is a contradiction since $f_{n_k}$ is injective.
+    so $h_2 : U \to \mathbb{D}$.
+
+    We have $a = h_1(z_0)$, so let $b = h_2(z_0)$, so that $a = b^2$.
+    Let $f_1 = g_b \circ h_2$. Then $f_1 : U \to \mathbb{D}$ is
+    injective and analytic, and
+    $$
+      f_1(z_0)
+    = g_b(h_2(z_0))
+    = g_b(b)
+    = 0,
+    $$
+    so $f_1 \in \Phi$.
+
+    Let $S(z) = z^2$. Then
+    \begin{align*}
+       f_0
+    &= g_a \circ h_1
+     = g_a \circ S \circ h_2 \\
+    &= g_a \circ S \circ g_b \circ f_1
+    \end{align*}
+    and so
+    \begin{align*}
+       f_0^\prime(z_0)
+    &= f_1^\prime(z_0)
+       g_b^\prime(0)
+       S^\prime(b)
+       g_a^\prime(a).
+    \end{align*}
+    Therefore
+    \begin{align*}
+       \frac{|f_0^\prime(z_0)|}
+            {|f_1^\prime(z_0)|}
+    &= |g_b^\prime(0)|
+       |S^\prime(b)|
+       |g_a^\prime(a)|.
+    \end{align*}
+    Recall that
+    $$
+      g_c(z)
+    = \frac{c - z}
+           {1 - \bar{c} z}
+    $$
+    so that
+    $$
+      g_c^\prime(z)
+    = - \frac{1}
+             {1 - \bar{c} z}
+      + \frac{\bar{c}(c - z)}
+             {(1 - \bar{c} z)^2}
+    = \frac{|c|^2 - 1}
+           {(1 - \bar{c} z)^2}
+    $$
+    so that
+    $$
+      |g_c^\prime(0)|
+    = 1 - |c|^2
+    $$
+    and
+    $$
+      |g_c^\prime(c)|
+    = \frac{1}{1 - |c|^2}.
+    $$
+    We also have $S^\prime(z) = 2z$, so we see that
+    \begin{align*}
+       \frac{|f_0^\prime(z_0)|}
+            {|f_1^\prime(z_0)|}
+    &= (1 - |b|^2) 2|b| \frac{1}{1 - |a|^2} \\
+    &= \frac{2|b|}{1 + |b|^2}
+     < 1
+    \end{align*}
+    since
+    $$
+      1 - |a|^2
+    = 1 - |b|^4
+    = (1 - |b|^2)(1 + |b|^2)
+    $$
+    and thus $|f_0^\prime(z_0)| < |f_1^\prime(z_0)|$, which
+    contradicts that
+    $$
+      |f_0^\prime(z_0)|
+    = \sup \{ |f^\prime(z_0) : f \in \Phi \}.
+    $$
+    Hence $f(U) = \mathbb{D}$.
   }
 \end{enumerate}
-
 \end{proof}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Let $S(z) = z^2$. Then
+      $$
+        |S(z)|
+      = |z|^2 \arg(S(z))
+      = 2 \arg z.
+      $$
+      $S(z_1) = S(z_2) \iff  z_1 = \pm z_2$.
+      If $U \cap (-U) = \varnothing$, then $S$ is an analytic
+      isomorphism in $U$.
+    }
+    \item{
+      We denote
+      \begin{align*}
+         \mathbb{H}
+      &= \{ z \in \mathbb{C} : \Im~z > 0 \}
+       = \{ z \in \mathbb{C} : \arg z \in (0, \pi) \}, \\
+         \mathbb{H}_R
+      &= \{ z \in \mathbb{C} : \Re~z > 0 \}
+       = \{ z \in \mathbb{C}
+          : \arg z \in \left(-\frac{\pi}{2}, \frac{\pi}{2}\right)
+         \},
+      \end{align*}
+      and $M_i(z) = i z \in \mathrm{Iso}(\mathbb{H}_R, \mathbb{H})$.
+    }
+    \item{
+      We can see that
+      $S \in \mathrm{Iso}(\mathbb{H} \cap \mathbb{H}_R, \mathbb{H}$,
+      i.e. squaring maps the first quadrant to the upper half plane
+      isomorphically.
+    }
+    \item{
+      Similarly
+      $S \in \mathrm{Iso}(
+               \mathbb{D} \cap \mathbb{H} \cap \mathbb{H}_R,
+               \mathbb{D} \cap \mathbb{H})$.
+    }
+    \item{
+      Let $F(z) = \frac{1 + z}{1 - z}$. If
+      $x \in \mathbb{R} \cup \{ \infty \}$, then
+      $F(x) \in \mathbb{R} \cup \{ \infty \}$.
+      We can check that
+      $$
+        F(i)
+      = \frac{1 + i}
+             {1 - i}
+      = i \in \mathbb{H},
+      $$
+      and see that $F \in \mathrm{Aut}(\mathbb{H})$.
+      Furthermore
+      $$
+        F^{-1}(z)
+      = \frac{z - 1}
+             {z + 1}
+      $$
+      and
+      $$
+        F^{-1} \circ M_i^{-1}(z)
+      = \frac{\frac{z}{i} - 1}
+             {\frac{z}{i} + 1}
+      = \frac{z - i}
+             {z + i}
+      = h_i(z).
+      $$
+      Therefore
+      $M_i \circ F \in \mathrm{Iso}(\mathbb{D}, \mathbb{H})$,
+      so $F \in \mathrm{Iso}(\mathbb{D}, \mathbb{H}_R$, and thus
+      $F \in \mathrm{Iso}(\mathbb{D} \cap \mathbb{H},
+                          \mathbb{H}_R \cap \mathbb{H})$.
+    }
+    \item{
+      From the above we can see
+      $$
+          G
+      =   S \circ F \circ S
+      \in \mathrm{Iso}(\mathbb{D} \cap \mathbb{H} \cap \mathbb{H}_R,
+                       \mathbb{H}).
+      $$
+    }
+    \item{
+      We can see that $z \mapsto \sqrt{z^2 - 1}$ is an isomorphism
+      from $\mathbb{H}_R \setminus [0, 1]$ to $\mathbb{H}_R$.
+      First we see that
+      $$
+          S
+      :   \mathbb{H}_R \setminus [0, 1]
+      \to \mathbb{C} \setminus (-\infty, 1]
+      $$
+      and
+      $$
+          T_{-1}
+      :   \mathbb{C} \setminus (-\infty, 1]
+      \to \mathbb{C} \setminus (-\infty, 0].
+      $$
+    }
+    \item{
+      $\exp$ is injective on $U$ if
+      $U \cap (U + 2 k \pi i) = \varnothing$ for all
+      $k \in \mathbb{Z}$.
+    }
+    \item{
+      Let
+      $$
+        S_y
+      = \{ z \in \mathbb{C} : 0 < \Im~z < y \}
+      $$
+      for $y > 0$. Then
+      $\exp \in \mathrm{Iso}(S_\pi, \mathbb{H})$
+      and
+      $\exp in \mathrm{Iso}(S_\pi \cap (-\mathbb{H}), \mathbb{H} \cap
+      \mathbb{D})$.
+    }
+    \item{
+      The inversion map $J(z) = \frac{1}{z}$ is an automorphism of
+      $\mathbb{C} \setminus \{ 0 \}$, and
+      $J \in \mathrm{Iso}(\mathbb{D} \setminus \{ 0 \},
+                          \mathbb{C} \setminus \bar{\mathbb{D}})$.
+    }
+  \end{enumerate}
+\end{xmpl}
