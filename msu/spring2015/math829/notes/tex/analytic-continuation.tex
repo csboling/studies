@@ -344,7 +344,6 @@ $$
 =    \left|
        \int_{[w, z]}
           f_n^\prime
-       \right|
      \right|
 \leq \| f_n^\prime \| |w - z|
 \leq M |w - z|.
@@ -402,7 +401,7 @@ implies that $(f_n)$ is equicontinuous on $K$.
 
 \begin{corol}
 Suppose $K$ is a compact subset of an open set $U \subset \mathbb{C}$.
-Let $(f_n)$ be a uniformly bounded sequence of analytic function on
+Let $(f_n)$ be a uniformly bounded sequence of analytic functions on
 $U$.
 Then $(f_N)$ contains a subsequence which converges uniformly on $K$.
 \end{corol}
@@ -425,8 +424,8 @@ if $\Phi$ is uniformly bounded on every compact subset of $U$.
       Suppose $\Phi$ is not uniformly bounded on some compact set $K
       \subset U$. Then there exists a sequence $(f_n)$ in $K$ such
       that $\| f_n \|_K \to \infty$, which contradicts that $(f_n)$
-      converges uniformly on $K$, which was implied by the assumption
-      that each $f \in \Phi$ was uniformly bounded.
+      converges uniformly on $K$, which was required by the assumption
+      that $\Phi$ is a normal family.
     }
     \item[($\impliedby$)]{
       For $m \in \mathbb{N}$, let
@@ -438,10 +437,147 @@ if $\Phi$ is uniformly bounded on every compact subset of $U$.
       Then each $K_m$ is a compact subset of $U$, $K_m$ lies in the
       interior of $K_{m+1}$, and $U = \cup_m K_m$.
 
-      Let $U_m = \union_{z \in K_m} D(z, \frac{1}{m} - \frac{1}{m +
+      Let $U_m = \cup_{z \in K_m} D(z, \frac{1}{m} - \frac{1}{m +
         1})$.
       Then each $U_m$ is open, and $K \subset U_m \subset K_{m+1}$, so
       $U = \cup U_m$.
+
+      We have a sequence
+      $$
+      K_1 \subset U_1 \subset K_2 \subset U_2 \subset \cdots
+      $$
+      such that each $K_m$ is compact and each $U_m$ is open.
+      By assumption, $\Phi$ is uniformly bounded on each $K_m$.
+      Since $U_m \subset K_{m+1}$, this means $\Phi$ is uniformly
+      bounded on each $U_m$. Since $K_m$ is a compact subset of
+      $U_m$, the corollary above shows that every sequence in
+      $\Phi$ contains a subsequence which converges uniformly on
+      $K_m$. We use another diagonal argument to show that every
+      sequence in $\Phi$ contains a subsequence which converges
+      uniformly on every $K_m$.
+
+      Let $(f_m) \in \Phi$ and let $n^0_k = k$. Then by the argument
+      above, $(f_{n^0_k})$ contains a subsequence $(f_{n_k}^1)$ which
+      converges uniformly on $K_1$. Similarly $(f_{n^1_k})$ has a
+      subsequence $(f_{n^2_k})$ which converges uniformly on $K_2$.
+      Then we have
+      $$
+      (f_{n^0_k}) \supset (f_{n^1_k}) \supset \cdots
+      $$
+      such that for each $m$, $(f_{n^m_k})$ converges uniformly on
+      $K_m$. Let $n_k = n^k_k$. Then $(f_{n_k}) \subset (f_n)$ which
+      converges uniformly on each $K_m$.
+
+      Let $K \subset U$ be compact. Then the $U_m$ forms an open cover
+      of $U$, so there exists an $M$ such that $K \subset U_M \subset
+      K_{M+1}$.
+      Since $(f_{n_k})$ converges uniformly on $K_{M+1}$, it also
+      converges uniformly on $K$.
     }
   \end{itemize}
+\end{proof}
+
+\begin{remark}
+$Phi$ is uniformly bounded on every compact subset of $U$ if and only
+if $\Phi$ is locally uniformly bounded in $U$, i.e.
+$\forall z_0 \in U$, $\exists r > 0$ such that $\Phi$ is uniformly
+bounded on $D(z_0, r)$.
+\end{remark}
+
+\begin{theorem}[Riemann Mapping Theorem]
+Let $U \subsetneq \mathbb{C}$ be simply connected and $z_0 \in U$.
+Then there exists $f \in \mathrm{Iso}(U, \mathbb{D})$ such that
+$f(z_0) = 0$. If another $g$ has this property, then
+$\exists c \in \mathbb{C}$ with $|c| = 1$ such that $g = M_c \cdot f$.
+Moreover, if we require that $f^\prime(z_0) > 0$, then such $f$ is unique.
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+  \item{
+    First we prove the uniqueness statements. Suppose
+    $f_1, f_2 \in \mathrm{Iso}(U, \mathbb{D})$ and
+    $f_1(z_0) = 0 = f_2(z_0)$. Then
+    $f = f_1 \circ f_2^{-1} \in \ mathrm{Aut}(\mathbb{D})$ and $f(0) = 0$,
+    so $f = M_c$ with $|c| = 1$. If $f_1^\prime(z_0), f_2^\prime(z_0) >
+    0$,
+    then $f^\prime(0) > 0$. Then $c = 1$, whence $f$ is identity.
+  }
+  \item{
+    Let $\Phi$ be the set of injective analytic functions
+    $f : U \to \mathbb{D}$ such that $f(z_0) = 0$. Let
+    $c \in \mathbb{C} \setminus U$. Since $U$ is simply connected,
+    there is a branch of $\log(z - c)$ in $U$. Call it $L(z)$. Such
+    $L$ is an analytic isomorphism out of $U$, since
+    $L(z_1) = L(z_2)$ implies $e^{L(z_1)} = e^{L(z_2)}$  and so $z_1 =
+    z_2$, whence $L$ is injective.
+
+    Let $V = L(U)$. Then $V$ is open, and
+    $V \cap (V + 2 \pi i) = \varnothing$. Let
+    $z_0 \in V \cap (V + 2 \pi i)$. Then $z_0, z_0 - 2 \pi i \in V$,
+    so $z_0 = L(w_1)$, $z_0 - 2\pi i = L(w_2)$ for $w_1, w_2 \in U$,
+    so $w_1 = e^{z_0} = e^{z_0 - 2 \pi i} = w_2$, a contradiction.
+    Now $V + 2 \pi i$ is also open, so we can find
+    $D(w_0, r) \subset V + 2 \pi i$, so $D(w_0, r) \cap V = \varnothing$.
+
+    Let $h(z) = \frac{r}{L(z) - w_0}$. Then $h$ is injective and
+    $|h(z)| < 1$ on $U$, so
+    $h \in \mathrm{Iso}(U, \mathbb{D})$.
+    Let $f = g_{h(z_0)} \circ h$. Then $f(z_0) = 0$, so $f \in \Phi$,
+    so $\Phi \neq \varnothing$.
+  }
+  \item{
+    Suppose $f_0 \in \Phi \cap \mathrm{Iso}(U, \mathbb{D})$. Then
+    $\forall f \in \Phi$, we can define
+    $F = f \circ f_0^{-1} : \mathbb{D} \to \mathbb{D}$, and from
+    the Schwarz lemma $|F^\prime(0)| \leq 1$.
+    $f = F \circ f_0$, so
+    $f^\prime(z_0) = F^\prime(0) \cdot f_0^\prime(z_0)$, whence
+    $|f^\prime(z_0)| \leq |f_0^\prime(z_0)|$. Thus
+    $|f^\prime(z_0)| = \max_{f \in \Phi} |f^\prime(z_0)|$, so we
+    want to find $f_0 \in \Phi$ such that $f_0^\prime(z_0)$ is
+    maximized.
+  }
+  \item{
+    Set $S = \sup_{f \in \Phi} |f^\prime(z_0)|$. Then there exists a
+    sequence $(f_n)$ in $\Phi$ such that $|f_n^\prime(z_0)| \to S$.
+    Since $\Phi$ is a family of analytic functions defined on $U$
+    which is uniformly bounded, by Montel's theorem it is a
+    normal family. Thus $(f_n)$ has a subsequence $(f_{n_k})$ which
+    converges compactly in $U$. Let $f_0 = \lim f_{n_k}$. Then
+    $f_0$ is analytic and $f_{n_k}^\prime \to f_0^\prime$ compactly
+    in $U$. Especially, $f_{n_k}^\prime(z_0) \to f_0^\prime(z_0)$.
+    Thus $|f_0^\prime(z_0)| = S$.
+  }
+  \item{
+    We show now that the $f_0$ so constructed is injective and that
+    $f_0(U) = \mathbb{D}$. Since $f_0^\prime(z_0) = S > 0$, $f_0$ is
+    not constant. Now each $f_{n_k}$ is analytic and injective, and
+    $f_{n_k} \to f_0$ cmpactly in $U$. Suppose $f_0$ is not injective.
+    Then there exist $z_1 \neq z_2$ in $U$ such that
+    $f_0(z_1) = f_0(z_2) = w_0$. Since $f$ is not constant,
+    $f_{w_0} = f - w_0$ is not constant zero, and has at least two
+    zeros, $z_1$ and $z_2$. Then there exists an $r > 0$ such that
+    $\bar{D}(z_i, r) \subset U$,
+    $\bar{D}(z_1, r) \cap \bar{D}(z_2, r) = \varnothing$, and
+    $f - w_0 \neq 0$ on $\partial D(z_i, r)$. Since
+    $\partial D(z_i, r)$ is compact and $f$ is nonzero on these
+    compact sets, $\exists \varepsilon > 0$ such that
+    $|f(z) - w_0| \geq \varepsilon$ for all
+    $z \in \partial D(z_i, r)$. Since $f_{n_k} \to f$ compactly in
+    $U$, there exists a $k_0$ such that
+    $\|f_{n_{k_0}} - f\|_{\partial D(z_j, r)} < \varepsilon$. Then
+    $$
+         |(f_{n_{k_0}} - w_0) - (f_0 - w_0)|
+    <    \varepsilon
+    \leq |f_0 - w|, \quad z \in \partial D(z_i, r).
+    $$
+    From Rouche's theorem, $f_{n_k} - w_0$ and
+    $f_0 - w_0$ have the same number of zeros counting multiplicity
+    in each $D(z_i, r)$. Then $f_{n_k} - w_0$ has at least one zero
+    in each $D(z_j, r)$, so $f_{n_k}^{-1}(w_0)$ contains at least two
+    points, which is a contradiction since $f_{n_k}$ is injective.
+  }
+\end{enumerate}
+
 \end{proof}
