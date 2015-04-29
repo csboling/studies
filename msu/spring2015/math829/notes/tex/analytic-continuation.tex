@@ -280,9 +280,12 @@ the closure of $\Phi$ is compact.
 \end{remark}
 
 \begin{defn}[Equicontinuous function]
-We say that $(f_n)$ is equicontinuous if $\forall \varepsilon > 0$,
-$\exists \delta > 0$ such that $\forall z, w \in K$ with
-$d_K(z, w) < \delta$, $d_L(f_n(z), f_n(w)) < \varepsilon$ for all $n$.
+Let $A$ be some indexing set, and $K$, $L$ metric spaces.
+We say that a family $(f_\alpha)_{\alpha \in A}$
+of functions $f_\alpha : K \to L$ is equicontinuous if
+$\forall \varepsilon > 0$, $\exists \delta > 0$ such that
+$\forall z, w \in K$ with $d_K(z, w) < \delta$,
+$d_L(f_n(z), f_n(w)) < \varepsilon$ for all $n$.
 \end{defn}
 
 \begin{theorem}[Arzela-Ascoli Theorem]
@@ -534,7 +537,7 @@ Moreover, if we require that $f^\prime(z_0) > 0$, then such $f$ is unique.
     $f = F \circ f_0$, so
     $f^\prime(z_0) = F^\prime(0) \cdot f_0^\prime(z_0)$, whence
     $|f^\prime(z_0)| \leq |f_0^\prime(z_0)|$. Thus
-    $|f^\prime(z_0)| = \max_{f \in \Phi} |f^\prime(z_0)|$, so we
+    $|f_0^\prime(z_0)| = \max_{f \in \Phi} |f^\prime(z_0)|$, so we
     want to find $f_0 \in \Phi$ such that $f_0^\prime(z_0)$ is
     maximized.
   }
