@@ -120,6 +120,15 @@ We can define
  = \frac{e^{-i(iz)} - e^{i(iz)}}{2} \\
 &= -i \sin iz.
 \end{align*}
+Useful identities:
+\begin{align*}
+   \sin (x + i y)
+&= \sin x \cosh y
+ + i \cos x \sinh y, \\
+   \cos (x + i y)
+&= \cos x \cosh y
+ - i \sin x \sinh y
+\end{align*}
 
 \section{Topology on $\mathbb{C}$}
 
@@ -144,6 +153,7 @@ open neighborhood also in $A$, which may be truncated by the boundary
 of $U$.
 A subset $A \subset U$ is said to be relatively closed in $U$
 if $U - A$ is relatively open in $U$.
+If a set is open and connected, it is path-connected.
 
 Continuous functions on compact sets are uniformly continuous and have
 compact images. The uniform limit of continuous functions is continuous.
@@ -250,6 +260,10 @@ must be isolated, which can be seen by a power series
 argument.
 
 \section{Power Series}
+
+The radius of convergence of the sum of two convergent power series is
+the minimum of their individual radii of convergence. The radius of
+convergence of the product is at least the minimum.
 
 \subsection{Useful formulas}
 Finite geometric progression sum:
@@ -803,5 +817,12 @@ and hence contains a subsequence which converges uniformly on $K$
 (Arzel\`a-Ascoli theorem).
 
 \subsection{Finding biholomorphisms}
+
+\section{Miscellaneous}
+If a holomorphic function maps real values to real values, then
+$f(\bar{z}) = \overline{f(z)}$ on its whole domain.
+
+If $f$ is entire and $\| f \|_{|z| = R} = O(R^k)$, then $f$ is a
+polynomial of degree at most $k$.
 
 \end{document}
