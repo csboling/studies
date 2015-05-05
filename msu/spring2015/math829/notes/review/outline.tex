@@ -145,6 +145,9 @@ of $U$.
 A subset $A \subset U$ is said to be relatively closed in $U$
 if $U - A$ is relatively open in $U$.
 
+Continuous functions on compact sets are uniformly continuous and have
+compact images. The uniform limit of continuous functions is continuous.
+
 \section{Complex differentiability, Cauchy-Riemann equations}
 
 Let $U \subset \mathbb{C}$ be open. We say that $f$ is
@@ -173,6 +176,11 @@ $$
     \end{array}
   \right]
 = \mathbf{0}.
+$$
+
+We can also write
+$$
+f^\prime = u_x + i v_x = v_y - i u_y.
 $$
 
 \subsection{Branches of the logarithm (primitive of $\frac{1}{z}$),
@@ -240,7 +248,6 @@ accumulation point in $U$, then $f = g$ on $U$. This is a
 consequence of the fact that zeros of a holomorphic function
 must be isolated, which can be seen by a power series
 argument.
-
 
 \section{Power Series}
 
@@ -325,7 +332,7 @@ $$
     \dif z
 = \int_a^b
     f(\gamma(t)) \cdot \gamma^\prime(t)
-    \dif t
+    \dif t,
 $$
 and
 $$
@@ -333,7 +340,10 @@ $$
 = \int_\gamma
     f(z) \dif z
 $$
-if (and only if) $g^\prime = f$.
+if (and only if) $g^\prime = f$. Notably, the function $(z - z_0)^n$ has the
+primitive $\frac{(z - z_0)^{n+1}}{n + 1}$ for $n \neq -1$, so a Laurent series
+at a point $z_0$ with finitely many negative terms can be integrated
+term-by-term around a closed curve to give $\int_\gamma f = 2 \pi i a_{-1}$.
 
 
 \section{Cauchy's theorem and formula}
@@ -351,33 +361,100 @@ $$
 = 0.
 $$
 
-On a disk $D(z_0, r) \subset U$, we can write
-\begin{align*}
-   \frac{f(z)}
-        {z - z_0}
-&= \frac{f(z) -
-\end{align*}
-so that
+By expanding $g(w) = \frac{f(z)}{z - w}$ in a geometric series in $(w
+- w_0)$, we can see
 $$
-  f(z)
-- \sum_{n=1}^\infty
-    a_n (z - z_0)^n
-= a_0
+  f(w)
+= \frac{1}{2 \pi i}
+  \int_J
+    \sum_{n=0}^\infty
+      \frac{f(z)}{(z - w_0)^{n+1}}
+      (w - w_0)^n
 $$
+and after showing that this series converges uniformly it follows that
+$$
+  f^{(k)}(w)
+= \frac{n!}{2 \pi i}
+  \int_J
+    \frac{f(z)}
+         {(z - w)^{n+1}}, \quad w \in \mathrm{Int}(J).
+$$
+
+The radius of a power series expansion at $z_0$ of a holomorphic function on a
+domain $U$ is at least $\mathrm{dist}(z_0, \mathbb{C} \setminus U)$.
 
 \subsection{Liouville's theorem, fundamental theorem of algebra}
 
+Any bounded entire function is constant. If a polynomial $P$ has no
+zero, then $\frac{1}{P}$ is entire, and
+$\lim_{z \to \infty} \frac{1}{P} = 0$ so $\frac{1}{P}$ is bounded on
+$\mathbb{C} \setminus \bar{D}(0, R)$ for some $R$. Since
+$\left(\frac{1}{P}\right)(\bar{D}(0, R))$ is compact we can conclude
+that $\frac{1}{P}$ is bounded, thus constant, so $P$ is constant.
+
 \subsection{Simply connected domains}
-  \subsubsection{Existence of primitives}
-  \subsubsection{Branch of $\log z$}
-  \subsubsection{Harmonic conjugates}
-  \subsubsection{Riemann Mapping Theorem}
+We say that a domain $U$ (i.e. an open connected subset of $\mathbb{C}$)
+is simply connected if the interior of every Jordan curve in $U$ lies
+in $U$. Equivalently, every closed curve in $U$ is homotopic to a point.
+Note that a star domain is simply connected.
+
+\subsubsection{Existence of primitives}
+A function is holomorphic on a simply connected domain if and only if
+it has a primitive on that domain.
+On a simply connected open set,
+$g(z) = \int_{z_0}^z f(\zeta) \dif \zeta$ is a primitive for $f$,
+where $z_0$ is any point in the set.
+
+\subsubsection{Branch of $\log z$}
+If $U \subset \mathbb{C} \setminus \{ 0 \}$ is simply connected then
+$\frac{1}{z}$ has a primitive, which differs from a branch of the
+logarithm by an additive constant. If $\frac{f^\prime}{f}$ has a
+primitive in $U$, then it differs from a branch of $\log f$ by a
+constant, i.e. a continuous function $L$ such that
+$\exp \circ L = f$.
+
+\subsubsection{Harmonic conjugates}
+Given a harmonic function $u$, $f = u_x - i u_y$ is holomorphic, and so if
+the domain of definition is simply connected then $f$ has a primitive
+$F$ there. $\Re~F$ shares both its derivatives
+with $u$ and thus differs from $u$ by a real constant $C$, so
+$\Im(F - C)$ is a harmonic conjugate for $u$.
+
+To find the harmonic conjugate explicitly, we solve the
+Cauchy-Riemann equations $v_y = u_x$ and $v_x = -u_y$. The first gives
+$v = k(x, y) + h(x)$, the second then gives
+$-u_y = k^\prime(x, y) + h^\prime(x)$, and if $u$ is harmonic it is
+possible to solve this for $h$.
+
+\subsubsection{Riemann Mapping Theorem}
 
 
 
 \section{Harmonic functions}
+A harmonic function $f$ is one that satisfies
+$$
+  \nabla^2 f
+= \sum_i
+    \frac{\partial^2 f}
+         {\partial x_i^2}
+= 0,
+$$
+which is satisfied for holomorphic functions by the Cauchy-Riemann
+equations. A function $f$ is harmonic on an open set $U$
+if and only if $f_x - i f_y$ is holomorphic on $U$.
 
 \subsection{Mean value theorems}
+If $f$ is harmonic (and thus also if $f$ is holomorphic) then
+$$
+  f(z_0)
+= \frac{1}{2\pi}
+  \int_{0}^{2\pi}
+    f(z_0 + re^{i\theta})
+    d \theta
+= \frac{1}{\pi r^2}
+  \int_{D(z_0, r)}
+    f(z) \dif x \dif y
+$$
 
 \subsection{Maximum principle}
 
@@ -386,17 +463,87 @@ $$
 \section{Residue calculus}
 
 \subsection{Winding number}
+The winding number is defined by
+$$
+  W(\gamma; z_0)
+= \frac{1}{2 \pi i}
+  \int_\gamma
+    \frac{1}{z - z_0}
+    \dif z.
+$$
+The winding number of a curve at a point outside the curve is
+0. Crossing the curve from the right to the left increases the winding
+number by 1.
 
 \subsection{General Cauchy's formula}
+Let $\gamma$ be a closed contour. Then
+$$
+  2 \pi i W(\gamma; z_0) \cdot f^{(k)}(z_0)
+= \int_\gamma
+    \frac{f(z)}{(z - z_0)^{k+1}}
+    \dif z
+$$
 
 \subsection{Laurent series}
 
+The coefficients of a Laurent series on the annulus $A(z_0, r, R)$
+are given by
+$$
+  a_n
+= \frac{1}{2 \pi i}
+  \int_{|z - z_0| = t}
+    \frac{f(z)}{(z - z_0)^{n+1}},
+n \in \mathbb{Z},
+t \in (r, R)
+$$
+
 \subsubsection{Product and ratio}
+We can compute
+$$
+  \left(
+    \sum_{n=0}^\infty
+      a_n
+      (z - z_0)^n
+  \right)
+  \left(
+    \sum_{n=0}^\infty
+      b_n
+      (z - z_0)^n
+  \right)
+= \sum_{n=0}^\infty
+    \left(
+      \sum_{k=0}^n
+        a_k
+        b_{n-k}
+    \right)
+    (z - z_0)^n
+$$
+and can use this to recursively solve $\frac{f}{g} \cdot g = f$ for
+$\frac{f}{g}$. The first few terms may also be computed by polynomial
+long division.
 
 \subsection{Residue formula}
-  Implies Cauchy's theorem and Cauchy's formula
-
-
+Let $z_i$ be the poles of $f$, which is holomorphic on
+Jordan curve $J$ and its interior except for
+at these points. Then
+$$
+  \int_J f
+= 2 \pi i
+  \sum_i
+  \Res_{z_0}~f.
+$$
+This implies Cauchy's theorem since the sum is empty for a holomorphic
+function as well as Cauchy's formula since
+$$
+  \frac{1}{2 \pi i}
+  \int_\gamma
+    \frac{f(z)}
+         {(z - z_0)^{n+1}}
+    \dif z
+= \Res_{z_0}
+    \frac{f(z)}{(z - z_0)^{n+1}}
+= f^{(n)}(z_0).
+$$
 
 \section{Singularities}
 
@@ -420,7 +567,7 @@ $$
 
     Sufficiently near a removable singularity, $f$ is bounded,
     explicitly by $|\lim_{z \to z_0} f| + \varepsilon$ for any
-    $\varepsilon > 0$.
+    $\varepsilon > 0$, for $z \in D(z_0, r(\varepsilon))$.
   }
   \item{
     A singularity $z_0$ of $f$ is said to be a pole of order $m$ if
@@ -432,14 +579,18 @@ $$
     $$
     where $g$ is holomorphic.
 
-    In this case $\lim_{z \to z_0} |f| = \infty$.
+    In this case $\lim_{z \to z_0} |f| = \infty$. Therefore
+    $\lim_{z \to z_0} \left|\frac{1}{f}\right| = 0$, so $z_0$ is a
+    removable singularity of $\frac{1}{f}$.
   }
   \item{
     A singularity $z_0$ of $f$ is said to be essential if it is not
     removable or a pole.
 
     In this case
-    $f(D(z_0, r)) = \mathbb{C}$ for any $r > 0$.
+    $f(D(z_0, r)) = \mathbb{C}$ or $\mathbb{C} \setminus \{ w_0 \}$
+    (for some $w_0$) for any $r > 0$. In some ways essential
+    singularities behave like poles of infinite order.
   }
 \end{enumerate}
 
@@ -466,10 +617,50 @@ which is a Laurent series around 0.
 
 \subsection{Computing residues}
 
-\subsection{Rouche's theorem}
+If $g$, $f$ are holomorphic and
+$h = \frac{g}{f}$, and $\ord_{z_0} f = 1$, then
+$\Res_{z_0} h = \frac{g(z_0)}{f^\prime(z_0)}$.
+
+A useful manipulation for results like this is to express
+a function as $\frac{1}{z - z_0} h(z)$ or
+$\frac{C}{z - z_0} + h(z)$ for some holomorphic function
+$h(z)$. In the latter case the residue is of course $C$, and in the
+former case it is $a_0$, where $a_0 = h(z_0)$ is the first term of the
+Taylor series of the function $h$ which is analytic at $z_0$. More
+generally the idea is to ``displace'' a holomorphic function by some
+number of powers of $(z - z_0)$ to compute the residue more easily;
+this is analogous to the computation of say
+$$
+  \Res_0 \frac{\sin z}{z^6}
+= \frac{\sin^{(5)}(0)}{5!}.
+$$
+Another useful example of this approach is the observation that when
+$f(z) = (z - z_0)^m g(z)$,
+$$
+  \Res_{z_0} \frac{f^\prime}{f}
+= \Res_{z_0}
+  \left\{
+    \frac{m}{z - z_0} + \frac{g^\prime(z)}{g(z)}
+  \right\}
+= \ord_{z_0} f
+$$
+from which it follows that
+$$
+  \frac{1}{2 \pi i}
+  \int_\gamma f
+= \mathrm{Zeros}_{\mathrm{Int}(\gamma)}(f)
+- \mathrm{Poles}_{\mathrm{Int}(\gamma)}(f).
+$$
+
+\subsection{Rouch\'e's theorem}
 If $|f(z) - g(z)| < |f(z)|$ on the boundary of a disk
 $D$ and $f$, $g$ are analytic on the closed disk, then they have the
 same number of zeros within the disk.
+
+If a zero $z_0$ of $P(z)$ is not a simple zero, then it is also a zero
+of $P^\prime(z)$. We can compute $Q = \mathrm{gcd}(P, P^\prime)$ by
+polynomial long division, and the roots of $Q$ are the multiple roots
+of $P$.
 
 \subsection{Open mapping theorem, inverse mapping theorem}
 If a holomorphic function is non-constant on every open disk in its
@@ -512,23 +703,104 @@ that $f$ is locally constant, consider $f(z) = z^2 - 1$ at zero.
 \subsection{Integrals involving branch cuts}
 
 
+\section{Conformal maps}
 
-\section{The Schwarz lemma}
+\subsection{Automorphisms}
+The automorphisms of the disk are all of the form $M_c \circ g_\alpha$ where
+$$
+  g_\alpha(z)
+= \frac{\alpha - z}
+       {1 - \bar{\alpha} z}.
+$$
+The automorphisms of the upper half-plane are all of the form
+$h_{z_2}^{-1} \circ M_c \circ h_{z_1}$, where $z_1, z_2 \in
+\mathbb{H}$ and
+$$
+  h_{z_0}(z)
+= \frac{z - z_0}
+       {z - \bar{z_0}}
+\in \mathrm{Iso}(\mathbb{H}, \mathbb{D}).
+$$
 
+\subsection{The Schwarz lemma}
+Let $f : \mathbb{D} \to \mathbb{D}$ be holomorphic and $f(0) =
+0$. Then $|f^\prime(z)| \leq |z|$ and $|f^\prime(0)| \leq 1$, and if
+$|f^\prime(z_0)| = |z_0|$ for any $z_0 \in \mathbb{D}$ or
+$|f^\prime(0)| = 1$ then $f$ is a rotation. Furthermore if
+$f$ has a nonzero fixed point or $f^\prime(0) = 1$
+then $f$ is identity. As a consequence of this, any automorphism of
+the unit disk that fixes zero is a rotation.
 
 \section{M\"obius transformations}
+A M\"obius transformation can be decomposed as
+$$
+f = T_{\frac{a}{c}} \circ J \circ T_{\frac{d}{b^\prime}} \circ M_{\frac{c}{b^\prime}}
+$$
+where $b^\prime = b - \frac{ad}{c}$.
 
 \subsection{Finding the transformation between given circles}
+The transformation $F$ mapping $z_1, z_2, z_3$ to $w_1, w_2, w_3$ can be
+found by setting $a = 1$ and solving the system of equations $F(z_i) =
+w_i$ or by computing
+$F = F_{w_1, w_2, w_3}^{-1} \circ F_{z_1, z_2, z_3}$,
+where $F_{a, b, c}$ maps $a$ to $0$, $b$ to $\infty$ and $c$ to 1,
+explicitly
+$$
+  F_{a, b, c}
+= \frac{c - b}
+       {c - a}
+  \frac{z - a}
+       {z - b},
+$$
+and so maps the circle defined by these three points onto the real
+line. If any $a, b, c$ is $\infty$, we omit the terms containing it.
+
+recognizing that
+$$
+  [F(z_1), F(z_2), F(z_3), F(z_4)]
+= F_{w_2, w_1, w_3}(w_4)
+= [z_1, z_2, z_3, z_4]
+= F_{z_2, z_1, z_3}(z_4)
+$$
+so that
+$$
+w_4 = (F_{w_2, w_1, w_3}^{-1} \circ F_{z_2, z_1, z_3})(z_4)
+$$
 
 \subsection{Cross ratio}
-
+The cross-ratio is given by
+$$
+  [z_1, z_2, z_3, z_4]
+= \frac{z_1 - z_3}
+       {z_2 - z_3}
+  \frac{z_2 - z_4}
+       {z_1 - z_4}
+= F_{z_2, z_1, z_3}(z_4).
+$$
 
 
 \section{Riemann mapping theorem}
+Every nonempty open simply connected subset of $\mathbb{C}$ has a
+unique (up to a rotation) isomorphism to the unit disk such that
+$f(z_0) = 0$.
 
 \subsection{Compact convergence}
+A sequence is said to converge compactly on an open set $U$ if it
+converges uniformly on compact subsets of $U$. The limit of a
+compactly convergent sequence of holomorphic functions is holomorphic,
+which allows us to define new holomorphic functions by showing that a
+given series or integral converges compactly (typically by comparison)
+and that the partial sums are holomorphic.
 
 \subsection{Normal families}
+A collection of analytic functions $\Phi$ is called a normal family if every
+sequence in $\Phi$ contains a compactly convergent subsequence.
+$\Phi$ is a normal family if and only if $\Phi$ is uniformly bounded
+on compact sets (Montel's theorem). If a sequence $(f_n)$ of analytic
+functions or its derivative sequence is uniformly bounded on an open
+set $U$, then $(f_n)$ is equicontinuous on each compact subset of $U$,
+and hence contains a subsequence which converges uniformly on $K$
+(Arzel\`a-Ascoli theorem).
 
 \subsection{Finding biholomorphisms}
 
