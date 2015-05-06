@@ -1,0 +1,107 @@
+\documentclass[10pt]{article}
+
+\usepackage[a4paper,margin=1cm]{geometry}
+\usepackage{amsmath,amsfonts,amssymb}
+\newcommand\dif{\mathop{}\!\mathrm{d}}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\newcommand{\Res}{\mathrm{Res}}
+
+\begin{document}
+
+\section{Formulas}
+Complex:
+\begin{align*}
+   \frac{1 + i}
+        {1 - i}
+&= i, \\
+   \sqrt[n]{z_0}
+&= \sqrt[n]{|z_0|}
+   \exp
+   \left\{
+     i
+     \left(
+       \frac{\arg z_0}{n}
+     + \frac{2 \pi k}{n}
+     \right)
+   \right\}, \\
+   [z_1, z_2, z_3, z_4]
+&= \frac{z_1 - z_3}
+        {z_2 - z_3}
+ = \frac{z_2 - z_4}
+        {z_1 - z_4}
+ = F_{z_2, z_1, z_3}(z_4)
+\end{align*}
+where $F_{a,b,c}$ takes $a \to 0$, $b \to \infty$, $c \to 1$ and
+$F_{w_1, w_2, w_3}^{-1} \circ F_{z_1, z_2, z_3}$ maps between given points.
+
+Trigonometric:
+\begin{align*}
+   \sin (x + i y)
+&= \sin x \cosh y
+ + i \cos x \sinh y, \\
+   \cos (x + i y)
+&= \cos x \cosh y
+ - i \sin x \sinh y, \\
+  \cosh z = \cos iz,
+& \sinh z = -i \sin iz \\
+   \sin 2\theta
+&= 2\sin \theta \cos \theta, \\
+   \cos 2\theta
+&= cos^2\theta - \sin^2\theta
+\end{align*}
+Sums:
+\begin{align*}
+   \sum_{k=0}^n
+     z^k
+&= \frac{z^{n+1} - 1}
+        {z - 1}, \\
+   \sum_{n=0}^\infty
+     \sum_{k=0}^n
+       a_{k,n-k}
+&= \sum_{m=0}^\infty
+     \sum_{n=0}^\infty
+       a_{n,m}, \\
+   (a + b)^n
+&= \sum_{k=0}^n
+     {n \choose k}
+     a^k b^{n-k}, \\
+   (a - b)^n
+&= (a - b)
+   \sum_{k=0}^{n-1}
+     a^{n-k-1} b^k
+\end{align*}
+Integrals:
+\begin{align*}
+   \int_0^\infty
+     \frac{1}{1 + x^a}
+     \dif x
+&= \frac{\pi}
+        {a \sin \left(\frac{\pi}{a}\right)}, \quad a > 1
+\end{align*}
+
+\section{Inequalities}
+$$
+\sin t \geq \frac{2t}{\pi}, \quad 0 \in (0, \pi / 2)
+$$
+
+\section{Other}
+$$
+  \int_0^\infty f(x) x^a \frac{\dif x}{x}
+= -\frac{\pi e^{-\pi i a}}{\sin \pi a}
+  \sum_{z_i \neq 0} \Res_{z_i} f(z) z^{a-1}
+$$
+when $a > 1$, $|f(z)| = O(1 / |z|^b)$ for some $b > a$ as $|z| \to \infty$
+or for some positive $b < a$ as $|z| \to 0$.
+
+$$
+\int u \dif v = uv - \int v \dif u
+$$
+
+Euclidean algorithm: Factor out obvious divisors first.
+While $b \neq 0$, $t := b$, $b := a \bmod b$, $a := t$.
+Multiply divisors back in.
+
+\end{document}

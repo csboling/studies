@@ -68,7 +68,7 @@ In particular
    \frac{1 + i}
         {1 - i}
 &= \frac{\sqrt{2} e^{i \frac{\pi}{4}}}
-        {\sqrt{2} e^{-i\frac{\pi}{4}}
+        {\sqrt{2} e^{-i\frac{\pi}{4}}}
  = e^{i \frac{\pi}{2}} = i \\
 &= h_i(1),
 \end{align*}
@@ -269,7 +269,7 @@ convergence of the product is at least the minimum.
 Finite geometric progression sum:
 $$
   \sum_{k=0}^n z^k
-= \frac{z^{n+1}} - 1}
+= \frac{z^{n+1} - 1}
        {z - 1}.
 $$
 
@@ -575,6 +575,7 @@ $$
           f(z), & \quad z \neq z_0 \\
           a_0,  & \quad z = z_0
         \end{array}
+      \right.
     $$
     where $a_0$ is the 0 coefficient of the Laurent series. This is
     because the limit of $f$ exists at $z_0$.
@@ -707,6 +708,15 @@ that $f$ is locally constant, consider $f(z) = z^2 - 1$ at zero.
 \subsection{Half-disk}
 
 \subsection{Half-disk minus half-disk}
+If $f$ has a simple pole at $z_0$, then
+$$
+\lim_{\varepsilon \to 0}
+  \int_0^\theta
+    f(z_0 + \varepsilon e^{it})
+    i \varepsilon e^{it}
+    \dif t
+= i \theta ~\Res_{z_0}~f.
+$$
 
 \subsection{Taking real parts}
 
