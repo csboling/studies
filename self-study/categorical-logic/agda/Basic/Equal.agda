@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Basic.Equal where
+module Equal where
 
 infixl 0 _==_
 data _==_ {A : Set} : (x y : A) → Set where
@@ -84,20 +84,20 @@ inv-involution {A} {x} {y} {p} = ind-= D (refl ∘ refl) x y p where
              D : (x y : A) → (x == y) → Set
              D x y p = inv (inv p) == p
 
-◾-assoc : {A : Set}{w x y z : A}
-          (p : w == x)
-          (q : x == y)
-          (r : y == z) →
-          p ◾ (q ◾ r) == (p ◾ q) ◾ r
-◾-assoc {A} {w} {x} {y} {z} p q = ind-= D₁ {!!} w x p y z q where
-      D₁ : (w x : A) → (w == x) → Set
-      D₁ w x p = (y z : A) → (q : x == y) → (r : y == z) →   
-                 p ◾ (q ◾ r) == (p ◾ q) ◾ r
-      D₂ : (w y : A) → w == y → Set
-      D₂ w y q = (z : A) → (r : y == z) →
-                 refl w ◾ (q ◾ r) == (refl w ◾ q) ◾ r
-      D₃ : (w z : A) → w == z → Set
-      D₃ w z r = refl w ◾ (refl w ◾ r) == (refl w ◾ refl w) ◾ r
+-- ◾-assoc : {A : Set}{w x y z : A}
+--           (p : w == x)
+--           (q : x == y)
+--           (r : y == z) →
+--           p ◾ (q ◾ r) == (p ◾ q) ◾ r
+-- ◾-assoc {A} {w} {x} {y} {z} p q = ind-= D₁ {!!} w x p y z q where
+--       D₁ : (w x : A) → (w == x) → Set
+--       D₁ w x p = (y z : A) → (q : x == y) → (r : y == z) →
+--                  p ◾ (q ◾ r) == (p ◾ q) ◾ r
+--       D₂ : (w y : A) → w == y → Set
+--       D₂ w y q = (z : A) → (r : y == z) →
+--                  refl w ◾ (q ◾ r) == (refl w ◾ q) ◾ r
+--       D₃ : (w z : A) → w == z → Set
+--       D₃ w z r = refl w ◾ (refl w ◾ r) == (refl w ◾ refl w) ◾ r
 
 -- D₁ w w (refl w) y z q r ≡ refl w ◾ (q ◾ r) == (refl w ◾ q) ◾ r
 --                         ≡ D₂ w y q
