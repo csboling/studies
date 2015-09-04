@@ -1,0 +1,445 @@
+\section{Euclidean space}
+
+$n$-dimensional Euclidean space
+$$
+  \mathbb{R}^n
+= \{ (x^1, x^2, \dots, x^n) : x^i \in \mathbb{R} \}
+$$
+is equipped with the \emph{Euclidean norm}
+$$
+\| x \| = \sqrt{ \sum_{i=1}^n (x^i)^2 }
+$$
+which induces a metric $d(x, y) = \| x - y \|$
+and thus \emph{metric balls}
+$$
+  B(x, r)
+= \{ y \in \mathbb{R}^n : d(x, y) < r \}.
+$$
+These generate a topology where a set $U \subset \mathbb{R}^n$ is open
+if $\forall u \in U$, $\exists \varepsilon > 0$ s.t.
+$B(u, \varepsilon) \subset U$.
+
+\begin{defn}[Neighborhood]
+A \emph{neighborhood} of a point $x \in \mathbb{R}^n$ is an open set
+$U \subset \mathbb{R}^n$ such that $x \in U$.
+\end{defn}
+
+
+\section{Regular functions}
+
+\subsection{Classes of real functions}
+
+\begin{defn}[Real function, differentiability classes]
+A \emph{real function} is a function $f : U \to \mathbb{R}$ where
+$U$ is open in $\mathbb{R}^n$.
+
+Given $k \in \{ 0 \} \cup \mathbb{N} \cup \{ \infty \}$, $f$ is of
+class $C^k$ at $p \in U$ provided that the partial derivatives
+$\frac{\partial^j f}{\partial x^{i_1} \cdots \partial x^{i_j}}$ exist
+and are continuous at $p$ for all $j \leq k$.
+\end{defn}
+
+Note that $f \in C^0$ at $p$ means $f$ is continuous at $p$. $f$ is
+said to be $C^k$ on $U$ if this is true for all $p \in U$. Furthermore
+$C^{k+1} \implies C^k$, $\forall k$. We also  denote
+$$
+  C^k(U)
+= C^k(U, \mathbb{R})
+= \{ f: U \to \mathbb{R} : f \in C^k \}
+$$
+and say that $f$ is \emph{smooth} on $U$ if $f \in
+\mathbb{C}^\infty(U)$.
+
+\begin{xmpl}
+$f(x) = x^{1 / 3}$ is $C^1$ on $C^1(\mathbb{R} \setminus \{ 0 \})$.
+\end{xmpl}
+
+\begin{theorem}
+$$
+g(x) = \int_0^x f(t) \dif t
+$$
+if and only if $g^\prime(x) = f(x)$. Here $g \in C^1(\mathbb{R})$ and
+$g \in C^2(\mathbb{R} \setminus \{ 0 \})$, but
+$g \notin C^2(\{ 0 \})$. This theorem allows us to construct for any
+function in $C^k$ a function that is not in $C^{k+1}$, so these
+classes are all distinct.
+\end{theorem}
+
+\subsection{Vector valued functions}
+We say that a vector-valued function
+$f \in C^k(U, \mathbb{R}^m)$ if each component function
+$f^i = \pi_i \circ f$ is $C^k(U, \mathbb{R})$.
+
+Given $f \in C^\infty(U, \mathbb{R})$ and $p \in U$,
+$f$ has a Taylor series centered at $p = (p^1, \dots, p^n)$ given by
+\begin{align*}
+  f(x)
+&= f(p) \\
+&+ \sum_{i=1}^n
+    \frac{\partial f}
+         {\partial x^i}(p)
+    (x^i - p^i) \\
+&+ \frac{1}{2!}
+    \sum_{i,j}
+      \frac{\partial f}
+           {\partial x^i \partial x^j}(p)
+      (x^i - p^i)
+      (x^j - p^j) \\
+&+  \cdots \\
+&+  \frac{1}{k!}
+    \sum_{i_1, \cdots, i_k}
+      \frac{\partial^k f}
+           {\partial x^{i_1} \cdots \partial x^{i_k}}(p)
+      \prod_{i_1, \cdots, i_k} (x^{i_j} - p^{i_j})
+\end{align*}
+
+\begin{defn}
+A function $f \in C^\infty (U, \mathbb{R})$ is real-analytic at $p \in
+U$ if $f(x)$ equals its Taylor series in some neighborhood of $p$.
+In this case we write $f \in C^\omega(U, \mathbb{R})$.
+\end{defn}
+
+\begin{xmpl}
+A function that is smooth but not real-analytic is the bump function
+$$
+  f(x)
+= \left\{
+    \begin{array}{l l}
+      0             & x \leq 0, \\
+      e^{-\frac{1}{x}} & x > 0
+    \end{array}
+  \right.
+$$
+This function's Taylor series at 0 is constant 0, but it is not equal
+to 0 on any neighborhood of 0.
+\end{xmpl}
+
+\begin{defn}[Star-shaped set]
+A set $U \subset \mathbb{R}^n$ is said to be \emph{star-shaped} with
+respect to a point $p \in U$ if for each point $u \in U$ the line
+segment $[u, p] \subset U$. $U$ is convex if it is star-shaped with
+respect to every point in $U$.
+\end{defn}
+
+In particular note that a metric ball is convex.
+
+\begin{theorem}[Taylor series with remainder]
+Let $U \subset \mathbb{R}^n$ be star-shaped with respect to some $p$
+and let $f \in C^\infty(U, \mathbb{R})$. Then there exist smooth
+functions $g_i \in C^\infty(U, \mathbb{R})$, $i = 1, \dots, n$ such
+that
+\begin{enumerate}
+  \item{
+    $$
+    f(x) = f(p) + \sum_{i=1}^n g_i(x) (x^i - p^i)
+    $$
+  }
+  \item{
+    $$
+    g_i(p) = \frac{\partial f}{\partial x^i} (p).
+    $$
+  }
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $x \in U$. Restrict $f$ to the line segment $[p, x]$,
+i.e. $\gamma(t) = p + t(x - p)$, $t \in [0, 1]$. Then
+$$
+  \frac{\dif}{\dif t} (f \circ \gamma) (t)
+= \nabla f (p + t(x - p)) \cdot (x - p)
+= \sum_{i=1}^n
+    \frac{\partial f}
+         {\partial x^i}
+    (p + t(x - p))
+    \cdot
+    (x^i - p^i).
+$$
+Let
+$$
+  g_i(x)
+= \int_0^1
+    \frac{\partial f}
+         {\partial x^i}
+    (p + t(x - p))
+    \dif t
+$$
+and note that since $f \in C^\infty$ so is $g_i$, and
+$g_i(p) = \frac{\partial f}{\partial x^i}(p)$. But
+\begin{align*}
+   f(x) - f(p)
+&= \int_0^1
+    \frac{\dif}{\dif t}
+      f(p + t(x - p)) \\
+&= \int_0^1
+     \sum_{i=1}^n
+       \frac{\partial f}
+            {\partial x^i}
+       (p + t(x - p))
+       \cdot
+       (x^i - p^i) \\
+&= \sum_{i=1}^n
+     g_i(x) (x^i - p^i).
+\end{align*}
+as desired.
+\end{proof}
+
+Take $p = 0$. Then
+\begin{align*}
+   f(x)
+&= f(0) + g_1(x) \cdot x \\
+&= f(0) + [g_1(0) + g_2(x) \cdot x) x \\
+&= f(0) + g_1(0) x + g_2(x) x^2 \\
+&= f(0) + g_1(0) x + [g_2(0) + g_3(x) x] x \\
+&= f(0)
+ + g_1(0) x
+ + g_2(0) x^2
+ + \cdots
+ + g_i(0) x^i
+ + g_{i+1}(0) x^{i+1}
+ + \cdots
+\end{align*}
+
+\section{Tangent vectors and derivations}
+
+This is a discussion of tangent vectors in Euclidean space, but will
+later be generalized to discuss tangent spaces $T_p M$ to a manifold
+$M$ at a point $p$.
+
+Let $v \in \mathbb{R}^n$, given by $v = (v^1, \dots, v^n)$. We can
+also regard this point as a vector, and we may draw the distinction
+with the notation $\langle v^1, \dots, v^n \rangle$. We might instead
+consider vectors based at some point $p$ other than the origin.
+
+We write $T_p(\mathbb{R}^n) = T_p \mathbb{R}^n$ to mean the space of
+all vectors in $\mathbb{R}^n$ based at a point $p \in
+\mathbb{R}^n$. This is a $\mathbb{R}$-vector space, with a vector
+space isomorphism $T_p \mathbb{R}^n \simeq \mathbb{R}^n$.
+
+\subsection{Tangent vectors}
+
+\begin{defn}[Directional derivative]
+Consider a neighborhood $U$ of $p$, and let $f \in
+C^\infty(U, \mathbb{R})$. Consider the one-parameter family of points
+$c: \mathbb{R} \to U$ given by
+$$
+  c(t)
+= (p^1 + v^1, \dots, p^n + t v^n)
+$$
+so that $c(0) = p$, $c^\prime(0) = v$. Then we define the
+\emph{directional derivative} of $f$ at $p$ in direction $v$ by
+$$
+  D_v f
+= \left.
+    \frac{\dif}{\dif t}
+  \right|_{t = 0}
+    f(c(t)).
+$$
+This is a real number measuring the rate of change of $f$ in direction
+$v$.
+\end{defn}
+
+
+Recall that
+$$
+  \mathrm{grad}(f)(p)
+= \nabla f(p)
+= \left\langle
+    \frac{\partial f}
+         {\partial x^1}(p),
+    \dots,
+    \frac{\partial f}
+         {\partial x^n}(p)
+  \right\rangle
+$$
+and that the chain rule says that
+$$
+  D_v f
+= \nabla f(p) \cdot v
+= \sum_{i=1}^n
+    v^i
+    \frac{\partial f}
+         {\partial x^1}(p).
+$$
+We can therefore consider
+$D_v : C^\infty(U) \to \mathbb{R}$
+given by $g \mapsto D_v g$, i.e. we define the operator
+$$
+  D_v
+= \sum_{i=1}^n
+    v^i
+    \left.
+      \frac{\partial}
+           {\partial x^i}
+    \right|_p.
+$$
+
+Note that $C^\infty(U)$ is a $\mathbb{R}$-vector space, and indeed a
+$\mathbb{R}$-algebra since we have multiplication of $C^\infty$
+functions in a way that respects the vector space
+structure. Furthermore, $D_v$ is a linear map. We would therefore like
+to make an identification between $v \in T_p \mathbb{R}^n$ with the
+operators $D_v$. However, $v$ depends only on the point $p$, while
+$C^\infty(U)$ depends on the choice of open set $U$ containing $p$.
+
+\subsection{Germs of smooth functions}
+
+\begin{defn}[Germs of smooth functions]
+Consider the set of all pairs
+$$
+  X_p
+= \{ (f, U) : U \text{ is a neighborhood of } p,
+              f \in C^\infty (U)
+  \}
+$$
+and define a relation on $X_p$ by
+$(f_1, U_1) \sim (f_2, U_2)$ if there exists a neighborhood $U$ of $p$
+with $U \subset U_1 \cap U_2$ and $f_1 = f_2$ on $U$. Note that if
+$(f_1, U_1) \sim (f_2, U_2)$ then $D_v f_1 = D_v f_2$ for any
+$v \in T_p \mathbb{R}^n$, since the derivatives agree on the whole
+neighborhood. The \emph{germs of smooth functions at $p$} are the
+equivalence classes of $C^\infty(U)$ under this relation, and this
+quotient space is denoted $C_p^\infty$.
+\end{defn}
+
+It will be shown in homework problems that $C_p^\infty$ is also a
+$\mathbb{R}$-vector space, and even a
+$\mathbb{R}$-algebra. Furthermore $D_v : C_p^\infty \to \mathbb{R}$ is
+linear, though it is not an algebra homomorphism since it operates on
+the product of functions by the Leibniz rule
+$$
+  D_v (f \cdot g)
+= D_v (f) \cdot g(p)
++ f(p) \cdot D_v (g),
+$$
+which is true because
+$  D_v
+ = \sum_{i=1}^n
+     v^i
+     \left.
+       \frac{\partial}{\partial x^i}
+     \right|_p
+$ and these partial derivatives satisfy the Leibniz rule.
+
+\begin{defn}[Derivation]
+A \emph{point derivation} at $p$ is a linear map
+$D : C_p^\infty \to \mathbb{R}$ that satisfies the Leibniz rule
+$$
+D (f \cdot g) = D(f) \cdot g(p) + f(p) \cdot D(g),
+$$
+\end{defn}
+
+In the homework it will be shown that the space of point derivations
+at $p$, written $\mathcal{D}_p(\mathbb{R}^n)$, is a
+$\mathbb{R}$-vector space. There is a function
+$\phi: T_p \mathbb{R}^n \to \mathcal{D}_p \mathbb{R}^n$ given by
+$$
+        v
+      = \langle v^1, \dots, v^n \rangle
+\mapsto D_v
+      = \sum_{i=1}^n
+          v^i
+          \left. \frac{\partial}{\partial x^i}\right|_p.
+$$
+In particular the basis vectors
+$e_i = \langle 0, 0, \dots, 1, \dots, 0 \rangle$ are mapped to
+$D_{e_i} = \left.\frac{\partial}{\partial x^i}\right|_p$. We will
+write
+$$
+  \delta^i_j
+= \left\{
+    \begin{array}{l c}
+      1, & \quad i = j \\
+      0, & \quad i \neq j
+    \end{array}
+  \right.
+$$
+
+\begin{theorem}
+$\phi$ is an isomorphism of $\mathbb{R}$-vector spaces.
+\end{theorem}
+
+\begin{proof}
+
+\begin{itemize}
+  \item{
+    $\phi$ is injective.
+    Denote the $i$-th coordinate function
+    $x^i : \mathbb{R}^n \to \mathbb{R}$, given by $p \to p^i$, and note
+    that
+    $\left.\frac{\partial}{\partial x^j}\right|_p (x^i) = \delta_i^j$.
+    Suppose $\phi(v) = D_v = 0$ for some $v \in T_p \mathbb{R}^n$. Then
+    $$
+      0
+    = D_v (x^j)
+    = \sum_{i=1}^n
+        v^i
+        \left.
+          \frac{\partial}
+               {\partial x^j}
+        \right|_p
+          (x^j)
+    = v^j,
+    $$
+    so $\ker \phi = \{ 0 \}$.
+  }
+  \item{
+    $\phi$ is surjective.
+
+    \begin{lemma}
+      Let $D \in C_p^\infty$. Then $D(c) = 0$ for all constant
+      functions.
+    \end{lemma}
+    \begin{proof}
+      \begin{align*}
+           D(c)
+        &= D(c \cdot 1)
+         = c D(1)
+         = c D(1 \cdot 1) \\
+        &= c (1 D(1) + 1 D(1))
+         = 2 c D(1)
+         = 2 D(c)
+      \end{align*}
+      so $D(c) = 0$.
+    \end{proof}
+
+    Let $D \in \mathcal{D}_p \mathbb{R}^n$, $v^i = D(x^i)$, and let
+    $[f] \in C_p^\infty$. Choose some representative
+    $f : U \to \mathbb{R}$ of this equivalence class, taking $U$ to be
+    as small as we like. In particular since the domain is open, we
+    may take $U$ to be some small ball which is thus star-shaped, so
+    we may use Taylor's theorem with remainder to write
+    $$
+      f(x)
+    = f(p)
+    + \sum_{i=1}^n
+        g_i(x)
+        (x^i - p^i), \quad
+      g_i(p)
+    = \frac{\partial f}{\partial x^i}(p).
+    $$
+    Then
+    \begin{align*}
+       D f
+    &= D(f(p))
+     + D(\sum g_i (x) (x^i - p^i) \\
+    &= \sum
+         \left(
+           g_i(p) D(x^i - p^i)
+         + D(g_i(x))(p^i - p^i)
+         \right) \\
+    &= \sum
+         g_i(p) D(x^i) \\
+    &= \sum_{i=1}^n
+         D(x^i)
+         \frac{\partial f}
+              {\partial x^i}(p) \\
+    &= \sum_{i=1}^n
+         v^i
+         \frac{\partial f}
+              {\partial x^i}(p) \\
+    &= D_v f.
+    \end{align*}
+  }
+\end{itemize}
+\end{proof}
