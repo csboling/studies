@@ -356,7 +356,16 @@ $$
 $$
 
 \begin{theorem}
-$\phi$ is an isomorphism of $\mathbb{R}$-vector spaces.
+$\phi : T_p \mathbb{R}^n \to \mathcal{D}_p \mathbb{R}^n \subset
+(C_p^\infty \to \mathbb{R})$ given by
+$v \mapsto D_v$ or explicitly
+$$
+  v
+= \sum_{i=1}^n v^i e_i
+\mapsto
+  \sum_{i=1}^n v^i \left.\frac{\partial}{\partial x^i}\right|_p
+$$
+ is an isomorphism of $\mathbb{R}$-vector spaces.
 \end{theorem}
 
 \begin{proof}
@@ -443,3 +452,168 @@ $\phi$ is an isomorphism of $\mathbb{R}$-vector spaces.
   }
 \end{itemize}
 \end{proof}
+
+\begin{defn}[Vector field]
+A \emph{vector field} on a neighborhood $U \subset \mathbb{R}^n$ is a
+map $X$ that associates to each $p \in U$ a vector
+$X_p \in \mathcal{D}_p \mathbb{R}^n$. We can write a vector field in
+coordinates as
+$$
+X = \sum_{i=1}^n v^i \frac{\partial}{\partial x^i}
+$$
+where $v^i : U \to \mathbb{R}$. We say that a vector field is smooth
+if each of its component functions $v^i$ is smooth.
+\end{defn}
+
+Vectors at a point act as point derivations whereas vector fields act
+as derivations, i.e. $X$ is a derivation of $C^\infty(U)$,
+or $X: C^\infty(U) \to C^\infty(U)$. At each point $p$ we have
+$$
+(X f)(p) = X_p f,
+$$
+and since each vector $X_p$ is a point derivation, $X$ as a map
+satisfies the Leibniz rule
+$$
+X (f \cdot g) = f \cdot X(g) + X(f) \cdot g.
+$$
+
+\begin{xmpl}
+In $\mathbb{R}^2$, with $(x^1, x^2) = (x, y)$ we have a vector field
+$$
+X = x^2 \frac{\partial}{\partial x} - e^{xy} \frac{\partial}{\\partial y}.
+$$
+For $f(x, y) = xy$ we have
+$$
+(Xf)(x, y) = x^2 y - e^{xy} x.
+$$
+\end{xmpl}
+
+We can compose vector fields $X$, $Y$ by composing maps, but typically
+the composition is no longer a derivation. However $XY - YX$ is a
+derivation, known as the \emph{Lie bracket} $[X, Y]$ of vector fields.
+
+\section{Tensors and Exterior Algebra of Multicovectors}
+
+Let $V$ be a finite dimensional $\mathbb{R}$ vector space.
+For $k \in \mathbb{N}$,
+$V^k = \prod_{i=1}^k V$, and
+$L_k(V)$ is the set of functions $f: V^k \to \mathbb{R}$ that are
+multilinear, i.e. $\mathbb{R}$-linear in each of its $k$ arguments,
+i.e. $\forall \alpha \in \mathbb{R}$, $v_i, \bar{v_i} \in V$ we have
+$$
+  f(v_1, v_2, \dots, \alpha v_i + \bar{v_i}, \dots, v_k)
+= \alpha f(v_1, \dots, v_i, \dots, v_k)
++ f(v_1, \dots, \bar{v_i}, \dots, v_k).
+$$
+This set $L_k(V)$ is a real vector space as well, and elements in this
+space are called \emph{(covariant) $k$-tensors}.
+
+For example, $L_1(V) = \mathrm{Hom}(V, \mathbb{R}) = V^\vee$, the dual
+space to $V$. Let $\{ e_i \}$ be a basis for $V$. Then each $v \in V$
+is a unique sum
+$$
+  v
+= \sum_{i=1}^n v^i e_i.
+$$
+Define $\alpha^i : V \to \mathbb{R}$ by $v \to v^i$, so that
+$$
+  v
+= \sum_{i=1}^n \alpha^i(v) e_i.
+$$
+Note that $\alpha^i$ is determined by its values on the basis,
+and $\alpha^i(e_j) = \delta_j^i$.
+
+\begin{lemma}
+$\{ \alpha^i \}$ is a basis of $L_1(V)$.
+\end{lemma}
+
+\begin{proof}
+Let $\sum_{i=1}^n c_i \alpha^i = 0$, so that
+$0 = \left(\sum_{i=1}^n c_i \alpha^i\right)(e_j) = c_j$,
+so each $c_i$ is 0. Hence the $\alpha^i$ are linearly independent.
+
+Let $\omega \in L_1(V)$. Let
+$$
+  \alpha
+= \sum_{i=1}^n \omega(e_i) \alpha^i
+\in \mathrm{span}(\alpha^i.
+$$
+Then $\omega = \alpha$ since $\omega(e_j) = \alpha(e_j)$.
+\end{proof}
+
+\begin{xmpl}
+For $k = 2$, a the dot product is linear in each of its coordinates.
+Let $f : V \times V \to \mathbb{R}$ be the dot product. Then
+$$
+  f(v, w)
+= \sum_{i=1}^n v^i w^i
+= \sum_{i=1}^n \alpha^i(v) \alpha^i(w)
+$$
+where $\{ \alpha^i \}$ is the standard basis for the dual space.
+\end{xmpl}
+
+\begin{xmpl}
+The determinant $\det : V \times V \times V \to \mathbb{R}$ is linear
+in each argument. Explicitly
+$$
+  \det (v_1, \dots, v_n)
+= \sum_{\sigma \in S_n}
+    \mathrm{sgn}(\sigma)
+    \prod_{i=1}^n
+      \alpha^i(v_{\sigma(i)})
+$$
+where $S_n$ is the symmetric group in $n$ letters.
+\end{xmpl}
+
+\begin{defn}[Tensor product]
+We have a function
+$\otimes : L_k (V) \times L_l(V) \to L_{k + l}(V)$ defined by
+$$
+  (f \otimes g)
+    (v_1, \dots, v_{k+l})
+= f(v_1, \dots, v_k) \cdot g(v_{k+1}, \dots, v_l).
+$$
+We can check that this is linear in each of its components since $f$
+and $g$ are and multiplication distributes through addition.
+\end{defn}
+
+\subsection{Symmetric groups}
+Let $k \in \mathbb{N}$ and denote
+$S_k = \mathrm{Perm}(\{1, \dots, k\})$. This is a group with respect
+to group composition, with order $k!$. We can represent elements of
+$S_k$ by listing the mappings explicitly, by using cycle notation
+$$
+(1, \sigma(1), \sigma^2(1), \dots)(m, \sigma(m), \sigma^2(m), \dots)
+$$
+or by a matrix
+$$
+\left[
+  \begin{array}{c c c c}
+    1         & 2         & \cdots & k \\
+    \sigma(1) & \sigma(2) & \cdots & \sigma(k)
+  \end{array}
+\right].
+$$
+
+Every element in the symmetric group can be written as a product of
+transpositions, not uniquely. The number of factors in this
+factorization for a given $\sigma \in S_k$ will always have the same
+parity. There is a homomorphism
+$$
+       \mathrm{sgn} : S_k
+\to    \{-1, 1\}
+\simeq \mathbb{Z} / 2\mathbb{Z}
+$$
+given by $\mathrm{sgn}(\sigma) = (-1)^{N}$, where $N$ is the number of
+transpositions in a factorization of $\sigma$. We can compute
+$\mathrm{sgn}(\sigma)$ by writing $\sigma$ as a product of cycles and
+counting the number of even-length cycles, then using this as $N$
+above.
+
+The symmetric group has an action on tensors $L_k(V)$:
+$$
+  (\sigma . f)(v_1, \dots, v_k)
+= f(v_{\sigma(1)}, \dots, v_{\sigma(k)}).
+$$
+This is a linear, invertible map, and indeed a group homomorphism
+$S_k \to \mathrm{GL}(L_k(v))$.
