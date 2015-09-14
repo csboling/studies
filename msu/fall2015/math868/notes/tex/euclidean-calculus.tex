@@ -610,10 +610,444 @@ $\mathrm{sgn}(\sigma)$ by writing $\sigma$ as a product of cycles and
 counting the number of even-length cycles, then using this as $N$
 above.
 
-The symmetric group has an action on tensors $L_k(V)$:
+\begin{lemma}
+The symmetric group $S_k$ has an action on tensors $L_k(V)$:
 $$
   (\sigma . f)(v_1, \dots, v_k)
 = f(v_{\sigma(1)}, \dots, v_{\sigma(k)}).
 $$
+\end{lemma}
+\begin{proof}
+This is a group action because $\forall \sigma, \tau \in S_k$ and
+$f \in L_k(v)$,
+\begin{align*}
+   \sigma (\tau f)
+&= (\tau f)(v_{\sigma(1)}, \dots, v_{\sigma(k)}) \\
+&= (\tau f)(w_1, \dots, w_k) \\
+&= f(w_{\tau(1)}, \dots, w_{\tau(k)}) \\
+&= f(v_{\sigma(\tau(1))}, \dots, v_{\sigma(\tau(k))})
+\end{align*}
+letting $w_i = v_{\sigma(i)}$.
+
 This is a linear, invertible map, and indeed a group homomorphism
 $S_k \to \mathrm{GL}(L_k(v))$.
+\end{proof}
+
+\begin{defn}[Tensor types and operators]
+A tensor $f \in L_k(v)$ is said to be \emph{symmetric} if the action
+$S_k \to \mathrm{GL}(L_k(v))$ fixes $f$, i.e. $\sigma f = f$ for all
+$\sigma \in S_k$, and alternating if
+$\sigma f = \mathrm{sgn}(\sigma)f$. We let $S_k(v)$ be the symmetric
+tensors and $A_k(v)$ be the tensors that are alternating; we can check
+that these are subspaces of $L_k(v)$.
+
+There are symmetrizing and alternating operators
+$S, A: L_k(v) \to L_k(v)$ given by
+\begin{align*}
+   S(f)
+&= \sum_{\sigma \in S_k}
+     \sigma f, \\
+   A(f)
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \sigma f.
+\end{align*}
+Some authors include a factor of $\frac{1}{k!}$ in these operators.
+\end{defn}
+
+\begin{lemma}
+  \begin{enumerate}
+    \item{
+      $S(f) \in S_k(v)$ for all $f$.
+    }
+    \item{
+      If $f \in S_k(v)$, then $S(f) = k! f$.
+    }
+    \item{
+      $A(f) \in A_k(v)$.
+    }
+    \item{
+      If $f \in A_k(v)$, then $A(f) = k! f$.
+    }
+  \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $\tau \in S_k$ and $f \in L_k(v)$. Then
+\begin{align*}
+   \tau A(f)
+&= \tau
+     \sum_{\sigma \in S_k}
+       \mathrm{sgn}(\sigma)
+       \sigma f \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \tau \sigma f \\
+&= \sum_{\sigma \in S_k}
+     (\mathrm{sgn}(\tau))^2
+     \mathrm{sgn}(\sigma)
+     \tau \sigma f \\
+&= \mathrm{sgn}(\tau)
+   \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\tau \sigma)
+     \tau \sigma f \\
+&= \mathrm{sgn}(\tau) A(f).
+\end{align*}
+
+Next let $f \in A_k(v)$. Then
+\begin{align*}
+   A(f)
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \sigma f \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \mathrm{sgn}(\sigma)
+     f \\
+&= k! f.
+\end{align*}
+\end{proof}
+
+\subsection{Wedge product}
+There is a map
+$\wedge : A_k(v) \times A_l(v) \to A_{k + l}(v)$
+given by
+\begin{align*}
+   f \wedge g
+&= \frac{1}{k! l!}
+     A(f \otimes g).
+\end{align*}
+Explicitly
+\begin{align*}
+   (f \wedge g)(v_1, \dots, v_{k+l})
+&= \frac{1}{k! l!}
+     \sum_{\sigma \in S_{k+l}}
+       \mathrm{sgn}(\sigma)
+       \sigma(f \otimes g)
+         (v_1, \dots, v_{k+l}) \\
+&= \frac{1}{k! l!}
+     \sum_{\sigma \in S_{k+l}}
+       f(v_{\sigma(1)}, \dots, v_{\sigma(k)})
+       g(v_{\sigma(k+1)}, \dots, v_{\sigma(k+l)}).
+\end{align*}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Let $k = 0$, $l = l$. Then $A_0(v) = \mathbb{R}$, so $f = c$ is a
+      constant. Then
+      \begin{align*}
+         c \wedge g
+      &= \frac{1}{l!}
+         A(c \otimes g) \\
+      &= \frac{c}{l!}
+           A(g)
+       = c g.
+      \end{align*}
+    }
+    \item{
+      Let $k = 1$, $l = 1$. Then
+      $A_1(v) = v^\vee$ and
+      \begin{align*}
+         (f \wedge g)(v_1, v_2)
+      &= \frac{1}{1! 1!}
+           \left[
+             \mathrm{sgn}(\mathrm{id})
+             f(v_1)g(v_2)
+           + \mathrm{sgn}((1,2))
+             f(v_2)g(v_1)
+           \right] \\
+      &= f(v_1)g(v_2) - f(v_2)g(v_1).
+      \end{align*}
+    }
+    \item{
+      Let $k = 2$, $l = 1$. Then
+      $$
+        S_3
+      = \{ \mathrm{id}
+         , (1, 2)
+         , (1, 2, 3)
+         , (1, 3)
+         , (1, 3, 2)
+         , (2, 3)
+        \}.
+      $$
+      Noe that we have a subgroup $G = \{\mathrm{id}, \tau\}$ with
+      left-cosets $G = \{\mathrm{id}, (1,2)\}$,
+      $\sigma_1 G = \{ (1, 2, 3), (1, 3) \}$, and
+      $\sigma_2 G = \{ (1, 3, 2), (2, 3) \}$. Then
+      \begin{align*}
+         (f \wedge g)(v_1, v_2, v_3)
+      &= \frac{1}{2! 1!}
+        (f(v_1, v_2) g(v_3) \\
+      &+ \mathrm{sgn}(\tau)
+         f(v_2, v_1)
+         g(v_3) \\
+      &+ \mathrm{sgn}(\sigma_1)
+         f(v_2, v_3)
+         g(v_1) \\
+      &+ \mathrm{sgn}(\sigma_1)
+         f(v_3, v_2)
+         g(v_1) \\
+      &+ \mathrm{sgn}(\sigma_1)
+         f(v_3, v_1)
+         g(v_1) \\
+      &+ \mathrm{sgn}(\sigma_1)
+         f(v_1, v_3)
+         g(v_1)) \\
+      &= \frac{1}{2! 1!}(
+         2 f(v_1, v_2) g(v_3)
+         2 f(v_2, v_3) g(v_1)
+         2 f(v_3, v_1) g(v_2)) \\
+      &= f(v_1, v_2) g(v_3)
+       - f(v_1, v_3) g(v_2)
+       + f(v_2, v_3) g(v_1).
+      \end{align*}
+
+      Following this example, in general we have a subgroup of
+      $S_{k+l}$ that is isomorphic to $S_k \times S_l$, i.e.
+      any $\tau$ in this subgroup can be written as
+      $\psi(\tau) = (\tau_1, \tau_2)$, where $\tau_1 \in S_k$ and
+      $\tau_2 \in S_l$. Then
+      \begin{align*}
+         \mathrm{sgn}(\sigma \tau)
+         \sigma \tau (f \otimes g)
+         (v_1, \dots, v_{k +l})
+      &= \mathrm{sgn}(\sigma \tau)
+         f(v_{\sigma(\tau_1(1))}, \dots, v_{\sigma(\tau_1(k))})
+         g(v_{\sigma(\tau_2(k+1))}, \dots, v_{\sigma(\tau_2(k+l))}) \\
+      &= \mathrm{sgn}(\sigma \tau)
+         \tau_1
+           f(v_{\sigma(1)}, \dots, v_{\sigma(k)})
+           g(v_{\sigma(k+1)}, \dots, v_{\sigma(k+l)}) \\
+      &= \mathrm{sgn}(\sigma)
+          \sigma (f \otimes g)
+      \end{align*}
+    }
+  \end{enumerate}
+
+  For any $\sigma \in S_{k + l}$ and $(v_1, \dots, v_{k+l})$, the
+  $k!l!$ summands of the form
+  $$
+  \mathrm{sgn}(\sigma \tau)
+  (\sigma \tau)(f \otimes g)(v_1, \dots, v_{k+l})
+  $$
+  with $\tau \in G < S_{k + l}$, where
+  $G \simeq S_k \times S_l$ consists of the permutations that fix
+  the sets $\{1, 2, \dots k\}$ and $\{ k + 1, \dots, k + l \}$ (but
+  possibly permutes these sets).
+\end{xmpl}
+
+\begin{defn}
+A permutation $\sigma \in S_{k+l}$ is a \emph{$(k, l)$-shuffle} if
+$$
+\sigma(1) < \cdots < \sigma(k)
+$$
+and
+$$
+\sigma(k) < \cdots < \sigma(k + l).
+$$
+\end{defn}
+Note that there is precisely one $(k, l)$-shuffle in each of the left
+cosets of $G$. This is clear for the coset
+$\mathrm{id} \cdot G$ since there is of course only one way to order
+$\{ 1, \dots, k \}$ and $\{ k, \dots, k + l \}$. Similarly elements in
+$\sigma G$ permute elements in the sets $\sigma(\{ 1, \dots, k \})$
+and $\sigma( \{ k + 1, \dots, k + l \})$.
+
+\begin{prop}
+For $f \in A_k(v)$, $g \in A_l(v)$, we have
+$$
+  f \wedge g
+= \sum_{\sigma \text{a $(k, l)$ shuffle}}
+    \mathrm{sgn}(\sigma)
+    \sigma(f \otimes g).
+$$
+Note also that there are
+$$
+  { k + l \choose k }
+= { k + l \choose l }
++ \frac{(k + l)!}{k! l!}
+$$
+$(k, l)$ shuffles total, i.e. the order $[S_{k + l} : G]$.
+\end{prop}
+
+\subsection{Properties of $\wedge$}
+\begin{enumerate}
+  \item{
+    $\mathbb{R}$-bilinearity, i.e.
+    $$
+      (\alpha_1 f_1 + \alpha_2 f_2)  \wedge g
+    = \alpha_1 (f_1 \wedge g) + \alpha_2 (f_2 \wedge g)
+    $$
+    and
+    $$
+      g \wedge (\alpha_1 f_1 + \alpha_2 f_2)
+    = \alpha_1 (g \wedge f_1) + \alpha_2 (g \wedge f_2).
+    $$
+  }
+  \item{
+    Graded commutativity, i.e.
+    $f \wedge g = (-1)^{kl} g \wedge f$.
+  }
+  \item{
+    Associativity, i.e.
+    $(f \wedge g) \wedge h = f \wedge (g \wedge h)$.
+  }
+\end{enumerate}
+
+To prove graded commutativity, note that swapping the first $l$
+numbers with the last $k + l$ is a permutation $\tau$ with sign
+$(-1)^{kl}$. Then
+\begin{align*}
+   \frac{1}{k! l!}
+   \sum_{\sigma \in S_{k + l}}
+     \mathrm{sgn}(\sigma)
+     f(v_{\sigma \tau(l + 1)}, \dots, v_{\sigma \tau(l + k)})
+     g(v_{\sigma \tau (1)}, \dots, v_{\sigma \tau_{l}}) \\
+&= \frac{1}{k! l!}
+   \sum_{\sigma}
+     \mathrm{sgn}(\sigma)
+     (\sigma \tau)
+       (g \otimes f)
+         (v_{1}, \dots, v_{k + l}) \\
+&= \frac{\mathrm{sgn}(\tau)}
+        {k! l!}
+   \sum_\sigma
+     \mathrm{sgn}(\sigma \tau)
+     (\sigma \tau)
+       (g \otimes f)
+         (v_1, \dots, v_{k+l}) \\
+&= (-1)^{kl} (g \wedge f) (v_1, \dots, v_{k+l}).
+\end{align*}
+
+\begin{lemma}
+For $f \in L_k(v), g \in L_l(v)$,
+\begin{enumerate}
+  \item{
+    $A(A(f) \otimes g) = k! A(f \otimes g)$,
+  }
+  \item{
+    $A(f \otimes A(g)) = l! A(f \otimes g)$.
+  }
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Note that
+$$
+       S_k
+\simeq S_k^\ast
+=      \{ \sigma \in S_{k+l}
+        | \sigma(k+i) = k + i, i \in \{1, \dots, l\}
+       \}
+$$
+so
+\begin{align*}
+   A(A(f) \otimes g)
+&= A\left(
+     \sum_{\tau \in S_k}
+       \mathrm{sgn}(\tau)
+       (\tau f) \otimes g
+   \right) \\
+&= A\left(
+     \sum_{\tau \in S_k^\ast}
+       \mathrm{sgn}(\tau)
+       \tau (f \otimes g)
+   \right) \\
+&= \sum_{\sigma \in S_{k+l}}
+     \sum_{\tau \in S_k^\ast}
+       \mathrm{sgn}(\sigma \tau)
+       (\sigma \tau)(f \otimes g) \\
+&= k!
+   \sum_{\mu \in S_{k+l}}
+     \mathrm{sgn}(\mu)
+     \mu(f \otimes g)
+\end{align*}
+since for all $\tau \in S_k^\ast$,
+$$
+  S_{k+l} \tau
+= \{ \sigma \tau | \sigma \in S_{k+l} \}
+= S_{k + l}
+$$
+and so for any $\mu \in S_{k + l}$, $\mu$ appears $k!$ times in the
+double sum above, once as $\sigma \tau$ for each $\tau \in S^\ast$.
+\end{proof}
+
+Assuming this, we have
+\begin{align*}
+   (f \wedge g) \wedge h
+&= \frac{1}{(k + l)! m!}
+   A((f \wedge g) \otimes h) \\
+&= \frac{1}{(k + l)! m!}
+   A\left(
+     \frac{1}{k! l!}
+     A(f \otimes g) \otimes h
+   \right) \\
+&= \frac{1}{(k + l)! k! l! m!}
+   A(A(f \otimes g) \otimes h) \\
+&= \frac{1}{k! l! m!}
+   A((f \otimes g) \otimes h),
+\end{align*}
+and we can show similarly that
+$$
+  f \wedge (g \wedge h)
+= \frac{1}{k! l! m!}
+  A(f \otimes (g \otimes h)),
+$$
+and use the fact that $\otimes$ is associative.
+
+\begin{corol}
+Let $f_1, \dots, f_l$ be alternating tensors of degrees
+$k_1, \dots, k_l$. Then
+$$
+  \bigwedge_{i=1}^l f_i
+= \frac{1}{\prod_{i=1}^l (k_i)!}
+  A\left(\bigotimes_{i=1}^l f_i\right).
+$$
+\end{corol}
+
+\begin{defn}[Grassmann/Exterior Algebra]
+The \emph{Grassmann algebra} is the vector space
+$$
+  A(V)
+= \bigoplus_{k=0}^\infty
+    A_k(V),
+$$
+and we will see that $A_k(V) = \{ 0 \}$ when $k > n$.
+This is a real vector space where elements are finite sums of
+$v_i \in A_i(V)$, and multiplication in this algebra is given by the
+graded commutative product $\wedge$.
+\end{defn}
+
+\begin{lemma}
+Let $\beta^1, \dots \beta^k \in L_1(V) = A_1(V)$ and
+$(v_1, \dots, v_k) \in V^k$. Then
+$$
+B = [b_j^i] = \beta^i(v_j)
+$$
+satisfies
+$$
+  (\beta^1 \wedge \cdots \wedge \beta^k)(v_1, \dots, v_k)
+= \det B.
+$$
+\end{lemma}
+\begin{proof}
+We have
+\begin{align*}
+   (\beta^1 \wedge \cdots \wedge \beta^k)(v_1, \dots, v_k)
+&= \frac{1}{1! \cdots 1!}
+   A(\beta^1 \otimes \cdots \beta^k)(v_1, \dots, v_k) \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \sigma(\beta^1 \otimes \cdots \otimes \beta^k)
+       (v_1, \dots, v_k) \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \beta^1(v_{\sigma(1)}) \cdots \beta^1(v_{\sigma(k)}) \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     b^1_{\sigma(1)} \cdots b^k_{\sigma(k)} \\
+&\triangleq \det B.
+\end{align*}
+\end{proof}
