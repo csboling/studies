@@ -1,0 +1,787 @@
+\section{Tensors and Exterior Algebra of Multicovectors}
+
+Let $V$ be a finite dimensional $\mathbb{R}$ vector space.
+For $k \in \mathbb{N}$,
+$V^k = \prod_{i=1}^k V$, and
+$L_k(V)$ is the set of functions $f: V^k \to \mathbb{R}$ that are
+multilinear, i.e. $\mathbb{R}$-linear in each of its $k$ arguments,
+i.e. $\forall \alpha \in \mathbb{R}$, $v_i, \bar{v_i} \in V$ we have
+$$
+  f(v_1, v_2, \dots, \alpha v_i + \bar{v_i}, \dots, v_k)
+= \alpha f(v_1, \dots, v_i, \dots, v_k)
++ f(v_1, \dots, \bar{v_i}, \dots, v_k).
+$$
+This set $L_k(V)$ is a real vector space as well, and elements in this
+space are called \emph{(covariant) $k$-tensors}.
+
+For example, $L_1(V) = \mathrm{Hom}(V, \mathbb{R}) = V^\vee$, the dual
+space to $V$. Let $\{ e_i \}$ be a basis for $V$. Then each $v \in V$
+is a unique sum
+$$
+  v
+= \sum_{i=1}^n v^i e_i.
+$$
+Define $\alpha^i : V \to \mathbb{R}$ by $v \to v^i$, so that
+$$
+  v
+= \sum_{i=1}^n \alpha^i(V) e_i.
+$$
+Note that $\alpha^i$ is determined by its values on the basis,
+and $\alpha^i(e_j) = \delta_j^i$.
+
+\begin{lemma}
+$\{ \alpha^i \}$ is a basis of $L_1(V)$.
+\end{lemma}
+
+\begin{proof}
+Let $\sum_{i=1}^n c_i \alpha^i = 0$, so that
+$0 = \left(\sum_{i=1}^n c_i \alpha^i\right)(e_j) = c_j$,
+so each $c_i$ is 0. Hence the $\alpha^i$ are linearly independent.
+
+Let $\omega \in L_1(V)$. Let
+$$
+  \alpha
+= \sum_{i=1}^n \omega(e_i) \alpha^i
+\in \mathrm{span}(\alpha^i.
+$$
+Then $\omega = \alpha$ since $\omega(e_j) = \alpha(e_j)$.
+\end{proof}
+
+\begin{xmpl}
+For $k = 2$, a the dot product is linear in each of its coordinates.
+Let $f : V \times V \to \mathbb{R}$ be the dot product. Then
+$$
+  f(v, w)
+= \sum_{i=1}^n v^i w^i
+= \sum_{i=1}^n \alpha^i(V) \alpha^i(w)
+$$
+where $\{ \alpha^i \}$ is the standard basis for the dual space.
+\end{xmpl}
+
+\begin{xmpl}
+The determinant $\det : V \times V \times V \to \mathbb{R}$ is linear
+in each argument. Explicitly
+$$
+  \det (v_1, \dots, v_n)
+= \sum_{\sigma \in S_n}
+    \mathrm{sgn}(\sigma)
+    \prod_{i=1}^n
+      \alpha^i(v_{\sigma(i)})
+$$
+where $S_n$ is the symmetric group in $n$ letters.
+\end{xmpl}
+
+\begin{defn}[Tensor product]
+We have a function
+$\otimes : L_k (V) \times L_l(V) \to L_{k + l}(V)$ defined by
+$$
+  (f \otimes g)
+    (v_1, \dots, v_{k+l})
+= f(v_1, \dots, v_k) \cdot g(v_{k+1}, \dots, v_l).
+$$
+We can check that this is linear in each of its components since $f$
+and $g$ are and multiplication distributes through addition.
+\end{defn}
+
+\subsection{Symmetric groups}
+Let $k \in \mathbb{N}$ and denote
+$S_k = \mathrm{Perm}(\{1, \dots, k\})$. This is a group with respect
+to group composition, with order $k!$. We can represent elements of
+$S_k$ by listing the mappings explicitly, by using cycle notation
+$$
+(1, \sigma(1), \sigma^2(1), \dots)(m, \sigma(m), \sigma^2(m), \dots)
+$$
+or by a matrix
+$$
+\left[
+  \begin{array}{c c c c}
+    1         & 2         & \cdots & k \\
+    \sigma(1) & \sigma(2) & \cdots & \sigma(k)
+  \end{array}
+\right].
+$$
+
+Every element in the symmetric group can be written as a product of
+transpositions, not uniquely. The number of factors in this
+factorization for a given $\sigma \in S_k$ will always have the same
+parity. There is a homomorphism
+$$
+       \mathrm{sgn} : S_k
+\to    \{-1, 1\}
+\simeq \mathbb{Z} / 2\mathbb{Z}
+$$
+given by $\mathrm{sgn}(\sigma) = (-1)^{N}$, where $N$ is the number of
+transpositions in a factorization of $\sigma$. We can compute
+$\mathrm{sgn}(\sigma)$ by writing $\sigma$ as a product of cycles and
+counting the number of even-length cycles, then using this as $N$
+above.
+
+\begin{lemma}
+The symmetric group $S_k$ has an action on tensors $L_k(V)$:
+$$
+  (\sigma . f)(v_1, \dots, v_k)
+= f(v_{\sigma(1)}, \dots, v_{\sigma(k)}).
+$$
+\end{lemma}
+\begin{proof}
+This is a group action because $\forall \sigma, \tau \in S_k$ and
+$f \in L_k(V)$,
+\begin{align*}
+   \sigma (\tau f)
+&= (\tau f)(v_{\sigma(1)}, \dots, v_{\sigma(k)}) \\
+&= (\tau f)(w_1, \dots, w_k) \\
+&= f(w_{\tau(1)}, \dots, w_{\tau(k)}) \\
+&= f(v_{\sigma(\tau(1))}, \dots, v_{\sigma(\tau(k))})
+\end{align*}
+letting $w_i = v_{\sigma(i)}$.
+
+This is a linear, invertible map, and indeed a group homomorphism
+$S_k \to \mathrm{GL}(L_k(V))$.
+\end{proof}
+
+\begin{defn}[Tensor types and operators]
+A tensor $f \in L_k(V)$ is said to be \emph{symmetric} if the action
+$S_k \to \mathrm{GL}(L_k(V))$ fixes $f$, i.e. $\sigma f = f$ for all
+$\sigma \in S_k$, and alternating if
+$\sigma f = \mathrm{sgn}(\sigma)f$. We let $S_k(V)$ be the symmetric
+tensors and $A_k(V)$ be the tensors that are alternating; we can check
+that these are subspaces of $L_k(V)$.
+
+There are symmetrizing and alternating operators
+$S, A: L_k(V) \to L_k(V)$ given by
+\begin{align*}
+   S(f)
+&= \sum_{\sigma \in S_k}
+     \sigma f, \\
+   A(f)
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \sigma f.
+\end{align*}
+Some authors include a factor of $\frac{1}{k!}$ in these operators.
+\end{defn}
+
+\begin{lemma}
+  \begin{enumerate}
+    \item{
+      $S(f) \in S_k(V)$ for all $f$.
+    }
+    \item{
+      If $f \in S_k(V)$, then $S(f) = k! f$.
+    }
+    \item{
+      $A(f) \in A_k(V)$.
+    }
+    \item{
+      If $f \in A_k(V)$, then $A(f) = k! f$.
+    }
+  \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Let $\tau \in S_k$ and $f \in L_k(V)$. Then
+\begin{align*}
+   \tau A(f)
+&= \tau
+     \sum_{\sigma \in S_k}
+       \mathrm{sgn}(\sigma)
+       \sigma f \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \tau \sigma f \\
+&= \sum_{\sigma \in S_k}
+     (\mathrm{sgn}(\tau))^2
+     \mathrm{sgn}(\sigma)
+     \tau \sigma f \\
+&= \mathrm{sgn}(\tau)
+   \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\tau \sigma)
+     \tau \sigma f \\
+&= \mathrm{sgn}(\tau) A(f).
+\end{align*}
+
+Next let $f \in A_k(V)$. Then
+\begin{align*}
+   A(f)
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \sigma f \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \mathrm{sgn}(\sigma)
+     f \\
+&= k! f.
+\end{align*}
+\end{proof}
+
+\subsection{Wedge product}
+There is a map
+$\wedge : A_k(V) \times A_l(V) \to A_{k + l}(V)$
+given by
+\begin{align*}
+   f \wedge g
+&= \frac{1}{k! l!}
+     A(f \otimes g).
+\end{align*}
+Explicitly
+\begin{align*}
+   (f \wedge g)(v_1, \dots, v_{k+l})
+&= \frac{1}{k! l!}
+     \sum_{\sigma \in S_{k+l}}
+       \mathrm{sgn}(\sigma)
+       \sigma(f \otimes g)
+         (v_1, \dots, v_{k+l}) \\
+&= \frac{1}{k! l!}
+     \sum_{\sigma \in S_{k+l}}
+       f(v_{\sigma(1)}, \dots, v_{\sigma(k)})
+       g(v_{\sigma(k+1)}, \dots, v_{\sigma(k+l)}).
+\end{align*}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Let $k = 0$, $l = l$. Then $A_0(V) = \mathbb{R}$, so $f = c$ is a
+      constant. Then
+      \begin{align*}
+         c \wedge g
+      &= \frac{1}{l!}
+         A(c \otimes g) \\
+      &= \frac{c}{l!}
+           A(g)
+       = c g.
+      \end{align*}
+    }
+    \item{
+      Let $k = 1$, $l = 1$. Then
+      $A_1(V) = v^\vee$ and
+      \begin{align*}
+         (f \wedge g)(v_1, v_2)
+      &= \frac{1}{1! 1!}
+           \left[
+             \mathrm{sgn}(\mathrm{id})
+             f(v_1)g(v_2)
+           + \mathrm{sgn}((1,2))
+             f(v_2)g(v_1)
+           \right] \\
+      &= f(v_1)g(v_2) - f(v_2)g(v_1).
+      \end{align*}
+    }
+    \item{
+      Let $k = 2$, $l = 1$. Then
+      $$
+        S_3
+      = \{ \mathrm{id}
+         , (1, 2)
+         , (1, 2, 3)
+         , (1, 3)
+         , (1, 3, 2)
+         , (2, 3)
+        \}.
+      $$
+      Noe that we have a subgroup $G = \{\mathrm{id}, \tau\}$ with
+      left-cosets $G = \{\mathrm{id}, (1,2)\}$,
+      $\sigma_1 G = \{ (1, 2, 3), (1, 3) \}$, and
+      $\sigma_2 G = \{ (1, 3, 2), (2, 3) \}$. Then
+      \begin{align*}
+         (f \wedge g)(v_1, v_2, v_3)
+      &= \frac{1}{2! 1!}
+        (f(v_1, v_2) g(v_3) \\
+      &+ \mathrm{sgn}(\tau)
+         f(v_2, v_1)
+         g(v_3) \\
+      &+ \mathrm{sgn}(\sigma_1)
+         f(v_2, v_3)
+         g(v_1) \\
+      &+ \mathrm{sgn}(\sigma_1)
+         f(v_3, v_2)
+         g(v_1) \\
+      &+ \mathrm{sgn}(\sigma_1)
+         f(v_3, v_1)
+         g(v_1) \\
+      &+ \mathrm{sgn}(\sigma_1)
+         f(v_1, v_3)
+         g(v_1)) \\
+      &= \frac{1}{2! 1!}(
+         2 f(v_1, v_2) g(v_3)
+         2 f(v_2, v_3) g(v_1)
+         2 f(v_3, v_1) g(v_2)) \\
+      &= f(v_1, v_2) g(v_3)
+       - f(v_1, v_3) g(v_2)
+       + f(v_2, v_3) g(v_1).
+      \end{align*}
+
+      Following this example, in general we have a subgroup of
+      $S_{k+l}$ that is isomorphic to $S_k \times S_l$, i.e.
+      any $\tau$ in this subgroup can be written as
+      $\psi(\tau) = (\tau_1, \tau_2)$, where $\tau_1 \in S_k$ and
+      $\tau_2 \in S_l$. Then
+      \begin{align*}
+         \mathrm{sgn}(\sigma \tau)
+         \sigma \tau (f \otimes g)
+         (v_1, \dots, v_{k +l})
+      &= \mathrm{sgn}(\sigma \tau)
+         f(v_{\sigma(\tau_1(1))}, \dots, v_{\sigma(\tau_1(k))})
+         g(v_{\sigma(\tau_2(k+1))}, \dots, v_{\sigma(\tau_2(k+l))}) \\
+      &= \mathrm{sgn}(\sigma \tau)
+         \tau_1
+           f(v_{\sigma(1)}, \dots, v_{\sigma(k)})
+           g(v_{\sigma(k+1)}, \dots, v_{\sigma(k+l)}) \\
+      &= \mathrm{sgn}(\sigma)
+          \sigma (f \otimes g)
+      \end{align*}
+    }
+  \end{enumerate}
+
+  For any $\sigma \in S_{k + l}$ and $(v_1, \dots, v_{k+l})$, the
+  $k!l!$ summands of the form
+  $$
+  \mathrm{sgn}(\sigma \tau)
+  (\sigma \tau)(f \otimes g)(v_1, \dots, v_{k+l})
+  $$
+  with $\tau \in G < S_{k + l}$, where
+  $G \simeq S_k \times S_l$ consists of the permutations that fix
+  the sets $\{1, 2, \dots k\}$ and $\{ k + 1, \dots, k + l \}$ (but
+  possibly permutes these sets).
+\end{xmpl}
+
+\begin{defn}
+A permutation $\sigma \in S_{k+l}$ is a \emph{$(k, l)$-shuffle} if
+$$
+\sigma(1) < \cdots < \sigma(k)
+$$
+and
+$$
+\sigma(k) < \cdots < \sigma(k + l).
+$$
+\end{defn}
+Note that there is precisely one $(k, l)$-shuffle in each of the left
+cosets of $G$. This is clear for the coset
+$\mathrm{id} \cdot G$ since there is of course only one way to order
+$\{ 1, \dots, k \}$ and $\{ k, \dots, k + l \}$. Similarly elements in
+$\sigma G$ permute elements in the sets $\sigma(\{ 1, \dots, k \})$
+and $\sigma( \{ k + 1, \dots, k + l \})$.
+
+\begin{prop}
+For $f \in A_k(V)$, $g \in A_l(V)$, we have
+$$
+  f \wedge g
+= \sum_{\sigma \text{a $(k, l)$ shuffle}}
+    \mathrm{sgn}(\sigma)
+    \sigma(f \otimes g).
+$$
+Note also that there are
+$$
+  { k + l \choose k }
+= { k + l \choose l }
++ \frac{(k + l)!}{k! l!}
+$$
+$(k, l)$ shuffles total, i.e. the order $[S_{k + l} : G]$.
+\end{prop}
+
+\subsection{Properties of $\wedge$}
+\begin{enumerate}
+  \item{
+    $\mathbb{R}$-bilinearity, i.e.
+    $$
+      (\alpha_1 f_1 + \alpha_2 f_2)  \wedge g
+    = \alpha_1 (f_1 \wedge g) + \alpha_2 (f_2 \wedge g)
+    $$
+    and
+    $$
+      g \wedge (\alpha_1 f_1 + \alpha_2 f_2)
+    = \alpha_1 (g \wedge f_1) + \alpha_2 (g \wedge f_2).
+    $$
+  }
+  \item{
+    Graded commutativity, i.e.
+    $f \wedge g = (-1)^{kl} g \wedge f$.
+  }
+  \item{
+    Associativity, i.e.
+    $(f \wedge g) \wedge h = f \wedge (g \wedge h)$.
+  }
+\end{enumerate}
+
+To prove graded commutativity, note that swapping the first $l$
+numbers with the last $k + l$ is a permutation $\tau$ with sign
+$(-1)^{kl}$. Then
+\begin{align*}
+   \frac{1}{k! l!}
+   \sum_{\sigma \in S_{k + l}}
+     \mathrm{sgn}(\sigma)
+     f(v_{\sigma \tau(l + 1)}, \dots, v_{\sigma \tau(l + k)})
+     g(v_{\sigma \tau (1)}, \dots, v_{\sigma \tau_{l}}) \\
+&= \frac{1}{k! l!}
+   \sum_{\sigma}
+     \mathrm{sgn}(\sigma)
+     (\sigma \tau)
+       (g \otimes f)
+         (v_{1}, \dots, v_{k + l}) \\
+&= \frac{\mathrm{sgn}(\tau)}
+        {k! l!}
+   \sum_\sigma
+     \mathrm{sgn}(\sigma \tau)
+     (\sigma \tau)
+       (g \otimes f)
+         (v_1, \dots, v_{k+l}) \\
+&= (-1)^{kl} (g \wedge f) (v_1, \dots, v_{k+l}).
+\end{align*}
+
+\begin{lemma}
+For $f \in L_k(V), g \in L_l(V)$,
+\begin{enumerate}
+  \item{
+    $A(A(f) \otimes g) = k! A(f \otimes g)$,
+  }
+  \item{
+    $A(f \otimes A(g)) = l! A(f \otimes g)$.
+  }
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Note that
+$$
+       S_k
+\simeq S_k^\ast
+=      \{ \sigma \in S_{k+l}
+        | \sigma(k+i) = k + i, i \in \{1, \dots, l\}
+       \}
+$$
+so
+\begin{align*}
+   A(A(f) \otimes g)
+&= A\left(
+     \sum_{\tau \in S_k}
+       \mathrm{sgn}(\tau)
+       (\tau f) \otimes g
+   \right) \\
+&= A\left(
+     \sum_{\tau \in S_k^\ast}
+       \mathrm{sgn}(\tau)
+       \tau (f \otimes g)
+   \right) \\
+&= \sum_{\sigma \in S_{k+l}}
+     \sum_{\tau \in S_k^\ast}
+       \mathrm{sgn}(\sigma \tau)
+       (\sigma \tau)(f \otimes g) \\
+&= k!
+   \sum_{\mu \in S_{k+l}}
+     \mathrm{sgn}(\mu)
+     \mu(f \otimes g)
+\end{align*}
+since for all $\tau \in S_k^\ast$,
+$$
+  S_{k+l} \tau
+= \{ \sigma \tau | \sigma \in S_{k+l} \}
+= S_{k + l}
+$$
+and so for any $\mu \in S_{k + l}$, $\mu$ appears $k!$ times in the
+double sum above, once as $\sigma \tau$ for each $\tau \in S^\ast$.
+\end{proof}
+
+Assuming this, we have
+\begin{align*}
+   (f \wedge g) \wedge h
+&= \frac{1}{(k + l)! m!}
+   A((f \wedge g) \otimes h) \\
+&= \frac{1}{(k + l)! m!}
+   A\left(
+     \frac{1}{k! l!}
+     A(f \otimes g) \otimes h
+   \right) \\
+&= \frac{1}{(k + l)! k! l! m!}
+   A(A(f \otimes g) \otimes h) \\
+&= \frac{1}{k! l! m!}
+   A((f \otimes g) \otimes h),
+\end{align*}
+and we can show similarly that
+$$
+  f \wedge (g \wedge h)
+= \frac{1}{k! l! m!}
+  A(f \otimes (g \otimes h)),
+$$
+and use the fact that $\otimes$ is associative.
+
+\begin{corol}
+Let $f_1, \dots, f_l$ be alternating tensors of degrees
+$k_1, \dots, k_l$. Then
+$$
+  \bigwedge_{i=1}^l f_i
+= \frac{1}{\prod_{i=1}^l (k_i)!}
+  A\left(\bigotimes_{i=1}^l f_i\right).
+$$
+\end{corol}
+
+\begin{defn}[Grassmann/Exterior Algebra]
+The \emph{Grassmann algebra} is the vector space
+$$
+  A(V)
+= \bigoplus_{k=0}^\infty
+    A_k(V),
+$$
+and we will see that $A_k(V) = \{ 0 \}$ when $k > n$.
+This is a real vector space where elements are finite sums of
+$v_i \in A_i(V)$, and multiplication in this algebra is given by the
+graded commutative product $\wedge$.
+\end{defn}
+
+\begin{lemma}
+Let $\beta^1, \dots \beta^k \in L_1(V) = A_1(V)$ and
+$(v_1, \dots, v_k) \in V^k$. Then
+$$
+B = [b_j^i] = \beta^i(v_j)
+$$
+satisfies
+$$
+  (\beta^1 \wedge \cdots \wedge \beta^k)(v_1, \dots, v_k)
+= \det B.
+$$
+\end{lemma}
+\begin{proof}
+We have
+\begin{align*}
+   (\beta^1 \wedge \cdots \wedge \beta^k)(v_1, \dots, v_k)
+&= \frac{1}{1! \cdots 1!}
+   A(\beta^1 \otimes \cdots \beta^k)(v_1, \dots, v_k) \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \sigma(\beta^1 \otimes \cdots \otimes \beta^k)
+       (v_1, \dots, v_k) \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     \beta^1(v_{\sigma(1)}) \cdots \beta^1(v_{\sigma(k)}) \\
+&= \sum_{\sigma \in S_k}
+     \mathrm{sgn}(\sigma)
+     b^1_{\sigma(1)} \cdots b^k_{\sigma(k)} \\
+&\triangleq \det B.
+\end{align*}
+\end{proof}
+
+\subsection*{Multi-index notation}
+We write $I = (i_1, \dots, i_k)$ and $i_m \in \{1, \dots, n\}$ to
+denote an increasing set
+$$
+1 \leq i_1 < \cdots < i_k \leq n,
+$$
+e.g.
+\begin{align*}
+   e_I
+&= (e_{i_1}, \dots, e_{i_k}) \\
+   \alpha^I
+&= \alpha^{i_1} \wedge \cdots \wedge \alpha^{i_k} \\
+   \frac{\partial^k}{\partial x^I}(f)
+&= \frac{\partial^k f}
+        {\partial x^{i_1} \cdots \partial x^{i_k}} \\
+   \delta^{I}_J
+&= \left\{
+     \begin{array}{c c}
+       1, & \quad i_1 = j_1, \dots, i_k = j_k \\
+       0, & \quad \text{otherwise}
+     \end{array}
+   \right\}
+\end{align*}
+
+\subsection*{A basis for $A_k(V)$}
+
+\begin{lemma}
+Let $|I| = |J| = k$. Then $\alpha^I(e_J) = \delta^I_J$.
+\end{lemma}
+
+\begin{proof}
+We have
+$$
+\alpha^I(e_J) = \det(b_n^m)
+$$
+where $b_n^m = \alpha^{i_m}(e_{j_n})$.
+
+If $I = J$ then $b_n^m = \delta_n^m$ and so
+$\det (b_n^m) = \det(\mathrm{Id}_k) = 1$.
+
+If $I \neq J$ then $[b_n^m]$ has a row of all zeroes due to the
+following argument. Without loss of
+generality, there is some $m$ such that
+$$
+i_1 = j_1, \dots, i_{m-1} = j_{m-1}, i_m < j_m.
+$$
+Furthermore $i_m$ is distinct from $j_1, \dots, j_k$, since
+$$
+j_1 < \cdots < j_{m-1} = i_{m-1} < i_m < j_m < j_{m+1} < \cdots
+$$
+so $\alpha^{i_m}(e_{j_l}) = 0$ for any $l$. Therefore the $m$ row of
+the matrix $B$ is zero, hence $\det B = 0$.
+\end{proof}
+
+\begin{remark}
+If $\omega \in A_k(V)$, then $\omega$ is determined on its values
+$\omega(e_I)$ with $|I| = k$ and $I$ increasing, i.e.
+$\omega_1(e_I) = \omega_2(e_I) \implies \omega_1 = \omega_2$,
+because $\omega$ is multilinear and alternating.
+
+\begin{xmpl}
+Let $\omega \in A_2(\mathbb{R}^3)$. Then
+$$
+  \omega(v, w)
+= \omega(v^1 e_1 + v^2 e_2 + v^3 e_3 +
+         w^1 e_1 + w^2 e_2 + w^3 e_3).
+$$
+Note that since $\omega$ is alternating, for any $i, j$ we have
+\begin{align*}
+  \omega(e_i, e_i) &= 0 \\
+  \omega(e_i, e_j) &= -\omega(e_i, e_j)
+\end{align*}
+so that since $\omega$ is linear,
+\begin{align*}
+   \omega
+&= (v^1 w^2 - v^2 w^1)\omega(e_1, e_2) \\
+&+ (v^1 w^3 - v^3 w^1)\omega(e_1, e_3) \\
+&+ (v^2 w^3 - v^3 w^2)\omega(e_2, e_3)
+\end{align*}
+\end{xmpl}
+\end{remark}
+
+\begin{prop}
+$\{ a^I | |I| = k, I \text{ increasing}\}$ forms a basis for $A_k(V)$.
+\end{prop}
+\begin{corol}
+$\dim_{\mathbb{R}} A_k(V) = {n \choose k}$ (since there are this many
+increasing subsequences of length $k$ in $\{1, \dots, n\}$.
+\end{corol}
+
+\begin{proof}
+Assume $c_I \in \mathbb{R}$ and see that
+\begin{align*}
+   0
+&= \left(\sum_{|I|=k} c_I \alpha^I\right)(e_J) \\
+&= \sum c_I \alpha^I(e_J) \\
+&= \sum c_I \delta^I_J = c_J
+\end{align*}
+for any $J$. Hence the $\alpha$ are linearly independent.
+
+Let $\omega \in A_k(V)$, and define
+\begin{align*}
+   \alpha
+&= \sum_I \omega(e_I) \alpha^I \\
+&= \mathrm{span}(\{ \alpha^I \}).
+\end{align*}
+We see that $\alpha = \omega$ because of the remark above and because
+for $J$ increasing
+$$
+  \alpha(e_J)
+= \sum_I \omega(e_I) \alpha^I(e_J)
+= \omega(e_J).
+$$
+\end{proof}
+
+In particular $\dim(A_n(V)) = {n \choose n} = 1$, and $A_n(V)$ is
+spanned by $\det: V \times \cdots \times V \to \mathbb{R}$.
+For $k > n$, $A_k(V) = \{ 0 \}$.
+
+\section*{Differential forms}
+
+\begin{defn}[Differential forms]
+Let $U \subset \mathbb{R}^n$ be open. A \emph{differential $k$-form}
+or \emph{$k$-form} on $U$ is a function
+$\omega : U \to \sqcup_{p \in U} A_k(T_p \mathbb{R}^n)$ given by
+$p \mapsto \omega_p \in A_k(T_p \mathbb{R}^n)$.
+\end{defn}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+       For $k = 0$,
+       $A_0(T_p \mathbb{R}^n) = \mathbb{R}$, so a $0$-form is simply a
+       function $\omega: U \to \mathbb{R}$.
+    }
+    \item{
+      For $f \in C^\infty(U)$, $\dif f$ is a $1$-form defined by
+      $(\dif f)_p : T_p \mathbb{R}^n \to \mathbb{R}$ given by
+      $(\dif f)_p (X_p) \triangleq X_p(f)$. Recall also that
+      $T_p \mathbb{R}^n \simeq \mathcal{D}_p \mathbb{R}^n$.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+On $\mathbb{R}^n$ we have standard coordinates $(x^i)$, which can be
+thought of as coordinate functions $x^i: U \to \mathbb{R}$,
+i.e. projections from the tuple $(p^1, \dots, p^n)$ to $p^i$, and
+$x^i \in C^\infty(U)$. For $p \in U$,
+$T_p \mathbb{R}^n = \mathcal{D}_p \mathbb{R}^n$ has a basis
+$$
+\left\{ \left.\frac{\partial}{\partial x^1}\right|_p,
+         \dots,
+         \left.\frac{\partial}{\partial x^n}\right|_p
+\right\}.
+$$
+\begin{lemma}
+$\{\dif x_p^i\} \subset A_1(T_p \mathbb{R}^n)$ is a dual basis to this basis.
+\end{lemma}
+\begin{proof}
+\begin{align*}
+  \dif x_p^i
+    \left(
+      \left.\frac{\partial}{\partial x^j}\right|_p
+    \right)
+&\triangleq
+  \left.\frac{\partial}{\partial x^j}\right|_p(x^i) \\
+&= \frac{\partial x^i}{\partial x^j}(p)
+ = \delta_j^i.
+\end{align*}
+\end{proof}
+
+\begin{corol}
+The collection of all
+$\dif x_p^I = \dif x_p^{i_1} \wedge \cdots \wedge \dif x_p^{i_k}$
+forms a basis for $A_k(T_p \mathbb{R}^n)$
+\end{corol}
+
+\begin{defn}[Smooth forms]
+Given a $k$-form $\omega$ on $U$,
+\begin{align*}
+   \omega_p
+&= \sum_I a_i(p) \dif x_p^I,
+\end{align*}
+and we may write $\omega = \sum_I a_i \dif x^I$ where
+$a_i: U \to \mathbb{R}$. We say that the form $\omega$ is smooth when
+each coordinate function $a_i \in C^\infty(U)$. The space of all
+smooth $k$-forms is denoted $\Omega^k(U)$, which has induced addition
+and multiplication and is therefore a real vector space as well as a
+module over the smooth functions.
+\end{defn}
+
+\begin{prop}
+Recall that for $f \in C^\infty(U)$,
+$(\dif f)_p (X_p) \triangleq X_p(f)$. In coordinates,
+$$
+  \dif f
+= \sum_{i=1}^n \frac{\partial f}{\partial x^i} \dif x^i.
+$$
+\end{prop}
+\begin{proof}
+We can write
+$$
+  \dif f
+= \sum_{i=1}^n a_i \dif x^i
+$$
+for some $a_i : U \to \mathbb{R}$, and
+\begin{align*}
+   \dif f (\partial^j)
+&\triangleq
+   \frac{\partial}{\partial x^j}(f) \\
+&= \left(
+     \sum_{i=1}^n a_i \dif x^i
+   \right)
+   \left(
+     \frac{\partial}{\partial x^j}
+   \right) \\
+&= \sum_i
+     a_i \dif x^i
+     \left(
+       \frac{\partial}{\partial x^j}
+     \right) \\
+&= \sum_i a_i \delta_j^i = a_j.
+\end{align*}
+\end{proof}
+As a corollary, we have a function
+$\dif : C^\infty(U) \to \Omega^i(U)$ and indeed
+$d: \Omega^k(U) \to \Omega^{k+1}(U)$.
