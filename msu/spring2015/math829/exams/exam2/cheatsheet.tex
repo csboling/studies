@@ -12,7 +12,7 @@
 \begin{document}
 
 \section{Formulas}
-Complex:
+M\"obius transformations:
 \begin{align*}
    \frac{1 + i}
         {1 - i}
@@ -35,7 +35,12 @@ Complex:
  = F_{z_2, z_1, z_3}(z_4)
 \end{align*}
 where $F_{a,b,c}$ takes $a \to 0$, $b \to \infty$, $c \to 1$ and
-$F_{w_1, w_2, w_3}^{-1} \circ F_{z_1, z_2, z_3}$ maps between given points.
+$F_{w_1, w_2, w_3}^{-1} \circ F_{z_1, z_2, z_3}$ maps between given
+points. Also
+$$
+F = T_{\frac{a}{c}} \circ J \circ T_{\frac{d}{b^\prime}} \circ M_{\frac{c}{b^\prime}}
+$$
+where $b^\prime = b - \frac{ad}{c}$.
 
 A function is holomorphic iff. $u_x = v_y$, $u_y = -v_x$, and in this
 case $f = u_x + i u_y = v_y - i v_x$ (since we must have $u_{xy} =
@@ -85,11 +90,17 @@ Integrals:
 &= \frac{\pi}
         {a \sin \left(\frac{\pi}{a}\right)}, \quad a > 1
 \end{align*}
+When only $z_1$ lies in a circle $|z - z_1|$,
+$$
+  \int_{|z - z_1|} \frac{1}{\prod (z - z_i)}
+= 2 \pi i \frac{1}{\prod_{i \neq 1} (z_1 - z_i)}.
+$$
 
 \section{Inequalities}
 $$
 \sin t \geq \frac{2t}{\pi}, \quad 0 \in (0, \pi / 2)
 $$
+$|h_{f(w)}(f(z))| \leq |h_w(z)|$ for $z, w \in \mathbb{H}$.
 
 \section{Other}
 $$
