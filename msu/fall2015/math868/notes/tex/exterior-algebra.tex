@@ -785,3 +785,256 @@ for some $a_i : U \to \mathbb{R}$, and
 As a corollary, we have a function
 $\dif : C^\infty(U) \to \Omega^i(U)$ and indeed
 $d: \Omega^k(U) \to \Omega^{k+1}(U)$.
+
+
+The wedge product
+$\omega \wedge \tau = \frac{1}{k! l!}A(\omega \otimes \tau)$
+induces a wedge product on differential forms
+$\wedge : \Omega^k(U) \times \Omega^l(U) \to \Omega^{k+l}(U)$
+by
+$$
+(\omega \wedge \tau)_p \triangleq \omega_p \wedge \tau_p
+$$
+since $\omega_p \wedge \tau_p \in A_{k+l}(T_p \mathbb{R}^n)$.
+
+The wedge product of differential forms is
+\begin{enumerate}
+  \item{
+    $C^\infty(U)$-bilinear, i.e.
+    $$
+      (f_1 \omega_1 + f_2 \omega_2) \wedge \tau
+    = f_1(\omega_1 \wedge \tau) + f_2(\omega_2 \wedge \tau)
+    $$
+    where $f_1, f_2 \in C^\infty(U)$,
+  }
+  \item{
+    graded commutative, i.e.
+    $\omega \wedge \tau = (-1)^{kl} \tau \wedge \omega$
+  }
+  \item{
+    associative.
+  }
+\end{enumerate}
+
+\subsection{Exterior Derivative}
+\begin{defn}[Exterior derivative]
+The \emph{exterior derivative} $\dif = \dif_k$ is a map
+$\Omega^k(U) \to \Omega^{k+1}(U)$ given by
+\begin{align*}
+   \dif \omega
+&= \left(
+     \dif \sum_{|I| = k} a_I \dif x^I
+   \right) \\
+&= \sum_{|I| = k} \dif (a_I) \wedge \dif x^I \\
+&= \sum_I \sum_i
+     \frac{\partial (a_I)}
+          {\partial x^i}
+     \dif x^i \wedge \dif x^I.
+\end{align*}
+\end{defn}
+
+\begin{remark}[Properties]
+  \begin{enumerate}
+    \item{
+      $\Omega^0(U) \to \Omega^1(U)$ satisfies
+      $(\dif f)_p(X_p) = X_p(f)$.
+    }
+    \item{
+      $\dif^2 = 0$, i.e.
+      $d \circ d : \Omega^k(U) \to \Omega^{k+2}(U)$ is the zero map.
+    }
+    \item{
+      $$
+        \dif (\omega \wedge \tau)
+      = \dif \omega \wedge \tau
+      + (-1)^{\deg(\omega)} \omega \wedge \dif \tau.
+      $$
+    }
+  \end{enumerate}
+  This is called the \emph{deRham cochain complex}, and we will study
+  its cohomology.
+\end{remark}
+
+\begin{prop}
+If $D_k: \Omega^k(U) \to \Omega^{k+1}(U)$ is a sequence of
+$\mathbb{R}$-linear maps satisfying the properties above, then
+$D_k = \dif_k$.
+\end{prop}
+\begin{proof}
+By assumption, $D_0 = \dif_0$ since this is how $\dif_0$ is defined.
+
+We claim that for all increasing $I$, $|I| = k$,
+$D(\dif x^I) = 0$. For $k = 1$,
+$$
+D(\dif x^i) = D(D x^i) = 0
+$$
+by assumption of property 2.
+
+Let $|I| = k + 1$. Then
+\begin{align*}
+   D(\dif x^I)
+&= D(\dif x^{i_1} \wedge \cdots \wedge \dif x^{i_{k+1}}) \\
+&= D(\dif x^{i_1} \wedge \dif x^J) \\
+&= D(\dif x^{i_1}) \wedge \dif x^J
+ + (-1)^1 \dif x^{i_1} \wedge D(\dif x^J).
+\end{align*}
+By linearity, to show $D = \dif$ it suffices to check that
+$D(f \dif x^I) = \dif (f \dif x^I)$ for any
+$f \dif x^I \in \Omega^k(U)$.
+We have
+\begin{align*}
+   D(f \dif x^I)
+&= D(f \wedge \dif x^I) \\
+&= D(f) \wedge \dif x^I + (-1)^0 f \wedge D(\dif x^I) \\
+&= D(f) \wedge \dif x^I \\
+&= \dif f \wedge \dif x^I \\
+&= \dif(f \dif x^I).
+\end{align*}
+Therefore the exterior derivative is unique among operators with these
+properties.
+\end{proof}
+
+\begin{proof}[Properties of $\dif$]
+  \begin{enumerate}
+    \item{
+      We check that
+      $\dif^2 (f \dif x^I) = 0$.
+      \begin{align*}
+         \dif^2 (f \dif x^I)
+      &= \dif (\dif f \wedge \dif x^I) \\
+      &= \dif \left(
+           \sum_i
+             \frac{\partial f}{\partial x^i}
+             \dif x^i \wedge \dif x^I
+         \right) \\
+      &= \sum_i
+           \dif \left(
+             \frac{\partial f}
+                  {\partial x^i}
+           \right)
+           \dif x^i \wedge \dif x^I \\
+      &= \sum_i
+           \sum_j
+             \frac{\partial^2 f}
+                  {\partial x^j \partial x^i}
+             \dif x^j \wedge \dif x^i \wedge \dif x^I.
+      \end{align*}
+
+      Note that any term with $i = j$ is zero since
+      $\dif x^i \wedge \dif x^i = 0$. Summands with $i \neq j$
+      appear twice, with $i, j$ interchanged, i.e.
+      $$
+        \frac{\partial^2 f}
+             {\partial x^i \partial x^j}
+           \dif x^i \wedge \dif x^j \wedge \dif x^I
+      + \frac{\partial^2 f}
+             {\partial x^j \partial x^i}
+           \dif x^j \wedge \dif x^i \wedge \dif x^I
+      = \frac{\partial^2 f}
+             {\partial x^i \partial x^j}
+           \dif x^i \wedge \dif x^j \wedge \dif x^I
+      - \frac{\partial^2 f}
+             {\partial x^j \partial x^i}
+           \dif x^i \wedge \dif x^j \wedge \dif x^I
+      = 0.
+      $$
+    }
+    \item{
+      We next check that
+      \begin{align*}
+         \dif (\omega \wedge \tau)
+      &= \dif (f g \dif x^I \wedge \dif x^J) \\
+      &= \dif (f g) \wedge \dif x^I \wedge \dif x^J \\
+      &= \sum_i
+            \frac{\partial (fg)}
+                 {\partial x^i}
+            \dif x^i \wedge \dif x^I \wedge \dif x^J \\
+      &= \sum_i
+            \left(
+              \frac{\partial f}
+                   {\partial x^i}
+            \right)
+            g
+            \dif x^i \wedge \dif x^I \wedge \dif x^J
+       + \sum_i
+            \left(
+              \frac{\partial g}
+                   {\partial x^i}
+            \right)
+            f
+            \dif x^i \wedge \dif x^I \wedge \dif x^J \\
+      &= \sum_i
+           \left(
+             \frac{\partial f}
+                  {\partial x^i}
+             \dif x^i \wedge \dif x^I
+           \right)
+           \wedge (g \dif x^J) \\
+       + (-1)^{1 \cdot |I|}
+           \sum_i
+             f \frac{\partial g}{\partial x^i}
+             \dif x^I \wedge \dif x^i \wedge \dif x^J \\
+      &= \dif (f \dif x^I) \wedge (g \dif x^J)
+       + (-1)^{\deg(\omega)} (f \dif x^I) \wedge \dif(g \dif x^J) \\
+      &= \dif (\omega) \wedge \tau
+       + (-1)^{\deg(\omega)} \omega \wedge \dif \tau.
+      \end{align*}
+    }
+  \end{enumerate}
+\end{proof}
+
+\subsection{deRham cohomology}
+\begin{defn}[Closed and exact form]
+A $k$-form $\omega$ is \emph{closed} if
+$\dif \omega = 0$, i.e. if it is in the kernel of
+$\dif$, and \emph{exact} if
+$\omega = \dif \alpha$ for some $\alpha$, i.e. if it is in the image
+of $\dif$.
+\end{defn}
+Note that exact $k$-forms are closed since $\dif^2 = 0$.
+
+\begin{defn}[deRham cohomology]
+The \emph{$k$-th deRham cohomology group} of $U$ is the quotient group
+$H^k(U) \triangleq \ker(\dif_k) / \mathrm{Im}(\dif_{k-1})$. We augment
+the chain by defining $\dif_{-1}$ to be the inclusion map from $\{ 0 \}$.
+\end{defn}
+
+\begin{remark}
+The $k$-th deRham cohomology gives a sense of the $k$-dimensional
+holes in $U$ from the perspective of calculus. We will see that, for instance,
+$$
+H^0(U) \simeq \mathbb{R}^{\text{\# of connected components of U}}.
+$$
+\end{remark}
+
+\begin{xmpl}
+$$
+  H^0(U)
+= \ker(d_0) / \ker(d_{-1})
+= \ker(d_0) / \{ 0 \}
+= \ker(d_0).
+$$
+In general
+\begin{align*}
+   \dif f
+&= \sum_i
+     \frac{\partial f}{\partial x^i}
+     \dif x^i = 0
+\end{align*}
+which is only true if all partial derivatives
+$\frac{\partial f}{\partial x^i} = 0$.
+
+If we have a connected component of $U$, then we may connect any two
+points in this space by a path $c(t)$, and
+$$
+  f(c(1)) - f(c(0))
+= \int_0^1 \frac{\dif}{\dif t} f(c(t))
+= \int_0^1
+    \sum_i
+      \frac{\partial f}
+           {\partial x^i}
+      (c(t)) c_i^\prime(t)
+      \dif t
+= 0.
+$$
+\end{xmpl}
