@@ -1038,3 +1038,175 @@ $$
 = 0.
 $$
 \end{xmpl}
+
+We have a cochain given by $\dif^k$:
+$$
+    \{ 0 \}
+\to \Omega^0(U) = C^\infty(U)
+\to \cdots
+\to \Omega^n(U)
+\to \{ 0 \}
+$$
+with $d^2 = 0$,
+so $\mathrm{Im}(\dif^{k-1}) < \ker(\dif^k)$. Then we can define the
+deRham cohomology $H^k(U) = \ker(\dif^k) / \mathrm{Im}(\dif^{k-1})$.
+Elements $[\omega] \in H^k(U)$ are cosets
+$\omega + \dif^{k-1}(\Omega^{k-1}(U))$, where $\dif^k(\omega) = 0$,
+i.e. $[\omega_1] = [\omega_2] \in H^k(U)$ if and only if
+$\omega_1 - \omega_2 = \dif^{k-1} \alpha$ for some
+$\alpha \in \Omega^{k-1}(U)$. We have seen that
+$H^0(U)$ is isomorphic to the $\mathbb{R}$-vector space of locally
+constant functions on $U$, i.e. those whose derivative is everywhere
+0. Indeed, this space is $\mathbb{R}^N$, where $N$ is the number of
+connected components of $U$.
+
+\begin{lemma}[Poincar\'e Lemma]
+If $U \subset \mathbb{R}^n$ is star shaped, then $H^1(U) = \{ 0 \}$.
+\end{lemma}
+\begin{proof}
+Let $[\omega] \in H^1(U)$. Then $\omega \in \Omega^1(U)$ satisfies
+$\dif \omega = 0$. In coordinates,
+\begin{align*}
+   0
+&= \dif \omega \\
+&= \dif \left(\sum_i f_i \dif x^i\right) \\
+&= \sum_{i < j}
+     \left(
+       \frac{\partial f_i}{\partial x^j}
+     - \frac{\partial f_j}{\partial x^i}
+    \right)
+    \dif x^i \wedge \dif^j.
+\end{align*}
+We want to show that there exists some
+$f \in \Omega^0(U)$ such that
+$\dif f = \omega - 0 = \omega$.
+
+For simplicity, assume $U$ is star-shaped with respect to 0.
+Let $x \in U$, so that the line segment from 0 to $x$ can be
+parameterized
+$$
+  c(t)
+= (t x^1, \dots, t x^n).
+$$
+Define
+$$
+  f(x^1, \dots, x^n)
+= \int_0^1
+    \sum_i
+      x^i f_i(tx^1, \dots, tx^n)
+      \dif t.
+$$
+Then
+\begin{align*}
+   \frac{\partial f}
+        {\partial x^j}
+   (x^1, \dots, x^n)
+&= \int_0^1
+     \left[
+       \sum_{i \neq j}
+         tx^i
+         \frac{\partial f_i}
+              {\partial x^j}
+         (tx^1, \dots, tx^n)
+     + tx^j
+         \frac{\partial f_j}
+              {\partial x^j}
+         (tx^1, \dots, tx^n)
+     + f_j(tx^1, \dots, tx^n)
+     \right]
+     \dif t \\
+&= \int_0^1
+     \left[
+       \sum_i
+         tx^j
+         \frac{\partial f_j}
+              {\partial x^j}
+         (tx^1, \dots, tx^n)
+     + f_j(tx^1, \dots, tx^n)
+     \right]
+     \dif t \\
+&= \int_0^1
+     \frac{\dif}{\dif t}
+       (t f_j(tx^1, \dots, tx^n))
+     \dif t \\
+&= f_j(x^1, \dots, x^n).
+\end{align*}
+using the condition found above on the partial derivatives.
+
+This choice of integrand is motivated by the fact that if $\dif f =
+\omega$ then
+$$
+  \frac{\partial f}{\partial x^i}
+= f_i
+= \int_0^1 \frac{\dif}{\dif t}(f \circ c)
+= f(x) - f(0).
+$$
+\end{proof}
+
+\begin{xmpl}
+$H^1(\mathbb{R}^2 \setminus \{ 0 \}) \neq \{ 0 \}$.
+We can show this by finding a 1-form
+$\omega \in \Omega^1(\mathbb{R}^2 \setminus \{ 0 \})$
+with $\dif \omega = 0$ and $\omega \neq \dif f$ for any
+$f: \mathbb{R}^2 \setminus \{ 0 \} \to \mathbb{R}$. We choose
+$$
+  \omega
+= \frac{-y}{x^2 + y^2} \dif x
++ \frac{x}{x^2 + y^2} \dif y,
+$$
+which would satisfy $\dif \left(\arctan \frac{y}{x}\right) = \omega$,
+but this function is not defined on $\mathbb{R}^2 \setminus \{ 0 \}$.
+We can check that $\dif \omega = 0$ easily.
+
+Suppose $\omega = \dif g$ for some $g$. Then we would have
+\begin{align*}
+   \frac{\dif}{\dif t}
+     f(\cos(t), \sin(t))
+&= \nabla f(\cos(t), \sin(t)) \cdot (-\sin t, \cos t) \\
+&= (-\sin t, \cos t) \cdot (-\sin t, \cos t) \\
+&= 1
+\end{align*}
+so that
+\begin{align*}
+   2\pi
+&= \int_{t=0}^{2\pi}
+     1 \dif t \\
+&= \int_{0}^{2\pi}
+     \frac{\dif}{\dif t}
+       f(c(t)) \dif t \\
+&= f(c(2\pi)) - f(c(0)) = 0,
+\end{align*}
+a contradiction.
+\end{xmpl}
+
+\begin{xmpl}
+In $\mathbb{R}^3$ we have
+$$
+\{0\}                     \rightarrow
+C^\infty(U)               \xrightarrow{\mathrm{grad}}
+C^\infty(U, \mathbb{R}^3) \xrightarrow{\mathrm{curl}}
+C^\infty(U, \mathbb{R}^3) \xrightarrow{\mathrm{div}}
+C^\infty(U)               \rightarrow
+\{0\}
+$$
+which has isomorphisms corresponding to
+$$
+\{0\}       \rightarrow
+\Omega^0(U) \xrightarrow{\dif}
+\Omega^1(U) \xrightarrow{\dif}
+\Omega^2(U) \xrightarrow{\dif}
+\Omega^3(U) \rightarrow
+\{0\},
+$$
+respectively given by
+\begin{align*}
+& \mathrm{Id}, \\
+& \langle P, Q, R \rangle
+    \mapsto P \dif x + Q \dif y + R \dif z, \\
+& \langle P, Q, R \rangle
+    \mapsto P \dif y \wedge \dif z
+          + Q \dif z \wedge \dif x
+          + R \dif x \wedge \dif y, \\
+& f \mapsto f \dif x \wedge \dif y \wedge \dif z.
+\end{align*}
+\end{xmpl}

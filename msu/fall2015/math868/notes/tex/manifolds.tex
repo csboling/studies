@@ -1,0 +1,49 @@
+\section{Manfiolds}
+
+Let $M$ be a topological space.
+\begin{defn}
+$M$ is a \emph{Hausdorff space} if $\forall p \neq q \in M$,
+there exist open sets $U, V$ containing $p$ and $q$ respectively
+with $U \cap V = \varnothing$. We say that the topology
+\emph{separates points}.
+\end{defn}
+
+\begin{defn}
+$M$ is \emph{second-countable} if there is a countable collection
+$\{U_i\}_{i=1}^\infty$ of open sets in $M$ such that for all open sets
+$U$ and for any $p \in U$, there exists an $i \in \mathbb{N}$ such
+that
+$p \in U_i \subset U$.
+\end{defn}
+
+These properties are hereditary, e.g. subspaces of Hausdorff spaces (under the subspace
+topology) are also Hausdorff.
+
+\begin{defn}
+$M$ is \emph{locally homeomorphic to $\mathbb{R}^n$} if
+$\forall p \in M$, there is an open set $U$ with $p \in U$ and a
+continuous map $\varphi: U \to \mathbb{R}^n$ such that
+$\phi: U \to \phi(U)$ is a homeomorphism. The pair $(U, \phi)$ is
+called a \emph{coordinate chart} because it gives a set of $n$ real numbers
+that uniquely describe each point $p$. We write $x^i = \pi^i \circ
+\phi$ where $\pi^i$ is the $i$-th projection.
+\end{defn}
+This property is not hereditary.
+
+\begin{defn}[Topological manifold]
+$M$ is a topological $n$-manifold if it is Hausdorff, second countable
+and locally homeomorphic to $\mathbb{R}^n$. We say that the collection
+of charts $(U_\alpha, \phi_\alpha)$ covering $M$ is an
+\emph{atlas}. An atlas is said to be \emph{smooth} if all the
+transition functions
+$$
+  \phi_{\beta\alpha}
+\triangleq
+  \phi_\beta \circ \phi_\alpha^{-1}
+:   \phi_\alpha(U_\alpha \cap  U_\beta)
+\to \phi_\beta(U_\alpha \cap U_\beta)
+$$
+are $C^\infty$.
+\end{defn}
+
+``if you pull back the grid in $\mathbb{R}^n$ you get a foliation on $M$''
