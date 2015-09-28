@@ -1,0 +1,184 @@
+\section{Smooth Maps}
+
+\begin{defn}[Smooth function]
+A function $f: M \to \mathbb{R}$ is said to be
+\emph{smooth at a point $p \in M$} if there exists a chart
+$(U, \phi)$ about $p$ for which
+$f \circ \phi^{-1} : \phi(U) \to \mathbb{R}$ is smooth at
+$\phi(p)$. $f$ is smooth ($C^\infty$) if it is smooth at all
+$p \in M$. $C^\infty(M)$ denotes the $\mathbb{R}$-algebra of smooth
+functions on $M$.
+\end{defn}
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      Smoothness at $p$ implies continuity at $p$ since $\phi$ is a
+      homeomorphism.
+    }
+    \item{
+      We can replace ``there exists a chart'' with ``for all charts''
+      containing $p$.
+
+      Let $(V, \psi)$ be another chart about $p$. Then we have
+      $$
+        f \circ \psi^{-1}
+      = (f \circ \phi^{-1}) \circ (\phi \circ \psi^{-1})
+      $$
+      is smooth.
+
+      To check if $f$ is smooth on $M$, it suffices to check
+      smoothness with respect to charts in any $C^\infty$-atlas.
+    }
+  \end{enumerate}
+\end{remark}
+
+\begin{defn}[Smooth map]
+A continuous map $F: N^n \to M^m$ is
+\emph{smooth at a point $p \in N$} if there exist charts
+$(U, \phi)$ about $p$ and $(V, \psi)$ about $F(p)$ such that
+$$
+\psi \circ F \circ \phi^{-1} : \phi(U \cap F^{-1}(V)) \to \mathbb{R}^m
+$$
+is smooth at $\phi(p)$. $F$ is smooth if it is smooth at all $p \in
+N$. We write $C^\infty(N, M)$ for the set of all $C^\infty$ maps from
+$N$ to $M$.
+\end{defn}
+
+\begin{defn}[Diffeomorphism]
+A smooth map $F : N \to M$ is a \emph{diffeomorphism} if $F$ is
+bijective and its inverse is smooth. $F$ is a
+\emph{local diffeomorphism at $p \in N$} if there exists a
+neighborhood $U$ of $p$ such that
+$F\restrict_U : U \to F(U)$ is a diffeomorphism.
+\end{defn}
+Diffeomorphism is an equivalence relation on smooth manifolds.
+
+\begin{xmpl}
+$F: \mathbb{R} \to S^1$ given by
+$F(t) = (\cos 2 \pi t, \sin 2 \pi t)$ is a local diffeomorphism but
+not a global diffeomorphism since it is not bijective.
+\end{xmpl}
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      Similarly, ``there exists a chart'' in our definition of smooth
+      map can be replaced by ``for all charts''. Let
+      $(\bar{U}, \bar{\phi})$ be a chart about $p$ and
+      $(\bar{V}, \bar{\psi})$ be a chart about $F(p)$. Then
+      $$
+        \bar{\psi} \circ F \circ \bar{\phi}^{-1}
+      = (\bar{\psi} \circ \psi^{-1})
+        \circ
+        (\psi \circ F \circ \phi^{-1})
+        \circ
+        (\phi \circ \bar{\phi}^{-1})
+      $$
+      is $C^\infty$ since the outer terms are smooth transitions.
+    }
+    \item{
+      Composites of $C^\infty$ maps are $C^\infty$. Let
+      $F: N \to M$ and $G: M \to P$, with
+      $p$ in a chart $(U, \phi)$, $F(p)$ in a chart $(V, \psi)$,
+      $G(F(p))$ in a chart $(W, \sigma)$. Then
+      $$
+        \sigma \circ (G \circ F) \circ \phi^{-1}
+      = (\sigma \circ G \circ \psi^{-1})
+        \circ
+        (\psi \circ F \circ \phi^{-1})
+      $$
+      and each of these terms is smooth by assumption.
+    }
+  \end{enumerate}
+\end{remark}
+
+\begin{xmpl}
+Let $M$ be a smooth manifold and $(U, \phi)$ a smooth chart. Then
+$\phi: U \to \phi(U)$ is a diffeomorphism. Here $U$ has a smooth
+structure inherited from $M$ as an open set, and $\phi(U)$ has a
+smooth structure inherited from $\mathbb{R}^m$.
+
+Certainly $\phi$ is bijective, and indeed gives a homeomorphism from
+$U$ to a subset $\phi(U)$ of Euclidean space.
+%             \phi
+%       U     ->   \phi(U)
+% \phi  |             | Id
+%       v     Id      v
+%     \phi(U) ->   \phi(U)
+\end{xmpl}
+
+\begin{defn}[Lie group]
+A \emph{Lie group} is a $C^\infty$ manifold that is a group such that
+the map
+$m: G \times G \to G$ given by $m(g_1, g_2) = g_1 g_2$ is $C^\infty$
+and $i: G \to G$ given by $i(g) = g^{-1}$ is $C^\infty$.
+\end{defn}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      $(\mathbb{R}^n, +)$ is a smooth manifold.
+    }
+    \item{
+      $(\mathbb{C}^\times, \cdot)$ is a smooth manifold, which has as
+      a subgroup $(S^1, \cdot)$.
+    }
+    \item{
+      $G_1 \times G_2$ is a Lie group.
+    }
+    \item{
+      The tori $\prod S^1$ are Lie groups.
+      The torus $\mathbb{R}^2 / \mathbb{Z}^2$. If you take a line
+      through the origin with irrational slope, then quotienting by
+      this line gives $\mathbb{T}^2 / \pi(L)$ which is a Cantor set
+      (i.e. not closed).
+    }
+    \item{
+      $$
+        \mathrm{GL}_n(\mathbb{R})
+      = \{ A \in \mathbb{R}^{n \times n} \vert \det A \neq 0 \}
+      = \mathbb{R}^{n \times n} - \{ \det A = 0 \}
+      $$
+      is an open subset of $\mathbb{R}^{n \times n}$ since
+      $\ker(\det)$ is closed because $\det$ is continuous (it is a
+      polynomial). Furthermore the product of elements in
+      $\mathrm{GL}_n(\mathbb{R})$ is a continuous map (since it is a
+      polynomial map). Inversion is a continuous map since
+      $$
+        (A^{-1})^i_j
+      = \frac{1}{\det A} (-1)^{i + j} \det(C^i_j)
+      $$
+      is a rational function (Cramer's theorem).
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\section{Inverse function theorem}
+We have a criterion for a smooth map to be a local diffeomorphism.
+Let $F : \mathbb{R}^n \to \mathbb{R}^m$ be smooth. Let $p \in
+\mathbb{R}^n$. Then we can define the Jacobian matrix
+$$
+[J(F)|_p]^i_j = \left[\frac{\partial F^i}{\partial r^j}(p)\right]
+$$
+where $r^i$ are local coordinates in $\mathbb{R}^n$ and we
+write $F^i = r^i \circ F : \mathbb{R}^n \to \mathbb{R}$.
+
+\begin{theorem}[Inverse function theorem (Euclidean maps)]
+$F$ is a local diffeomorphism at $p \in \mathbb{R}^n$ if and only if
+$J(F)|_p$ is invertible, i.e. $n = m$ and $\det(J(F)|_p) \neq 0$.
+\end{theorem}
+
+\subsection{Inverse function theorem for manifolds}
+Let $f : M^m \to \mathbb{R}$ and $(U, \varphi)$ be a chart about
+$p \in M$. We have standard coordinates $r^i$ on $\mathbb{R}^m$
+and so coordinates $x^i = r^i \circ \phi$ on $U$. Define
+\begin{align*}
+   \frac{\partial f}{\partial x^i}(p)
+&= \left.\frac{\partial}{\partial x^i}\right|^f_p \\
+ = \frac{\partial (f \circ \phi^{-1})}{\partial r^i}(\phi(p)) \\
+&= \left.\frac{\dif}{\dif t}\right|_{t = 0} (f \circ \phi^{-1})(c(t))
+\end{align*}
+where $c(t)$ is a line in $\phi(U)$. We can pull this back to $U$ via the
+coordinate functions and define the derivative in terms of its
+derivatives in Euclidean space.
