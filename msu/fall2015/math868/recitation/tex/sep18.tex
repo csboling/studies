@@ -1,0 +1,156 @@
+\section{Comments}
+Recall that $C_p^\infty$ consists of \emph{equivalence classes}, i.e.
+$$
+[(f, U)] + [(g, V)] = [(f + g, U \cap V)].
+$$
+
+\begin{theorem}[Inverse function theorem]
+Let $f : O \subset \mathbb{R}^n \to \mathbb{R}^n$ be $C^r$ on $O$, and
+let $a \in O$ with $Df(a)$ nonsingular. Then there exist open sets $U,
+V$ such that $a \in U$, $f(a) \in V$, and
+\begin{enumerate}
+  \item{
+    $f$ is injective on $U$
+  }
+  \item{
+    there exists a $g$ such that $g(f(x)) = x$ and $g$ is $C^r$.
+  }
+\end{enumerate}
+Here for $D f$ of a function $f: \mathbb{R}^n \to \mathbb{R}^n$ we
+mean the Jacobian matrix
+$$
+  (Df)^i_j
+= \left(
+    \frac{\partial f^i}
+         {\partial x_j}
+  \right)
+$$
+\end{theorem}
+
+\begin{proof}
+Last time we showed that for a function
+$f: (X, d) \to (x, d)$ between metric spaces that is a contraction
+map, i.e. $d(f(x_1), f(x_2)) \leq c d(x_1, x_2)$, then $f$ has a unique
+fixed point. It suffices to prove the case when
+$Df(a) = \mathrm{Id}_{n  \times n}$, since as long as $D f$ is
+nonsingular there is a sequence of linear maps which can be
+precomposed with $D f$ to arrive at $\mathrm{Id}_{n \times n}$.
+
+Last time we defined
+$$
+\varphi_y(x) = x + y - f(x),
+$$
+which has a fixed point $x$ if and only if $y = f(x)$. We can pick a
+neighborhood $U$ which is convex small enough that
+$|Df(x) - Df(a)| \leq \frac{1}{4}$. Then for $x_1, x_2 \in U$, we have
+$$
+|\varphi_y(x_1) - \varphi_y(x_2)| \leq \frac{1}{4}|x_1 - x_2|
+$$
+(from last time) so
+\begin{align*}
+      |D\varphi_y(x)|
+&=    |D(y + x - f(x))| \\
+&=    |D x - D f(x)| \\
+&=    |\mathrm{Id} - Df(x)| \\
+&\leq \frac{1}{4}.
+\end{align*}
+
+$V = f(U)$ is nonempty, so pick $y_0 \in V$.
+Then $y_0 = f(x_0)$ for some $x_0$, so pick $r$ small enough that
+$\overline{B_r(x_0)} \subset U$. We claim that
+$\varphi_y : \overline{B_r(x_0)} \to \overline{B_r(x_0)}$ for every
+$y \in B_{\frac{r}{2}}(y_0)$. Let $x \in \overline{B_r(x_0)}$.
+Then
+\begin{align*}
+      |\varphi_y(x) - x_0|
+&\leq |\varphi_y(x) - \varphi_y(x_0)|
+    + |\varphi_y(x_0) - x_0| \\
+&\leq \frac{1}{4}|x - x_0|
+    + |x_0 + y - f(x_0) - x_0| \\
+&\leq \frac{1}{4}|x - x_0|
+    + \frac{1}{2}r \\
+&\leq \frac{1}{r}r + \frac{1}{2}r
+    < r.
+\end{align*}
+
+Since $\overline{B_r(x_0)}$ is a complete metric space,
+$\forall y \in B_{\frac{1}{2}r}(y_0)$ there exists an $x$ such that
+$\varphi_y(x) = x$. Therefore there exists an $x$ such that $f(x) =
+y$. Therefore $B_{\frac{1}{2}r}(y_0) \subset V$, so $V$ is open.
+
+Now define $T(y) = [Df(f^{-1}(y))]^{-1}$. Pick $y, y + k \in V$. Then
+there exists an $x, x + h$ such that $f(x) = y$ and $f(x + h) = y +
+k$. Then
+\begin{align*}
+      \frac{|g(y + k) - g(y) - T k|}{|k|}
+&=    \frac{|x + h - x - T k|}
+           {|k|} \\
+&=    \frac{|h - Tk|}
+           {|k} \\
+&=    \frac{|T (Df) h  - Tk|}
+           {|k|} \\
+&=    \frac{|T(Df h - K)|}
+           {|k|} \\
+&\leq \frac{|T||(Df)h - k|}
+           {|k|} \\
+&\leq \frac{|T||f(x + h) - f(x) - Df \cdot h|}
+           {|k|}.
+\end{align*}
+Since $Df$ is continuous, on a small neighborhood we can guarantee
+that $\det Df$ is small, and since taking an inverse matrix is a
+continuous process $(Df)^{-1}$ will have bounded operator norm.
+
+Consider
+\begin{align*}
+      |\varphi_y(x + h) - \varphi_y(x)|
+&=    |x + h + y - f(x + h) - (x + y - f(x))| \\
+&=    |h - k|
+&\leq \frac{1}{4}|h|
+\end{proof}
+and since $|h - k| \geq ||h| - |k||$ we have
+$$
+     -\frac{1}{4}|h|
+\leq |h| - |k|
+\leq \frac{1}{4}|h|
+$$
+so $|k| \geq \frac{3}{4}|h|$. But this means that
+$$
+     \frac{|g(y + k) - g(y) - T k|}{|k|}
+\leq \frac{4}{3}|T|
+     \frac{|f(x + h) - f(x) - Df \cdot h|}
+          {|h|}
+\to  0
+$$
+so $g$ is differentiable. Furthermore since
+$$
+Dg = (\dot)^{-1} \circ Df \circ g,
+$$
+$Dg$ is continuous, since matrix inversion is a continuous function.
+
+\section{Non-exact forms}
+A vector field on $\mathbb{R}^2$ has the form
+$$
+X = P \frac{\partial}{\partial x} + Q \frac{\partial}{\partial y}.
+$$
+When is a vector field a gradient vector field, i.e. exact? We want
+$X = \nabla f$. On a star-shaped domain, it is necessary and
+sufficient that
+$\frac{\partial Q}{\partial x} = \frac{\partial P}{\partial y}$ on
+$\mathbb{R}^2$.
+
+Consider $\mathbb{R}^2 \setminus \{ 0 \}$. Let
+$(P, Q) = \left(\frac{-y}{x^2  + y^2}, \frac{-x}{x^2  + y^2}\right)$,
+which has a singularity at the origin, and
+$\frac{\partial P}{\partial y} = \frac{\partial Q}{\partial x}$.
+We see that
+\begin{align*}
+   \int_C
+     \left(
+       \frac{-y}{x^2  + y^2} \dif x
+     + \frac{-x}{x^2  + y^2} \dif y
+     \right)
+&= \int_0^{2\pi}
+     (-\sin \theta)(-\sin \theta) + \cos^2 \theta \dif\theta \\
+&= \int_0^{2 \pi} 1 \dif \theta = 2 \pi \neq 0
+\end{align*}
+so $(P, Q)$ cannot be a gradient.

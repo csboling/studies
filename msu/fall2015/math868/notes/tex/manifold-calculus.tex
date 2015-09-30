@@ -1,0 +1,216 @@
+\section{Calculus on manifolds}
+Let $M$ be a smooth manifold and $p \in M$, with
+$C_p^\infty(M)$ the set of germs of smooth functions at $p$, i.e. the
+$\mathbb{R}$-algebra of equivalence classes of pairs $(U, f)$, where
+U is open, $f: U \to \mathbb{R}$ is smooth and $p \in U$, where two
+such pairs are equivalent when
+$\exists p \in U \subset U_1 \cap U_2$ with $f_1 = f_2$ on $U$.
+
+Point derivations of $C_p^\infty(M)$ are $\mathbb{R}$-linear maps
+$D: C_p^\infty(M) \to \mathbb{R}$ such that
+$D(fg)(p) = D(f) g(p) + f(p) D(g)$.
+
+The tangent space $T_pM$ of $M$ at $p$ is the $\mathbb{R}$-vector space of
+point derivations of $C_p^\infty(M)$.
+
+\begin{defn}[Differential]
+The \emph{differential} of a smooth map $F: N \to M$ at $p$ is a
+smooth map
+$$
+(F_\ast)_p = F_{\ast,p} = D_p F : T_p N \to T_{F(p)} M.
+$$
+For any $X_p \in T_pN$, $g \in C_{F(p)}^\infty M$, this acts as
+$$
+F_{\ast,p}(X_p)(g) \triangleq X_P(g \circ F).
+$$
+\end{defn}
+
+\begin{prop}
+  \begin{enumerate}
+    \item{
+      Given $F: N \to M$ and $G: M \to P$,
+      $$
+        (G \circ F)_{\ast, p}
+      = G_{\ast, F(p)} \circ F_{\ast, p}.
+      $$
+    }
+    \item{
+      The differential of $\id_M$ is $\id_{T_pM}$.
+    }
+  \end{enumerate}
+\end{prop}
+\begin{proof}
+  \begin{enumerate}
+    \item{
+      Let $X_p \in T_pM$ and $g \in C_{f(p)}^\infty(P)$. Then
+      \begin{align*}
+         G_{\ast, f(p)} \circ F_{\ast, p} (X_p) g
+      &= G_{\ast, f(p)} (F_{\ast, p} (X_p)) g \\
+      &= F_{\ast p}(X_p) (g \circ G) \\
+      &= X_p(g \circ G \circ F) \\
+      &= (G \circ F)_{\ast, p}(X_p)(g).
+      \end{align*}
+    }
+    \item{
+      $$
+        \id_{\ast,p}(X_p)(g)
+      = X_p(g \circ \id_M)
+      = X_p(g).
+      $$
+    }
+  \end{enumerate}
+\end{proof}
+
+\begin{remark}
+For $p \in U \subset M$ with $U$ open,
+$C_p^\infty(U) = C_p^\infty(M)$, so $T_pU = T_pM$.
+\end{remark}
+
+\begin{corol}
+If $F: N \to M$ is a local diffeomorphism, then
+$F_{\ast, p} : T_p N \to T_{f(p)} M$ is an isomorphism of vector spaces.
+\end{corol}
+\begin{proof}
+If $F$ has a $C^\infty$ inverse $F^{-1} : M \to N$ at $p$, then
+$$
+    (F \circ F^{-1})_{\ast, F(p)}
+  = (\id_M)_{\ast, F(p)}
+  = \id_{T_{F(p)}}
+$$
+and likewise $(F^{-1} \circ F)_{\ast, p} = \id_{T_pN}$.
+\end{proof}
+
+\subsection{Basis for $T_pM$}
+Let $(U, x^1, \dots, x^m)$ be a coordinate chart about $p$
+and $\phi$ be a chart to $(\mathbb{R}^m, r^1, \dots, r^m)$.
+Recall that $T_{\phi(p)} \mathbb{R}^m$ has basis
+$\left.\frac{\partial}{\partial r^i}\right|_{\phi(p)}$.
+Then form
+$\left\{ \left.\frac{\partial}{\partial x^i}\right|_p \right\}_{i=1}^m$.
+Since $\phi$ is a diffeomorphism onto its image,
+$\phi_\ast : T_pM \to T_{\phi(p)} \mathbb{R}^m$ is an isomorphism. We
+compute
+\begin{align*}
+   \phi_{\ast,p}
+     \left(
+       \left.
+         \frac{\partial}{\partial x^i}
+       \right|_p
+     \right)(g)
+&= \left.
+     \frac{\partial}{\partial x^i}
+   \right|_p
+     (g \circ \phi) \\
+&= \frac{\partial (g \circ \phi \circ \phi^{-1})}
+        {\partial r^i}
+   (\phi(p)) \\
+&= \frac{\partial g}{\partial r^i}(\phi(p)) \\
+&= \left.\frac{\partial}{\partial r^i}\right|_{\phi(p)} g.
+\end{align*}
+Therefore
+$$
+  \phi_\ast
+    \left(
+      \left.
+        \frac{\partial}{\partial x^i}
+      \right|_p
+    \right)
+= \left.
+    \frac{\partial}{\partial r^i}
+  \right|_{\phi(p)}.
+$$
+This shows that
+$\left\{ \left.\frac{\partial}{\partial x^i}\right|_p
+\right\}_{i=1}^m$
+is an induced basis for $T_pM$.
+
+\begin{corol}
+$\dim T_p M = \dim M = m$. Consequently
+$\mathbb{R}^n$ and $\mathbb{R}^m$ are not diffeomorphic if
+$n \neq m$. They are not homeomorphic either, but this is more
+difficult to show.
+\end{corol}
+
+\subsection{Change of coordinates}
+Let $p \in M$ and $(U, x^1, \dots, x^m)$, $(V, y^1, \dots, y^m)$ be
+coordinates about $p$, with bases $\{\partial_{x^i}|_p\}$ and
+$\{\partial_{y_i}|_p\}$. Then we can write
+$$
+  \left.
+    \frac{\partial}{\partial x^j}
+  \right|_p
+= \sum_{k=1}^m
+    a_j^k
+    \left.\frac{\partial}{\partial y^k}\right|_p
+$$
+for some unique coefficients $a_j^k$.
+
+Evaluating both sides on $y^i: U \cap V \to \mathbb{R}$ gives
+\begin{align*}
+   \sum_{k=1}^n
+     a_j^k
+     \frac{\partial y^i}{\partial y^k}(p)
+&= \sum_k a_j^k \delta_k^i = a_j^i
+\end{align*}
+so that
+$$
+  \left.\frac{\partial}{\partial x^j}\right|_p
+= \sum_{i=1}^m
+    \frac{\partial y^i}{\partial x^j}
+    \left.
+      \frac{\partial}{\partial y^i}
+    \right|_p.
+$$
+
+\subsection{Differential in coordinates}
+Let $F: N \to M$ with a chart $(U, x, \phi)$ at
+$p$ and $(V, y, \psi)$ at $F(p)$. We see that
+$$
+  F_{\ast,p}
+  \left(
+    \left.
+      \frac{\partial}{\partial x^j}
+    \right|_p
+  \right)
+= \sum_{k=1}^n
+    a_m^k
+    \left.
+      \frac{\partial}{\partial y^k}
+    \right|_{F(p)}
+$$
+for some $a_m^k$. To determine $a_m^k$, let both sides act as a
+derivation on $y^i: V \to \mathbb{R}$ so that
+\begin{align*}
+   F_{\ast, p}
+     \left(
+       \left.
+         \frac{\partial}{\partial x^j}
+       \right|_p
+     \right)(y^i)
+&= \left.
+     \frac{\partial}{\partial x^j}
+   \right|_p
+     (y^i \circ F)
+ = \frac{\partial F^i}{\partial x^j}(p)
+\end{align*}
+whereas
+$$
+  \left(
+    \sum_{k=1}^m
+      a_j^k
+      \left.
+        \frac{\partial}{\partial y^k}
+      \right|_{F(p)}
+  \right)
+    (y^i)
+= \sum_{k=1}^n
+    a_j^k
+    \frac{\partial y^i}{\partial y^k}
+= a^i_j.
+$$
+Therefore in coordinates $F_{\ast,p} = J(F)(p).$
+
+\begin{theorem}[Coordinate-free inverse function theorem]
+$F: N \to M$ is a local diffeomorphism at $p$ if and only if
+$F_{\ast,p}$ is invertible.
+\end{theorem}

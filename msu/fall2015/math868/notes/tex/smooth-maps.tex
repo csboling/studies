@@ -182,3 +182,35 @@ and so coordinates $x^i = r^i \circ \phi$ on $U$. Define
 where $c(t)$ is a line in $\phi(U)$. We can pull this back to $U$ via the
 coordinate functions and define the derivative in terms of its
 derivatives in Euclidean space.
+
+\begin{defn}[Jacobian]
+The Jacobian $J(F)|_p$ is the matrix
+$\left[\frac{\partial F^i}{\partial x^j}(p)\right]$.
+\end{defn}
+
+\begin{prop}
+$J(F)|_p = J(\psi F \phi^{-1})|_{\phi(p)}$.
+\end{prop}
+
+\begin{proof}
+  \begin{align*}
+     \frac{\partial F^i}{\partial x^j}(p)
+  &= \frac{\partial (F^i \circ \phi^{-1})}{\partial r^j}(\phi(p))
+   = \frac{\partial (y^i \circ F \circ \phi^{-1})}
+          {\partial r^j}(\phi(p)) \\
+  &= \frac{\partial (r^i \circ (\psi \circ F \circ \phi^{-1}))}
+          {\partial r^j}(\phi(p)) \\
+  &= \frac{\partial (\psi F \phi^{-1})^i}
+          {\partial r^j}(\phi(p)).
+  \end{align*}
+\end{proof}
+
+\begin{corol}[Inverse function theorem]
+A map $F: N \to M$ is a local diffeomorphism at $p \in N$ if and only
+if $J(F)$ is invertible.
+\end{corol}
+
+\begin{proof}
+  We saw last time that the coordinate functions $\phi : U \to \mathbb{R}^n$ and
+  $\psi : V \to \mathbb{R}^m$ are diffeomorphisms onto their images.
+\end{proof}
