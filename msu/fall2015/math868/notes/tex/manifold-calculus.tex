@@ -214,3 +214,260 @@ Therefore in coordinates $F_{\ast,p} = J(F)(p).$
 $F: N \to M$ is a local diffeomorphism at $p$ if and only if
 $F_{\ast,p}$ is invertible.
 \end{theorem}
+
+\section{Curves}
+\begin{defn}[Curve]
+A \emph{curve} on a manifold $M$ is a smooth map
+$c: (a, b) \to M$ from an interval to the manifold.
+\end{defn}
+
+The basis of the tangent space $T_{t_0} (a, b)$ is given by
+$$
+  \left.\frac{\partial}{\partial t}\right|_{t_0}
+= \left.\frac{\dif}{\dif t}\right|_{t_0},
+$$
+so the \emph{velocity vector} to $c$ at time $t = t_0$ is
+$$
+           c^\prime(t_0)
+\triangleq c_{\ast, t_0}
+             \left(
+               \left.\frac{\dif}{\dif t}\right|_{t_0}
+             \right)
+\in T_{c(t_0)} M.
+$$
+
+\subsection{Notation}
+Let $c: (a, b) \to \mathbb{R}$ be a curve. We have two types of
+derivative:
+\begin{itemize}
+  \item{
+    the ordinary derivative from calculus ($c$ is a real function) given by
+    $$
+      \dot{c}(t_0)
+    = \lim_{h \to 0}
+        \frac{c(t_0 + h) - c(t_0)}{h}
+    \in \mathbb{R}
+    $$
+  }
+  \item{
+    the velocity vector (i.e. total derivative) treating $c$ as a
+    curve
+    $$
+      c^\prime(t_0)
+    = c_{\ast, t_0}
+        \left(
+          \left.\frac{\dif}{\dif t}\right|_{t_0}
+        \right)
+    \in T_{c(t_0)} M.
+    $$
+  }
+\end{itemize}
+These notions are related since we can write
+$$
+  c^\prime(t_0)
+= \alpha(t_0)
+  \left.\frac{\dif}{\dif r}\right|_{c(t_0)}
+$$
+for some $\alpha(t_0)$ since $T_{c(t_0)}\mathbb{R}$ is a
+one-dimensional vector space.
+To determine this, evaluate both sides on the coordinate function
+$r: \mathbb{R} \to \mathbb{R}$ to see
+\begin{align*}
+   c^\prime(t_0) r
+&= c_{\ast, t_0}
+     \left(
+       \left.\frac{\dif}{\dif t}\right|_{t_0}
+     \right) r
+ = \left.\frac{\dif}{\dif t}\right|_{t_0} (r \circ c) \\
+&= \left.\frac{\dif}{\dif t}\right|_{t_0} (c(t))
+ = \dot{c}(t_0)
+\end{align*}
+whereas
+$$
+  \alpha(t_0)
+  \left.\frac{\dif}{\dif r}\right|_{c(t_0)} r
+= \alpha(t_0)
+$$
+so that $\alpha(t_0)$ is precisely the classical derivative.
+
+\subsection{Velocity vectors for curves}
+Writing $c^i(t) = r^i(c(t))$, we have
+$$
+  c(t)
+= (c^1(t), \dots, c^n(t)) \in \mathbb{R}^n
+$$
+so that
+$$
+  c^\prime(t)
+= \sum_i
+    a^i(t)
+    \left.\frac{\partial}{\partial r^i}\right|_t.
+$$
+This gives $\dot{c}^j(t) = a^j(t)$ so that
+$$
+  c^\prime(t)
+= \sum_i
+    (\dot{c}^i)(t)
+    \left.\frac{\partial}{\partial r^i}\right|_t.
+$$
+In calculus, we write
+$$
+  c^\prime(t)
+= \langle
+    (\dot{c^1})(t), \dots, (\dot{c^n})(t)
+  \rangle
+$$
+
+Every tangent vector is a velocity of many curves.
+\begin{lemma}
+Let $M$ be a manifold, $p \in M$, and $X_p \in T_pM$.
+Then there is a curve
+$$
+c: (-\varepsilon, \varepsilon) \to M
+$$
+with $c(0) = p$, $c^\prime(0) = X_p$.
+\end{lemma}
+
+\begin{proof}
+Let $(U, \phi) = (U, x^1, \dots, x^n)$ be a coordinate chart centered
+at $p$, i.e. $\phi(p) = 0 \iff x^1(p) = \cdots = x^n(p) = 0$. We write
+$$
+  X_p
+= \sum_i
+    a^i \left.\frac{\partial}{\partial x^i}\right|_p
+\in T_p M
+$$
+so that
+\begin{align*}
+   \phi_{\ast, p}(X_p)
+&= \sum_i
+     a^i \phi_{\ast, p}
+     \left(
+       \left.\frac{\partial}{\partial x^i}\right|_p
+     \right) \\
+&= \sum_i
+     a^i
+     \left.\frac{\partial}{\partial r^i}\right|_0
+\in T_0 \mathbb{R}^n.
+\end{align*}
+Let $\tilde{c} : (-\varepsilon, \varepsilon) \to \phi(U)$ be given by
+$$
+  \tilde{c}(t)
+= (a^1 t, \dots, a^n t).
+$$
+We can check that $\tilde{c}(0) = 0$ and
+$\tilde{c}^\prime(0) = \phi_{\ast, p}(X_p)$.
+Then we let
+$c : (-\varepsilon, \varepsilon) \to U \subset M$ be given by
+$c = \phi^{-1} \circ \tilde{c}$ so that
+$$
+  c(0)
+= \phi^{-1}(\tilde{c}(0))
+= \phi^{-1}(0)
+= p
+$$
+and
+\begin{align*}
+   c^\prime(0)
+&= c_{\ast,0}
+     \left(
+       \left.\frac{\dif}{\dif t}\right|_0
+     \right)
+ = (\phi^{-1} \circ \tilde{c})_{\ast, 0}
+     \left(
+       \left.\frac{\dif}{\dif t}\right|_0
+     \right) \\
+&= \phi^{-1}_{\ast, 0}
+     \left(
+       tilde{c}_{\ast, 0}
+       \left(
+         \left.\frac{\dif}{\dif t}\right|_0
+       \right)
+     \right)
+ = \phi^{-1}_{\ast, 0}(\tilde{c}^\prime(0)) \\
+&= \phi^{-1}_{\ast, 0}(\phi_{\ast,p}(X_p))
+ = X_p.
+\end{align*}
+\end{proof}
+
+Note that we could have instead started by defining tangent vectors at
+a point $p$ to be equivalence classes of germs at $p$. The definition
+using derivations is nice because it immediately provides the vector
+space structure to the tangent space. Curves are however nicer to work
+with. We usually evaluate the differential using the following rule.
+
+\begin{prop}
+Let $F: N \to M$ be a smooth map between manifolds and
+$p \in N$, $X_p \in T_p N$. If $c(t)$ is a curve in $N$ with
+$c(0) = p$ and $c^\prime(0) = X_p$, then
+$$
+  F_{\ast, p}(X_p)
+= (F \circ c)^\prime(0) \in T_{F(p)} M.
+$$
+\end{prop}
+\begin{proof}
+\begin{align*}
+   F_{\ast, p}(X_p)
+&= F_{\ast, p}(c^\prime(0))
+ = F_{\ast, p}
+     \left(
+       c_{\ast,0}
+       \left(
+         \left.\frac{\dif}{\dif t}\right|_0
+       \right)
+     \right) \\
+&= (F \circ c)_{\ast, 0}
+     \left(
+       \left.\frac{\dif}{\dif t}\right|_0
+     \right) \\
+&= (F \circ c)^\prime(0).
+\end{align*}
+\end{proof}
+
+\begin{remark}
+This proposition is particularly useful for working with maps between
+Euclidean spaces and/or submanifolds of Euclidean spaces.
+\end{remark}
+
+\begin{xmpl}
+$\mathrm{GL}_n(\mathbb{R})$ is the complement of the set of $n \times
+n$ matrices with determinant 0, and so this sits inside $\mathbb{R}^{n
+  \times n}$ as an open subset. If $g \in \mathrm{GL}_n(\mathbb{R})$,
+then $T_g \mathrm{GL}_n(\mathbb{R}) = T_g \mathbb{R}^{n \times n}$.
+Writing tangent vectors in terms of a basis for the tangent space gives
+$$
+\sum
+  \beta^i_j \frac{\partial}{\partial a^1_j}
+$$
+and so we have a map
+$T_g \mathbb{R}^{n \times n} \to \mathbb{R}^{n \times n}$ given by
+$$
+\sum
+  \beta^i_j \frac{\partial}{\partial a^1_j}
+\mapsto
+  \beta^i_j.
+$$
+We have a left-multiplication map
+$$
+L_g: \mathrm{GL}_n(\mathbb{R}) \to \mathrm{GL}_n(\mathbb{R})
+$$
+given by $A \mapsto gA$. We will evaluate
+$(L_g)_{\ast, \id} : T_I \mathrm{GL}_n(\mathbb{R}) \to T_g \mathrm{GL}_n(\mathbb{R})$.
+Let $X \in T_I \mathrm{GL}_n(\mathbb{R}) = \mathbb{R}_{n \times
+  n}$. We want a curve
+$c: (-\varepsilon, \varepsilon) \to \mathrm{GL}_n(\mathbb{R})$ with
+$c(0) = \id$ and $c^\prime(0) = X$, so let $c(t) = I \to t X$. For
+small $t$ this is invertible since the determinant is continuous. Then
+\begin{align*}
+   (L_g)_{\ast, \id}(X)
+&= (L_g \circ c)^\prime(0)
+ = (gI + tgX)^\prime(0)
+ = gX,
+\end{align*}
+so the derivative of left-multiplication is again left-multiplication.
+\end{xmpl}
+
+\section{Submanifolds}
+Level sets of smooth functions $F: N^n \to M^m$, with $n \geq m$, are
+generically smooth submanifolds of $N^n$ of dimension $n - m$. Here a
+level set is a subset of the form $F^{-1}(\{c\})$.
