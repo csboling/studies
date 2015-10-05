@@ -471,3 +471,160 @@ so the derivative of left-multiplication is again left-multiplication.
 Level sets of smooth functions $F: N^n \to M^m$, with $n \geq m$, are
 generically smooth submanifolds of $N^n$ of dimension $n - m$. Here a
 level set is a subset of the form $F^{-1}(\{c\})$.
+
+\subsection{Embedded (regular) submanifolds}
+
+\begin{defn}[Embedded submanifold]
+A subset $S$ of a $C^\infty$ $n$-manifold $N^n$ is a
+\emph{$k$-dimensional embedded} or \emph{regular submanifold} if
+locally, $S$ is the common zero set of $n - k$ coordinate functions in
+some chart of $N^n$. That is,
+$\forall p \in S$, $\exists (U, \phi) = (U, x^1, \dots, x^n)$ a chart
+about $p$ and $n - k$ distinct indices $i_1, \dots, i_{n-k} \in \{ 1,
+\dots, n \}$ such that
+$$
+U \cap S = \{ u \in U \vert x^{i_1}(u) = \cdots = x^{i_{n-k}}(u) = 0 \}.
+$$
+\end{defn}
+
+\begin{defn}[Codimension]
+If $S$ is a $k$-dimensional submanifold of an $n$-manifold, then $n -
+k$ is the \emph{codimension} of $S$.
+\end{defn}
+
+\begin{remark}
+  \begin{enumerate}
+    \item{
+      Without loss of generality,
+      $$
+      U \cap S = \{ u \in U \vert x^{k+1}(u) = \cdots = x^n(u) = 0 \}
+      $$
+      because permutations of the indices
+      $\sigma: \mathbb{R}^n \to \mathbb{R}^n$ given by
+      $\sigma(r^1, \dots, r^n) = (r^{\sigma(1)}, \dots,
+      r^{\sigma(n)})$ is a diffeomorphism.
+    }
+    \item{
+      The chart $(U, \phi)$ in the definition is said to be
+      \emph{adapted to $S$}.
+    }
+    \item{
+      A prototypical embedded submanifold is given by
+      $$
+      R^k \simeq S = \{ (r^1, \dots, r^k, 0, \dots, 0) \}
+      $$
+      in $\mathbb{R}^n$. Indeed any embedded submanifold looks locally
+      like $R^k$ embedded in $R^n$ in this way.
+    }
+    \item{
+      These objects are called submanifolds because they possess a
+      submanifold structure.
+      Under the subspace topology $S$ inherits the Hausdorff and
+      second-countable properties.
+      Let $\mathcal{U} = \{ (U, \phi) \}$ be the collection of charts
+      adapted to $S$ that cover $S$. Let $i: \mathbb{R}^k \to
+      \mathbb{R}^n$ be the inclusion map
+      $(r^1, \dots, r^k) \mapsto (r^1, \dots, r^k, 0, \dots 0)$, and
+      $\pi: \mathbb{R}^n \to \mathbb{R}^k$ be the projection map
+      $(r^1, \dots, r^n) mapsto (r^1, \dots, r^k)$. Given
+      $(U, \phi) \in \mathcal{U}$, define
+      $\phi_S : U \cap S \to \mathbb{R}^k$ by $\phi_S = \pi \circ
+      \phi$. We claim that
+      $\{ (U \cap S, \pi \circ \phi) \vert (U, \phi) \in \mathcal{U}
+      \}$ forms a smooth atlas. The inverses
+      $\phi_S^{-1} = \phi^{-1} \circ i$ give a homeomorphism, so we
+      have a topological manifold. Next we wish to check smooth
+      compatibility. Let $(U \cap S, \phi_S)$ and $(V \cap S, \psi_S)$
+      be charts in our proposed atlas. Then
+      $$
+      \psi_S \circ \phi_S^{-1} = \pi \circ \psi \circ \phi^{-1} \circ i
+      $$
+      is a composition of smooth maps and is hence smooth.
+    }
+  \end{enumerate}
+\end{remark}
+
+\begin{xmpl}
+An example of a space which is not a submanifold is the ``topologist's
+sine curve'', which is connected but not path-connected. As a set,
+$$
+S = \{ (0, y) \vert -1 < y < 1 \}
+\cup \{ (x, \sin\left(\frac{1}{x}\right)) \vert 0 < x < 1 \}.
+$$
+Because the curve accumulates on itself nontrivially at the origin, no
+neighborhood of the origin looks like a copy of $\mathbb{R}^1$ in $\mathbb{R}^2$.
+\end{xmpl}
+
+\begin{defn}[Regular points, critical points]
+Let $F: N^n \to M^m$ be a smooth map. We say that
+$p \in N$ is \emph{regular} if
+$F_{\ast, p}: T_pN^n \to T_{F(p)}M^m$ is surjective, which requires
+that $n \geq m$ by the rank-nullity theorem. A point that is not
+regular is called \emph{critical}. We define the \emph{critical set}
+to be the set $\mathrm{Crit}(F)$ of all critical points of $F$. Points
+that lie in the image of the critical set $F(\mathrm{Crit}(F))$ are
+called \emph{critical values}, and points in
+$M - F(\mathrm{Crit}(F))$ are called \emph{regular values}.
+A point $c \in M$ is a regular value if either
+\begin{enumerate}
+  \item{$F^{-1}(c) = \varnothing$.}
+  \item{
+    If $F^{-1}(c)$ is nonempty, then each $p \in F^{-1}(c)$ is a
+    regular point in $N$.
+  }
+\end{enumerate}
+\end{defn}
+
+\begin{theorem}[Sard's theorem]
+If $F: N^n \to M^m$ is a smooth map, then almost every $m \in M$ is a
+regular value, i.e. $F(\mathrm{Crit}(F))$ has Lebesgue measure zero in
+$M$ -- i.e. in every chart it has Lebesgue measure zero.
+In particular, if we take any open set in $M^m$, it will contain
+regular values.
+\end{theorem}
+
+\begin{theorem}[Regular value theorem]
+Let $F: N^n \to M^m$ be $C^\infty$, and $c \in M^m$ be a regular
+value. Then if $S = F^{-1}(c)$ is nonempty, $S$ is an embedded
+submanifold of $N^n$ of dimension $k = n - m$, i.e. of codimension $m$.
+\end{theorem}
+
+\begin{proof}
+Let $S = F^{-1}(c) \neq \varnothing$, and $c$ be a regular value. We
+need to exhibit an adapted chart for each $p \in S$. Let $(V, \psi)$
+be a chart in $M^m$ centered at $c$ with coordinates $y^1, \dots,
+y^m$, taking $V$ to $\mathbb{R}^m$ with local coordinates $r^1, \dots,
+r^m$. Let $p \in F^{-1}(c)$. Since $F$ is continuous, $F^{-1}(V)$ is
+open, so for any $p \in F^{-1}(c)$ we have a neighborhood $U$ centered
+at $p$, and a coordinate function $\phi$ on $U$ since $S$ is an open
+set belonging to the manifold $N^n$.
+\begin{align*}
+   U \cap S
+&= \{ u \in U \vert F(u) = c \} \\
+&= \{ u \in U \vert \psi \circ F(u) = 0 \} \\
+&= \{ u \in U \vert r^i \circ \psi \circ F(u) = 0 \} \\
+&= \{ u \in U \vert y^i \circ F(u) = 0 \} \\
+&= \{ u \in U \vert F^i(u) = 0 \},
+\end{align*}
+so that $U \cap S$ is ``cut out'' by the $m$ component functions of
+$F$.
+
+We conclude by altering the chart $(U, \phi)$ to obtain a chart
+$(\bar{U}, \Phi)$ for which $F^i$ are coordinate functions of $\Phi$.
+In coordinates,
+$$
+  F_{\ast, p}
+= \mathrm{Jac}(F)|_p
+= \left[\frac{\partial F^i}{\partial x^j}(p)\right]
+$$
+is surjective by assumption. Therefore the Jacobian has an $m \times
+m$ minor with nonzero determinant. Without loss of generality let this
+be the minor consisting of the first $m$ columns. Define
+$\Phi: U \to \mathbb{R}^n$ by
+$\Phi(u) = (F^1(u), \dots, F^m(u), x^{m+1}, \dots, x^n)$. Then
+$\mathrm{Jac}(\Phi)|_p$
+can be decomposed as a block-diagonal matrix with the full-rank
+$m \times m$ block in the top left and $I_{(n - m) \times (n - m)}$ in
+the bottom right, which has nonzero determinant.
+
+\end{proof}
