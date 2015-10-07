@@ -626,5 +626,237 @@ $\mathrm{Jac}(\Phi)|_p$
 can be decomposed as a block-diagonal matrix with the full-rank
 $m \times m$ block in the top left and $I_{(n - m) \times (n - m)}$ in
 the bottom right, which has nonzero determinant.
-
 \end{proof}
+
+\subsection{Lie groups}
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Spheres have a smooth manifold structure. Let
+      $F: \mathbb{R}^{n+1} \to \mathbb{R}$ be the map
+      $$
+        F(x^1, \dots, x^{n+1})
+      = \sum_{i=1}^n (x^i)^2 \geq 0.
+      $$
+      Since this is a map between Euclidean spaces, the differential
+      of $F$ is exactly its Jacobian
+      \begin{align*}
+         \mathrm{Jac}(F)
+      &= \left[\begin{array}{c c c c}
+           \frac{\partial F}{\partial x^1} &
+           \frac{\partial F}{\partial x^2} &
+           \dots &
+           \frac{\partial F}{\partial x^3}
+         \end{array}\right] \\
+      &= \left[\begin{array}{c c c c}
+           2x^1 &
+           2x^2 &
+           \dots &
+           2x^n
+         \end{array}\right]
+      \end{align*}
+      so this linear transformation fails to be surjective only at
+      $\mathbf{0}$. Hence, every $r^2 > 0$ is a regular value, and so
+      for each $r^2$ we have a submanifold $S^n_{r^2} = F^{-1}(r^2)$.
+    }
+    \item{
+      The \emph{special linear group} $\mathrm{SL_n(\mathbb{R})}$ is
+      the group of $n \times n$ matrices with determinant 1. We have a
+      map
+      $\det: \mathrm{GL}_n(\mathbb{R}) \to \mathbb{R} \setminus \{ 0
+      \}$, and $\mathrm{GL}_n(\mathbb{R}) = \det^{-1}(1)$.
+
+      Let $A = [a^i_j] \in \mathrm{GL}_n(\mathbb{R})$. Again this is a
+      map between Euclidean spaces, and
+      \begin{align*}
+         \mathrm{Jac}(\det)
+      &= \left[ \frac{\partial \det}{\partial a^i_j} \right].
+      \end{align*}
+      Using cofactor expansion in the $i$th row and writing
+      $C^i_j$ for the $i,j$th minor of $A$,
+      \begin{align*}
+         \det(a^i_j)
+      &= (-1)^{i+1} a_1^i \det(C_1^i)
+       + \cdots
+       + (-1)^{i+n} a_n^i \det(C_n^i),
+      \end{align*}
+      and $a_1^i, \dots, a_n^i$ do not appear in any of the minors
+      $C^i_1, \dots, C^i_n$. Therefore the Jacobian fails to surject
+      if and only if
+      $
+        \frac{\partial \det}{\partial a^i_j}
+      = (-1)^{i+j} \det(C_j^i)
+      $
+      which is true if and only if $\det C_j^i = 0$, which is true if
+      and only if $\det A = 0$, a contradiction since
+      $A \in \mathrm{GL}_n(\mathbb{R})$. Therefore
+      $\mathrm{SL}_n(\mathbb{R})$ is a $C^\infty$ $(n^2 -
+      1)$-manifold. Since it has a group structure as well, this is a
+      Lie group. (In general closed subsets of Lie groups that are
+      submanifolds are Lie groups).
+    }
+    \item{
+      Consider the extra-special linear group
+      $\mathrm{SL}_2(\mathbb{R})$. This is of dimension $3 = 2^2 - 1$
+      and has three one-dimensional subgroups:
+      \begin{align*}
+         K
+      &= \left\{
+           \left.
+             \left(
+               \begin{array}{r r}
+                 \cos \theta & -\sin \theta \\
+                 \sin \theta &  \cos \theta
+               \end{array}
+             \right)
+           \right\vert
+           \theta \in \mathbb{R}
+         \right\}, \\
+         N
+      &= \left\{
+           \left.
+             \left(
+               \begin{array}{r r}
+                 1 & s \\
+                 0 & 1
+               \end{array}
+             \right)
+           \right\vert
+           s \in \mathbb{R}
+         \right\} \\
+      &\simeq \mathbb{R}, \\
+         A
+      &= \left\{
+           \left.
+             \left(
+               \begin{array}{r r}
+                 e^t & 0 \\
+                 0   & e^{-t}
+               \end{array}
+             \right)
+           \right\vert
+           t \in \mathbb{R}
+         \right\} \\
+      &\simeq \mathbb{R}.
+      \end{align*}
+      However $K \simeq S^1$, since there is an isomorphism from
+      $\mathbb{R} / 2 \pi \mathbb{Z}$.
+
+      There is a theorem of Iwasawa that
+      $K \times N \times A \to \mathrm{SL}_2(\mathbb{R})$ given by
+      $(k, n, a) \mapsto k n a$ is a diffeomorphism (not a
+      group homomorphism) so that
+      $\mathrm{SL}_2(\mathbb{R})$ is diffeomorphic to the handlebody
+      $S^1 \times \mathbb{R}^2$.
+
+      We can also see that the tangent space at the identity
+      $T_I \mathrm{SL}_2(\mathbb{R})$ has basis
+      \begin{align*}
+        \left.\frac{\partial}{\partial \theta}\right|_{\theta = 0}
+      &= \left[
+           \begin{array}{r r}
+             0 & -1 \\
+             1 &  0
+           \end{array}
+         \right], \\
+         \left.\frac{\partial}{\partial s}\right|_{s = 0}
+      &= \left[
+           \begin{array}{r r}
+             0 &  1 \\
+             0 &  0
+           \end{array}
+         \right], \\
+      \left.\frac{\partial}{\partial t}\right|_{t = 0}
+      &= \left[
+           \begin{array}{r r}
+             1 &  0 \\
+             0 & -1
+           \end{array}
+         \right],
+      \end{align*}
+      all of which have trace zero. We can show that zero is a regular
+      value of the trace on the set of $2 \times 2$ matrices, and
+      indeed $T_I \mathrm{SL}_2(\mathbb{R})$ is the submanifold of all
+      trace 0 matrices.
+    }
+    \item{
+      The Euclidean/orthogonal group $\mathcal{O}(n)$ is
+      \begin{align*}
+         \mathcal{O}(n)
+      &= \{ A \in M^{n \times n} \vert \| A v \| = \| v \| \forall v
+         \} \\
+      &= \{ A \in \mathrm{GL}_n(\mathbb{R}) \vert
+            \| A v \| = \| v \|
+         \} \\
+      &=  \{ A \in \mathrm{GL}_n(\mathbb{R}) \vert
+            \langle A v, A w \rangle = \langle v, w \rangle
+         \} \\
+      &= \{ A \in \mathrm{GL}_n(\mathbb{R}) \vert
+            v^T A^T A w = v^T w
+         \} \\
+      &= \{ A \in \mathrm{GL}_n(\mathbb{R}) \vert
+            A^T A = \mathrm{Id}
+         \} \\
+      &= \{ A \in \mathrm{GL}_n(\mathbb{R}) \vert
+            \text{$A$'s columns form a basis}
+         \} \\
+      &= \{ A \in \mathrm{GL}_n(\mathbb{R}) \vert
+            \text{$A$'s rows form a basis}
+         \} \\
+      \end{align*}
+      where $\|v\| = \langle v, v \rangle^{\frac{1}{2}}$ and
+      $\langle v, w \rangle = v^T w$. This is a subgroup (since
+      $(AB)^T(AB) = B^T A^T A B = B^T B = I$) of the
+      isometry group of Euclidean space.
+      The full isometry group of $\mathbb{R}^n$ is
+      $\mathcal{O}(n) \ltimes \mathbb{R}^n$, which includes
+      translations by an arbitrary vector.
+
+      The map $f: \mathrm{GL}_n(\mathbb{R}) \to
+      \mathrm{GL}_n(\mathbb{R})$ given by $f(A) = A^T A$ has values in
+      the symmetric matrices $\mathrm{Sym}_n$. The dimension of
+      $\mathrm{Sym}_n$ is $\sum_{i=1}^n i = \frac{n(n+1)}{2}$, and
+      $T_B \mathrm{Sym}_n = \mathrm{Sym}_n$ for any $B \in
+      \mathrm{Sym}_n$.
+
+      We wish to know when the pushforward
+      $$
+        f_{\ast, A} :
+            T_A \mathrm{GL}_n(\mathbb{R})
+        \to T_{f(A)} \mathrm{Sym}_n(\mathbb{R})
+      $$
+      is surjective. (This is really a map from
+      $\mathrm{Mat}_n(\mathbb{R}) \to \mathrm{Sym}_n(\mathbb{R})$.
+      Let $X \in T_A(\mathrm{GL}_n(\mathbb{R})$. Let
+      $c(t) = A + tX$, so that $c(0) = A$ and $c^\prime(0) = X$. Then
+      $f_{\ast, A}(X) = (f \circ c)^\prime(0)$ and
+      \begin{align*}
+         (f \circ c)(t)
+      &= c(t)^T c(t) \\
+      &= (A + tX)^T(A + tX) \\
+      &= A^TA + t(A^T X + X^T A) + t^2 X^T X,
+      \end{align*}
+      so $f_{\ast, A}(X) = A^T X + X^T A$. To check surjectivity, we
+      wish to exhibit a matrix $X \in \mathrm{Mat}_n$ such that
+      $A^T X + X^T A = Y$ for any $Y$. Let
+      $X = \frac{1}{2} (A^T)^{-1} Y$ so that
+      \begin{align*}
+         A^T X + X^T A
+      &= \frac{1}{2}
+           A^T (A^T)^{-1} Y
+       + \frac{1}{2}
+           Y^T((A^T)^{-1})^T \\
+      &= \frac{1}{2} Y + \frac{1}{2} Y^T \\
+      &= Y.
+      \end{align*}
+      Therefore $f_{ast, A}$ is surjective, so
+      $\mathcal{O}(n) = f^{-1}(I)$ is a $C^\infty$ manifold of
+      dimension
+      $$
+        n^2 - \frac{(n+1)n}{2}
+      = \frac{n^2 - n}{2}
+      = \frac{n(n-1)}{2}.
+      $$
+    }
+  \end{enumerate}
+\end{xmpl}
