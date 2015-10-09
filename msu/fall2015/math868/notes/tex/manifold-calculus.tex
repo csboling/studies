@@ -857,6 +857,140 @@ the bottom right, which has nonzero determinant.
       = \frac{n^2 - n}{2}
       = \frac{n(n-1)}{2}.
       $$
+
+      The orthogonal group is not connected -- it has two connected
+      components. To see this consider that
+      $\det: \mathcal{O}(n) \to \{ \pm 1 \}$,
+      since
+      $$
+        \det(A A^T)
+      = \det (A) \det (A^T)
+      = (\det A)^2
+      = \det(I) = 1,
+      $$
+      and note that this is a surjective group homomorphism.
+      The special orthogonal group is given by
+      $$
+        \mathrm{SO}(n)
+      = \ker(\det)
+      = \{A \vert A^TA = I, \det A = 1 \}.
+      $$
+      Both
+      $\mathrm{SO}(n)$ and $\det^{-1}(-1)$ (not a group) are clopen,
+      so these are two connected components.
+
+      Furthermore $T_I \mathcal{O}(n) = T_I \mathrm{SO}(n)$. Let
+      $X \in T_I \mathcal{O}(n)$ and define a curve by
+      $c(t) = I + tX \subset \mathrm{SO}(n)$, which has $c(0) = I$ and
+      $c^\prime(0) = X$. Then
+      $$
+      c(t)^T c(t) = I
+      $$
+      and differentiating this equation gives
+      $$
+        c^\prime(0)^T
+        c(0)
+      + c(0)^T c^\prime(0)
+      = 0
+      $$
+      i.e. $X^TI + I^T X = X^T + X = 0$, so $X^T = -X$. Therefore
+      $T_I\mathrm{SO}(n)$ is the space of skew-symmetric $n \times n$
+      real matrices, which also has dimension
+      $\frac{n(n-1)}{2}$.
     }
   \end{enumerate}
 \end{xmpl}
+
+In a Lie group, the tangent space at the identity element is called
+the \emph{Lie algebra}.
+
+\begin{tabular}{c | c}
+  $n$ &
+  $\dim \mathcal{O}(n) = \dim \mathrm{SO}(n) = \frac{n(n-1)}{2}$ \\
+  \hline \\
+  1 & 0 ($\mathcal{O}(n) \simeq \mathbb{Z}_2 = \langle x \mapsto -x \rangle$) \\
+  2 & 1 ($\mathrm{SO}(2)$ is $2 \times 2$ rotation matrices) \\
+  3 & 3 ($\mathrm{SO}(3) \simeq \mathbb{R}P^3$)
+\end{tabular}
+Also observe that $\mathcal{O}(n)$ and $\mathrm{SO}(n)$ are compact,
+since they are closed (as preimages $f^{-1}(I)$ of functions into
+$\mathbb{R}^{n^2}$) and bounded: a matrix in
+$\mathcal{O}(n)$ has columns that form an orthonormal basis of
+$\mathbb{R}^n$. In particular, the columns each have Euclidean norm 1.
+Therefore each entry $a^i_j$ satisfies $-1 \leq a^i_j \leq 1$.
+
+Note that since columns of $\mathrm{SO}(3)$ form a basis,
+$\mathrm{SO}(3)$ acts transitively on $S^2$, so
+$S^2 = \mathrm{SO}(3) / \mathrm{SO}(2)$, and more generally
+$S^n = \mathrm{SO}(n+1) / \mathrm{SO}(n)$.
+
+Now we show a sketch of how $\mathrm{SO}(3) \simeq \mathbb{R}P^3$.
+Take the $n$-disk
+$\mathbb{D}^n = \{ x \in \mathbb{R}^n \vert \| x \| \leq 1 \}$ and its
+boundary $\partial D^n = S^{n-1}$. To exhibit a homeomorphism (in fact
+a diffeomorphism exists) we therefore wish to identify
+$\mathrm{SO}(3)$ with points in $\mathbb{D}^3$ with opposite boundary
+points identified.
+
+Let $A \in \mathrm{SO}(3)$. Then 1 is an eigenvalue of $A$, since
+$p(\lambda) = \det(A - \lambda I)$ is a cubic polynomial, and
+therefore has at least one real root by the intermediate value
+theorem, since the leading term looks like $cx^3$ and so some zero of
+$p$ is real. If this root is one we are done. If not, it is -1, so
+$A$ flips a line $L$ and leaves fixed as a set the perpendicular plane
+$L^\perp$. Therefore the restriction $A\restrict_{L^\perp}$ is a
+linear isometry with eigenvalue -1. Geometrically this map reflects
+$\L^\perp$ through $L$, and so the vector at their intersection is
+unchanged, so this has an eigenvalue 1.
+
+Let $L$ be a line fixed by $A$. Then $A\restrict_{L^\perp}$ acts as a
+rotation because $\det(A\restrict_{L^\perp}) = 1$. Use this rotation
+to put an arrow on $L$ satisfying the right hand rule, and let $v$ be
+a unit vector in that direction. This is only well-defined provided
+the angle of rotation is not an integer multiple of $\pi$. We have
+then defined a map $\mathrm{SO}(3) \to \mathbb{D}^3(pi) / \sim$ given
+by
+$A \mapsto \theta v$.
+
+\section{Rank of a map}
+Let $F: N^n \to M^m$ be a smooth map and $p \in N^n$.
+\begin{defn}[Rank]
+The \emph{rank of $F$ at $p$} is the rank of its differential
+$F_{\ast,p} : T_pN \to T_{f(p)}M$.
+\end{defn}
+
+The maximal allowable rank of an
+$m \times n$ matrix is $\min\{m, n\}$.
+\begin{itemize}
+  \item[($n = m$)]{
+    If $F$ has full rank at $p$, then $F_{\ast,p}$ is invertible, so
+    $F$ is a local diffeomorphism at $p$.
+  }
+  \item[($n < m$)]{
+    If $F$ has maximal rank $n$ at $p$, then $F_{\ast,p}$ is injective. We
+    say that $F$ is an \emph{immersion} at $p$. The prototype of this
+    case is the inclusion map $\mathbb{R}^n \hookrightarrow \mathbb{R}^{n+k}$.
+  }
+  \item[($n > m$)]{
+    If $F$ has maximal rank $m$ at $p$, then $F_{\ast, p}$ is
+    surjective. We say that $F$ is a \emph{submersion} at $p$. The
+    prototype of this case is the projection map
+    $\mathbb{R}^n \to \mathbb{R}^{n-k}$.
+  }
+\end{itemize}
+
+We will show that when $F$ is an immersion/submersion that local
+coordinates can be identified such that locally $F$ looks like these
+prototype functions.
+
+\begin{remark}
+If $F_{\ast, p}$ has maximal rank, then $F_{\ast, u}$ does as well for
+all $u$ sufficiently close to $p$, i.e. having maximal rank is an open
+condition. Choose coordinates $(U, x^1, \dots, x^n)$ at $p$
+and $(V, y^1, \dots, y^m)$ at $f(p)$. Let
+$F^i = y^i \circ F : U \to \mathbb{R}$ be component functions. Then
+$F_{\ast, p} = \left[\frac{\partial F^i}{\partial x^j}\right]$ has
+rank $k$. Then there is some $k \times k$ minor with nonzero
+determinant. Any minor of larger size has zero determinant,
+ and the determinant is a continuous function.
+\end{remark}
