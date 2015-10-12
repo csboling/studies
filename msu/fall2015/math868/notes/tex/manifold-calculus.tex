@@ -994,3 +994,178 @@ rank $k$. Then there is some $k \times k$ minor with nonzero
 determinant. Any minor of larger size has zero determinant,
  and the determinant is a continuous function.
 \end{remark}
+
+We wish to give normal forms for maps with constant rank (potentially
+not maximal) on an open neighborhood.
+
+\begin{theorem}
+Let $O \subset \mathbb{R}^n$ be an open set and
+$F: O \to \mathbb{R}^m$ be smooth.
+If $F \in C^\infty$ and has constant rank $k$ on a neighborhood of
+some point $p \in O$, then $F$ has a \emph{normal form} in a
+neighborhood of $p$, i.e. there exist neighborhoods
+$\tilde{U}$ of $p$ and $\tilde{V}$ of $F(p)$ and
+$C^\infty$ maps
+$\tilde{\phi}: \tilde{U} \to \tilde{\phi}(\tilde{U}) \subset \mathbb{R}^n$
+that carries $p \mapsto 0$ and
+$\tilde{\psi} : \tilde{V} \to \tilde{\psi}(\tilde{V})$ that carries
+$F(p) \mapsto 0$ such that
+$$
+  (\tilde{\psi} \circ F \circ \tilde{\phi}^{-1})
+    (r^1, \dots, r^n)
+= (r^1, \dots, r^k, 0, \dots, 0).
+$$
+\end{theorem}
+
+\begin{remark}
+Tu's appendix has a proof of the special case $n = m = 2$ and $k = 1$,
+which models more or less the proof of the preimage theorem. Tu also
+explains that this is equivalent to the inverse function theorem.
+\end{remark}
+
+Assuming this statement for Euclidean spaces, we deduce its extension
+to manifolds as follows.
+
+\begin{theorem}[Constant Rank Theorem]
+Let $F: N^n \to M^m$ be a smooth map with constant rank in some
+neighborhood of a point $p$. Then there exist coordinate charts
+$(U, \phi)$ and $(V, \psi)$ centered at $p$, $F(p)$ such that
+$\psi F \phi^{-1}: \phi(U) \to \psi(V)$ is given by
+$$
+  \psi F \phi^{-1}
+    (r^1, \dots, r^n)
+= (r^1, \dots, r^k, 0, \dots 0).
+$$
+\end{theorem}
+
+\begin{proof}
+Choose coordinates $(U_1, \phi_1)$ and $(V_1, \psi_1)$ centered at
+$p$, $F(p)$ such that $F$ has constant rank $k$ on $U_1$. Then
+$\psi_1 F \phi_1^{-1}$ is a map between Euclidean spaces with a rank
+that coincides with the rank of $F$ (by the chain rule). Therefore
+from the theorem above we have charts on $\mathbb{R}^n$ and
+$\mathbb{R}^m$ given by
+$(\tilde{U}, \tilde{\phi})$ and $(\tilde{V}, \tilde{\psi})$ such that
+$$
+  \tilde{\psi_1} \psi_1 F \circ \phi_1^{-1} \tilde{\phi_1}^{-1}
+    (r^1, \dots, r^n)
+=   (r^1, \dots, r^k, 0, \dots 0)
+$$
+so we let $\phi = \tilde{\phi_1} \circ \phi_1$ and
+$\psi = \psi_1 \circ \tilde{\psi_1}$.
+\end{proof}
+
+\begin{corol}
+If $F: N^n \to M^m$ is an immersion at $p$ then there exist
+coordinates centered at $p$, $F(p)$ such that $F$ locally has the form
+of an inclusion $(r^I) \mapsto (r^I, 0, \dots, 0)$. If $F$ is a
+submersion at $p$ then there are charts that make it locally look like
+a projection.
+\end{corol}
+
+\begin{defn}
+We say a map $F$ is a submersion (immersion) if it is at all points $p
+\in N^n$.
+\end{defn}
+
+\begin{corol}
+If $F$ is a submersion, then it is an open map.
+\end{corol}
+
+\begin{proof}
+It is sufficient to show that a linear projection $\pi$ is an open map.
+\end{proof}
+
+\begin{theorem}[Regular value theorem for maps of constant rank]
+Let $F: N^n \to M^m$ and $c \in M^m$ with $F^{-1}(c) \neq
+\varnothing$. If $F$ has constant rank $k$ on a neighborhood of
+$F^{-1}(c)$, then the level set $S = F^{-1}(c)$ is an embedded
+(regular) smooth submanifold of $N^n$ of codimension $k$.
+\end{theorem}
+
+\begin{proof}
+Let $p \in F^{-1}(c)$. We wish to show that $p$ has an adapted
+coordinate chart $U$, i.e. one for which $S \cap U$ is defined by the
+common vanishing of $k$ coordinate functions. Let $(U, \phi)$ and
+$(V, \psi)$ be centered charts at $p$, $F(p)$ as in the proof of the
+constant rank theorem, so that
+$\psi F \phi^{-1} = (r^1, \dots, r^k, 0, \dots 0)$. Then
+\begin{align*}
+   U \cap S
+&= \{ u \in U ~\vert~ F(u) = c \} \\
+&= \{ u \in U ~\vert~ \psi F(u) = 0 \} \\
+&= \{ u \in U ~\vert~ r^i \psi F(u) = 0 \forall i = 1, \dots, m \} \\
+&= \{ u \in U ~\vert~ \phi(u) \text{ has its first $k$ coordinates 0}
+   \} \\
+&= \{ u \in U ~\vert~ (r^i \circ \phi)(u), i=1, \dots, k \} \\
+&= \{ u \in U ~\vert~ x^i(u) = 0, i=1, \dots, k \}.
+\end{align*}
+\end{proof}
+
+We are now interested in cases when the image of a smooth map $F: N
+\to M$ is or is not an embedded submanifold of $M$.
+
+\begin{enumerate}
+  \item{
+    If $F$ is surjective, its image is an embedded submanifold.
+  }
+  \item{
+    If $N$ is compact, $M$ is connected, and $F$ is a submersion then
+    $F$ is surjective.
+  }
+  \item{
+    For example, $F: \mathbb{R} \mapsto \mathbb{R}^2$ given by
+    $f(t) = (t^2, t^3)$ (the \emph{cuspoidal cubic}, so called since
+    $y^2 = x^3$) is \emph{not} an embedded submanifold. We see that
+    $$
+      F_{ast, t}
+        \left(
+          \frac{\dif}{\dif t}
+        \right)
+    = \left[
+        \begin{array}{c}
+          2t \\ 3t^2
+        \end{array}
+      \right]
+    $$
+    which is injective except when $t = 0$, i.e. $F$ is an immersion
+    except at $t = 0$.
+  }
+  \item{
+    A non-injective immersion is given by
+    $F(t) = (t^2 - 1, t^3 - t)$, which has differential
+    $$
+      F_{ast, t}
+        \left(
+          \frac{\dif}{\dif t}
+        \right)
+    = \left[
+        \begin{array}{c}
+          2t \\ 3t^2 - 1
+        \end{array}
+      \right]
+    $$
+    which is never zero. The locus of points
+    $x = t^2 - 1$ is given by
+    $$
+      y^2
+    = (t^3 - t)^2
+    = (tx)^2
+    = x^3 + x^2.
+    $$
+    This is called the \emph{nodal cubic}, and is an immersion but not
+    an embedding because the origin has no neighborhood that looks
+    like a copy of $\mathbb{R}$ in $\mathbb{R}^2$.
+  }
+  \item{
+    An injective immersion whose image is not an embedded submanifold
+    is the map $F: (-\infty, 1) \to \mathbb{R}^2$ given by
+    $$
+      F(t)
+    = \left(
+        \frac{t^2 - 1}{t^2 + 1},
+        \frac{t(t^2 - 1)}{t^2 + 1}
+      \right)
+    $$
+  }
+\end{enumerate}
