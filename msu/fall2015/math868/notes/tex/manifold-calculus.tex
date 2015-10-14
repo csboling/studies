@@ -952,7 +952,7 @@ then defined a map $\mathrm{SO}(3) \to \mathbb{D}^3(pi) / \sim$ given
 by
 $A \mapsto \theta v$.
 
-\section{Rank of a map}
+\section{Regular maps}
 Let $F: N^n \to M^m$ be a smooth map and $p \in N^n$.
 \begin{defn}[Rank]
 The \emph{rank of $F$ at $p$} is the rank of its differential
@@ -1169,3 +1169,69 @@ We are now interested in cases when the image of a smooth map $F: N
     $$
   }
 \end{enumerate}
+
+We have now seen a notion of a regular (or embedded) submanifold,
+where each point $s \in S \subset M$ has an adapted chart $(U, \phi)$
+realizing $U \cap S$ as the common zeros of the coordinate
+function. We have also seen that if $S$ is a regular submanifold then
+it is a smooth manifold when endowed with the subspace topology. We
+have also seen that the image of an immersion is not in general a
+regular submanifold, even if the immersion is injective.
+
+\begin{defn}[Smooth embedding]
+A smooth map $F: N \to M$ is an \emph{embedding} if $F$ is a
+one-to-one immersion and $F : N \to F(N)$ is a homeomorphism when
+$F(N) \subset M$ is given the subspace topology.
+\end{defn}
+
+We wish to show that regular submanifolds of some manifold $M$ are in
+unique correspondence with images $F(N)$ of smooth embeddings.
+
+\begin{prop}
+Let $F: N \to M$ be a smooth embedding. Then $F(N) \subset M$ is a
+regular submanifold of $M$.
+\end{prop}
+
+\begin{proof}
+Let $q \in F(N)$. We wish to show that $q$ has an adapted chart.
+Since $F$ is injective, there is a unique $p \in N$ such that
+$F(p) = q$. Let $(U, x^1, \dots, x^n)$ and $(Y, y^1, \dots, y^n)$ be
+immersion charts at $p$ and $F(p) = q$, with $F(U) \subset V$, such that
+$(y^i \circ f)(u) = x^i(u)$, $i = 1, \dots, n$
+and $(y^i \circ f)(u) = 0$ for $i = n+1, \dots, m$.
+
+Since $F$ is a homeomorphism onto its image and $F(N)$ has the
+subspace topology, $F(U)$ is an open set in $F(N)$ since $U$ is open
+in $N$. Therefore there exists some $V^\prime$ open in$M$ such that
+$F(U) = F(N) \cap V^\prime$. Then $(V^\prime, y^1, \dots, y^m)$ is an
+adapted chart, since in $V^\prime$ we have
+$$
+  V^\prime \\cap F(N)
+= \{ v \in V^\prime ~\vert~ y^i(v) = 0, i = n+1, \dots, m \}.
+$$
+\end{proof}
+
+\begin{prop}
+Suppose $N^n \subset M^m$ is a regular submanifold. Then the inclusion
+$i : N^n \to M^m$ is an embedding.
+\end{prop}
+
+\begin{proof}
+Since $i$ is a homeomorphism onto its image, we need only to check
+that $i$ is an immersion. Let $n \in N$. Since $N \subset M$ and $N$ is a regular
+submanifold of $M$, there exists a coordinate chart for $M$ centered
+at $n$ adapted for the subset $N$. Then
+$$
+  V \cap N
+= \{ v \in V ~\vert~ y^{n+1}(v) = \cdots = y^m(v) = 0 \}.
+$$
+Since $n \in N$, the domain, we have that
+$(V \cap N, y^1, \dots, y^n)$ is a coordinate chart in $N$'s induced
+manifold structure. On $V \cap N$,
+$i(y^1, \dots, y^n) = (y^1, \dots, y^n, 0, \dots 0)$, so $i$ is an immersion.
+\end{proof}
+
+A topology on the image of a one-to-one immersion that is not the
+subspace topology is the topology on $F(N)$ for which
+$F: N \to F(N)$ is declared to be a homeomorphism, i.e.
+$V \subset F(N)$ is open if and only if $F^{-1}(V)$ is open in $N$.
