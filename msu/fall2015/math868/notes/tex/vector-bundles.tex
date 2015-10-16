@@ -1,0 +1,79 @@
+\section{Vector bundles}
+
+A vector bundle is informally a family of vector spaces smoothly
+parameterized by a smooth manifold.
+
+\begin{xmpl}
+We can think of $\mathbb{R}^3$ as a family of copies of $\mathbb{R}^2$
+parameterized by the line $x = y = 0$. A plane such as $z = z_0$ is not
+a subspace since it does not include the origin, but it has a natural
+vector space structure given by
+$$
+  (x_1, y_1, z_0) + \alpha(x_2, y_2, z_0)
+= (x_1 + \alpha x_2, y_1 + \alpha y_2, z_0).
+$$
+\end{xmpl}
+
+\begin{defn}[Fiber bundle]
+Let $\pi: E \to B$ and $\tilde{\pi}: \tilde{E} \to \tilde{B}$ be
+smooth surjective maps. Call $E$ the total space and $B$ the base
+space. For a point $b \in B$,
+we write $E_b = \pi^{-1}(b) = \{e \in E ~\vert~ \pi(e) = b\}$ and call
+this the \emph{fiber} of $\pi$ above $b$.
+
+A map $\phi: E \to \tilde{E}$ is \emph{fiber-preserving} if
+$\tilde{\pi} \circ \phi = \pi$, i.e.
+$\phi\restrict_{E_b} : E_b \to \tilde{E}$ satisfies
+$\phi\restrict_{E_b} (E_b) \subset \tilde{E}_b$.
+
+$\pi$ is said to be \emph{locally trivial of rank $n$} when
+\begin{enumerate}[(a)]
+  \item{
+    each fiber $E_b$, $b \in B$ has the structure of a real vector
+    space isomorphic to $\mathbb{R}^n$.
+  }
+  \item{
+    for each $b \in B$, there exists a neighborhood $U$ about $b$ and
+    a fiber-preserving map
+    (to $\tilde{\pi} : U \times \mathbb{R}^n$ given by $\pi(u, v^I) = u)$)
+    $\phi : \pi^{-1}(U) \to U \times \mathbb{R}^n$ such that
+    $\phi\restrict_{E_u} \to \{ u \} \times \mathbb{R}^n$ is a linear
+    isomorphism.
+  }
+\end{enumerate}
+A \emph{rank $n$ vector bundle} is a triple $(\pi, E, B)$ where
+$\pi: E \to B$ is a surjective smooth map that is locally trivial of
+rank $n$.
+\end{defn}
+
+\begin{xmpl}
+Let $M$ be a smooth manifold. The \emph{product bundle} is defined by
+the map $\pi: M \times \mathbb{R}^n \to M$ given by $\pi(m, v) =
+m$. The fiber $E_m = \{m\} \times \mathbb{R}^n$ has a natural vector
+space structure. Let $m \in M$ and take the open set $U = M$. Then
+$\pi^{-1}(U) = \pi^{-1}(M) = M \times \mathbb{R}^n$, and the local
+trivialization is given by
+$\mathrm{id}_{M \times \mathbb{R}^n}: \pi^{-1}(U) = M \times \mathbb{R}^n \to \mathbb{M} \times
+\mathbb{R}^n$
+\end{xmpl}
+
+\begin{xmpl}[Restricting bundles to regular submanifolds]
+Let $S \subset B$ be a regular submanifold, and
+$\pi: E \to B$ be a vector bundle. Write
+$E\restrict_S \triangleq \pi^{-1}(S)$. We can show directly that
+$\pi\restrict_{E\restrict_{S}}: E\restrict_S \to S$ is a vector bundle
+over $B$. We require $S$ to be embedded so that $E\restrict|_S$ has a
+manifold structure.
+\end{xmpl}
+
+We could also consider \emph{sub-bundles}, where instead we restrict
+each fiber to a subspace.
+
+\subsection{Maps between bundles}
+\begin{defn}
+Let $\pi: E \to N$ and $\tilde{\pi}: F \to M$ be smooth vector bundles
+(of possibly different rank). A \emph{bundle map} is a pair
+$(\bar{f}, f)$ of maps $\bar{f}: E \to F$ and $f: N \to M$ such that
+$f \circ \pi = \tilde{\pi} \circ \tilde{f}$.
+
+\end{defn}

@@ -328,3 +328,85 @@ so let $(S \cap V, y^1, \dots, y^s)$ be coordinates on $S$ near
 $F(n)$. Then $y^i \circ F = y^i \circ \tilde{F} : U \to \mathbb{R}$ is
 $C^\infty$ for all $i=1, \dots, s$.
 \end{proof}
+
+\begin{xmpl}[Kronecker's winding line]
+Regard $S^1 \subset \mathbb{C} \simeq \mathbb{R}^2$. Take
+$\alpha \in \mathbb{R} \setminus \mathbb{Q}$. Take
+$\mathbb{R} \to S^1 \times S^1 = T^2 \subset \mathbb{C} \times
+\mathbb{C} \simeq \mathbb{R}^4$ given by
+$$
+  f(t)
+= (e^{2 \pi i t}, e^{2 \pi i \alpha t})
+= (\cos 2 \pi t, \sin 2 \pi t, \cos 2 \pi \alpha t, \sin 2 \pi \alpha t).
+$$
+This is a group homomorphism from the additive group on $\mathbb{R}$ to the direct
+product $S^1 \times S^1$.
+
+Let $f(t) = (1, 1)$. Then $t \in \mathbb{Z}$ and $t \in \alpha
+\mathbb{Z}$. But $\alpha$ is irrational, so $\ker f = 0$ and therefore
+$f$ is injective.
+
+The differential is given by
+$$
+  f_{\ast, t}
+= \left[
+    \begin{array}{r}
+      -2 \pi \sin 2 \pi t \\
+       2 \pi \cos 2 \pi t \\
+      -2 \pi \alpha \sin 2 \pi \alpha t \\
+       2 \pi \alpha \cos 2 \pi \alpha t
+    \end{array}
+  \right]
+$$
+which is nowhere zero. Therefore $f(\mathbb{R})$ is an immersed
+submanifold, a subgroup of $S^1 \times S^1$, and in fact
+$f(\mathbb{R})$ is a dense subset of $S^1 \times S^1$.
+
+However, $f$ is not an embedding since
+$f: \mathbb{R} \to f(\mathbb{R})$ is not a homeomorphism when
+$f(\mathbb{R})$ has the subspace topology. Note that $0$ is not a
+limit point of $\mathbb{Z} \subset \mathbb{R}$, but $f(0)$ is a limit
+point of $f(\mathbb{Z})$, and limit points are invariant under
+homeomorphism.
+
+Let $\varepsilon > 0$. We wish to find $k \in \mathbb{Z}$ such that
+$\| f(0) - f(k) \| < \varepsilon$ with the Euclidean norm on
+$\mathbb{R}^4$. Since $f$ is injective, $f(\mathbb{Z})$ is an infinite
+subset of the compact space $S^1 \times S^1$, and therefore has an
+accumulation point $(z, w)$. Therefore let $n_1, n_2 \in \mathbb{Z}$
+so that $\| f(n_1) - (z, w) \| < \frac{\varepsilon}{2}$ and
+$\| f(n_2) - (z, w) \| < \frac{\varepsilon}{2}$. Let $k = n_1 -
+n_2$. Then
+\begin{align*}
+   \| f(k) - f(0) \|
+&= \| (e^{2 \pi i(n_1 - n_2)}, e^{2 \pi i \alpha (n_1 - n_2)})
+    - (1, 1) \| \\
+&= \| (e^{-2 \pi i n_2}, e^{-2 \pi i n_2})
+      (e^{2 \pi i n_1} - e^{2 \pi i n_2},
+       e^{2 \pi i \alpha n_1} - e^{2\pi i \alpha n_2}) \| \\
+&\leq K\|f(n_1) - f(n_2)\|
+ <    K \tilde{\varepsilon}.
+\end{align*}
+\end{xmpl}
+
+\begin{prop}
+If $F: N \to M$ is an injective immersion with $N$ compact, then $F$
+is an embedding.
+\end{prop}
+\begin{proof}
+We need to show that when $F(N)$ is endowed with the subspace topology,
+$F: N \to F(N)$ is a homeomorphism from a from a compact space to a
+Hausdorff space and is continuous and bijective and has a continuous
+closed inverse.
+\end{proof}
+
+\begin{defn}[Proper map]
+Let $F: X \to Y$ be continuous. $F$ is a \emph{proper map} when
+$F^{-1}(K)$ is compact whenever $K$ is compact.
+\end{defn}
+
+The Kronecker winding map is not proper.
+
+\begin{prop}
+A proper injective immersion is an embedding.
+\end{prop}
