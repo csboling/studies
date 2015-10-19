@@ -74,6 +74,172 @@ each fiber to a subspace.
 Let $\pi: E \to N$ and $\tilde{\pi}: F \to M$ be smooth vector bundles
 (of possibly different rank). A \emph{bundle map} is a pair
 $(\bar{f}, f)$ of maps $\bar{f}: E \to F$ and $f: N \to M$ such that
-$f \circ \pi = \tilde{\pi} \circ \tilde{f}$.
-
+$f \circ \pi = \tilde{\pi} \circ \tilde{f}$. In this case
+$\bar{f}((E_1)_b) \subset (E_2)_{f(b)}$. For vector bundles we also
+require that $\bar{f}: (E_1)_b \to (E_2)_{f(b)}$ is linear.
 \end{defn}
+
+\begin{defn}[Isomorphism of vector bundles]
+We say that vector bundles $(\pi_1, E_1, B)$ and
+$(\pi_2, E_2, B)$ over $B$ are isomorphic if there exists a
+diffemorphism $\bar{f}: E_1 \to E_2$ such that
+$(\bar{f}, \id_B)$ is a bundle map.
+\end{defn}
+
+\begin{defn}
+We say that a rank $n$ vector bundle $\pi: E \to B$ is \emph{trivial} if it is
+isomorphic to the product bundle $p: B \times \mathbb{R}^n \to B$.
+\end{defn}
+
+\begin{xmpl}
+The M\"obius bundle is a nontrivial vector bundle of rank 1 over
+$S^1$. Take $E = [0, 1] \times \mathbb{R} / (0, t) \sim (1, -t)$. Then
+there is a map $E \to S^1 = [0, 1] / 0 \sim 1$
+\end{xmpl}
+
+\subsection{Tangent bundle}
+\begin{prop}
+Let $X$ be a set and $\mathscr{B}$ be a collection of
+subsets of $X$ such that $\cup_{B \in \mathscr{B}} B = X$.
+Suppose that for any $B_1, B_2 \in \mathscr{B}$, if $p \in B_1 \cap
+B_2$, $\exists B \in \mathscr{B}$ with $p \in B \subset B_1 \cap B_2$.
+Define $\tau = \{U ~\vert~ U = \cup B_\lambda, B_\lambda \in
+\mathscr{B}\}$.
+Then $\tau$ is a topology on $X$ and $\mathscr{B}$ is a basis for $\tau$.
+\end{prop}
+
+\begin{proof}
+$\varnothing = \cup_{B \in \varnothing} B$. $X \in \tau$ by
+assumption, and $\tau$ is closed under union. If $B_1, B_2 \in \mathscr{B}$,
+then $B_1 \cap B_2 \in \tau$.
+Let $U, V \in \tau$ with $U = \cup B_\lambda$,
+$V = \cup B_\mu$. Then
+$$
+  U \cap V
+= (\cup B_\lambda) \cap (\cup B_\mu)
+= \cup (B_\lambda \cap B_\mu)
+\in \tau.
+$$
+
+Let $U \in \tau$, $p \in U$. Write
+$U = \cup B_\lambda$, $B_\lambda \in \mathscr{B}$. Then
+$p \in B_\lambda \subset U$ for some $B_\lambda \in \mathscr{B}$ in
+the union.
+\end{proof}
+
+\begin{prop}
+Let $M$ be a manifold. Then $M$ has a countable basis consisting of
+coordinate charts.
+\end{prop}
+
+\begin{proof}
+Let $\mathcal{A} = \{ (U_\alpha, \phi_\alpha) \}$ be a maximal atlas
+of charts. Take $\mathscr{B} = \{ U_i \}$ to be a countable basis for
+$M$, since $M$ is second countable.
+
+Let $p \in U$. Then $\exists U_\alpha \in \mathcal{A}$ with
+$p \in U_\alpha$. There exists $U_{p, \alpha} \in \mathscr{B}$ with
+$p \in U_{p, \alpha} \subset U_\alpha$. Then
+$(U_{p, \alpha}, \phi_\alpha)$ is a chart, and
+$\{ U_{p, \alpha} \}$, omitting repetitions, is the desired countable
+basis of coordinate charts.
+\end{proof}
+
+\begin{defn}[Tangent bundle]
+As a set, $TM = \coprod_{p \in M} T_p M$, where $T_p M$ is the vector
+space of point derivations of $C_p^\infty(M)$. We may also write
+$TM = \{(p, v) ~\vert~ p \in M, v \in T_p M \}$. We have a surjective
+map $\pi: TM \to M$ given by $\pi(p, v) = p$. As an abuse of notation,
+we often see written $v \in TM$, where $\pi(v) = p$ is the
+\emph{footpoint} of $v \in TM$.
+\end{defn}
+
+We can assign a topology to $TM$. Let
+$(U, \phi) = (U, x^1, \dots, x^m)$ be a coordinate chart in $M$, and
+let
+$(u, w) \in T U = \{ (u, w) ~\vert~ u \in U, w \in T_u U = T_u M \}
+ = \pi^{-1}(U)$.
+There exist unique $c^i(w)$, for $i = 1, \dots, m$, with
+$w = \sum_i c^i(w) \left.\frac{\partial}{\partial x^i}\right|_U$
+since we have a basis
+$\left\{
+  \left.\frac{\partial}{\partial x^1}\right|_u, \dots,
+  \left.\frac{\partial}{\partial x^m}\right|_u
+\right\}$ of $T_uM$.
+
+Define $\tilde{\phi}: TU \to \phi(U) \times \mathbb{R}^m$ by
+$\tilde{\phi}((u, w)) = (\phi(u), c^1(w), \dots, c^m(w))$.
+This has an inverse function given by
+$$
+(\tilde{\phi})^{-1}(\phi(u), c^1, \dots, c^m)
+= (u, \sum c^i \left.\frac{\partial}{\partial x^i}\right|_U)
+\in TU.
+$$
+Then we have a bijective map
+$TU \to \phi(U) \times \mathbb{R}^m \subset \mathbb{R}^m \times
+\mathbb{R}^m$.
+
+\begin{prop}
+The tangent bundle is a topological space.
+\end{prop}
+
+\begin{proof}
+We then topologize $TU$ be declaring $\tilde{\phi}$ to be a
+homeomorphism, i.e. by pulling back the topology on
+$\mathbb{R}^m \times \mathbb{R}^m$ by $\tilde{\phi}$. Another way to
+say this is that $A \subset TU$ is open if and only if
+$\phi(A) \subset \phi(U) \times \mathbb{R}^m$ is open.
+
+If $V \subset U$, then $TV \subset TU$. We let this have the topology
+given by the chart $(V, \phi\restrict_V)$. This is the same as the
+subspace topology, since $V \subset U$ open implies
+$\phi(V) \subset \phi(U)$ is open, so
+$\phi(V) \times \mathbb{R}^m \subset \phi(U) \times \mathbb{R}^m$ is
+open.
+
+Take $\mathscr{B} = \{ A ~\vert~ A \text{ open in $TU$ for some chart
+  $(U , \phi)$} \}$. Let $(p, v) \in TM$.
+Then there exists a chart $U$ in $M$ about $p$, so $(p, v) \in TU$.
+Let $A, B \in \mathscr{B}$. Then $A \subset TU$ for some chart $U$
+and $B \subset TV$ for some chart $V$.
+But $T(U \cap V) \subset T(U) \cap T(V)$.
+Since $T(U \cap V) \subset T(U)$,
+$A \cap T(U \cap V) \subset T(U \cap V)$ is open. Similarly
+$T(U \cap V) \subset T(V)$, so
+$B \cap T(U \cap V) \subset T(U \cap V)$ is open. Then
+\begin{align*}
+   A \cap B
+&= (A \cap T(U)) \cap (B \cap T(V)) \\
+&= (A \cap T(U) \cap T(V)) \cap (B \cap T(U) \cap T(V)) \\
+&= (A \cap T(U \cap V)) \cap (B \cap T(U \cap V))
+\end{align*}
+is open in $T(U \cap V)$ because the last two sets are. Therefore
+$A \cap B$ is open in $T(U \cap V)$.
+\end{proof}
+
+\begin{prop}
+The tangent bundle is a manifold.
+\end{prop}
+
+\begin{proof}
+We have already shown that $TM$ is locally Euclidean, since we have
+homeomorphisms $\tilde{\phi}: TU \to \phi(U) \times \mathbb{R}^n$.
+
+Let $(p, v), (q, w) \in TM$. If $p \neq q$, then since $M$ is
+Hausdorff there exist charts $U, V$ with $p \in U$, $q \in V$, and
+$U \cap V = \varnothing$. Then $TU \cap TV = \varnothing$, and
+$(p, v) \in TU, (q, w) \in TV$. If $p = q$, then let $U$ be a chart
+containing $p$. Since $TU$ is homeomorphic to
+$\phi(U) \times \mathbb{R}^n$, which is open in
+$\mathbb{R}^n \times \mathbb{R}^n$, $TU$ is Hausdorff. Therefore there
+exist open sets $A, B \in TU$ with $(p, v) \in A$, $(p, w) \in B$, and
+$A \cap B = \varnothing$.
+
+From the earlier proposition, $M$ has a countable basis $\{ U_i \}_{i=1}^\infty$ of
+coordinate charts. For each $i$, $TU_i$ is homeomorphic to some
+$\phi_i(U_i) \times \mathbb{R}^m$, an open subset of Euclidean space,
+and hence
+$TU_i$ is second countable. Therefore there exists a countable basis
+$\{ V_i^j \}_{j=1}^\infty$ for $TU_i$, and $\{V_i^j\}_{i,j =
+  1}^\infty$ is a countable basis for $TM$.
+\end{proof}
