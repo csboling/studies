@@ -1,0 +1,278 @@
+\section{Differential Forms}
+
+In coordinates $(U, \phi) = (U, x^1, \dots, x^n)$, a
+1-form $\omega : U \to T^\ast U$ can be written as
+$$
+\omega = \sum_i a_i \dif x^i
+$$
+where $a_i : U \to \mathbb{R}$ are real functions and
+$\{ \dif x^i_u \}$ is the dual basis of $T_u^\ast M$ to the basis
+$\left\{ \frac{\partial}{\partial x^i} \right\}$ of $T_u M$.
+Due to smoothness in coordinates, each $a_i$ is $C^\infty$.
+
+The differential of $f \in C^\infty(M)$
+is a one-form $\dif f: M \to T^\ast M$ with
+$(\dif f)_p(X_p) = X_p(f)$. Denote by
+$\Omega^0(M) = C^\infty(M)$ the space of smooth 0-forms, and check
+in coordinates that $\dif : \Omega^0(M) \to \Omega^1(M)$ is given by
+$\dif f = \sum_i a_i \dif x^i$. Pairing these with
+$\frac{\partial}{\partial x^j} : U \to TU$ gives
+\begin{align*}
+   \frac{\partial f}{\partial x^j}
+&= \dif f \left( \frac{\partial}{\partial x^j} \right) \\
+&= \left(
+     \sum_i a_i \dif x^i
+   \right)
+   \left(
+     \frac{\partial}{\partial x^j}
+   \right) \\
+&= \sum_i a_i \dif x^i
+     \left(
+       \frac{\partial}{\partial x^j}
+     \right) \\
+&= \sum_i
+     a_i \delta^i_j = a_j
+\end{align*}
+so $\dif f = \sum_i \frac{\partial f}{\partial x^i} \dif x^i$ is
+$C^\infty$.
+
+\subsection{1-forms and vector fields}
+\begin{prop}
+Given a 1-form $\omega: M \to T^\ast M$ and $X: M \to TM$ we have a
+function
+$\omega(X) : M \to \mathbb{R}$ given by
+$\omega(X)(p) = \omega_p (X_p)$.
+$\omega : M \to T^\ast M$ is $C^\infty$ if and only if
+$\forall X \in \chi(M)$,
+$\omega(X) \in C^\infty(M)$, where
+$\chi(M)$ is the vector space/$C^\infty(M)$-module of smooth vector fields.
+\end{prop}
+
+\begin{proof}
+  \begin{itemize}
+    \item[($\implies$)]{
+      Let $(U, x^i)$ be coordinates so that
+      $\omega_i = \sum a_i \dif x^i$ and
+      $X|_u = \sum c^i \frac{\partial}{\partial x^i}$
+      and then
+      \begin{align*}
+         \omega(X)\restrict_U
+      &= \sum_i a_i \dif x^i (X) \\
+      &= \sum_i
+           a_i \dif x^i
+           \left(
+             \sum_j
+               c^j \frac{\partial}{\partial x^j}
+           \right) \\
+      &= \sum_{i,j}
+           a_i c^j \dif x^i
+           \left(
+             \frac{\partial}{\partial x^j}
+           \right) \\
+      &= \sum_{i, j}
+           a_i c^j \delta^i_j \\
+      &= \sum_i
+           a_i c^i
+      \end{align*}
+      is smooth.
+    }
+    \item[($\impliedby$)]{
+      Next we check that $\omega$ is smooth in a chart
+      $(U, x^i)$.
+      Let $p \in U$. We wish to show that each
+      $a_i$ is smooth at $p$.
+      First, extend $\frac{\partial}{\partial x^i}$ to
+      $X_i \in \chi(M)$ that agrees with $\frac{\partial}{\partial
+        x^i}$ in a neighborhood of $p$.
+      $\omega(X_i)$ is smooth by assumption, so for $p \in V \subset U$
+      \begin{align*}
+         \omega(X_i)\restrict_V
+      &= \sum_j
+           a_j \dif x^j \\
+      &= \sum_j
+           a_j \dif x^j(X_i) \\
+      &= \sum_j
+           a_j \partial^j_i
+       = a_i
+      \end{align*}
+      since $X_i = \frac{\partial}{\partial x^i}$ on $V$.
+    }
+  \end{itemize}
+\end{proof}
+
+\subsection{Pullback of differential forms}
+Let $F: N \to M$ be smooth. Then there is a function
+$F^\ast : \Omega^0(M) \to \Omega^0(N)$ given by
+$F^\ast g = g \circ F$ for any $g \in \Omega^0(M)$.
+Note that this gives a contravariant functor on
+the category of manifolds and smooth maps.
+
+For a 1-form $\omega: M \to T^\ast M$, the pullback
+$F^\ast \omega : N \to T^\ast M$ is defined by
+$$
+(F^\ast \omega)_n(X_n) = \omega_{F(n)}(F_{\ast, n} (X_n)).
+$$
+
+\subsubsection{Properties of the pullback}
+\begin{enumerate}
+  \item{
+    Pullbacks commute with the differential, i.e.
+    $\forall g \in C^\infty(M)$
+    $$
+    F^\ast(\dif g) = \dif(F^\ast g)
+    $$
+    as 1-forms on $N$.
+
+    Let $n \in N$ and $X_n \in T_n N$. Then
+    \begin{align*}
+       (F^\ast(\dif g))_n(X_n)
+    &= \dif g_{F(n)}(F_{\ast, n}(X_n)) \\
+    &= F_{\ast, n}(X_n)(g) \\
+    &= X_n(g \circ f) \\
+    &= X_n(F^\ast g) \\
+    &= (\dif (F^\ast g))(X_n)
+    \end{align*}
+    as desired.
+  }
+  \item{
+    $F^\ast$ is linear, i.e.
+    $$
+      F^\ast(\omega_1 + \omega_2)
+    = F^\ast(\omega_1) + F^\ast(\omega_2)
+    $$
+    and
+    $$
+    F^\ast(g \omega_1) = F^\ast g F^\ast \omega_1.
+    $$
+    Note that if $g$ is the constant function
+    $g = a$ then $F^\ast g = a$.
+
+    Let $n \in N$, $X_n \in T_n N$. Then
+    \begin{align*}
+       F^\ast(g \omega_1 + \omega_2)_n(X_n)
+    &= (g \omega_1 + \omega_2)_{F(n)}(F_{\ast, n}X_n) \\
+    &= F^\ast g(n)(\omega_1)_{F(n)}(F_{\ast,n}X_n)
+     + (\omega_2)_{F(n)}(F_{\ast,n}X_n) \\
+    &= (F^\ast g F^\ast \omega_1 + F^\ast \omega_2)_n(X_n)
+    \end{align*}
+  }
+  \item{
+    $F^\ast$ carries smooth 1-forms to smooth 1-forms.
+    Let $\omega = \sum_i a_i \dif y^i$ be smooth. Then
+    \begin{align*}
+       F^\ast \omega
+    &= F^\ast
+       \left(
+         \sum_i a_i \dif y^i
+       \right) \\
+    &= \sum_i
+         F^\ast a_i
+         F^\ast \dif y^i \\
+    &= \sum_i
+         F^\ast a_i
+         \dif(F^\ast y^i) \\
+    &= \sum_i
+         F^\ast a_i
+         \dif (y^i \circ F) \\
+    &= \sum_i
+         F^\ast a_i
+         \dif(F^i) \\
+    &= \sum_i
+         F^\ast a_i
+         \sum_j
+           \frac{\partial F^i}{\partial x^j}
+           \dif x^j \\
+    &= \sum_{i,j}
+         F^\ast a_i
+         \frac{\partial F^i}{\partial x^j}
+         \dif x^j.
+    \end{align*}
+    The pullback of a smooth map is smooth, as is the derivative, so
+    this is smooth.
+  }
+  \item{
+    To summarize, for $F: N \to M$,
+    $F^\ast$ is a chain map from the deRham cochain for $M$ to the
+    deRham cochain for $N$.
+  }
+\end{enumerate}
+
+\subsection{Restricting 1-forms to submanifolds}
+Let $i : S \hookrightarrow M$ be an immersion.
+For any $s \in S$,
+$i_{\ast, s} : T_s S \to T_{i(s)} M$ is injective by definition.
+Identify
+$T_s S \simeq i_{\ast, s}(T_s S) \subset T_{i(s)}(M)$. People usually
+write $T_s S \subset T_s M$ for this. If we have a 1-form
+$\omega : M \to T^\ast M$, then we can restrict
+$\omega\restrict_S = i^\ast(\omega)$.
+
+\begin{xmpl}
+Let $S^1 \subset \mathbb{R}^2$. We will show that $S^1$ admits a
+nowhere-vanishing 1-form called \emph{orientation}.
+
+Let $\omega : \mathbb{R}^2 \to T^\ast \mathbb{R}^2$ be dual to the
+rotational vector field, i.e.
+$\omega = -y \dif x + x \dif y$ which is dual to
+$X = -y \frac{\partial}{\partial x} + x \frac{\partial}{\partial y}$.
+$X$ restricts to a vector field on the circle.
+
+Then
+\begin{align*}
+   \omega(X)
+&= (-y \dif x + x \dif y)
+     \left(
+     - y \frac{\partial}{\partial x}
+     + x \frac{\partial}{\partial y}
+     \right) \\
+&= - y \dif x
+   \left(
+   - y \frac{\partial}{\partial x}
+   + x \frac{\partial}{\partial y}
+   \right)
+   + x \dif y
+   \left(
+   - y \frac{\partial}{\partial x}
+   + x \frac{\partial}{\partial y}
+   \right) \\
+&= (-y)(-y) + (x)(x) \\
+&= x^2 + y^2 = 1.
+\end{align*}
+Pull this back under $F: \mathbb{R} \to S^1$ given by
+$F(t) = (\cos t, \sin t)$. Then
+\begin{align*}
+   F^\ast \omega
+&= F^\ast(-y \dif x + x \dif y) \\
+&= -F^\ast y F^\ast \dif x
+ + F^\ast x F^ast \dif y \\
+&= -(y \circ F) \dif (F^\ast x)
+ + (x \circ F) \dif(F^\ast y) \\
+&= -\sin t \dif (\cos t)
+ + \cos t \dif (\sin t) \\
+&= -\sin t
+    \frac{\partial \cos t}{\partial t}
+    \dif t
+ + \cos t
+    \frac{\partial \sin t}{\partial t}
+    \dif t \\
+&= \dif t
+\end{align*}
+which is a nowhere vanishing 1-form (i.e. an orientation) on $\mathbb{R}$.
+\end{xmpl}
+
+\subsection{$k$-forms}
+First, some notation for the \emph{exterior powers} of $T_p^\ast M$.
+\begin{itemize}
+  \item{
+    $\bigwedge^0(T_p^\ast M) = \mathbb{R}$.
+  }
+  \item{
+    $\bigwedge^1(T_p^\ast M) = A_1(T_p M) = T_p^\ast M$.
+  }
+  \item{
+    $\bigwedge^k(T_p^\ast M) = A_k(T_p M)$.
+  }
+\end{itemize}
+Elements of the $k$th exterior power of $T_p^\ast M$ are called
+\emph{$k$-covectors}, and are alternating multilinear maps
+$(T_pM)^k \to \mathbb{R}$.
