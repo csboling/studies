@@ -264,15 +264,234 @@ which is a nowhere vanishing 1-form (i.e. an orientation) on $\mathbb{R}$.
 First, some notation for the \emph{exterior powers} of $T_p^\ast M$.
 \begin{itemize}
   \item{
-    $\bigwedge^0(T_p^\ast M) = \mathbb{R}$.
+    $\Lambda^0(T_p^\ast M) = \mathbb{R}$.
   }
   \item{
-    $\bigwedge^1(T_p^\ast M) = A_1(T_p M) = T_p^\ast M$.
+    $\Lambda^1(T_p^\ast M) = A_1(T_p M) = T_p^\ast M$.
   }
   \item{
-    $\bigwedge^k(T_p^\ast M) = A_k(T_p M)$.
+    $\Lambda^k(T_p^\ast M) = A_k(T_p M)$,
+    the space of alternating multilinear maps
+    $\prod_{i=1}^k T_pM \to \mathbb{R}$. This is called the
+    $k$-th exterior bundle, and as a set is given by
+    $$
+      \Lambda^k(T^\ast M)
+    = \coprod_{p \in M} \Lambda^k(T_p^\ast M)
+    $$
+    which is equipped with the projection
+    $\pi: \Lambda^k(T^\ast M) \to M$ given by
+    $(p, \omega_p) \mapsto p$.
+
+    This bundle has as sections maps
+    $\omega : M \to \Lambda^k(T^\ast M)$ given by
+    $p \mapsto \omega_p \in \Lambda^k(T^\ast M)$, with
+    $\pi \circ \omega = \mathrm{id}_\omega$.
   }
 \end{itemize}
-Elements of the $k$th exterior power of $T_p^\ast M$ are called
-\emph{$k$-covectors}, and are alternating multilinear maps
-$(T_pM)^k \to \mathbb{R}$.
+The \emph{coordinate $k$-forms} for a coordinate chart
+$(U, x^i)$ in $M$ are the set
+$\{ \dif x^i \}_{i=1}^n$, which forms a basis for
+$T_p^\ast M = A_1(T_p M)$.
+
+Let $I = (i_1, \dots, i_k)$ be an increasing multi-index. Then
+there are ${n \choose k}$ $k$-covectors
+$$
+  \dif x_u^I
+= \dif_u^{i_1} \wedge \cdots \dif x_u{i_k}
+\in \Lambda^k(T_u^\ast M).
+$$
+These form a basis for $\Lambda^k(T_u^\ast M)$.
+
+Given $\omega_u \in \Lambda^k(T_u^\ast M)$, there exist scalars
+$a_I(\omega_u) \in \mathbb{R}$ such that
+$\omega_u = \sum_{|I| = k} a_I(\omega_u) \dif x_u^I$.
+
+Given a section $\omega: U \to \Lambda^k(T^\ast U)$
+we can write $\omega = \sum a_I \dif x^I$ where
+$a_I: U \to \mathbb{R}$ are functions.
+
+\subsubsection{$\Lambda^k(T^\ast M)$ as a vector bundle}
+Let $(U, \phi) = (U, x^i)$ be a chart. Then
+$\tilde{\phi} : \Lambda^k(T^\ast U) \to \phi(U) \times
+\mathbb{R}^{{n \choose k}}$ is a map given by
+$$
+  \tilde{\phi}(u, \omega_u)
+= (\phi(u), (a_I(\omega_u))).
+$$
+This is a bijection with inverse
+$$
+  (\tilde{\phi})^{-1}(\phi(\omega), (a_I))
+= (u, \sum a_I \dif x^I).
+$$
+Defining $\tilde{\phi}$ to be a homeomorphism chooses a topology for
+$\Lambda^k(T^\ast U)$, and we can follow the construction for
+endowing $TM$ with a $C^\infty$ manifold vector bundle structure.
+
+\subsubsection{Smooth $k$-forms}
+Let $\Omega^k(M)$ be the $\mathbb{R}$-vector space
+and $C^\infty(M)$-module of all smooth sections of
+$\Lambda^k(T^\ast M)$ over $M$.
+We let $\Omega^0(M) = C^\infty(M)$, and note that
+$\Omega^k(M) = \{ 0 \}$ for $k > \dim M$, since in this case there are
+no basis elements.
+
+A $k$-form $\omega$ in coordinates $\omega_u = \sum a_I \dif x^I$ is
+smooth if and only if $a_I$ is smooth for all $I$.
+
+\subsubsection{Wedge product}
+Let $\alpha: M \to \Lambda^k(T^\ast M)$ be a $k$-form and
+$\beta : M \to \Lambda^l(T^\ast M)$ be an $l$-form. Then we define
+$$
+  (\alpha \wedge \beta)_p
+= \alpha_p \wedge \beta_p
+\in \Lambda^k(T_p^\ast M)
+$$
+for all $p$. Concretely,
+$$
+  (a \wedge \beta)_p(x_1, \dots, x_{k+l})
+= \frac{1}{k!l!}
+  A(\alpha \otimes \beta)(x_1, \dots, x_{k+l})
+= \frac{1}{k!l!}
+  \sum_{\sigma \in S_{k+l}}
+    \mathrm{sgn}(\sigma)
+    \alpha(x_{\sigma(1)}, \dots, x_{\sigma(k)})
+    \beta(x_{\sigma(k+1)}, \dots, x_{\sigma(k+l)})
+$$
+which reduces to the sum over all $(k,l)$-shuffles,
+i.e. those permutations with
+$$
+\sigma(1) < \cdots < \sigma(k),
+\sigma(k+1) < \cdots < \sigma(k + l).
+$$
+
+The wedge product has the following properties:
+\begin{enumerate}
+  \item{
+    $\alpha \wedge \beta$ is $C^\infty(M)$-bilinear:
+    $$
+      (f\alpha_1 + \alpha_2) \wedge \beta
+    = f \alpha_1 \wedge \beta + \alpha_2 \wedge \beta
+    $$
+    and similarly in the second coordinate.
+  }
+  \item{
+    The wedge product is not commutative, but is graded commutative:
+    $\alpha \wedge \beta = (-1)^{kl} \beta \wedge \alpha$.
+  }
+  \item{
+    The wedge product is associative.
+  }
+  \item{
+    If $\alpha, \beta$ are smooth, then so is
+    $\alpha \wedge \beta$. The wedge product thus defines a bilinear
+    map
+    $\wedge: \Omega^k(M) \times \Omega^l(M) \to \Omega^{k+l}(M)$.
+
+    Take $p \in M$ and $U$ a coordinate chart at $p$. Write
+    $$
+      \alpha
+    = \sum a_I \dif x^I,
+      \beta
+    = \sum b_I \dif x^I
+    $$
+    so that
+    \begin{align*}
+       \alpha \wedge \beta
+    &= \sum_{I, J}
+         a_I b_J \dif x^I \wedge \dif x^J \\
+    &= \sum_{|K| = k + l}
+         \sum_{I \cup J = K}
+           \pm a_I b_J \dif x^K
+    \end{align*}
+    so this has smooth coordinates.
+  }
+\end{enumerate}
+
+\begin{xmpl}
+Let $M$ be a smooth 3-manifold, and
+$f_1, f_2 : M \to \mathbb{R}$ be $C^\infty$ functions. Then
+$$
+  \dif f^1
+= \frac{\partial f^1}{\partial x^1} \dif x^1
++ \frac{\partial f^1}{\partial x^2} \dif x^2
++ \frac{\partial f^1}{\partial x^3} \dif x^3
+$$
+and
+$$
+  \dif f^2
+= \frac{\partial f^2}{\partial x^1} \dif x^1
++ \frac{\partial f^2}{\partial x^2} \dif x^2
++ \frac{\partial f^2}{\partial x^3} \dif x^3
+$$
+so that
+\begin{align*}
+   \dif f^1 \wedge \dif f^2
+&= \left(
+     \frac{\partial f^1}{\partial x^1}
+     \frac{\partial f^2}{\partial x^2}
+   - \frac{\partial f^1}{\partial x^2}
+     \frac{\partial f^2}{\partial x^1}
+   \right)
+   \dif x^1 \wedge \dif x^2
+ +  \left(
+     \frac{\partial f^1}{\partial x^1}
+     \frac{\partial f^2}{\partial x^3}
+   - \frac{\partial f^1}{\partial x^3}
+     \frac{\partial f^2}{\partial x^1}
+   \right)
+   \dif x^1 \wedge \dif x^3
+ +  \left(
+     \frac{\partial f^1}{\partial x^2}
+     \frac{\partial f^2}{\partial x^3}
+   - \frac{\partial f^1}{\partial x^3}
+     \frac{\partial f^2}{\partial x^2}
+   \right)
+   \dif x^2 \wedge \dif x^3.
+\end{align*}
+
+\end{xmpl}
+
+\subsection{The $\mathbb{R}$-algebra of $C^\infty$ forms}
+We have a real vector space
+$$
+  \Omega^\ast(M)
+= \bigoplus_{k=0}^n
+    \Omega^k(M)
+$$
+whose elements are finite sums $a_0 + \cdots + a_n$ with
+$a_i \in \Omega^i(M)$. A vector is \emph{homogeneous}
+of degree $k$ if it is of the form
+$\alpha \in \Omega^k(M)$. This is an algebra with multiplication given
+by $\wedge$. This is called a \emph{graded real algebra}, where $k$ is
+the grading.
+
+\begin{defn}
+In general if $A = \bigoplus_{k=0}^\infty A_k$ is a graded
+$\mathbb{R}$-algebra, then a linear map
+$D: A \to A$ is an \emph{antiderivation of $A$} if whenever
+$\alpha \in A_k$ and $\beta \in A_l$,
+$$
+  D(\alpha \cdot \beta)
+= D(\alpha)\cdot\beta + (-1)^k \alpha \cdot D(\beta).
+$$
+An antiderivation is of degree $m$ if for all homogeneous
+$\alpha$, the degree of $D(\alpha)$ is the degree of $\alpha$ plus
+$m$.
+\end{defn}
+
+For example, the exterior derivative
+$\dif : \Omega^\ast(U) \to \Omega^\ast(U)$ is an antiderivation.
+
+\begin{defn}
+An \emph{exterior derivative} on a smooth manifold $M$ is a linear map
+$D: \Omega^\ast(M) \to \Omega^\ast(M)$ that
+\begin{itemize}
+  \item{is an antiderivation of degree zero,}
+  \item{squares to 0,}
+  \item{
+    $\forall f \in \Omega^0(M) = C^\infty(M)$,
+    $X \in \chi(M)$,
+    $D(f)(X) = X(f)$.
+  }
+\end{itemize}
+\end{defn}
