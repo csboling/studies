@@ -489,9 +489,205 @@ $D: \Omega^\ast(M) \to \Omega^\ast(M)$ that
   \item{is an antiderivation of degree zero,}
   \item{squares to 0,}
   \item{
+    $D$ agrees with $\dif$ on $\Omega^0(M)$, i.e.
     $\forall f \in \Omega^0(M) = C^\infty(M)$,
     $X \in \chi(M)$,
     $D(f)(X) = X(f)$.
   }
 \end{itemize}
 \end{defn}
+
+We wish to show that there exists an exterior derivative and that it
+is unique.
+
+\begin{lemma}
+Let $f^1, \dots, f^k$ be $C^\infty$ functions on $M$, so that
+$\dif f^i : M \to T^\ast M$ are $C^\infty$ differential 1-forms. If
+$D$ is an exterior derivative, then
+$D(\dif f^1 \wedge \cdots \wedge \dif f^k) = 0$.
+\end{lemma}
+
+\begin{proof}
+\begin{itemize}
+  \item{
+    For $k = 1$, $D(\dif f) = D(D f) = 0$.
+  }
+  \item{
+    Suppose the proposition holds for $k - 1$. Then
+    \begin{align*}
+       D(\dif f^1 \wedge \cdots \wedge \dif f^k)
+    &= D(\dif f^1) \wedge (\dif f^2 \wedge \cdots \wedge \dif f^k)
+     + (-1) \dif f^1 \wedge D(\dif f^2 \wedge \cdots \wedge \dif ^k)
+      \\
+    &= 0
+    \end{align*}
+    using the case $k = 1$ for the first term and the inductive
+    hypothesis for the second.
+  }
+\end{itemize}
+\end{proof}
+
+Let $(U, x^i)$ be local coordinates on a manifold $M$. We wish to show
+that there exists an exterior derivative
+$d_U : \Omega^\ast(U) \to \Omega^\ast(U)$ that is unique.
+
+Suppose $D : \Omega^\ast(U) \to \Omega^\ast(U)$ is an exterior
+derivative. For any $\omega \in \Omega^k(U)$,
+$$
+  \omega
+= \sum_I a_I \dif x^I
+$$
+so that
+\begin{align*}
+   D(\omega)
+&= D
+   \left(
+     \sum_I a_I \dif x^I
+   \right) \\
+&= \sum_I
+     D(a_I) \wedge \dif x^I
+ + (-1)^0 a_I \wedge D(\dif x^I) \\
+&= \sum_I
+     D(a_I) \wedge \dif x^I \\
+&= \sum_I
+     \dif(a_I) \wedge \dif x^I \\
+&= \sum_I
+     \sum_{j=1}^n
+       \frac{\partial a_I}{\partial x^j}
+       \dif x^j \wedge \dif x^I
+\end{align*}
+since $\dif x^I$ is a wedge product of exact 1-forms.
+Therefore necessarily if $D$ exists, it has this formula in the
+coordinate chart $U$. The fact that this formula satisfies the
+properties for an exterior derivative is exactly the same proof as
+when $U \subset \mathbb{R}^n$. We then change the notation so that
+$\dif_U : \Omega^\ast(U) \to \Omega^\ast(U)$ is the exterior
+derivative on $U$.
+
+The same proof as in $U \subset \mathbb{R}^n$ works
+to show that this is the only exterior derivative on $U$. This works
+just the same because $U$ has global coordinates $(x^i)$. Any manifold
+$U$ that has exactly one coordinate chart is diffeomorphic to
+$\mathbb{R}^n$ since the coordinates are diffeomorphisms, so we need
+to extend $D$ to an exterior derivative on all of $M$.
+
+For $\omega \in \Omega^k(M)$, define $D \omega$ by
+$$
+(D\omega)_p \triangleq (d_U \omega)_p
+$$
+where $U$ is some open set containing $p$. This is well-defined
+because if $p \in U \cap V$ then $\dif_{U \cap V}$ is unique and so
+$$
+  (\dif_{U \cap V} \omega)_p
+= (\dif_U \omega)_p
+= (\dif_V \omega)_p.
+$$
+
+We denote the exterior derivative on $M$ by $\dif$ from now on. We
+need to show that there are no others on $M$.
+
+\begin{lemma}
+Suppose $D$ is an exterior derivative on $M$. and $U \subset M$ is
+open. Let $\omega \in \Omega^k(M)$ such that
+$\omega\restrict_U \equiv 0$. Then $D \omega\restrict_U \equiv 0$.
+\end{lemma}
+\begin{proof}
+Let $p \in U$. We will show that $D\omega\restrict_p = 0$.
+
+Let $f$ be a $C^\infty$ bump function on $M$ with support in $U$ and
+with $f \equiv 1$ on some neighborhood $V$ of $p$ contained in $U$.
+Let $\tilde{\omega} = f \cdot \omega \in \Omega^k(M)$. Note that
+$\tilde{\omega} \equiv 0$ on $M$ since $\omega \equiv 0$ on $U$.
+By linearity,
+\begin{align*}
+   0
+&= D(0)
+ = D(\tilde{\omega}) \\
+&= D(f) \wedge \omega + (-1)^0 f \wedge D(\omega)
+\end{align*}
+so at $p$ we have
+$$
+0 = (-1)^0 f(p) (D\omega)_p = (D \omega)_p.
+$$
+\end{proof}
+
+\begin{prop}[Uniquenss of $D$]
+If $D: \Omega^\ast(M) \to \Omega^\ast(M)$ is an exterior derivative,
+then $D = \dif$.
+\end{prop}
+\begin{proof}
+Let $\omega \in \Omega^k(M)$. We need to show that $\forall p \in M$,
+$(D\omega)_p = (\dif\omega)_p$. Let
+$p \in (U, x^i)$ and write $\omega = \sum_I a_I \dif x^I$.
+Extend $a_I : U \to \mathbb{R}$ and $x^i : U \to \mathbb{R}$ to smooth
+functions $\bar{a}_I : M \to \mathbb{R}$ and $\bar{x}^i: M \to
+\mathbb{R}$ by zero, with $a_I = \bar{a}_I$ and $x^i = \bar{x}^i$ on a
+neighborhood $V$ of $p$. Let
+$$
+  \bar{\dif x}^I
+= \dif \bar{x}^{i_1} \wedge \cdots \wedge \dif \bar{x}^{i_k}.
+$$
+Note that $\omega = \bar{\omega}$ on $V$ and so
+$\omega - \bar{\omega} \equiv 0$ on $V$. Therefore $D(\omega -
+\bar{\omega}) = 0$. But
+\begin{align*}
+   (D \omega)_p
+&= D(\bar{\omega})_p
+ = D\left(
+     \sum_I
+       \bar{a}_I \bar{\dif x}^I
+   \right)_p \\
+&= \sum_I D(\bar{a}_I)_p \wedge \bar{\dif x}^I_p
+ + (-1)^0 \bar{a}_I(p) D(\dif \bar{x}^I)_p \\
+&= \sum_I
+     D(a_I)_p \wedge \dif x^I_p \\
+&= \sum_I
+     \dif(a_I)_p \wedge \dif x^I_p \\
+&= (\dif_u \omega)_p
+ = \dif \omega_p.
+\end{align*}
+\end{proof}
+
+\subsection{Pullback of forms}
+Let $F : N \to M$ and $\omega$ be a $k$-form on $M$,
+i.e. $\omega: M \to \Lambda^k(T^\ast M)$.
+The \emph{pullback} $F^\ast \omega$ to a $k$-form on
+$N$ is defined by
+\begin{align*}
+   (F^\ast\omega)_p
+     (X_1, \dots, X_k)
+&= \omega_{F(p)}
+     (F_{\ast, p} X_1, \dots, F_{\ast, p} X_k)
+\end{align*}
+for all $X_1, \dots, X_k \in T_p N$.
+
+This operation has the following properties:
+\begin{enumerate}
+  \item{
+    $F^\ast$ is $C^\infty(M)$-linear, i.e.
+    $$
+      F^\ast(g \omega_1 + \omega_2)
+    = F^\ast g F^\ast \omega_1 + F^\ast \omega_2.
+    $$
+  }
+  \item{
+    $F^\ast$ is an algebra map on the exterior algebra, i.e.
+    $$
+      F^\ast(\omega \wedge \lambda)
+    = F^\ast \omega \wedge F^\ast \lambda
+    $$
+    as $k + l$ forms on $N$.
+  }
+  \item{
+    $F^\ast$ is a map of cochain complexes, which means it commutes
+    with $\dif$, i.e.
+    $$
+      F^\ast(\dif \omega)
+    = \dif (F^\ast \omega)
+    $$
+    as $k + 1$ forms.
+  }
+  \item{
+    $F^\ast$ carries smooth forms to smooth forms.
+  }
+\end{enumerate}
