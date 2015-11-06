@@ -1,0 +1,391 @@
+\section{Integration}
+
+\subsection{Pullback of forms}
+Let $F : N \to M$ and $\omega$ be a $k$-form on $M$,
+i.e. $\omega: M \to \Lambda^k(T^\ast M)$.
+The \emph{pullback} $F^\ast \omega$ to a $k$-form on
+$N$ is defined by
+\begin{align*}
+   (F^\ast\omega)_p
+     (X_1, \dots, X_k)
+&= \omega_{F(p)}
+     (F_{\ast, p} X_1, \dots, F_{\ast, p} X_k)
+\end{align*}
+for all $X_1, \dots, X_k \in T_p N$.
+
+This operation has the following properties:
+\begin{enumerate}
+  \item{
+    $F^\ast$ is $C^\infty(M)$-linear, i.e.
+    $$
+      F^\ast(g \omega_1 + \omega_2)
+    = F^\ast g F^\ast \omega_1 + F^\ast \omega_2.
+    $$
+  }
+  \item{
+    $F^\ast$ is an algebra map on the exterior algebra, i.e.
+    $$
+      F^\ast(\omega \wedge \lambda)
+    = F^\ast \omega \wedge F^\ast \lambda
+    $$
+    as $k + l$ forms on $N$.
+
+    Let $n \in N$, $x_1, \dots, x_{k+l} \in T_n N$.
+    \begin{align*}
+       F^\ast(\alpha \wedge \beta)_n(x_1, \dots, x_{k+l})
+    &= (\alpha \wedge \beta)_{F(n)}
+         (F_{\ast,n} x_1, \dots, F_{ast, n} x_{k+l}) \\
+    &= \frac{1}{k! l!}
+         A(\alpha \otimes \beta)_{F(n)}
+           (F_{\ast,n} x_1, \dots, F_{ast, n} x_{k+l}) \\
+    &= \frac{1}{k! l!}
+         \sum_{\sigma \in S_{k+l}}
+           \alpha(F_{\ast, n}(x_{\sigma(1)}),
+                  \dots,
+                  F_{\ast,n}(x_{\sigma(k)})
+           \beta(F_{\ast, n}(x_{\sigma(k+1)}),
+                 \dots,
+                 F_{\ast, n}(x_{\sigma(k+l)}) \\
+    &= \frac{1}{k! l!}
+         \sum_{\sigma \in S_{k+l}}
+           \mathrm{sgn}(\sigma)
+             (F^\ast \alpha)_n
+               (x_{\sigma(1)},
+                \dots,
+                x_{\sigma(k)}))
+             (F^\ast \beta)_n
+               (x_{\sigma(k+1)},
+                \dots,
+                x_{\sigma(k+l)}) \\
+    &= (F^\ast \alpha \wedge F^\ast \beta)_n
+         (x_1, \dots, x_{k+l}).
+    \end{align*}
+  }
+  \item{
+    $F^\ast$ is a map of cochain complexes, which means it commutes
+    with $\dif$, i.e.
+    $$
+      F^\ast(\dif \omega)
+    = \dif (F^\ast \omega)
+    $$
+    as $k + 1$ forms.
+
+    Let $\omega \in \Omega^k(M)$ and $(V, y^i)$ be coordinates on $M$.
+    On this coordinate chart,
+    $$
+      \omega
+    = \sum_I
+        a_I \dif y^I
+    = \sum_I
+        a_I \dif y^{i_1} \wedge \cdots \wedge \dif y^{i_k}
+    $$
+    so
+    $$
+      \dif \omega
+    = \sum_I \dif(a_I) \wedge \dif y^I
+    = \sum_I \dif(A_I) \wedge \dif y^{i_1} \wedge \cdots \wedge \dif y^{i_k}
+    $$
+    so
+    \begin{align*}
+       F^\ast(\dif \omega)
+    &= F^\ast
+         \left(
+           \sum_I
+             \dif(a_I) \wedge
+             \dif y^{i_1} \wedge
+             \cdots \wedge
+             \dif y^{i_k}
+         \right) \\
+    &= \sum_I
+         F^\ast(\dif(a_I)) \wedge
+         F^\ast \dif y^{i_1} \wedge
+         \cdots \wedge
+         F^\ast \dif y^{i_k} \\
+    &= \sum_I
+         \dif(F^\ast a_I) \wedge
+         \dif(F^\ast y^i) \wedge
+         \cdots \wedge
+         \dif(F^\ast y^{i_k})
+    \end{align*}
+    whereas
+    \begin{align*}
+       F^\ast \omega
+    &= \sum_I
+         F^\ast (a_I)
+         F^\ast(\dif y^{i_1} \wedge \cdots \wedge \dif y^{i_k}) \\
+    &= \sum_I
+         F^\ast(a_I)
+           \dif(F^\ast y^{i_1}) \wedge \cdots \wedge \dif(F^\ast y^{i_k})
+    \end{align*}
+    so that
+    \begin{align*}
+       \dif(F^\ast \omega)
+    &= \sum_I
+         \dif(F^\ast a_I) \wedge
+           (\dif F^\ast y^{i_1} \wedge \cdots \wedge \dif F^\ast
+      y^{i_k}) \\
+    &= (-1)^0
+       F^\ast(a_I) \wedge
+       \dif
+         (\dif F^\ast y^{i_1} \wedge \cdots \wedge \dif F^\ast
+      y^{i_k}) \\
+    &= F^\ast(\dif \omega)
+    \end{align*}
+    since the exterior derivative of a wedge product of exact 1-forms
+    is 0.
+  }
+  \item{
+    $F^\ast$ carries smooth forms to smooth forms.
+
+    Let $(U, x^i)$ be coordinates on $N$ and
+    $F^1, \dots, F^k \in C^\infty(N, \mathbb{R})$. Let
+    $J = (j_1, \dots, j_k)$ be a multi-index. Then
+    \begin{align*}
+       \frac{\partial (F^1, \dots, F^k)}
+            {\partial (x^{j_1}, \dots, x^{j_k})}
+    &= \det
+       \left[
+         \begin{array}{c c c}
+           \frac{\partial F^1}{\partial x^{j_1}}
+         & \cdots
+         & \frac{\partial F^1}{\partial x^{j_k}} \\
+           \frac{\partial F^2}{\partial x^{j_1}}
+         & \cdots
+         & \frac{\partial F^2}{\partial x^{j_k}} \\
+           \vdots & \vdots & \vdots \\
+           \frac{\partial F^k}{\partial x^{j_1}}
+         & \cdots
+         & \frac{\partial F^k}{\partial x^{j_k}}
+         \end{array}
+       \right] \\
+    &= \sum_{\sigma \in S_k}
+         \prod_{i=1}^k
+           \frac{\partial F^i}{\partial x^{j_{\sigma(i)}}}.
+    \end{align*}
+
+    \begin{lemma}
+      \begin{align*}
+         \dif F^1 \wedge \cdots \wedge \dif F^k
+      &= \sum_I
+           \frac{\partial (F^1, \dots, F^k)}
+                {\partial (x^{i_1}, \dots, x^{i_k})}
+           \dif x^I.
+      \end{align*}
+      As a corollary, $\dif F^1 \wedge \cdots \wedge \dif F^k$ is smooth.
+    \end{lemma}
+    \begin{proof}
+      We know $\dif F^1 \wedge \cdots \wedge \dif F^k$
+      can be written as $\sum_I a_I \dif x^I$ for some $a_I$. Then
+      writing
+      $
+        \frac{\partial}{\partial x^J}
+      = \left(
+          \frac{\partial}{\partial x^{j_1}},
+          \cdots,
+          \frac{\partial}{\partial x^{j_k}}
+        \right)
+      $
+      we have
+      \begin{align*}
+        \left(
+          \sum_I
+            a_I \dif x^I
+        \right)
+          \left(
+            \frac{\partial}{\partial x^J}
+          \right)
+      &= \sum_I
+           a_I \dif x^I
+           \left(
+             \frac{\partial}{\partial x^J}
+           \right) \\
+      &= \sum_I
+           a_I \delta^I_J = a_J
+      \end{align*}
+      whereas
+      \begin{align*}
+        (\dif F^1 \wedge \cdots \wedge \dif F^k)
+          \left(
+            \frac{\partial}{\partial x^{j_1}},
+            \dots,
+            \frac{\partial}{\partial x^{j_k}}
+          \right)
+      &= \frac{1}{1! \cdots 1!}
+           \sum_{\sigma \in S_k}
+             \mathrm{sgn}(\sigma)
+             \dif F^1
+               \left(
+                 \frac{\partial}{\partial x^{j_{\sigma(1)}}}
+               \right)
+             \wedge \cdots \wedge
+             \dif F^k
+               \left(
+                 \frac{\partial}{\partial x^{j_{\sigma(k)}}}
+               \right) \\
+      &= \sum_{\sigma \in S_k}
+           \mathrm{sgn}(\sigma)
+           \frac{\partial F^1}{\partial x^{j_{\sigma(1)}}}
+           \cdots
+           \frac{\partial F^k}{\partial x^{j_{\sigma(k)}}} \\
+      &= \frac{\partial (F^1, \cdots, F^k)}
+              {\partial (x^{j_1}, \dots, x^{j_k})}.
+      \end{align*}
+    \end{proof}
+
+    Now on $V$, $\omega = \sum_I a_I \dif y^I$, so
+    \begin{align*}
+       F^\ast \omega
+    &= \sum_I
+         F^\ast a_I
+         (\dif y^{i_1} \wedge \cdots \wedge \dif y^{i_k}) \\
+    &= \sum_I
+         (a_I \circ F)
+         F^\ast(\dif y^{i_1}) \wedge \cdots \wedge F^\ast(\dif
+      y^{i_k}) \\
+    &= \sum_I
+         (a_I \circ F)
+         \dif(F^\ast y^{i_1})
+         \wedge \cdots \wedge
+         \dif(F^\ast y^{i_k}) \\
+    &= \sum_I
+         (a_I \circ F)
+         \dif(y^{i_1} \circ F)
+         \wedge \cdots \wedge
+         \dif(y^{i_1} \circ F)
+    \end{align*}
+    which is smooth by the lemma.
+  }
+\end{enumerate}
+
+\section{Orientations}
+
+\subsection{Via ordered bases}
+Let $V$ be an $n$-dimensional $\mathbb{R}$-vector space. Let
+$X$ be the collection of all ordered bases,
+$$
+  X
+= \{ u = \{ u_1, \dots, u_n \} ~\vert~ \text{$u$ is an ordered basis} \}.
+$$
+Let $u, v \in X$, with $u = \{u_1, \dots, u_n\}$ and
+$v = \{v_1, \dots, v_n\}$. Then there exist unique scalars $a^i_j$
+such that
+$$
+u_j = \sum_{i=1}^n a^i_j v_i,
+$$
+and denote $A = [a_j^i]$. Then
+$$
+  \left[
+    \begin{array}{c c c}
+      u_1 & \cdots & u_n
+    \end{array}
+  \right]
+=
+  \left[
+    \begin{array}{c c c}
+      v_1 & \cdots & v_n
+    \end{array}
+  \right]
+  A.
+$$
+The determinant of $A$ is nonzero since this operation is
+invertible. Define a relation $\sim$ on $X$ by
+$$
+u \sim v \iff u = vA, \det A > 0.
+$$
+This is an equivalence relation on $X$:
+\begin{enumerate}
+  \item{
+    $u \sim u$ since $u = uI$.
+  }
+  \item{
+    If $u \sim v$, then $u = vA$ so
+    $v = uA^{-1}$, and $\det A^{-1} = \frac{1}{\det A}$.
+  }
+  \item{
+    If $u \sim v$ and $v \sim w$, then
+    $u = vA = wBA$, and $\det(BA) = \det(B)\det(A) > 0$ when
+    $\det(A), \det(B) > 0$.
+  }
+\end{enumerate}
+
+\begin{defn}
+An orientation on $V$ is an equivalence class $\mu$ for $\sim$ on $X$.
+We usually write $\mu$ and $-\mu$ for these classes and say they are
+opposite orientations.
+\end{defn}
+
+Note that $V$ has exactly two equivalence classes. Assume that
+$u \nsim v$ and $u \nsim w$. We wish to show that $v \sim w$.
+There exist matrices $A$, $B$ such that $u = vA$ and $u = w B$, and
+$\det A, \det B < 0$. But $v = w BA^{-1}$ and
+$\det BA^{-1} = \frac{\det B}{\det A} > 0$, so $v \sim w$.
+
+\begin{xmpl}
+\begin{itemize}
+  \item{
+    For $\mathbb{R}^1$, $\mu = [e_1]$ and $-u = [-e_1]$.
+  }
+  \item{
+    For $\mathbb{R}^2$, $\mu = [\{e_1, e_2\}]$,
+    $-\mu = [\{e_2, e_1\}]$.
+  }
+  \item{
+    For $\mathbb{R}^3$, $\mu = [\{e_1, e_2, e_3\}]$
+    (the ``right hand rule'') and
+    $-\mu = [\{e_2, e_1, e_3\}]$ (the ``left hand rule'').
+  }
+\end{itemize}
+\end{xmpl}
+
+\subsection{Via $n$-covectors}
+We can also construct this in terms of $n$-covectors
+$\Lambda^n(V^\vee) = A_n(V)$. This space has dimension
+$\{ n \choose n \} = 1$, and so is isomorphic to $\mathbb{R}$.
+
+\begin{lemma}
+Let $\beta \in A_n(V) \setminus \{ 0 \}$. Let
+$u, v \in X$, so that $u = vA$. Then
+$$
+  \beta(u_1, \dots, u_n)
+= (\det A)\beta(v_1, \dots, v_n).
+$$
+\end{lemma}
+\begin{proof}
+Let
+$$
+  u_j
+= \sum_{i=1}^n
+    a^i_j v_i.
+$$
+Then
+\begin{align*}
+   \beta(u_1, \dots, u_n)
+&= \beta
+     \left(
+       \sum_{i=1}^n
+         a_1^i v_i,
+       \dots,
+       \sum_{i=1}^n
+         a_n^i v_i
+     \right) \\
+&= \sum_{I = (i_1, \dots, i_n)}
+     (a_1^{i_1}, \dots, a_n^{i_n})
+     \beta(v_{i_1}, \dots, v_{i_n}) \\
+&= \sum_{\sigma \in S_n}
+     a_1^{i_{\sigma(1)}}
+     \cdots
+     a_n^{i_{\sigma(n)}}
+     \beta(
+       v_{\sigma(1)}, \dots, v_{\sigma(n)}
+     ) \\
+&= \sum_{\sigma \in S_n}
+     \mathrm{sgn}(\sigma)
+       a_1^{i_{\sigma(1)}}
+       \cdots
+       a_n^{i_{\sigma(n)}}
+       \beta(v_1, \dots, v_n) \\
+&= (\det A)
+   \beta(v_1, \dots, v_n).
+\end{align*}
+where $I$ ranges over \emph{all} multi-indices.
+\end{proof}
