@@ -389,3 +389,493 @@ Then
 \end{align*}
 where $I$ ranges over \emph{all} multi-indices.
 \end{proof}
+
+\subsection{Orientation on manifolds}
+A pointwise orientation $\mu = [\{X_1, \dots, X_n\}]$ is
+continuous if and only if $\forall p \in M$, there exist coordinates
+$(U, x^i)$ about $p$ with
+$\dif x^1 \wedge \cdots \wedge \dif x^n (X_1, \dots, X_n) > 0$ on $U$.
+
+\begin{theorem}
+A smooth manifold $M$ is orientable if and only if there exists a
+nowhere zero smooth $n$-form (a \emph{volume form})
+$\omega : M \to \Lambda^n(T^\ast M)$ on $M$, i.e. for any
+$p \in M$, $\omega_p \neq 0$ in $\Lambda^n(T_p^\ast M)$, i.e.
+$\exists X_1(p), \dots, X_n(p) \in T_p M$ with
+$\omega_p(X_1(p), \dots, X_n(p)) \neq 0$.
+\end{theorem}
+
+\begin{proof}
+  \begin{itemize}
+    \item[($\implies$)]{
+      Let $\mu = [\{X_1, \dots, X_n\}]$ be a pointwise continuous
+      orientation on $M$. Then there exist coordinates
+      $(U, x^i)$ about $p$ with
+      $\dif x^1 \wedge \cdots \wedge \dif x^n (X_1, \dots, X_n) > 0$
+      on $U$. Let
+      $\{(U_\alpha, x^i_\alpha)\}$ be a locally finite refinement of
+      the cover given by all such charts. Let
+      $\{ \rho_\alpha \}$ be a partition of unity subordinate to
+      $\{U_\alpha\}$, so that $\mathrm{supp}(\rho_\alpha) \subset
+      U_\alpha$ for each $\alpha$,
+      $\rho_\alpha \geq 0$, and $\sum_\alpha \rho_\alpha \equiv
+      1$.
+      Define $\omega$ by
+      $$
+        \omega
+      = \sum_\alpha
+          \rho_\alpha
+            \dif x^1_\alpha \wedge \cdots \wedge \dif x^n_\alpha.
+      $$
+      This is a well-defined smooth $n$-form, and for $p \in M$
+      \begin{align*}
+         \omega_p(X_1(p), \dots, X_n(p))
+      &= \sum_\alpha
+           \rho_\alpha(p)
+           (\dif x^1_\alpha \wedge \cdots \wedge \dif x^n_\alpha)\
+           (X_1(p), \dots, X_n(p)) \\
+      &> 0
+      \end{align*}
+      since the $\rho_\alpha$ are nonnegative and sum to 1 and
+      the wedge product evaluated on the $X_i(p)$ is strictly
+      positive. Therefore $\omega_p \neq 0$.
+    }
+    \item[($\impliedby$)]{
+      Let $\omega : M \to \Lambda^n(T^\ast M)$ be a smooth
+      nowhere zero $n$-form. For any $p \in M$, there exist vectors
+      $X_1(p), \dots, X_n(p) \in T_p M$ with
+      $\omega_p(X_1(p), \dots, X_n(p)) > 0$. We claim that
+      the pointwise orientation
+      $\mu = [\{ X_1, \dots, X_n\}]$ is continuous.
+
+      Let $p \in M$, and let $(U, z^i)$ be a connected coordinate
+      chart about $p$. Then
+      $\omega\restrict_U = f \dif z^1 \wedge \cdots \wedge \dif z^n$
+      where $f : U \to \mathbb{R}^n$ is smooth, and since $\omega$ is
+      nowhere zero $f$ is nowhere zero. Then either $f > 0$ on $U$
+      or $f < 0$ on $U$.
+      \begin{itemize}
+        \item{
+          If $f > 0$ on $U$, then let $(U, x^i) = (U, z^i)$. Then
+          $$
+            \dif x^1 \wedge \cdots \wedge \dif x^n
+            (X_1, \dots, X_n)
+          = \frac{1}{f} \omega(X_1, \dots, X_n)
+          > 0.
+          $$
+        }
+        \item{
+          If $f < 0$ on $U$ then let $(U, x^i) = (U, -z^i)$ instead,
+          which gives
+          $$
+            \dif x^1 \wedge \cdots \wedge \dif x^n
+            (X_1, \dots, X_n)
+          = -\frac{1}{f} \omega(X_1, \dots, X_n)
+          > 0.
+          $$
+        }
+      \end{itemize}
+    }
+  \end{itemize}
+\end{proof}
+
+This shows that we can think of an orientation on a connected manifold
+$M$ as either an equivalence class of pointwise continuous framings
+$\mu = [\{X_1, \dots, X_n\}]$ or as an
+equivalence class of nowhere vanishing $n$-forms $[\omega]$, where
+$\omega_1 \sim \omega_2$ when $\omega_1 = f \omega_2$ for some smooth,
+strictly positive real function $f$, when $\omega_1, \omega_2$ are nowhere zero
+smooth $n$-forms. This makes sense because in coordinates,
+$\omega_1 = g \dif x^1 \wedge \cdots \wedge \dif x^n$ and
+$\omega_2 = h \dif x^1 \wedge \cdots \wedge \dif x^n$ where
+$g, h : U \to \mathbb{R}$ are smooth and nowhere zero, so
+$\omega_1 = \frac{g}{h} \omega_2 = f \omega_2$ on $U$ for a smooth
+nowhere zero function $f$, for any two smooth $n$-forms $\omega_1$ and
+$\omega_2$. These definitions of orientation are the same because
+$\omega(X_1, \dots, X_n) > 0$ independent of the choice of
+representatives in each equivalence class.
+
+\begin{defn}
+A diffeomorphism
+$F : (N, [\omega_N]) \to (M, [\omega_M])$ between oriented manifolds is
+\emph{orientation-preserving} if $[F^\ast \omega_M] = [\omega_N]$ and
+\emph{orientation-reserving} otherwise, i.e. if
+$[F^\ast \omega_M] = [-\omega_N]$.
+\end{defn}
+
+Let $U, V$ be open in $\mathbb{R}^n$ with coordinates $x^i$, $y^i$
+respectively. Let $F: U \to V$ .Then
+\begin{align*}
+   F^\ast(\dif y^1 \wedge \cdots \wedge \dif y^n)
+&= \dif(F^\ast y_1) \wedge \cdots \wedge \dif (F^\ast y^n) \\
+&= \dif F^1 \wedge \cdots \wedge \dif F^n \\
+&= \frac{\partial (F^1 \cdots F^n)}{\partial x^1 \cdots x^n}
+     \dif x^1 \wedge \cdots \wedge \dif x^n \\
+&= \mathrm{Jac}(F) \dif x^1 \wedge \cdots \wedge \dif x^n,
+\end{align*}
+so $F$ is orientation preserving if and only if
+$\mathrm{Jac}(F) > 0$ on $U$ and orientation reversing if and only if
+$\mathrm{Jac}(F) < 0$ on $U$.
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      The map $F: \mathbb{R}^n \to \mathbb{R}^n$ given by
+      $x \mapsto -x$ has
+      $$
+        \left[
+          \frac{\partial F^i}{\partial x^j}
+        \right]
+      = -I_n
+      $$
+      so $F$ is orientation reversing for $n$ even and orientation
+      preserving for $n$ odd.
+    }
+    \item{
+      Let $f: \mathbb{R}^{n+1} \to \mathbb{R}$, and let 0 be a regular
+      value. Then $S = f^{-1}(0)$ is an oriented $n$-manifold since
+      $$
+        \omega
+      = \sum_{i=1}^{n+1}
+          (-1)^{i-1}
+          \frac{\partial f}{\partial x^i}
+          \dif x^1
+          \wedge \cdots
+          \wedge \hat{\dif x^i}
+          \wedge \cdots
+          \wedge \dif x^n
+      $$
+      is a nowhere zero $C^\infty$ $n$-form on $S$.
+
+      For $f: \mathbb{R}^2 \to \mathbb{R}$ given by
+      $f(x^1, x^2) = (x^1)^2 + (x^2)^2 - 1$ has
+      $S^1 = f^{-1}(0)$. Then
+      $\omega = x^1 \dif x^2 - x^2 \dif x^1$ is nonvanishing on the
+      vector field
+      $$
+        X
+      = - x^2 \frac{\partial}{\partial x^1}
+        + x^1 \frac{\partial}{\partial x^2}
+      $$
+      since
+      \begin{align*}
+         \omega(X)
+      &= x^1 \dif x^2(X) - x^2 \dif x^1(X) \\
+      &= x^1(x^1) - x^2 (-x^2) \\
+      &= 1
+      \end{align*}
+      on $S^1$.
+
+      The map $F: \mathbb{R}^2 \to \mathbb{R}^2$
+      given by $x \mapsto -x$ restricts to the
+      antipodal map $F: S^1 \to S^1$. This pulls back $\omega$ as
+      \begin{align*}
+         F^\ast \omega
+      &= F^\ast(x^1 \dif x^2 - x^2 \dif x^1) \\
+      &= F^\ast x^1 \dif (F^\ast x^2)
+       - F^\ast x^2 \dif (F^\ast x^1) \\
+      &= (x^1 \circ F) \dif (x^2 \circ F)
+       - (x^2 \circ F) \dif (x^1 \circ F) \\
+      &= -x^1 \dif (-x^2) - (-x^2) \dif (-x^1) \\
+      &= x^1 \dif x^2 - x^2 \dif x^1
+      \end{align*}
+      which preserves not only the orientation but the form $\omega$ itself.
+    }
+    \item{
+      With $S = S^2$, let
+      $$
+        \omega
+      = x^1 \dif x^2 \wedge \dif x^3
+      - x^2 \dif x^1 \wedge \dif x^3
+      + x^3 \dif x^1 \wedge \dif x^2
+      $$
+      so
+      \begin{align*}
+         F^\ast(\omega)
+      &= (-1)^3 \omega = -\omega,
+      \end{align*}
+      i.e. this is orientation reversing.
+    }
+    \item{
+      $\mathbb{R} P^n$ is orientable for $n$ odd and not orientable
+      for $n$ even.
+      Since $\mathbb{R} P^n \simeq S^n / (x \sim A(x))$.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+We have seen two perspectives on orientation, related by the fact that
+if $\mu = [\{ X_1, \dots, X_n \}]$ is an orientation, then
+$\forall \{ Y_1, \dots, Y_n \} \sim \{ X_1, \dots, X_n \}$ and
+$\forall \tilde{\omega} \sim \omega$,
+$\tilde{\omega}(Y_1, \dots, Y_n) > 0$.
+A third perspective on orientation is given by equivalence classes of
+oriented atlases $[\mathcal{A} = \{(U, x^i)\}]$.
+
+\begin{defn}[Oriented atlas]
+A smooth atlas $\mathcal{A}$ is \emph{oriented} if
+$\forall (U_\alpha, \phi_\alpha), (V_\beta, \psi_\beta) \in
+\mathcal{A}$,
+with $U_\alpha \cap V_\beta$ nonempty,
+$$
+  \psi_\beta \circ \phi_\alpha^{-1}
+: \phi_\alpha(U \cap V) \to  \psi_\beta(U \cap V)
+$$
+is orientation preserving. In coordinates,
+$$
+  \det
+    \left[
+      \frac{\partial y^i}{\partial x^j}
+    \right]
+: U \cap V \to \mathbb{R} \setminus \{ 0 \}
+$$
+is positive.
+\end{defn}
+
+\begin{theorem}
+$M$ is orientable if and only if it admits an oriented atlas.
+\end{theorem}
+\begin{proof}
+  \begin{itemize}
+    \item[($\implies$)]{
+      Let $\mu = \{ X_1, \dots, X_n \}$ be a pointwise continuous
+      orientation. Then for any $p \in M$, there exists a coordinate
+      chart $(U, x^i)$ containing $p$ with
+      $\dif x^1 \wedge \cdots \wedge \dif x^n(X_1, \dots, X_n) > 0$.
+      Let $\mathcal{A}$ be the atlas composed of these charts for
+      every point $p$.
+
+      Suppose $(U, x^i)$ and $(V, y^i)$ are overlapping charts in
+      $\mathcal{A}$. On $U \cap V$,
+      $$
+      \dif x^1 \wedge \cdots \wedge \dif x^n(X_1, \dots, X_n) > 0
+      $$
+      and
+      $$
+      \dif y^1 \wedge \cdots \wedge \dif y^n(X_1, \dots, X_n) > 0.
+      $$
+      But
+      $$
+        \dif y^1 \wedge \cdots \wedge \dif y^n
+      = \det\left[\frac{\partial y^i}{\partial x^j}\right]
+        \dif x^1 \wedge \cdots \wedge \dif x^n
+      $$
+      so $\det\left[\frac{\partial y^i}{\partial x^j}\right] > 0$.
+    }
+    \item[($\impliedby$)]{
+      Let $\mathcal{A} = \{(U, x^i)\}$ be an oriented atlas for $M$.
+      Then each $p \in M$ belongs to one of these charts. Define
+      $$
+        \mu_p
+      = \left[
+          \left\{
+            \left.
+              \frac{\partial}{\partial x^1}
+            \right|_p,
+            \dots
+            \left.
+              \frac{\partial}{\partial x^n}
+            \right|_p
+          \right\}
+        \right].
+      $$
+      We must verify that when $p$ also lies in chart $(V, y^i)$ where
+      $U \cap V$, we must check that the ordered basis
+      $$
+      \left\{
+        \left.
+          \frac{\partial}{\partial x^1}
+        \right|_p,
+        \dots
+        \left.
+          \frac{\partial}{\partial x^n}
+        \right|_p
+      \right\}
+      $$
+      at $p$ is
+      equivalent to the ordered standard basis
+      $$
+      \left\{
+        \left.
+          \frac{\partial}{\partial y^1}
+        \right|_p,
+        \dots
+        \left.
+          \frac{\partial}{\partial y^n}
+        \right|_p
+      \right\}
+      $$
+      in the other coordinate chart. But the matrix
+      $$
+        \left[
+          \left.
+            \frac{\partial}{\partial y^1}
+          \right|_p,
+          \dots
+          \left.
+            \frac{\partial}{\partial y^n}
+          \right|_p
+        \right]
+      = \left[
+          \left.
+            \frac{\partial}{\partial x^1}
+          \right|_p,
+          \dots
+          \left.
+            \frac{\partial}{\partial x^n}
+          \right|_p
+        \right]
+        \left[
+          \frac{\partial y^i}{\partial x^j}(p)
+        \right]
+      $$
+      and since $\det\left[\frac{\partial y^i}{\partial^j}\right] >
+      0$, these ordered bases are similar, so the map $\mu_p$ is
+      well-defined. This $\mu$ is continuous and in the coordinate
+      chart $(U, x^i)$ is represented by the $C^0$ local framing
+      $
+      \left\{
+        \left.
+          \frac{\partial}{\partial y^1}
+        \right|_p,
+        \dots
+        \left.
+          \frac{\partial}{\partial y^n}
+        \right|_p
+      \right\}.
+      $
+    }
+  \end{itemize}
+\end{proof}
+
+Given two oriented atlases $\mathcal{A}$ and
+$\mathcal{B}$, we define $\mathcal{A} \sim \mathcal{B}$ when
+$\forall (U_\alpha, \phi_\alpha) \in \mathcal{A},
+(V_\alpha, \psi_\beta) \in \mathcal{B}$ with $U_\alpha \cap V_\beta$
+nonempty,
+$$
+  \psi_\beta \circ \phi_\alpha^{-1}
+: \phi_\alpha(U_\alpha \cap V_\beta) \to \psi_\beta(U_\alpha \cap V_\beta)
+$$
+is orientation preserving as a map between Euclidean spaces.
+This is an equivalence relation on ordered atlases, where transitivity
+follows from the chain rule.
+
+For all $\tilde{\omega} \sim \omega$ and
+for all $(V, y^i) \in \mathcal{B} \sim \mathcal{A}$,
+$\tilde{\omega} = f \dif y^1 \wedge \cdots \dif y^n$ on $V$
+where $f > 0$ on $V$.
+
+For all $\{Y_1, \dots, Y_n\}_p \sim \{X_1, \dots, X_n\}_p$ and any
+chart in an oriented atlas,
+$
+  \{Y_1, \dots, Y_n\}
+\sim
+  \left\{
+    \left.
+      \frac{\partial}{\partial y^1}
+    \right|_p,
+    \dots
+    \left.
+      \frac{\partial}{\partial y^n}
+    \right|_p
+  \right\}.
+$
+
+\section{Manifolds with boundary}
+A manifold with boundary is modeled locally by the closed upper
+half-space
+$$
+  \mathcal{H}^n
+= \{ x = (x^i) \in \mathbb{R}^n ~\vert~
+     x^n \geq 0 \
+  \}
+$$
+which is given the subspace topology in $\mathbb{R}^n$.
+The interior of $\mathcal{H}^n$ consists of those points whose last
+coordinate is positive, while the boundary
+$\partial \mathcal{H}^n$ consists of those points
+whose last coordinate is zero, which is itself a manifold of dimension
+$n - 1$.
+
+Open sets on $\mathcal{H}^n$ are unions of open balls in
+$\mathrm{int}(\mathcal{H}^n)$ and half-closed half-balls lying on
+$\partial \mathcal{H}^n$.
+
+For $n = 1$, we see that
+$\mathcal{L}^1 = \{ x ~\vert~ x \leq 0 \}$ has an
+orientation-reversing homeomorphism with $\mathcal{H}^1$
+given by $x \mapsto -x$. There is no orientation-preserving
+homeomorphism $\mathcal{H}^1 \to \mathcal{L}^1$. For
+$n > 1$ we can define an orientation preserving homeomorphism
+$(x^1, \dots, x^n) \mapsto (-x^1, x^2, \dots, x^{n-1}, -x^n)$.
+
+\begin{defn}
+A \emph{topological $n$-manifold with boundary} is a topological
+space $M$ that is
+\begin{enumerate}
+  \item{
+    Hausdorff,
+  }
+  \item{
+    second countable, and
+  }
+  \item{
+    locally homeomorphism to $\mathcal{H}^n$, or possibly
+    $\mathcal{L}^1$ in the case $n = 1$.
+
+    This means for each $p \in M^n$ there exists a chart
+    $(U, \phi)$, i.e. an open set $U \subset M$ containing $p$ and a
+    homeomorphism $\phi: U \to \phi(U) \subset\ mathcal{H}^n$ where
+    $\phi(U)$ is an open subset of $\mathcal{H}^n$.
+  }
+\end{enumerate}
+\end{defn}
+
+\begin{xmpl}
+  \begin{enumerate}
+    \item{
+      Trivially, $\mathcal{H}^n$.
+    }
+    \item{
+      The closed unit ball
+      $\bar{\mathbb{D}}^n = \{ x \in \mathbb{R}^n ~\vert~ \|x\| \leq 1 \}$.
+    }
+  \end{enumerate}
+\end{xmpl}
+
+\subsubsection{A generalization of smoothness}
+Let $N, M$ be smooth manifolds with $S \subset N$,
+$T \subset M$, possibly not open.
+
+\begin{defn}
+A map $f : S \to M$ is \emph{smooth} at $p \in S$, there
+exists an open $U \subset N$ with $p \in U$ and a smooth extension of
+$f: U \cap S \to M$ to $\tilde{f}: U \to M$, i.e. a smooth map
+$\tilde{f}: U \to M$ with $\tilde{f}\restrict_{U \cap S} =
+f\restrict_{U \cap S}$.
+
+A map $f : S \to M$ is smooth if it is smooth
+at all $p \in S$.
+
+A diffeomorphism $f: S \to T$ is smooth if
+$f: S \to T \subset M$ is smooth, bijective, and has smooth whole
+inverse $f^{-1}: T \to S$.
+\end{defn}
+
+\begin{remark}
+A map $f: S \to M$ with $S \subset N$ is smooth if and only if there
+exists an open $U \subset N$ with $S \subset U$ and a smooth map
+$\tilde{f}: U \to M$ that agrees with $f$ on $S$. This follows by
+summing up the local smooth extensions with a partition of unity.
+\end{remark}
+
+\begin{defn}
+An atlas of charts $\mathcal{A} = \{(U_\alpha, \phi_\alpha)\}$ for a
+topological $n$-manifold with boundary is smooth provided all
+transition functions $\phi_\beta \circ \phi^{-1}$ are diffeomorphisms
+in the above sense.
+
+A \emph{smooth $n$-manifold with boundary} is a topological
+$n$-manifold with boundary equipped with a maximal smooth atlas.
+\end{defn}
