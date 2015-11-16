@@ -879,3 +879,172 @@ in the above sense.
 A \emph{smooth $n$-manifold with boundary} is a topological
 $n$-manifold with boundary equipped with a maximal smooth atlas.
 \end{defn}
+
+\subsection{Invariance of domain}
+
+\begin{theorem}[$C^\infty$ invariance of domain]
+Let $M^n$, $N^n$ be smooth manifolds with equal dimension with subsets
+$U \subset M^n$ and $S \subset N^n$. Suppose $f: U \to S$ is a
+diffeomorphism. If $U$ is open in $M^n$, then $S$ is open in $N^n$.
+\end{theorem}
+
+\begin{proof}
+Let $f(p) \in S$ for some $p \in U$. We wish to show that there exists
+an open neighborhood $V_{f(p)} \subset N^n$ about $f(p)$ with
+$V_{f(p)} \subset S$.
+
+$f$ has smooth inverse $f^{-1}$, so there is some open subset
+$V \subset N^n$ with $S \subset V$ and a map
+$g: V \to M^m$ that agrees with $g = f^{-1}$ on $S$. The composite map
+$g \circ f : U \to M^n$ has
+$(g \circ f)(u) = f^{-1}(f(u)) = u$, i.e. $g \circ f =
+\mathrm{id}_U$. In particular
+$(g \circ f)_{\ast, p} : T_pM \to T_pM$ is the identity linear map.
+But $(g \circ f)_{ast, p} = g_{\ast,f(p)} \circ f_{\ast, p}$ and
+$f_{\ast, p} : T_p M \to T_{f(p)} N$. Since $\mathrm{id}$ is
+injective, $f_{\ast, p}$ must then be injective, so since
+$M$ and $N$ have the same dimension $f_{\ast,p}$ is an
+isomorphism. Therefore the inverse function theorem implies that
+there exist open sets $U_p \subset M^n$ and $V_{f(p)} \subset N^n$
+about $p$ and $f(p)$ on which
+$f\restrict_{U_p} : U_p \to V_{f(p)}$ is a diffeomorphism. Then
+$V_{f(p)}$ is an open neighborhood in $M$ that lies in the image of
+$f(U_p) \subset S$ as desired.
+\end{proof}
+
+\begin{prop}
+Let $M$ be a manifold with boundary with
+$p \in (U, \phi) \cap (V, \psi)$. Then
+$\phi(p) \in \mathrm{int}(\mathcal{H}^n)$ if and only if
+$\psi(p) \in \psi(U \cap V)$ is in $\mathrm{int}(\mathcal{H}^n)$.
+This says that whether $p$ is in the interior or in the boundary is
+independent of chart.
+\end{prop}
+\begin{corol}
+$\phi(p) \in \partial \mathcal{H}^n$ if and only if
+$\psi(p) \in \partial \mathcal{H}^n$.
+\end{corol}
+
+\begin{proof}
+Suppose $\phi(p) \in \phi(U \cap V)$ lies in $\mathrm{int}
+(\mathcal{H}^n)$. Then there exists an open $B$ about $\phi(p)$ such
+that $B \subset \phi(U \cap V)$ is open in $\mathbb{R}^n$. Note that
+$\psi \circ \phi^{-1}\restrict_B : B \to \psi(U \cap V) \subset
+\mathcal{H}^n \subset \mathbb{R}^n$. By invariance of domain,
+$\psi \circ \phi^{-1}(B)$ is an open neighborhood of $\psi(p)$ in
+$\mathbb{R}^n$, so $\psi(p) \in \mathrm{int} \mathcal{H}^n$.
+\end{proof}
+
+\begin{defn}[Boundary of a manifold with boundary]
+The \emph{boundary} of a manifold with boundary $M$ is the set
+$$
+  \partial M
+= \{ p \in M ~\vert~
+     \exists (U, \phi)
+       \text{ about $p$ s.t. $\phi(p) \in \partial \mathcal{H}^n$}
+  \}.
+$$
+\end{defn}
+
+\begin{prop}
+$\partial M$ with the subspace topology from $M$ is a $C^\infty$
+$n-1$ manifold without boundary.
+\end{prop}
+\begin{proof}
+  \begin{itemize}
+    \item{
+      $\partial M$ is second countable and Hausdorff when given the
+      subspace topology.
+    }
+    \item{
+      Let $\mathcal{A} = \{(U_\alpha, \phi_\alpha) ~\vert~ \alpha \in
+      A\}$ be a smooth atlas for $M$. For any $\alpha$, we have
+      $$
+        \phi_\alpha\restrict_{U_\alpha \cap \partial M}
+      : U_\alpha \cap \partial M \to \partial \mathcal{H}^n
+      = \mathbb{R}^{n-1}
+      $$
+      which is a diffeomorphism onto its image. Therefore
+      $$
+        \mathcal{B}
+      = \{(U_\alpha \cap \partial M,
+           \phi_\alpha \restrict_{U_\alpha \cap \partial M})\}
+      $$
+      is a smooth atlas for $\partial M$.
+    }
+  \end{itemize}
+\end{proof}
+
+There is also a theory for ``manifolds with corners'', where
+boundaries can have boundaries.
+
+\subsection{Constructions on manifolds with boundary}
+
+Let $(M, \partial M)$ be a manifold with boundary and $p \in \partial
+M$. We can define several constructions on these objects.
+\begin{itemize}
+  \item{
+    $C_p^\infty(M)$, the $\mathbb{R}$-algebra of germs of $C^\infty$
+    real functions at $p$. This means that if
+    $f: U \to \mathbb{R}$ and $g: V \to \mathbb{R}$ where $f \sim g$
+    when there exists an open $W \subset U \cap V$ such that $f = g$
+    on $W$. Smoothness is regarded in our more general sense.
+  }
+  \item{
+    $T_pM$, the $\mathbb{R}$ vector space of point derivations of the
+    algebra of germs $C_p^\infty(M)$. The dimension of $T_p M$ is
+    $\dim M = n$, not the dimension of the boundary
+    $\dim (\partial M) = n - 1$. In particular for $\mathcal{H}^2$, a
+    point $p$ on the boundary has a well-defined tangent vector
+    $-\left.\frac{\partial}{\partial y}\right|_p \in T_p
+    \mathcal{H}^2$, but is not tangent to any curve in $\mathcal{H}^2$.
+  }
+  \item{
+    There is a natural inclusion
+    $i: T_p \partial M \to T_p M$ given by
+    $i(X)(f) = X(f\restrict_{\partial M})$. This realizes
+    $T_p \partial M$ as a $n-1$ dimensional vector subspace of $T_p
+    M$.
+    Exercise: this map is injective.
+  }
+  \item{
+    The cotangent space at $p \in \partial M$ is
+    $$
+    T_p^\ast M = \mathrm{Hom}(T_p M, \mathbb{R}),
+    $$
+    and we have $k$-covectors by taking exterior powers of this space,
+    and differential $k$-forms as smooth sections of the bundle
+    $\Lambda^k(T^\ast M) \to M$.
+  }
+  \item{
+    Orientation of a manifold with boundary is defined by any of the
+    following equivalent notions:
+    \begin{enumerate}
+      \item{
+        a pointwise orientation $\mu = \{X_1, \dots, X_n\}$ in terms
+        of frames,
+      }
+      \item{
+        a nonvanishing smooth $n$-form $\omega$, where $n = \dim M$,
+      }
+      \item{
+        an oriented atlas.
+      }
+    \end{enumerate}
+  }
+\end{itemize}
+
+\begin{xmpl}
+$[0, 1]$ is a 1-manifold with boundary $\partial M = \{0, 1\}$. We
+have charts $\phi_1: [0, 1) \to [0, 1) \subset \mathcal{H}^1$ given by
+$\phi_1(x) = x$ and
+$\phi_2: (0, 1] \to [0, 1) \subset \mathcal{H}^1$ by
+$\phi_2(x) = 1 - x$. Then $\phi_1^{-1} \circ \phi_2 = 1 - x$, so the
+chart $\phi_2$ is not orientation preserving. But if we consider the
+chart $\phi_3 : (0, 1] \to (-1, 0] \subset \mathcal{L}^1$ given by $x
+\mapsto x - 1$, this is orientation preserving.
+\end{xmpl}
+
+We will show next that if $M$ is oriented then there is a canonical
+orientation on $\partial M$, by contracting the volume form with an
+outward-pointing vector field.
