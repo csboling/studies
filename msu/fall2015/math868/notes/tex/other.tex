@@ -1,0 +1,231 @@
+\begin{theorem}[Brouwer's fixed point theorem]
+Any continuous map $F: \bar{\mathbb{D}}^n \to \bar{\mathbb{D}}^n$ has at least one fixed point.
+\end{theorem}
+
+\begin{theorem}
+A continuous map $F: \mathbb{R}^n \to \mathbb{R}^n$ is continuous and
+$\exists D > 0$ such that $\|F(x) - x\| \leq D$ (``bounded
+distortion'')
+for all $x$, then $F$ is onto.
+\end{theorem}
+
+\begin{proof}
+Let $y \in \mathbb{R}^n$ and $G: \mathbb{D}(0, D + \| y \|) \to \mathbb{R}^n$
+be given by $G(x) = x - F(x) + y$. Then the image of $G$ lies in
+$\mathbb{D}(0, D + \| y \|)$ since
+$$
+     \| G(x) \|
+=    \| x - F(x) + y \|
+\leq \| x - F(x) \| + \| y \|
+\leq D + \| y \|.
+$$
+Let $x_0 \in \mathbb{D}(0, D + \| y \|)$ be a fixed point. Then
+$x_0 = G(x_0) = x_0 - F(x_0) + y$ so $F(x_0) = y$.
+\end{proof}
+
+\begin{theorem}[Hairy ball theorem]
+The sphere $S^n$ admits a nowhere-vanishing continuous vector field if
+and only if $n$ is odd.
+\end{theorem}
+
+\subsection{Orientation on products}
+Let $(M, [\omega_M]), (N, [\omega_N])$ be oriented manifolds. Then we
+have projections
+$\pi_M : M \times N \to M$ and $\pi_N : M \times N \to N$. Then
+we have a form of top degree given by
+$$
+\omega_{M \times N} = \pi_M^\ast \omega_M \wedge \pi_N^\ast \omega_N.
+$$
+We claim that this form is nowhere zero. Let $(m, n) \in M \times N$.
+Then $\phi : T_{(m, n)} M \times N \to T_m M \oplus T_n N$ given by
+$\phi(v) = ((\pi_M)_\ast(v), (\pi_N)_\ast(v))$ is an isomorphism.
+
+Let $v_1, \dots, v_{\dim M}$ given by $v_i = (x_i, 0)$, where $\{x_i\}$ is a
+basis for $T_p M$, and similarly $w_i = (0, y_i)$
+$i = 1, \dots, \dim N$, where $\{y_i\}$ is a
+basis for $T_n N$. Also set $V_i = \phi_{i}^{-1} v_i$,
+$W_i = \phi_i^{-1} w_i$. Then
+$$
+  \omega_{M \times N}(V_1, \dots, V_{\dim M}, W_1, \dots, W_{\dim N})
+= \omega_M((\pi_M)_\ast V_1, \dots, (\pi_M)_\ast V_{\dim M}) \cdot
+  \omega_N((\pi_N)_\ast W_1, \dots, (\pi_N)_\ast W_{\dim N})
+\neq 0.
+$$
+
+\subsection{Cylinder over $M$}
+Consider the cylinder $M \times I$, where $I = [0, 1]$, and
+$M$ (\emph{without} boundary) is equipped with an orientation form
+$\omega_M$. Let
+$M_t = \pi_I^{-1}(t)$. We have
+$\partial(M \times I) = M_0 \coprod M_1$. Denote the inclusion map for
+each $M_t$ by $i_t: M_t \to M$, and the slice map $T_t : M \to M_t$
+given by $m \mapsto (m, t)$. Note that
+$$
+  \pi_M \circ i_1 \circ T_1
+= \mathrm{id}_M
+= \pi_M \circ i_0 \circ T_0.
+$$
+
+The orientation on $M \times I$ is given by the form
+$$
+  \omega_{M \times I}
+= \pi_M^\ast \omega_M \wedge \pi_I^\ast \dif t
+$$
+which induces an orientation on the boundary.
+Consider the isomorphism
+$\phi: T_{(m, s)} (M \times I) \to T_m M \oplus T_s I$ and note that
+$\frac{\partial}{\partial t} \triangleq \phi^{-1}(0, \frac{\dif}{\dif
+  t})$.
+On $M_1$ this is an outward-pointing vector field, so we define
+$$
+  X_p
+= \left\{
+    \begin{array}{c c}
+      \frac{\partial}{\partial t}, & \quad p \in M_1 \\
+     -\frac{\partial}{\partial t}, & \quad p \in M_0 \\
+    \end{array}
+  \right.,
+$$
+which gives an outward-pointing vector field on $\partial(M \times
+I)$.
+Then we have an orientation form
+\begin{align*}
+   \omega_1
+&= i_{\frac{\partial}{\partial t}} (i_1)^\ast \omega_{M \times I} \\
+&= i_{\frac{\partial}{\partial t}} (i_1)^\ast(\pi_M^\ast \omega_M
+\wedge \pi_I^\ast \dif t) \\
+&= (-1)^{\dim M} i_1^\ast \pi_M^\ast \omega_M
+\end{align*}
+on $M_1$ and
+\begin{align*}
+   \omega_0
+&= (-1)^{\dim M + 1} i_0^\ast \pi_M^\ast \omega_M.
+\end{align*}
+
+\begin{lemma}
+$T_1$ is orientation preserving if and only if $T_0 : M \to M_0$ is
+orientation reversing.
+\end{lemma}
+\begin{proof}
+We want to compare
+$$
+  \int_M T_1^\ast \omega_1
+= \pm \int_{M_1} \omega_1.
+$$
+But
+$$
+  \int_{M_0} T_1^\ast \omega_1
+= (-1)^{\dim M}\int_{M_0} T_1^\ast i_1^\ast \pi_M^\ast \omega_M
+= (-1)^{\dim M}\int_{M_0} \omega_M
+$$
+and
+$$
+  \int_{M_0} T_0^\ast \omega_0
+= (-1)^{\dim M} \int_{M_0} \omega_M
+= -\int_{M_1} T_1^\ast \omega_1.
+$$
+\end{proof}
+
+\subsection{Homotopy}
+
+\begin{defn}[Homotopy]
+Let $X, Y$ be spaces and $f, g: X \to Y$ be continuous.
+A \emph{homotopy} from $f$ to $g$ is a continuous map
+$H: X \times I \to Y$ with $H(x, 0) = f(x)$ and
+$H(x, 1) = g(x)$. We can think of $H$ as a path in the space of maps
+$X \to Y$, where $H_t : X \to Y$ given by $H_t(x) = H(x, t)$ gives a
+one-parameter family of maps.
+\end{defn}
+
+\begin{prop}
+Let $M$, $N$ be compact oriented $n$-manifolds without boundary, and
+$f, g : M^n \to N^n$ be diffeomorphisms. If there exists a $C^\infty$
+homotopy $H : M \times I \to N$ of $f$ to $g$, then $f$ and $g$ both
+preserve or both reverse orientation.
+\end{prop}
+\begin{proof}
+Let $\omega_M$, $\omega_N$ be the orientation forms on $M$ and $N$ and
+$H: M \times I \to N$ be a smooth homotopy. Let
+$\alpha = H^\ast \omega_N \in \Omega^n(M^n \times I)$. Let
+$i = i_0 \coprod i_1 : \partial (M \times I) = M_0 \coprod M_1  \to M
+\times I$. By Stokes' theorem,
+$$
+  \int_{M \times I} \dif \alpha
+= \int_{\partial(M \times I)} i^\ast \alpha.
+$$
+But
+$$
+  \int_{M \times I}
+    \dif \alpha
+= \int_{M \times I}
+    \dif (H^\ast \omega_N)
+= \int_{M \times I}
+    H^\ast \dif \omega_N
+= \int_{M \times I}
+    H^\ast 0
+= 0
+$$
+and
+\begin{align*}
+  \int_{\partial(M \times I)}
+    i^\ast \alpha
+&= \int_{M_1}
+     i_1^\ast \alpha
+ + \int_{M_0}
+     i_0^\ast \alpha \\
+&= \int_{M_1}
+      i_1^\ast H^\ast \omega_N \\
+ + \int_{M_0}
+     i_0^\ast H^\ast \omega_N \\
+&= \pm \int_M
+     T_1^\ast i_1^\ast H^\ast \omega_N \\
+&= \mp \int_M
+     T_0^\ast i_0^\ast H^\ast \omega_N \\
+&= \pm
+     \left[
+       \int_M
+         T_1^\ast i_1^\ast H^\ast \omega_N
+     - \int_M
+         T_0^\ast i_0^\ast H^\ast \omega_N
+     \right].
+\end{align*}
+Now $T_1^\ast i_1^\ast H^\ast = (H \circ i_1 \circ T_1)^\ast$
+and $\forall m \in M$,
+$$
+  H(i_1(T_1(m)))
+= H(i, (m, 1))
+= H(m, 1)
+= g(m)
+$$
+and
+$$
+  H(i_0(T_0(m))) = f(m)
+$$
+so
+$$
+  \int_M g^\ast \omega_N
+= \pm \int_N \omega_N
+= \int_M f^\ast \omega_N
+$$
+since $\int_{\partial(M \times I)} i^\ast \alpha = 0$. Therefore $g$
+and $f$ must have the same action on orientation.
+\end{proof}
+
+\begin{proof}[Hairy ball theorem]
+\begin{itemize}
+  \item[($\impliedby$)]{
+    $$
+            S^{2n + 1}
+    \subset \mathbb{R}^{2n + 2}
+    = \mathbb{R}^2 \times \cdots \times \mathbb{R}^2
+    $$
+    with $n + 1$ copies. Let
+    $X: S^n \to \mathbb{R}^{2n + 2}$
+    be given by
+    $$
+      X(\langle x_1, y_1, \dots, x_{n+1}, y_{n+1}\rangle)
+    = \langle -y_1, x_1, \dots, -y_{n+1}, x_{n+1} \rangle.
+    $$
+  }
+\end{itemize}
+\end{proof}
