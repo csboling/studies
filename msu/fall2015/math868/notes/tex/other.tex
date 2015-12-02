@@ -214,18 +214,87 @@ and $f$ must have the same action on orientation.
 \begin{proof}[Hairy ball theorem]
 \begin{itemize}
   \item[($\impliedby$)]{
+
+    Note that
+    $$
+           T_p S^n
+    \simeq p^\perp
+    =      \{ v \in \mathbb{R}^{n+1}  ~\vert~ \langle v, p \rangle = 0 \},
+    $$
+    so we can construct a vector field $X: S^n \to \mathbb{R}^{n+1}$
+    such that $\forall p \in S^n$, $\langle p, X(p) \rangle = 0$.
+
+    $S^{2n+1}$ admits a nowhere zero smooth vector field. Note that
     $$
             S^{2n + 1}
     \subset \mathbb{R}^{2n + 2}
     = \mathbb{R}^2 \times \cdots \times \mathbb{R}^2
     $$
-    with $n + 1$ copies. Let
+    with $n + 1$ copies. Give coordinates on these
+    copies by $(x_1, y_1), \dots, (x_{n+1}, y_{n+1})$, so a point
+    $p \in S^{2n + 1}$ has coordinates
+    $(x_1, y_1, \dots, x_{n+1}, y_{n+1}$. Let
     $X: S^n \to \mathbb{R}^{2n + 2}$
     be given by
     $$
       X(\langle x_1, y_1, \dots, x_{n+1}, y_{n+1}\rangle)
     = \langle -y_1, x_1, \dots, -y_{n+1}, x_{n+1} \rangle.
     $$
+    Then $\| X(p) \| = 1$, and $\langle X(p), p \rangle = 0$ for any $p$,
+    so $X$ is tangent to $S^{2n + 1}$.
+  }
+  \item{
+    We saw last lecture that if there exists a smooth homotopy between
+    diffeomorphisms $f, g: M^n \to N^n$, then $f, g$ either both
+    preserve or both reverse orientation.
+
+    Without loss of generality, assume $\| X(p) \| = 1$ for all $p$.
+    Define $H: S^n \times I \to \mathbb{R}^{n+1}$ by
+    $$
+      H(p, t)
+    = \cos(\pi t)p + \sin(\pi t) X(p).
+    $$
+    We can check that
+    $$
+      \langle H(p,t), H(p,t) \rangle
+    = \cos^2 (\pi t) \langle p, p \rangle
+    + \sin^2 (\pi t) \langle X(p), X(p) \rangle
+    + 2 \sin (\pi t) \cos (\pi t) \langle p, X(p) \rangle
+    = 1,
+    $$
+    so in fact $H : S^n \times I \to S^n$, and
+    $H_0(p) = H(p, 0) = p$ while $H_1(p) = H(p, 1) = -p$, so this is a
+    homotopy between the identity map and the antipodal map. Therefore
+    the antipodal map preserves orientation, which implies that $n$ is
+    odd.
+
+    This is part of a more general theorem called the
+    \emph{Poincar\'e-Hopf theorem}, that the sum of the indices of a
+    vector field add to the Euler characteristic for any compact manifold.
   }
 \end{itemize}
+\end{proof}
+
+\begin{prop}[Smooth approximation]
+If $S^n$ admits a nowhere zero $C^0$ vector field $Y: S^n \to
+\mathbb{R}^{n+1}$, then it admits a nowhere zero $C^\infty$ vector
+field.
+\end{prop}
+
+\begin{proof}
+Without loss of generality, let $\| Y \| = 1$ on $S^n$. Let
+$0 < \varepsilon < \frac{1}{2^{20}}$. Then the Weierstrass theorem
+says that there exists a $C^\infty$ function $X: S^n \to
+\mathbb{R}^{n+1}$ sch that $\forall p \in S^n$,
+$\| X(p) - Y(p) \| < \varepsilon$. In particular,
+$\| X(p) \| \geq 1 - \varepsilon > 0$. Let
+$\tilde{X}(p) = X(p) - \langle x(p), p \rangle p$ for all $p$. Then
+\begin{align*}
+   \langle \tilde{X}(p), p \rangle
+&= \langle X(p), p \rangle - \langle x(p), p \rangle \langle p, p
+  \rangle \\
+&= 0
+\end{align*}
+so that $\tilde{X} : S^n \to \mathbb{R}^{n+1}$ is a smooth, nowhere
+zero vector field.
 \end{proof}

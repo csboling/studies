@@ -1,0 +1,77 @@
+\section{de Rham theory}
+We have a cochain complex
+$$
+\cdots \to \{ 0 \} \to \{ 0 \} \to
+\Omega^0(M) = C^\infty(M) \to
+\Omega^1(M) \to \cdots \to
+\Omega^{n-1}(M) \to
+\Omega^n(M) \to
+\{0\} \to \{0\} \to \cdots,
+$$
+known as the \emph{de Rham complex}
+$(\Omega^k(M), \dif^k)$, which satisfies $\dif \circ \dif = 0$.
+This means that
+$$
+        \mathrm{im}(d^{k-1}: \Omega^{k-1}(M) \to \Omega^k(M))
+\subset \ker(d^k : \Omega^k(M) \to \Omega^{k+1}(M)).
+$$
+We call $Z^k(M) = \ker(\dif^k)$, i.e. the closed $k$-forms,
+the \emph{cocycles}, and $B^k(M) = \mathrm{im}(\dif^{k-1})$, i.e. the
+exact $k$-forms, the \emph{coboundaries}, and define the
+\emph{de Rham cohomology groups}
+$$
+  H^k_{dR}(M)
+= Z^k(M) / B^k(M).
+$$
+Elements in $H^k_{dR}(M)$ are equivalence classes $[\omega]$ for the
+equivalence relation $\sim$ on $Z^k(M)$ given by
+$$
+     \omega_1 \sim \omega_2
+\iff \omega - \omega_2 \in B^k(M)
+\iff \omega_1 - \omega_2 = \dif \alpha, \alpha \in \Omega^{k-1}(M).
+$$
+These are called the \emph{cohomology classes}.
+
+\begin{prop}
+$H^0(M) = \mathbb{R}^l$, where $l$ is the number of connected
+components of $M$.
+\end{prop}
+
+\begin{proof}
+$H^0(M) = \ker \dif^0 / \{ 0 \} = \ker \dif^0$, i.e.
+$\{ f : C^\infty(M, \mathbb{R}) ~\vert~ \dif f = 0 \}$.
+Let $e_1, \dots, e_l$ be the connected components of $M$,
+choose elements $c_1 \in e_1$, and define a function
+$H^0(M) = Z^0(M) \to \mathbb{R}^l$ given by
+$f \mapsto (f(c_1), \dots, f(c_n))$. This is $\mathbb{R}$-linear and
+onto, and one-to-one since
+$\dif f = \sum \frac{\partial f}{\partial x^i} \dif x = 0$ so that
+$\frac{\partial f}{\partial x^i} = 0$ for all $i$, i.e. each
+$f$ is locally constant.
+\end{proof}
+
+\begin{remark}
+$H^k(M) = \{ 0 \}$ for $k > \dim M$.
+\end{remark}
+
+\begin{xmpl}
+$H^0(\mathbb{R}) = \mathbb{R}$, $H^k(\mathbb{R}) = \{ 0 \}$ for $k >
+1$.
+
+$Z^1(\mathbb{R}) = \Omega^1(\mathbb{R}) = \{ f \dif t ~\vert~ f \in
+C^\infty(\mathbb{R})\}$.
+We claim that $\dif(\Omega^0(\mathbb{R})) = Z^1(\mathbb{R}) =
+\Omega^1(\mathbb{R})$.
+
+Let $\alpha = f \dif t$. We wish to show that there exists a
+$g \in C^\infty(\mathbb{R})$ with $\dif g = \alpha = f \dif t$.
+Define
+$$
+  g(t)
+= \int_0^t
+    f(u) \dif u
+\in C^\infty(\mathbb{R}).
+$$
+By the fundamental theorem of calculus, $\dot{g}(t) = f(t)$, so
+$\dif g = \dot{g}(t) \dif t = \alpha$.
+\end{xmpl}
