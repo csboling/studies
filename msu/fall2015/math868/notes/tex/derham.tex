@@ -75,3 +75,214 @@ $$
 By the fundamental theorem of calculus, $\dot{g}(t) = f(t)$, so
 $\dif g = \dot{g}(t) \dif t = \alpha$.
 \end{xmpl}
+
+\begin{xmpl}[Cohomology of $S^1$]
+We will see that
+$$
+  H_{dR}^k(S^1)
+= \left\{
+    \begin{array}{c c}
+      \mathbb{R}, & k = 0 \\
+      \mathbb{R}, & k = 1 \\
+      0,          & k > 1 \\
+    \end{array}
+  \right.
+$$
+and more generally
+$$
+  H_{dR}^k(S^n)
+= \left\{
+    \begin{array}{c c}
+      \mathbb{R}, & k = 0 \\
+      \mathbb{R}, & k = n \\
+      0,          & k \neq 0, k \neq 1 \\
+    \end{array}
+  \right.
+$$
+using the Mayer-Vietoris sequence.
+
+The 1-cocycles
+$Z^1(S^1) = \ker \dif_1 = \Omega^1(S^1)$ are all the top forms on
+$S^1$, so we have the integration map
+$I: Z^1(S^1) \to \mathbb{R}$ given by
+$\alpha \mapsto \int_{S^1} \alpha$. We also have a map
+$h : \mathbb{R} \to S^1$ given by $h(t) = (\cos t, \sin t)$,
+inclusion $i: [0, 2\pi] \to \mathbb{R}$, and an orientation form
+$\omega = (-y \dif x + x \dif y)\restrict_{S^1}$. We have seen
+$h^\ast \omega = \dif t$ and $h_\ast\left(\frac{\dif}{\dif t}\right) =
+X$. The map $H = h \circ i : [0, 2\pi] \to S^1$ is a diffeomorphism
+onto its interior, so this is a parameterization of $S^1$.
+
+To show that $I$ is surjective,
+$$
+  I(\omega)
+= \int_{S^1} \omega
+= \int_0^{2\pi} H^\ast \omega
+= \int_0^{2\pi} \dif t
+= 2 \pi > 0
+$$
+and since $I$ is $\mathbb{R}$-linear, any real number is in the image
+of $I$. By the first isomorphism theorem,
+$$
+\mathbb{R} \simeq Z^1(S^1) / \ker(I),
+$$
+so we wish to show that $\ker(I)$ consists of exactly the
+1-coboundaries on $S^1$, i.e. the exact 1-forms.
+
+Let $\dif g \in B^1(S^1)$. Then
+$$
+I(\dif g) = \int_{S^1} \dif g = \int_{\partial S^1} g = 0.
+$$
+
+Let $\alpha \in \ker I$. Then $\alpha$ is a top form, so
+$\alpha = f \omega$. Let
+$\bar{f} = h^\ast f = f \circ h$, and note that
+$h^\ast \alpha = \bar{f} h^\ast \omega = \bar{f} \dif t$. Since
+$h$ is $2\pi$-periodic, the pullback of $f$ by a periodic map
+$\bar{f}$ is $2\pi$-periodic. Since $\alpha \in \ker I$,
+$$
+0
+= \int_{S^1} \alpha
+= \int_{S^1} f \omega
+= \int_0^{2\pi} \bar{f}(t) \dif t.
+$$
+Let
+$$
+  \bar{g}(t)
+= \int_0^t
+    \bar{f}(u) \dif u.
+$$
+Then
+$$
+  \dif \bar{g}
+= \dot{\bar{g}}(t) \dif t
+= \bar{f}(t) \dif t
+= h^\ast(\alpha).
+$$
+But
+$$
+  \bar{g}(t + 2 \pi)
+= \int_0^{t + 2 \pi}
+    \bar{f}(u) \dif u
+= \int_0^{2\pi}
+    \bar{f}(u) \dif u
++ \int_{2\pi}^{2\pi + t}
+    \bar{f}(u) \dif u
+= \int_0^t \bar{f}(u) \dif t
+= \bar{g}(t).
+$$
+Therefore there exists a smooth function $g$ on the circle whose pullback
+is the $2\pi$-periodic function $\bar{g}$, i.e.
+$\dif (h^\ast g) = h^\ast (\dif g)$, so $\alpha = \dif g$ since
+$h^\ast : \Omega^1(S^1) \to \Omega^1(\mathbb{R})$ is one-to-one.
+To see this, let $0 = h^\ast(\phi \omega)$ so that
+$$
+  0
+= h^\ast(\phi \omega) \left(\frac{\dif}{\dif t}\right)
+= \phi \omega \left(h_\ast \frac{\dif}{\dif t}\right)
+= \phi(\omega(X))
+= \phi.
+$$
+\end{xmpl}
+
+\subsection{Action of smooth maps on cohomology}
+Let $F: N \to M$, so that $F^\ast : \Omega^k(M) \to \Omega^k(N)$. Then
+\begin{enumerate}
+  \item{
+    $F^\ast(Z^k(M)) \subset Z^k(N)$, since if $\alpha \in Z^k(M)$,
+    $\dif \alpha = 0$, so $\dif(F^\ast \alpha) = F^\ast (\dif \alpha)
+    = 0$.
+  }
+  \item{
+    $F^\ast(B^k(M)) \subset B^k(N)$, since if $\alpha \in B^k(M)$ with
+    $\alpha = \dif \beta$ then
+    $$
+    F^\ast(\alpha) = F^\ast(\dif \beta) = \dif (F^\ast \beta) \in B^k(N).
+    $$
+  }
+  \item{
+    By (1) and (2),
+    $F^\ast : \Omega^k(M) \to \Omega^k(N)$ induces a well-defined
+    linear map $F^\ast : H^k(M) \to H^k(N)$ given by
+    $F^\ast([\omega]) = [F^\ast \omega]$.
+
+    This shows that cohomology is a contravariant functor, i.e.
+    \begin{enumerate}
+      \item{
+        $(\mathrm{Id}_M)^\ast = \mathrm{Id}_{H^k(M)}$
+      }
+      \item{
+        For $F: N \to M$ and $G: M \to P$,
+        $(G \circ F)^\ast = F^\ast \circ G^\ast : H^k(P) \to H^k(N)$.
+      }
+    \end{enumerate}
+  }
+  \item{
+    Cohomology groups are thus invariant under diffeomorphisms. If
+    $F: N \to M$ is a diffeomorphism, then $F^\ast: H^k(M) \to H^k(N)$
+    is an isomorphism. This is because
+    $$
+      \mathrm{Id}_{H^k(M)}
+    = (\mathrm{Id}_M)^\ast
+    = (F \circ F^{-1})^\ast
+    = (F^{-1})^\ast \circ F^\ast
+    $$
+    and $\mathrm{Id}_{H^k(N)} = F^\ast \circ (F^{-1})^\ast$, so
+    $F^\ast$ is an isomorphism.
+  }
+  \item{
+    Indeed, de Rham cohomology is invariant under homotopy
+    equivalence. A smooth homotopy of smooth maps
+    $f, g: N \to M$ is a smooth map $H : N \times I \to M$ with
+    $H(\cdot, 0) = f(\cdot)$ and $H(\cdot, 1) = g(\cdot)$.
+    We have an equivalence relation given by $f \sim g$ if there
+    exists a smooth homotopy from $f$ to $g$.
+
+    A \emph{homotopy equivalence} between $N$ and $M$ is a map $f: N \to M$ with a
+    homotopy inverse, i.e. a map $g : M \to N$ such that
+    $g \circ f$ is homotopic to $\mathrm{Id}_N$. If such an
+    equivalence exists, we say $M$ and $N$ are homotopy equivalent --
+    this is an equivalence relation on spaces.
+
+    \begin{theorem}
+      Maps in cohomology only depend on the homotopy class of a map.
+    \end{theorem}
+
+    \begin{corol}
+      If $f: N \to M$ is a homotopy equivalence, then
+      $f^\ast : H^k(M) \to H^k(N)$ is an isomorphism for all $k$. This
+      argument works just the same as the argument for diffeomorphisms.
+    \end{corol}
+  }
+\end{enumerate}
+
+\begin{defn}
+  A space is \emph{contractible} if it is homotopy equivalent to a point.
+\end{defn}
+
+\begin{xmpl}[Homotopy equivalent spaces]
+  \begin{enumerate}
+    \item{
+      $\mathbb{R}^n$ is contractible. Let $0 \in \mathbb{R}^n$. Then
+      the point map $p : \mathbb{R}^n \to \{ 0 \}$ has a homotopy
+      inverse given by $i: \{0\} \to \mathbb{R}^n$. Clearly
+      $p \circ i : \{0\} \to \{0\} = \mathrm{Id}$.
+      $i \circ p : \mathbb{R}^n \to \mathbb{R}^n$ is given by
+      $x \mapsto 0$, i.e. $i \circ p = p$. Define a homotopy
+      $H: \mathbb{R}^n \times I \to \mathbb{R}^n$ given by
+      $H(x, t) = t x$. Then $H(x,1) = x =
+      \mathrm{Id}_{\mathbb{R}^n}(x)$ and $H(x, 0) = 0 = p(x)$.
+      This shows that
+      $$
+             H^k(\mathbb{R})^n
+      \simeq H^k(\{\ast\})
+      =      \left\{
+               \begin{array}{c c}
+                 \mathbb{R}, & \quad k = 0 \\
+                 0,          & \quad k > 0.
+               \end{array}
+             \right.
+     $$
+     }
+  \end{enumerate}
+\end{xmpl}
