@@ -286,3 +286,210 @@ Let $F: N \to M$, so that $F^\ast : \Omega^k(M) \to \Omega^k(N)$. Then
      }
   \end{enumerate}
 \end{xmpl}
+
+\section{Homological Algebra}
+
+\begin{defn}
+A sequence of vector spaces
+$A \xrightarrow{f} B \xrightarrow{g} C$ is said to be
+\emph{exact at $B$} if $\mathrm{im}(f) = \ker(g)$.
+
+A sequence
+$$
+  A_0    \xrightarrow{f_0}
+  A_1    \xrightarrow{f_1}
+  A_2    \xrightarrow{f_2}
+  \cdots \xrightarrow{f_{n-2}}
+  A_{n-1} \xrightarrow{f_{n-1}}
+  A_n
+$$
+is an \emph{exact sequence} if it is exact at
+$A_1, \dots A_{n-1}$.
+
+An exact sequence of the form
+$$
+0 \xrightarrow
+A \xrightarrow{f}
+B \xrightarrow{g}
+C \xrightarrow
+0
+$$
+is called a \emph{short exact sequence}.
+\end{defn}
+
+Note that for the short exact sequence above,
+$g$ is onto since $\mathrm{im}(g) = \ker(x \mapsto 0) = C$, and
+$f$ is injective since $\ker f = \mathrm{im}(\{ 0 \}) = \{ 0 \}$.
+Furthermore the first isomorphism theorem says that
+$\ker(g) = \mathrm{im}(f) \simeq A$ so
+$C \simeq B / \mathrm{im}(f)  \simeq B / A$.
+
+\begin{defn}
+A \emph{cochain complex} is a sequence of vector spaces
+$\mathscr{C} = \{C_k\}_{k \in \mathbb{Z}}$ with the
+linear maps $\dif = \dif_k : C_k \to C_{k+1}$ with
+$\dif_{k+1} \circ \dif_k = 0$ for all $k$.
+\end{defn}
+
+For example, the de Rham complex is a cochain complex
+with $\dif$ the exterior derivative.
+
+In a cochain complex
+$\mathrm{im}(\dif_{k+1}) \subset \ker(\dif_k)$ so
+$$
+  H^k(\mathscr{C})
+= \frac{\ker(C^k \xrightarrow{\dif} C^{k+1})}
+       {\mathrm{im}(C^{k-1} \xrightarrow{\dif} C^{k})}.
+$$
+
+\begin{defn}
+Given cochain complexes
+$(\mathscr{A}, \dif)$ and
+$(\mathscr{B}, \dif^\prime)$, a \emph{chain map}
+$\varphi: (\mathscr{A}, \dif) \to (\mathscr{B}, \dif^\prime)$
+is a sequence of maps $\varphi_k : A_k \to B_k$ such that the cochain
+diagrams commute, i.e. $\dif^\prime \varphi = \varphi \dif$.
+\end{defn}
+
+A cochain map induces maps
+$\varphi^\ast : H^k(\mathscr{A}) \to H^k(\mathscr{B})$ in
+cohomology given by $\varphi^\ast([a]) = [\varphi(a)]$. This is
+well-defined because if $a \in \ker(\dif)$, then
+$\varphi(a) \in \ker \dif^\prime$ since
+$\dif^\prime \varphi a = \varphi \dif a = \varphi 0 = 0$. Furthermore
+$\varphi a = \dif^\prime(\beta)$ means
+$$
+  \varphi a
+= \varphi \dif \beta
+= \dif^\prime \varphi b
+= \dif^\prime \beta.
+$$
+In de Rham cohomology, given $F: N \to M$, the pullback
+$F^\ast : (\Omega^\ast(M), \dif) \to (\Omega^\ast N, \dif)$ is a
+cochain map because the pullback commutes with the exterior
+derivative, and so $F^\ast$ induces a map in cohomology
+$H_{dR}^k(M) \to H_{dR}^k(N)$.
+
+\begin{defn}
+A sequence of cochain maps
+$$
+0 \xrightarrow{}
+A \xrightarrow{i}
+B \xrightarrow{j}
+C \xrightarrow{}
+0
+$$
+is called short exact if $\forall k$,
+$$
+0   \xrightarrow{}
+A_k \xrightarrow{i}
+B_k \xrightarrow{j}
+C_k \xrightarrow{}
+0
+$$
+is a short exact sequence of vector spaces.
+\end{defn}
+
+For a short exact sequence of chain maps,
+we define the \emph{connecting homomorphism}
+$\dif^\ast : H^k(\mathscr{C}) \to H^{k+1}(\mathscr{A})$.
+
+Let $[c] \in H^k(\mathscr{C})$. Choose
+$c \in [c]$, i.e. $c \in C^k$ with $\dif c = 0$. Since
+$j$ is surjective, choose $b \in B^k$ such that
+$j(b) = c$. Then
+$j(\dif b) = \dif(j b) = \dif c = 0$, so
+$\dif b \in \ker(j) = \mathrm{im}(i)$. Therefore
+$\dif b = i(a)$, and indeed since $i$ is injective
+this $a \in A^{k+1}$ is unique.
+
+We also have that $\dif a = 0$.
+$i(\dif a) = \dif(i a) = \dif(\dif b) = 0$, so
+$\dif a \in \ker(i)$. But $i$ is injective, so
+$\dif a = 0$. Therefore $a$ defines a class
+$[a] \in H^{k+1}(\mathscr{A})$.
+
+Therefore we set
+$\dif^\ast([c]) = [a] = [i^{-1} \dif j^{-1} c]$,
+and the above argument shows that this choice is well-defined.
+Choosing a different $c \in [c]$ and a different $b \in B^k$ would
+yield the same result.
+
+All this means that
+\begin{lemma}[Zig-zag lemma]
+A short exact sequence
+$
+0           \xrightarrow{}
+\mathscr{A} \xrightarrow{i}
+\mathscr{B} \xrightarrow{j}
+\mathscr{C} \xrightarrow{}
+0
+$
+induces a long sequence in cohomology
+$$
+\cdots              \xrightarrow{j^\ast}
+H^{k-1}(\mathscr{C}) \xrightarrow{\dif^\ast}
+H^{k}(\mathscr{A})   \xrightarrow{i^\ast}
+H^{k}(\mathscr{B})   \xrightarrow{j^\ast}
+H^{k}(\mathscr{C})   \xrightarrow{\dif^\ast}
+\cdots
+$$
+This sequence is in fact exact.
+\end{lemma}
+
+\subsection{Mayer-Vietoris}
+Let $M$ be a smooth manifold and $\{U, V\}$ be an open cover.
+Then we have maps
+$$
+U \cap V \xrightarrow{j_U}
+U        \xrightarrow{i_U}
+M
+$$
+and
+$$
+U \cap V \xrightarrow{j_V}
+V        \xrightarrow{i_V}
+M
+$$
+which induce restriction maps
+\begin{align*}
+  i_U^\ast &: \Omega^k(M) \to \Omega^k(U) \\
+  i_V^\ast &: \Omega^k(M) \to \Omega^k(V) \\
+  j_U^\ast &: \Omega^k(U) \to \Omega^k(U \cap V) \\
+  j_V^\ast &: \Omega^k(V) \to \Omega^k(U \cap V).
+\end{align*}
+These in turn induce maps
+$$
+  i
+:   \Omega^k(M)
+\to \Omega^k(U) \oplus \Omega^k(V)
+=   \Omega^k(U \coprod V)
+$$
+given by
+$$
+        \sigma
+\mapsto (i_U^\ast \sigma, i_V^\ast \sigma)
+=       (\sigma\restrict_U, \sigma\restrict_V)
+$$
+and
+$$
+  j
+:   \Omega^k(U \coprod V)
+=   \Omega^k(U) \oplus \Omega^k(V)
+\to \Omega^k(U \cap V)
+$$
+given by
+$$
+        (\alpha, \beta)
+\mapsto j_V^\ast \beta - j_U^\ast \alpha
+=       \beta\restrict_{U \cap V} - \alpha\restrict_{U \cap V}.
+$$
+We will see that the sequence
+$$
+0                       \xrightarrow{}
+\Omega^\ast(M)           \xrightarrow{i}
+\Omega^\ast(U \coprod V) \xrightarrow{j}
+\Omega^\ast(U \cap V)    \xrightarrow{}
+0
+$$
+is exact, and so induces a long exact sequence in cohomology.
