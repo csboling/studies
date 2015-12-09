@@ -12,7 +12,8 @@ $$
 + f(v_1, \dots, \bar{v_i}, \dots, v_k).
 $$
 This set $L_k(V)$ is a real vector space as well, and elements in this
-space are called \emph{(covariant) $k$-tensors}.
+space are called \emph{(covariant) $k$-tensors}. Denote the invertible
+such maps by $\mathrm{GL}(L_k(V))$.
 
 For example, $L_1(V) = \mathrm{Hom}(V, \mathbb{R}) = V^\vee$, the dual
 space to $V$. Let $\{ e_i \}$ be a basis for $V$. Then each $v \in V$
@@ -24,7 +25,7 @@ $$
 Define $\alpha^i : V \to \mathbb{R}$ by $v \to v^i$, so that
 $$
   v
-= \sum_{i=1}^n \alpha^i(V) e_i.
+= \sum_{i=1}^n \alpha^i(v) e_i.
 $$
 Note that $\alpha^i$ is determined by its values on the basis,
 and $\alpha^i(e_j) = \delta_j^i$.
@@ -42,7 +43,7 @@ Let $\omega \in L_1(V)$. Let
 $$
   \alpha
 = \sum_{i=1}^n \omega(e_i) \alpha^i
-\in \mathrm{span}(\alpha^i.
+\in \mathrm{span}(\alpha^i).
 $$
 Then $\omega = \alpha$ since $\omega(e_j) = \alpha(e_j)$.
 \end{proof}
@@ -53,13 +54,13 @@ Let $f : V \times V \to \mathbb{R}$ be the dot product. Then
 $$
   f(v, w)
 = \sum_{i=1}^n v^i w^i
-= \sum_{i=1}^n \alpha^i(V) \alpha^i(w)
+= \sum_{i=1}^n \alpha^i(v) \alpha^i(w)
 $$
 where $\{ \alpha^i \}$ is the standard basis for the dual space.
 \end{xmpl}
 
 \begin{xmpl}
-The determinant $\det : V \times V \times V \to \mathbb{R}$ is linear
+The determinant $\det : \overbrace{V \times \cdots \times V}^n \to \mathbb{R}$ is linear
 in each argument. Explicitly
 $$
   \det (v_1, \dots, v_n)
@@ -86,7 +87,7 @@ and $g$ are and multiplication distributes through addition.
 \subsection{Symmetric groups}
 Let $k \in \mathbb{N}$ and denote
 $S_k = \mathrm{Perm}(\{1, \dots, k\})$. This is a group with respect
-to group composition, with order $k!$. We can represent elements of
+to function composition, with order $k!$. We can represent elements of
 $S_k$ by listing the mappings explicitly, by using cycle notation
 $$
 (1, \sigma(1), \sigma^2(1), \dots)(m, \sigma(m), \sigma^2(m), \dots)
@@ -102,7 +103,7 @@ $$
 $$
 
 Every element in the symmetric group can be written as a product of
-transpositions, not uniquely. The number of factors in this
+transpositions, not necessarily uniquely. The number of factors in this
 factorization for a given $\sigma \in S_k$ will always have the same
 parity. There is a homomorphism
 $$
@@ -117,7 +118,7 @@ counting the number of even-length cycles, then using this as $N$
 above.
 
 \begin{lemma}
-The symmetric group $S_k$ has an action on tensors $L_k(V)$:
+The symmetric group $S_k$ has a group action on tensors $L_k(V)$:
 $$
   (\sigma . f)(v_1, \dots, v_k)
 = f(v_{\sigma(1)}, \dots, v_{\sigma(k)}).
@@ -127,11 +128,12 @@ $$
 This is a group action because $\forall \sigma, \tau \in S_k$ and
 $f \in L_k(V)$,
 \begin{align*}
-   \sigma (\tau f)
-&= (\tau f)(v_{\sigma(1)}, \dots, v_{\sigma(k)}) \\
-&= (\tau f)(w_1, \dots, w_k) \\
+   \sigma . (\tau . f)
+&= (\tau . f)(v_{\sigma(1)}, \dots, v_{\sigma(k)}) \\
+&= (\tau . f)(w_1, \dots, w_k) \\
 &= f(w_{\tau(1)}, \dots, w_{\tau(k)}) \\
-&= f(v_{\sigma(\tau(1))}, \dots, v_{\sigma(\tau(k))})
+&= f(v_{\sigma(\tau(1))}, \dots, v_{\sigma(\tau(k))}) \\
+&= (\sigma \tau . f)(v_1, \dots, v_k)
 \end{align*}
 letting $w_i = v_{\sigma(i)}$.
 
@@ -162,6 +164,7 @@ Some authors include a factor of $\frac{1}{k!}$ in these operators.
 \end{defn}
 
 \begin{lemma}
+The symmetrizing and alternating operators have the following properties:
   \begin{enumerate}
     \item{
       $S(f) \in S_k(V)$ for all $f$.
@@ -253,7 +256,7 @@ Explicitly
     }
     \item{
       Let $k = 1$, $l = 1$. Then
-      $A_1(V) = v^\vee$ and
+      $A_1(V) = V^\vee$ and
       \begin{align*}
          (f \wedge g)(v_1, v_2)
       &= \frac{1}{1! 1!}
@@ -278,14 +281,14 @@ Explicitly
          , (2, 3)
         \}.
       $$
-      Noe that we have a subgroup $G = \{\mathrm{id}, \tau\}$ with
+      Note that we have a subgroup $G = \{\mathrm{id}, \tau\}$ with
       left-cosets $G = \{\mathrm{id}, (1,2)\}$,
       $\sigma_1 G = \{ (1, 2, 3), (1, 3) \}$, and
       $\sigma_2 G = \{ (1, 3, 2), (2, 3) \}$. Then
       \begin{align*}
          (f \wedge g)(v_1, v_2, v_3)
-      &= \frac{1}{2! 1!}
-        (f(v_1, v_2) g(v_3) \\
+      &= \frac{1}{2! 1!} \\
+      (& f(v_1, v_2) g(v_3) \\
       &+ \mathrm{sgn}(\tau)
          f(v_2, v_1)
          g(v_3) \\
@@ -295,16 +298,16 @@ Explicitly
       &+ \mathrm{sgn}(\sigma_1)
          f(v_3, v_2)
          g(v_1) \\
-      &+ \mathrm{sgn}(\sigma_1)
+      &+ \mathrm{sgn}(\sigma_2)
          f(v_3, v_1)
          g(v_1) \\
-      &+ \mathrm{sgn}(\sigma_1)
+      &+ \mathrm{sgn}(\sigma_2)
          f(v_1, v_3)
          g(v_1)) \\
       &= \frac{1}{2! 1!}(
          2 f(v_1, v_2) g(v_3)
-         2 f(v_2, v_3) g(v_1)
-         2 f(v_3, v_1) g(v_2)) \\
+       + 2 f(v_2, v_3) g(v_1)
+       + 2 f(v_3, v_1) g(v_2)) \\
       &= f(v_1, v_2) g(v_3)
        - f(v_1, v_3) g(v_2)
        + f(v_2, v_3) g(v_1).
@@ -406,7 +409,8 @@ To prove graded commutativity, note that swapping the first $l$
 numbers with the last $k + l$ is a permutation $\tau$ with sign
 $(-1)^{kl}$. Then
 \begin{align*}
-   \frac{1}{k! l!}
+   (f \wedge g)(v_1, \dots, v_k)
+&= \frac{1}{k! l!}
    \sum_{\sigma \in S_{k + l}}
      \mathrm{sgn}(\sigma)
      f(v_{\sigma \tau(l + 1)}, \dots, v_{\sigma \tau(l + k)})
@@ -660,9 +664,9 @@ for any $J$. Hence the $\alpha$ are linearly independent.
 
 Let $\omega \in A_k(V)$, and define
 \begin{align*}
-   \alpha
-&= \sum_I \omega(e_I) \alpha^I \\
-&= \mathrm{span}(\{ \alpha^I \}).
+     \alpha
+&=   \sum_I \omega(e_I) \alpha^I \\
+&\in \mathrm{span}(\{ \alpha^I \}).
 \end{align*}
 We see that $\alpha = \omega$ because of the remark above and because
 for $J$ increasing

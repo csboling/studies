@@ -13,7 +13,7 @@ which induces a metric $d(x, y) = \| x - y \|$
 and thus \emph{metric balls}
 $$
   B(x, r)
-= \{ y \in \mathbb{R}^n : d(x, y) < r \}.
+= \Set{ y \in \mathbb{R}^n | d(x, y) < r }.
 $$
 These generate a topology where a set $U \subset \mathbb{R}^n$ is open
 if $\forall u \in U$, $\exists \varepsilon > 0$ s.t.
@@ -45,16 +45,16 @@ $C^{k+1} \implies C^k$, $\forall k$. We also  denote
 $$
   C^k(U)
 = C^k(U, \mathbb{R})
-= \{ f: U \to \mathbb{R} : f \in C^k \}
+= \Set{ f: U \to \mathbb{R} | f \in C^k }
 $$
 and say that $f$ is \emph{smooth} on $U$ if $f \in
 \mathbb{C}^\infty(U)$.
 
 \begin{xmpl}
-$f(x) = x^{1 / 3}$ is $C^1$ on $C^1(\mathbb{R} \setminus \{ 0 \})$.
+For $f(x) = x^{1 / 3}$ we have $f \in C^1(\mathbb{R} \setminus \{ 0 \})$.
 \end{xmpl}
 
-\begin{theorem}
+\begin{theorem}[Fundamental theorem of calculus]
 $$
 g(x) = \int_0^x f(t) \dif t
 $$
@@ -90,7 +90,11 @@ $f$ has a Taylor series centered at $p = (p^1, \dots, p^n)$ given by
     \sum_{i_1, \cdots, i_k}
       \frac{\partial^k f}
            {\partial x^{i_1} \cdots \partial x^{i_k}}(p)
-      \prod_{i_1, \cdots, i_k} (x^{i_j} - p^{i_j})
+      \prod_{i_1, \cdots, i_k} (x^{i_j} - p^{i_j}) \\
+&= f(p)
+ + \mathrm{Jac}|_p(f) (x - p)
+ + \frac{1}{2} \mathrm{Hess}|_p (x - p)(x - p)^T
+ + \cdots
 \end{align*}
 
 \begin{defn}
@@ -188,7 +192,7 @@ Take $p = 0$. Then
 \begin{align*}
    f(x)
 &= f(0) + g_1(x) \cdot x \\
-&= f(0) + [g_1(0) + g_2(x) \cdot x) x \\
+&= f(0) + [g_1(0) + g_2(x) \cdot x] x \\
 &= f(0) + g_1(0) x + g_2(x) x^2 \\
 &= f(0) + g_1(0) x + [g_2(0) + g_3(x) x] x \\
 &= f(0)
@@ -224,7 +228,7 @@ C^\infty(U, \mathbb{R})$. Consider the one-parameter family of points
 $c: \mathbb{R} \to U$ given by
 $$
   c(t)
-= (p^1 + v^1, \dots, p^n + t v^n)
+= (p^1 + tv^1, \dots, p^n + t v^n)
 $$
 so that $c(0) = p$, $c^\prime(0) = v$. Then we define the
 \emph{directional derivative} of $f$ at $p$ in direction $v$ by
@@ -238,7 +242,6 @@ $$
 This is a real number measuring the rate of change of $f$ in direction
 $v$.
 \end{defn}
-
 
 Recall that
 $$
@@ -259,7 +262,7 @@ $$
 = \sum_{i=1}^n
     v^i
     \frac{\partial f}
-         {\partial x^1}(p).
+         {\partial x^i}(p).
 $$
 We can therefore consider
 $D_v : C^\infty(U) \to \mathbb{R}$
@@ -276,7 +279,7 @@ $$
 
 Note that $C^\infty(U)$ is a $\mathbb{R}$-vector space, and indeed a
 $\mathbb{R}$-algebra since we have multiplication of $C^\infty$
-functions in a way that respects the vector space
+functions (given by $(f \cdot g)(x) = f(x) \cdot g(x)$) in a way that respects the vector space
 structure. Furthermore, $D_v$ is a linear map. We would therefore like
 to make an identification between $v \in T_p \mathbb{R}^n$ with the
 operators $D_v$. However, $v$ depends only on the point $p$, while
@@ -284,15 +287,16 @@ $C^\infty(U)$ depends on the choice of open set $U$ containing $p$.
 
 \subsection{Germs of smooth functions}
 
-\begin{defn}[Germs of smooth functions]
+\begin{defn}[Germs]
 Consider the set of all pairs
 $$
-  X_p
-= \{ (f, U) : U \text{ is a neighborhood of } p,
-              f \in C^\infty (U)
-  \}
+  \mathcal{X}_p
+= \Set{ (f, U)
+  |     U \text{ is a neighborhood of } p,
+        f \in C^\infty (U)
+  }
 $$
-and define a relation on $X_p$ by
+and define a relation on $\mathcal{X}_p$ by
 $(f_1, U_1) \sim (f_2, U_2)$ if there exists a neighborhood $U$ of $p$
 with $U \subset U_1 \cap U_2$ and $f_1 = f_2$ on $U$. Note that if
 $(f_1, U_1) \sim (f_2, U_2)$ then $D_v f_1 = D_v f_2$ for any
@@ -372,7 +376,7 @@ $$
 
 \begin{itemize}
   \item{
-    $\phi$ is injective.
+    $\phi$ is injective. Clearly the map is linear.
     Denote the $i$-th coordinate function
     $x^i : \mathbb{R}^n \to \mathbb{R}$, given by $p \to p^i$, and note
     that
@@ -396,7 +400,7 @@ $$
     $\phi$ is surjective.
 
     \begin{lemma}
-      Let $D \in C_p^\infty$. Then $D(c) = 0$ for all constant
+      Let $D$ be a point derivation of $C_p^\infty$. Then $D(c) = 0$ for all constant
       functions.
     \end{lemma}
     \begin{proof}
@@ -447,8 +451,9 @@ $$
          v^i
          \frac{\partial f}
               {\partial x^i}(p) \\
-    &= D_v f.
+    &= D_v f
     \end{align*}
+    so $D = D_v = \phi(v)$ for some $v$.
   }
 \end{itemize}
 \end{proof}
@@ -469,18 +474,22 @@ Vectors at a point act as point derivations whereas vector fields act
 as derivations, i.e. $X$ is a derivation of $C^\infty(U)$,
 or $X: C^\infty(U) \to C^\infty(U)$. At each point $p$ we have
 $$
-(X f)(p) = X_p f,
+(X f)(p) = X(f)(p)= X_p f,
 $$
 and since each vector $X_p$ is a point derivation, $X$ as a map
 satisfies the Leibniz rule
 $$
 X (f \cdot g) = f \cdot X(g) + X(f) \cdot g.
 $$
+Therefore vector fields on $U$ are \emph{derivations} of the algebra of
+functions $C^\infty(U) \to C^\infty(U)$, as opposed to tangent vectors $X_p$ which are
+\emph{point derivations} of the algebra $C_p^\infty$ of germs at a
+point $p$.
 
 \begin{xmpl}
 In $\mathbb{R}^2$, with $(x^1, x^2) = (x, y)$ we have a vector field
 $$
-X = x^2 \frac{\partial}{\partial x} - e^{xy} \frac{\partial}{\\partial y}.
+X = x^2 \frac{\partial}{\partial x} - e^{xy} \frac{\partial}{\partial y}.
 $$
 For $f(x, y) = xy$ we have
 $$

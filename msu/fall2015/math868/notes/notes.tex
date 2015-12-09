@@ -1,4 +1,5 @@
 \documentclass{report}
+\usepackage[letterpaper, margin=1in]{geometry}
 
 \include{preamble}
 
@@ -10,20 +11,31 @@
 
 \maketitle
 
-\chapter{Manifolds}
+\chapter{Euclidean space}
 \input{tex/euclidean-calculus}
 \input{tex/exterior-algebra}
+
+\chapter{Manifolds}
 \input{tex/manifolds}
 \input{tex/quotient-spaces}
 \input{tex/smooth-maps}
 \input{tex/manifold-calculus}
 \input{tex/submanifolds}
 \input{tex/regular-maps}
+
+\chapter{Tangent spaces}
 \input{tex/vector-bundles}
 \input{tex/vector-fields}
+
+\chapter{Differential forms}
 \input{tex/differential-forms}
+
+\chapter{Integration}
 \input{tex/integration}
+
 \input{tex/other}
+
+\chapter{de Rham cohomology}
 \input{tex/derham}
 
 \end{document}
