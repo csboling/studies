@@ -484,12 +484,233 @@ $$
 \mapsto j_V^\ast \beta - j_U^\ast \alpha
 =       \beta\restrict_{U \cap V} - \alpha\restrict_{U \cap V}.
 $$
-We will see that the sequence
+
+The maps $i$ and $j$ commute with $\dif$ because the pullback does, so
+we have a sequence of chain maps
 $$
-0                       \xrightarrow{}
-\Omega^\ast(M)           \xrightarrow{i}
-\Omega^\ast(U \coprod V) \xrightarrow{j}
-\Omega^\ast(U \cap V)    \xrightarrow{}
-0
+  0                                  \xrightarrow{}
+  \Omega^\ast(M)                      \xrightarrow{i}
+  \Omega^\ast(U \coprod V)
+= \Omega^\ast(U) \oplus \Omega^\ast(V) \xrightarrow{j}
+  \Omega^\ast(U \cap V)               \xrightarrow{}
+  0
 $$
-is exact, and so induces a long exact sequence in cohomology.
+
+\begin{prop}
+The sequence above is a short exact sequence.
+\end{prop}
+
+\begin{proof}
+\begin{itemize}
+  \item{
+    The sequence is exact at $\Omega^k(M)$ since $i$ is injective.
+    Suppose $i\omega = (\omega\restrict_U, \restrict_V) = (0,
+    0)$. Then $\omega\restrict_U = 0 = \omega\restrict_V$. But
+    $U$ and $V$ cover $M$, so this means $\omega = 0$.
+  }
+  \item{
+    Let $\omega \in \Omega^k(M)$. Then
+    $$
+      j(i \omega)
+    = j(\omega\restrict_U, \omega\restrict_V)
+    = (\omega\restrict_V)\restrict_{U \cap V}
+    - (\omega\restrict_U)\restrict_{U \cap V}
+    = 0,
+    $$
+    so $\mathrm{im}(i) \subset \ker(j)$.
+
+    Let $(\alpha, \beta) \in \ker(j)$, so that
+    $$
+      0
+    = j(\alpha, \beta)
+    = \beta\restrict_{U \cap V}
+    - \alpha\restrict_{U \cap V}
+    $$
+    which shows that the form
+    $$
+      \omega_x
+    = \left\{
+        \begin{array}{c c}
+          \alpha_x, & x \in U \\
+          \beta_x,  & x \in V
+        \end{array}
+      \right.
+     $$
+     is well-defined, and so $i \omega = (\alpha, \beta)$.
+  }
+  \item{
+    To show exactness at $\Omega^k(U \cap V)$, we need to show
+    $j$ is onto. Let $\sigma \in \Omega^k(U \cap V)$, and let
+    $\{ \rho_U, \rho_V \}$ be a partition of unity subordinate to the
+    cover $\{ U, V \}$.
+
+    We construct smooth forms
+    $$
+      \sigma_U
+    = \left\{
+        \begin{array}{c c}
+          \rho_V \sigma, & \quad x \in U \cap V \\
+          0              & \quad x \in U \setminus (U \cap V)
+        \end{array}
+      \right. \quad
+      \sigma_V
+    = \left\{
+        \begin{array}{c c}
+          \rho_U \sigma, & \quad x \in U \cap V \\
+          0              & \quad x \in V \setminus (U \cap V)
+        \end{array}
+      \right.
+    $$
+    with $\sigma_U \in \Omega^k(U)$ and
+    $\sigma_V \in \Omega^k(V)$. But then
+    $$
+      j(-\sigma_U, \sigma_V)
+    = \sigma_V \restrict_{U \cap V}
+    + \sigma_U \restrict_{U \cap V}
+    = (\rho_U + \rho_V)\sigma
+    = \sigma.
+    $$
+  }
+\end{itemize}
+\end{proof}
+
+Therefore this sequence induces a long exact sequence in cohomology
+$$
+\cdots               \xrightarrow{}
+H^{k-1}(U \cap V)     \xrightarrow{\dif^\ast}
+H^k(M)               \xrightarrow{i^\ast}
+H^k(U) \oplus H^k(V) \xrightarrow{j^\ast}
+H^k(U \cap V)        \xrightarrow{}
+\cdots
+$$
+called the Mayer-Vietoris sequence. Here
+\begin{align*}
+   i^\ast([\omega])
+&= ([\omega\restrict_U], [\omega\restrict_V]), \\
+   j^\ast([\alpha], [\beta])
+&= [\beta\restrict_{U \cap V} - \alpha\restrict_{U \cap V}],
+\end{align*}
+and $\dif^\ast : H^k(U \cap V) \to H^{k+1}(M)$ is the connecting
+homomorphism
+\begin{align*}
+   \dif^\ast([\sigma])_x
+&= \left\{
+     \begin{array}{c c}
+       -\dif \sigma_U, & \quad x \in U \\
+       \dif \sigma_V,  & \quad x \in V
+     \end{array}
+   \right.
+\end{align*}
+
+\begin{xmpl}[Cohomology of $S^n$]
+We claim that
+$$
+  H^k_{dR}(S^n)
+= \left\{
+    \begin{array}{c c}
+      \mathbb{R}, & \quad k = 0, k = n \\
+      0,          & \quad \text{otherwise}
+    \end{array}
+  \right.
+$$
+
+\begin{lemma}
+$\mathbb{R}^n \setminus \{ 0 \}$ is homotopy equivalent to $S^{n-1}$,
+so $H_{dR}^k(\mathbb{R}^n \setminus \{ 0 \}) \simeq H^k_{dR}(S^{n-1})$.
+\end{lemma}
+
+\begin{proof}
+We have a homotopy equivalence between the inclusion
+$i : S^{n-1} \hookrightarrow \mathbb{R}^n \setminus \{ 0 \}$ and the
+retraction map
+$r : \mathbb{R}^n \setminus \{ 0 \} \to S^{n-1}$ given by
+$x \mapsto \frac{x}{\| x \|}$. $r \circ i = \mathrm{id}_{S^{n-1}}$,
+and
+$i \circ r : \mathbb{R}^n \setminus \{ 0 \} \to \mathbb{R}^n \setminus
+\{ 0 \}$
+is given by $x \mapsto \frac{x}{\| x \|}$. Define a homotopy
+$
+  H
+: (\mathbb{R} \setminus \{ 0 \}) \times I \to \mathbb{R}^n \setminus
+\{ 0 \}
+$
+by
+$$
+H(x, t) = x + t(r(x) - x),
+$$
+and observe that $H(x, 0) = x$,
+$H(x, 1) = r(x)$, proving the lemma.
+\end{proof}
+
+\begin{lemma}
+Let $\{ U, V \}$ be an open cover of $M$, with
+$U$, $V$, and $U \cap V$ connected and nonempty. Then
+$M$ is connected and we may start the Mayer-Vietoris sequence at
+$$
+0 \to H^1(M) \to H^1(U) \oplus H^1(V)
+$$
+\end{lemma}
+
+\begin{proof}
+Observe that $X$ is connected if and only if all continuous maps
+$f : X \to \{ 0, 1 \}$ are constant. Let $f : M \to \{ 0, 1 \}$ be
+continuous. Then $f\restrict_U$ is constant because $U$ is connected,
+$f\restrict_V$ is constant because $V$ is connected, and since
+$U \cap V$ is nonempty,
+$f\restrict_U = f\restrict_{U \cap V} = f\restrict_V$, so
+$f$ is constant.
+
+Next, we must check that the Mayer-Vietoris sequence is exact at
+$H^1(M)$, i.e. that $i^\ast: H^1(M) \to H^1(U) \oplus H^1(V)$ is
+injective. We have that $\ker(i^\ast) = \mathrm{im}(\dif^\ast)$, so we
+wish to show that $\dif^\ast : H^0(U \cap V) \to H^1(M)$ is the zero
+map, i.e. that
+$\ker(\dif^\ast) = H^0(U \cap V) = \mathrm{im}(j^\ast)$. Therefore we
+wish to show that $j^\ast$ is surjective. But this is true since
+$U$, $V$, $U \cap V$ are connected, and so
+$$
+  H^0(U \cap V) \simeq \mathbb{R} \simeq H^0(U) \simeq H^0(V),
+$$
+and clearly the map $j^\ast : \mathbb{R}^2 \to \mathbb{R}$ given by
+$(a, b) \mapsto b - a$ is surjective.
+\end{proof}
+
+We have seen previously that
+$$
+  H^k(S^1)
+= \left\{
+    \begin{array}{c c}
+      \mathbb{R}, & \quad k = 0, 1 \\
+      0,          & \quad \text{otherwise}
+    \end{array}
+  \right.
+$$
+so assume that the claim holds for $S^n$ as an inductive
+hypothesis. Then we have diffeomorphisms given by the
+stereographic projections
+\begin{align*}
+   \pi_N
+&: S^n \setminus \{ N \} = U \to \mathbb{R}^n, \\
+   \pi_S
+&: S^n \setminus \{ S \} = V \to \mathbb{R}^n.
+\end{align*}
+$U$, $V$ forms an open cover of $S^n$, and so
+$$
+       H^k(U)
+\simeq H^k(V)
+\simeq H^k(\mathbb{R}^n)
+\simeq H^k(\{ \ast \}).
+$$
+We see also that
+$
+  \pi_N \restrict_{U \cap V}
+: U \cap V \to \mathbb{R}^n \setminus \{ 0 \}
+$
+as a diffeomorphism, so
+$$
+       H^k(U \cap V)
+\simeq H^k(\mathbb{R}^n \setminus \{ 0 \})
+\simeq H^k(S^{n - 1}).
+$$
+
+\end{xmpl}
