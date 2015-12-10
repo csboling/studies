@@ -2,26 +2,136 @@
 
 \begin{defn}[Open relation]
 An equivalence relation $\sim$ is said to be \emph{open} when the
-canonical surjection $\pi: X \to X / \sim$ is open, i.e.
+canonical surjection $\pi: X \to X / \sim$ is an open map, i.e.
+$\pi(U)$ is open for every open set $U \subset X$, or equivalently
 $\pi^{-1}(\pi(U)) = \cup_{u \in U} [u]$ is open.
 \end{defn}
 
 \begin{prop}
-  \begin{enumerate}
-    \item{
-      Quotients by open relations preserve second countability.
-    }
-    \item{
-    }
-  \end{enumerate}
+  Quotients by open relations preserve second countability.
 \end{prop}
+
+\begin{proof}
+Let $[p] \in V$. Then $p \in \pi^{-1}(V)$, and there exists some
+$U_i$ in the countable base of
+$X$ such that $p \in U_i \subset \pi^{-1}(V)$, so $[p] \in \pi(U_i)$.
+\end{proof}
 
 \begin{defn}
 The \emph{graph} of a relation $\sim$ is
 $$
   \Gamma_\sim
 = \{ (s_1, s_2) \vert s_1 \sim s_2 \}
-\subset S \times S,
+\subset S \times S.
 $$
-(i.e. the pullback of $\pi$ along $\pi$).
 \end{defn}
+
+\begin{prop}
+$S / \sim$ is Hausdorff if and only if $\Gamma_\sim$ is closed in
+$S \times S$.
+\end{prop}
+\begin{corol}
+$S$ is Hausdorff if and only if
+$\Delta = \Set{(s, s) | s \in S}$ is closed in $S \times S$.
+\end{corol}
+
+\begin{proof}
+$\Gamma_\sim$ is closed if and only if
+$S \times S \setminus \Gamma_\sim$ is open, or equivalently
+$\forall (s_1, s_2)$ such that $s_1 \nsim s_2$, $\exists U_i$ open in
+$S$ with $s_i \in U_i$ such that
+$U_1 \times U_2 \subset S \times S \setminus \Gamma_\sim$. This is
+equivalent to the statement that $\forall s_1, s_2 \in S$ such that
+$s_1 \nsim s_2$, $\exists U_i$ with $s_i \in U_i$ and
+$x \nsim y$ $\forall x \in U_1$, $\forall y \in U_2$. Equivalently,
+$[s_1]$ and $[s_2]$ belong to disjoint open sets $\pi(U_1)$,
+$\pi(U_2)$ since $\pi$ is open. The corollary follows since
+$\Delta$ is $S$ under the quotient $x \sim y$ when $x = y$.
+\end{proof}
+
+\begin{xmpl}[Real projective space]
+The real projective space $\mathbb{R}P^n$ is the space of lines in
+$\mathbb{R}^{n+1}$ that pass through the origin, i.e.
+$(\mathbb{R}^{n+1} \setminus \{ 0 \}) / \sim$ under the relation
+$x \sim y \iff x = ty$ for some $t \in \mathbb{R} \setminus \{ 0 \}$.
+There are so-called \emph{homogeneous coordinates} on $\mathbb{R}P^n$
+given by $\pi(x^0, \dots, x^n) \mapsto [x^0 : \cdots : x^n]$,
+well-defined only up to scalar multiplication.
+
+\begin{prop}
+$\mathbb{R} P^n$ is a topological manifold.
+\end{prop}
+
+\begin{proof}
+  \begin{enumerate}
+    \item{
+      Let $U \subset \mathbb{R}^{n+1} \setminus \{ 0 \}$. Then
+      $$
+        \pi^{-1}(\pi(U))
+      = \cup_{u \in U} [u]
+      = \cup_{t \in \mathbb{R} \setminus \{ 0 \}}
+          t U
+      $$
+      and for each $tU = \Set{ t u | u \in U }$, there is a
+      homeomorphism
+      $tU \to U$ given by $x \mapsto \frac{x}{t}$, so
+      $\pi^{-1}(\pi(U))$ is open in
+      $\mathbb{R}^{n+1} \setminus \{ 0 \}$. Therefore
+      $\mathbb{R}P^n$ is second countable.
+    }
+    \item{
+      Take
+      $$
+        X
+      = \Set{(x, y) | x = ty}
+      \subset \mathbb{R}^{n+1} \times \mathbb{R}^{n+1}.
+      $$
+      Define
+      $   F
+      :   \mathbb{R}^{n+1} \times \mathbb{R}^{n+1}
+      \to \mathbb{R}^{{n+1 \choose 2}}$
+      by
+      $$
+        (x, y)
+      \mapsto
+        (\dots, x^i y^j - x^j y^i, \dots).
+      $$
+      Then $X = F^{-1}(\{0 \})$ is closed, so
+      $X \cap (\mathbb{R}^{n+1} \setminus \{0\})^2 = \Gamma_\sim$ is
+      as well. Therefore $\mathbb{R} P^n$ is Hausdorff.
+    }
+    \item{
+      Let $[x] = [x^0 : \cdots : x^n] \in \mathbb{R} P^n$. Either all
+      elements in $\pi^{-1}([x])$ have $x^0 = 0$ or all have
+      $x^0 \neq 0$. Let $U_i = \{ x^i \neq 0 \} \subset
+      \mathbb{R}P^n$. Then $\mathbb{R}P^n = \cup_i U_i$ and
+      $\pi^{-1}(U_i) = \Set{ (x^0, \dots, x^n) | x^i \neq 0 }$. Define
+      $\varphi_i : U_i \to \mathbb{R}^n$ by
+      $$
+        [x^0 : \cdots : x^n]
+      \mapsto
+        \left(
+          \frac{x^0}{x^i},
+          \dots,
+          \frac{x^n}{x^i}
+        \right).
+      $$
+      Then $\varphi_i$ is continuous and has continuous inverse
+      $(x^1, \dots, x^n) \mapsto [x^1: \cdots : 1 : \cdots : x^n]$, so
+      this provides an $n$-dimensional atlas on $\mathbb{R}P^n$.
+
+      Finally we confirm that these charts are compatible. We have
+      $$
+        (\varphi_1 \circ \varphi_0^{-1})(x^1, \dots, x^n)
+      = \left(\frac{1}{x^1}, \frac{x^2}{x^1}, \dots, \frac{x^n}{x^1}\right).
+      $$
+    }
+  \end{enumerate}
+\end{proof}
+
+We will see in homework that $\mathbb{R}P^n \simeq S^n / (x \sim -x)$,
+while $\mathbb{R} P^1 \simeq S^1$. In the second semester course, we
+will see that the fundamental group of $\mathbb{R} P^n$ is
+$\mathbb{Z} / 2\mathbb{Z}$.
+
+\end{xmpl}

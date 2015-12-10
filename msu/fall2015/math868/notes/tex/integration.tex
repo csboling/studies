@@ -391,10 +391,146 @@ where $I$ ranges over \emph{all} multi-indices.
 \end{proof}
 
 \subsection{Orientation on manifolds}
+\begin{defn}
+A \emph{pointwise orientation} on $M$ is an assignment
+$p \mapsto \mu_p$ of an orientation for each $p \in M$, where an
+orientation $\mu_p$ is an equivalence class of ordered bases of
+$T_p M$.
+\end{defn}
+
+Let $X_1(p), \dots, X_n(p)$ represent $\mu_p$. The collection of
+ordered vector fields form a global framing of the tangent bundle, and
+a pointwise orientation is an equivalenc class of this frame by the
+relation
+$\beta_1 \sim \beta_2 \iff \exists a > 0 . \beta_1 = a \beta_2$.
+
+\begin{defn}
+A pointwise orientation $\mu = [\{ X_1, \dots, X_n \}]$ is continuous
+if $\forall u \in M$, $\exists U \ni u$ open and a continuous local
+frame on $u$, namely continuous maps $\{Y_1, \dots, Y_n\}$,
+$Y_i : U \to T U$  with
+$\{X_1(u), \dots, X_n(u)\} \sim \{Y_1(u), \dots, Y_n(u)\}$.
+\end{defn}
+
 A pointwise orientation $\mu = [\{X_1, \dots, X_n\}]$ is
 continuous if and only if $\forall p \in M$, there exist coordinates
 $(U, x^i)$ about $p$ with
 $\dif x^1 \wedge \cdots \wedge \dif x^n (X_1, \dots, X_n) > 0$ on $U$.
+
+\begin{defn}
+An orientation on a manifold $M$ is a continuous pointwise
+orientation. $M$ is orientable if it admits an orientation.
+\end{defn}
+
+Not every manifold is orientable, e.g. the M\"{o}bius strip or
+even-dimensional real projective space. However, every manifold admits
+an orientable double cover.
+
+\begin{prop}
+A connected orientable manifold $M$ admits precisely two
+orientations.
+\end{prop}
+
+\begin{proof}
+Let $\mu = [\{X_1, \dots, X_n\}]$ be a continuous pointwise
+orientation. We can check that $-\mu = [\{-X_1, \dots, X_n\}]$ is also
+a continuous pointwise orientation. We wish to show that every
+orientation is $\pm \mu$.
+
+Let $\nu$ be an orientation. For all p, $\nu_p = \pm \mu_p$, so define
+$f: M \to \{ \pm 1 \}$ by
+$
+  f(p)
+= \left\{
+    \begin{array}{c c}
+      1, & \quad \nu_p = \mu_p \\
+     -1, & \quad \nu_p = -\mu_p
+    \end{array}
+  \right..
+$
+Since $M$ is connected, all locally constant functions on $M$ are
+globally constant, so we wish to show that $f$ is locally constant.
+
+On $U$, $\nu$ can be expressed by $\{Z_1, \dots, Z_n\}$ with
+$Z_i : U \to TU$, so write $Z_j = \sum_i a^i_j Y_i$ with
+$a^i_j : U \to \mathbb{R}$. Then $\det[a^i_j] : U \to \mathbb{R}$ is
+$C_0$ and nonzero. If $\det[a^i_j] > 0$ then $\mu_u = \nu_u$,
+otherwise
+$\mu_u = -\nu_u$.
+\end{proof}
+
+\begin{lemma}
+A pointwise orientation $\mu$ on $M$ is continuous if and only if
+$\forall p \in M$, $\exists (U, x^1, \dots, x^n)$ with
+$\dif x^1 \wedge \cdots \wedge \dif x^n(X_1, \dots, X_n) > 0$ on $U$.
+\end{lemma}
+\begin{proof}
+Assume $\mu = [\{X_1, \dots, X_n\}]$ is $C^0$. Let $p \in M$ and let
+$(U, z^1, \dots, z^n)$ be a connected coordinate chart about $p$. By
+continuity of $\mu$, after possibly shrinking $U$, represent $\mu$
+with $C^0$ fields $\{Y_1, \dots, Y_n\}$ on $U$. Write
+$ Y_j
+= \sum_i a^i_j
+    \left.
+      \frac{\partial}{\partial z^i}
+    \right|_u.
+$
+Then
+$$
+  \dif z^1 \wedge \cdots \wedge \dif z^n (Y_1, \dots, Y_n)
+= (\det A) \dif z^1 \wedge \cdots \wedge \dif z^n
+    \left(
+      \left.
+        \frac{\partial}{\partial z^1}
+      \right|_u,
+      \dots
+      \left.
+        \frac{\partial}{\partial z^n}
+      \right|_u
+    \right)
+= \det A,
+$$
+which is continuous and nonzer on $U$.
+
+If $\det A > 0$ then let $(U, x^1, \dots, x^n) = (U, z^1, \dots,
+z^n)$. Otherwise $(U, z^1, \dots, z^n) = (U, -x^1, \dots, -x^n)$. Each
+$X_j = \sum_i b^i_j Y_i$, so $\dif x^1 \wedge \cdots \wedge \dif
+x^n(X_1, \dots, X_n) > 0$.
+
+Assume $\forall p \in M$, $\exists (U, x^1, \dots x^n)$ with
+$\dif x^1 \wedge \cdots \wedge \dif x^n(X_1, \dots, X_n) > 0$, where
+$X_j = \sum_i a^i_j \frac{\partial}{\partial x^i}$. We have
+$$
+  0
+< \dif x^1 \wedge \cdots \wedge \dif x^n(X_1, \dots, X_nn)
+= (\det A)
+  \dif x^1 \wedge \cdots \wedge \dif x^n
+    \left(
+      \left.
+        \frac{\partial}{\partial x^1}
+      \right|_p,
+      \dots
+      \left.
+        \frac{\partial}{\partial x^n}
+      \right|_p
+    \right)
+= \det A
+$$
+so
+$
+     \{X_1, \dots, X_n\}
+\sim \left\{
+      \left.
+        \frac{\partial}{\partial x^1}
+      \right|_p,
+      \dots
+      \left.
+        \frac{\partial}{\partial x^n}
+      \right|_p
+    \right\}
+$
+and the latter is locally continuous, so $X_1, \dots, X_n$ is also.
+\end{proof}
 
 \begin{theorem}
 A smooth manifold $M$ is orientable if and only if there exists a

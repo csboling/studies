@@ -21,7 +21,7 @@ $$
 $$
 For any $X_p \in T_pN$, $g \in C_{F(p)}^\infty M$, this acts as
 $$
-F_{\ast,p}(X_p)(g) \triangleq X_P(g \circ F).
+F_{\ast,p}(X_p)(g) \triangleq X_p(g \circ F).
 $$
 \end{defn}
 
@@ -133,8 +133,21 @@ difficult to show.
 
 \subsection{Change of coordinates}
 Let $p \in M$ and $(U, x^1, \dots, x^m)$, $(V, y^1, \dots, y^m)$ be
-coordinates about $p$, with bases $\{\partial_{x^i}|_p\}$ and
-$\{\partial_{y_i}|_p\}$. Then we can write
+coordinates about $p$, with bases
+$
+\left\{
+  \left.
+    \frac{partial}{\partial x^i}
+  \right|_p
+\right\}
+$ and
+$
+\left\{
+  \left.
+    \frac{partial}{\partial x^i}
+  \right|_p
+\right\}
+$. Then we can write
 $$
   \left.
     \frac{\partial}{\partial x^j}
@@ -288,7 +301,14 @@ $$
   \left.\frac{\dif}{\dif r}\right|_{c(t_0)} r
 = \alpha(t_0)
 $$
-so that $\alpha(t_0)$ is precisely the classical derivative.
+so that $\alpha(t_0)$ is precisely the classical derivative. Therefore
+$$
+  c^\prime(t_0)
+= \dot{c}(t_0)
+  \left.
+    \frac{\dif}{\dif t}
+  \right|_{t_0}.
+$$
 
 \subsection{Velocity vectors for curves}
 Writing $c^i(t) = r^i(c(t))$, we have
@@ -379,7 +399,7 @@ and
      \right) \\
 &= \phi^{-1}_{\ast, 0}
      \left(
-       tilde{c}_{\ast, 0}
+       \tilde{c}_{\ast, 0}
        \left(
          \left.\frac{\dif}{\dif t}\right|_0
        \right)

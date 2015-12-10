@@ -381,7 +381,7 @@ $$
 $(k, l)$ shuffles total, i.e. the order $[S_{k + l} : G]$.
 \end{prop}
 
-\subsection{Properties of $\wedge$}
+\subsection{Properties of the wedge product}
 \begin{enumerate}
   \item{
     $\mathbb{R}$-bilinearity, i.e.
@@ -534,7 +534,7 @@ graded commutative product $\wedge$.
 Let $\beta^1, \dots \beta^k \in L_1(V) = A_1(V)$ and
 $(v_1, \dots, v_k) \in V^k$. Then
 $$
-B = [b_j^i] = \beta^i(v_j)
+B = [b_j^i] = [\beta^i(v_j)]
 $$
 satisfies
 $$
@@ -626,7 +626,7 @@ because $\omega$ is multilinear and alternating.
 Let $\omega \in A_2(\mathbb{R}^3)$. Then
 $$
   \omega(v, w)
-= \omega(v^1 e_1 + v^2 e_2 + v^3 e_3 +
+= \omega(v^1 e_1 + v^2 e_2 + v^3 e_3,
          w^1 e_1 + w^2 e_2 + w^3 e_3).
 $$
 Note that since $\omega$ is alternating, for any $i, j$ we have
@@ -645,7 +645,7 @@ so that since $\omega$ is linear,
 \end{remark}
 
 \begin{prop}
-$\{ a^I | |I| = k, I \text{ increasing}\}$ forms a basis for $A_k(V)$.
+$\{ \alpha^I | |I| = k, I \text{ increasing}\}$ forms a basis for $A_k(V)$.
 \end{prop}
 \begin{corol}
 $\dim_{\mathbb{R}} A_k(V) = {n \choose k}$ (since there are this many
@@ -691,6 +691,7 @@ $p \mapsto \omega_p \in A_k(T_p \mathbb{R}^n)$.
 \end{defn}
 
 \begin{xmpl}
+
   \begin{enumerate}
     \item{
        For $k = 0$,
@@ -749,8 +750,8 @@ and we may write $\omega = \sum_I a_i \dif x^I$ where
 $a_i: U \to \mathbb{R}$. We say that the form $\omega$ is smooth when
 each coordinate function $a_i \in C^\infty(U)$. The space of all
 smooth $k$-forms is denoted $\Omega^k(U)$, which has induced addition
-and multiplication and is therefore a real vector space as well as a
-module over the smooth functions.
+and scalar multiplication and is therefore a real vector space as well as a
+module over the smooth functions $U \to \mathbb{R}$.
 \end{defn}
 
 \begin{prop}
@@ -762,16 +763,19 @@ $$
 $$
 \end{prop}
 \begin{proof}
-We can write
+Since the $\dif x^i$ form a basis for
+$A_1(T_p \mathbb{R}^n)$, we can write
 $$
   \dif f
 = \sum_{i=1}^n a_i \dif x^i
 $$
 for some $a_i : U \to \mathbb{R}$, and
 \begin{align*}
-   \dif f (\partial^j)
+   \frac{\partial}{\partial x^j}(f)
 &\triangleq
-   \frac{\partial}{\partial x^j}(f) \\
+   \dif f \left(
+     \frac{\partial}{\partial x^j}
+   \right) \\
 &= \left(
      \sum_{i=1}^n a_i \dif x^i
    \right)
@@ -848,15 +852,15 @@ $\Omega^k(U) \to \Omega^{k+1}(U)$ given by
       $d \circ d : \Omega^k(U) \to \Omega^{k+2}(U)$ is the zero map.
     }
     \item{
-      $$
+      $
         \dif (\omega \wedge \tau)
       = \dif \omega \wedge \tau
       + (-1)^{\deg(\omega)} \omega \wedge \dif \tau.
-      $$
+      $
     }
   \end{enumerate}
-  This is called the \emph{deRham cochain complex}, and we will study
-  its cohomology.
+  This is called the \emph{deRham cochain complex}, and we will later
+  study its cohomology.
 \end{remark}
 
 \begin{prop}
@@ -880,7 +884,8 @@ Let $|I| = k + 1$. Then
 &= D(\dif x^{i_1} \wedge \cdots \wedge \dif x^{i_{k+1}}) \\
 &= D(\dif x^{i_1} \wedge \dif x^J) \\
 &= D(\dif x^{i_1}) \wedge \dif x^J
- + (-1)^1 \dif x^{i_1} \wedge D(\dif x^J).
+ + (-1)^1 \dif x^{i_1} \wedge D(\dif x^J) \\
+&= 0.
 \end{align*}
 By linearity, to show $D = \dif$ it suffices to check that
 $D(f \dif x^I) = \dif (f \dif x^I)$ for any
@@ -898,7 +903,7 @@ Therefore the exterior derivative is unique among operators with these
 properties.
 \end{proof}
 
-\begin{proof}[Properties of $\dif$]
+\begin{proof}[Properties of the exterior derivative]
   \begin{enumerate}
     \item{
       We check that
@@ -979,7 +984,7 @@ properties.
              f \frac{\partial g}{\partial x^i}
              \dif x^I \wedge \dif x^i \wedge \dif x^J \\
       &= \dif (f \dif x^I) \wedge (g \dif x^J)
-       + (-1)^{\deg(\omega)} (f \dif x^I) \wedge \dif(g \dif x^J) \\
+      &+ (-1)^{\deg(\omega)} (f \dif x^I) \wedge \dif(g \dif x^J) \\
       &= \dif (\omega) \wedge \tau
        + (-1)^{\deg(\omega)} \omega \wedge \dif \tau.
       \end{align*}
@@ -1018,7 +1023,7 @@ $$
 = \ker(d_0) / \{ 0 \}
 = \ker(d_0).
 $$
-In general
+In general $f \in \ker \dif_0$ means that
 \begin{align*}
    \dif f
 &= \sum_i
@@ -1026,7 +1031,7 @@ In general
      \dif x^i = 0
 \end{align*}
 which is only true if all partial derivatives
-$\frac{\partial f}{\partial x^i} = 0$.
+$\frac{\partial f}{\partial x^i} = 0$, i.e. $f$ is locally constant.
 
 If we have a connected component of $U$, then we may connect any two
 points in this space by a path $c(t)$, and
@@ -1079,8 +1084,10 @@ $\dif \omega = 0$. In coordinates,
        \frac{\partial f_i}{\partial x^j}
      - \frac{\partial f_j}{\partial x^i}
     \right)
-    \dif x^i \wedge \dif^j.
+    \dif x^i \wedge \dif x^j
 \end{align*}
+so that $\frac{\partial f_i}{\partial x^j} = \frac{\partial
+  f_j}{\partial x^i}$.
 We want to show that there exists some
 $f \in \Omega^0(U)$ such that
 $\dif f = \omega - 0 = \omega$.
@@ -1106,34 +1113,38 @@ Then
         {\partial x^j}
    (x^1, \dots, x^n)
 &= \int_0^1
-     \left[
-       \sum_{i \neq j}
-         tx^i
-         \frac{\partial f_i}
-              {\partial x^j}
-         (tx^1, \dots, tx^n)
-     + tx^j
-         \frac{\partial f_j}
-              {\partial x^j}
-         (tx^1, \dots, tx^n)
-     + f_j(tx^1, \dots, tx^n)
-     \right]
-     \dif t \\
+     \sum_i
+       \left(
+         \frac{\partial x^i}{\partial x^j}
+           f_i(tx^1, \dots, t x^n)
+       + x^i
+         \frac{\partial}{\partial x^j}
+           f_i(tx^1, \dots, tx^n)
+       \right) \dif t\\
 &= \int_0^1
      \left[
        \sum_i
-         tx^j
-         \frac{\partial f_j}
-              {\partial x^j}
-         (tx^1, \dots, tx^n)
-     + f_j(tx^1, \dots, tx^n)
-     \right]
-     \dif t \\
+         \delta^i_j
+         f_i(tx^1, \dots, tx^n)
+     + \sum_i
+         t x^i
+         \left.
+           \frac{\partial f_i}{\partial x^j}
+         \right|_{(tx^1, \dots, tx^n)}
+     \right] \dif t \\
+&= \int_0^1
+     \left[
+       f_j(t x^1, \dots, tx^n)
+     + t
+       \left.
+         \frac{\dif f_i}{\dif t}
+       \right|_{(tx^1, \dots, tx^n)}
+     \right] \dif t \\
 &= \int_0^1
      \frac{\dif}{\dif t}
-       (t f_j(tx^1, \dots, tx^n))
+     (t f_j(tx^1, \dots, t x^n))
      \dif t \\
-&= f_j(x^1, \dots, x^n).
+&= f_j(x^1, \dots, x^n)
 \end{align*}
 using the condition found above on the partial derivatives.
 
