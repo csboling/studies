@@ -613,6 +613,12 @@ $$
     \end{array}
   \right.
 $$
+for $n \geq 1$, while
+$$
+  H^0_{dR}(S^0)
+= \mathbb{R}^2
+$$
+since $S^0 = \{ \pm 1 \}$ has 2 connected components.
 
 \begin{lemma}
 $\mathbb{R}^n \setminus \{ 0 \}$ is homotopy equivalent to $S^{n-1}$,
@@ -706,11 +712,237 @@ $
   \pi_N \restrict_{U \cap V}
 : U \cap V \to \mathbb{R}^n \setminus \{ 0 \}
 $
-as a diffeomorphism, so
+as a diffeomorphism. But we have seen
+$\mathbb{R}^n \setminus \{ 0 \}$ is homotopy equivalent to
+$S^{n-1}$, so
 $$
        H^k(U \cap V)
 \simeq H^k(\mathbb{R}^n \setminus \{ 0 \})
 \simeq H^k(S^{n - 1}).
 $$
 
+We also note that $U$, $V$, $U \cap V$ are each nonempty and
+connected. By our previous lemma, we have an exact sequence
+$$
+0                    \xrightarrow{\alpha}
+H^1_{dR}(S^n)         \xrightarrow{\beta}
+H^1(U) \oplus H^1(V) \xrightarrow{}
+$$
+But $U$, $V$ are homotopy equivalent to a point, so
+$H^1(U) \oplus H^1(V) = 0$. Furthermore
+$\ker(\beta) = \mathrm{im}(\alpha) = 0$, so $\beta$ is
+injective. Therefore
+$$
+       H^1(S^n)
+\simeq \beta(H^1(S^n))
+=      0.
+$$
+
+Now consider $k \geq 2$. We have
+$$
+0 = H^{k-1}(U) \oplus H^{k-1}(V) \xrightarrow{}
+H^{k-1}(U \cap V)     \xrightarrow{}
+H^k(S^n)             \xrightarrow{}
+H^k(U) \oplus H^k(V) = 0,
+$$
+i.e.
+$$
+       H^k(S^n)
+\simeq H^{k-1}(U \cap V)
+\simeq H^{k-1}(\mathbb{R}^n \setminus \{0\})
+\simeq H^{k-1}(S^{n-1})
+$$
+so we have the cohomology of $S^n$ by induction.
+\end{xmpl}
+
+\begin{xmpl}
+Let $n \geq 2$, and let
+$P = \{p_1, p_2, \dots, p_l \} \subset \mathbb{R}^n$. We claim that
+$$
+  H^k_{dR}(\mathbb{R}^n - P)
+= \left\{
+    \begin{array}{c c}
+      \mathbb{R},                             & k = 0 \\
+      \mathbb{R}^{|P|} \setminus \mathbb{R}^l, & k = n - 1 \\
+      0,                                      & \text{otherwise}
+    \end{array}
+  \right.
+$$
+It is proven in algebraic topology that de Rham cohomology is
+isomorphic to other cohomology theories, e.g. singular cohomology,
+etc.
+
+For $l = 0$ the claim holds vacuously, whereas for $l = 1$ we have
+$H^0(\mathbb{R}^n \setminus \{ p \}) = \mathbb{R}$ since $\mathbb{R}$ is
+connected
+and $H^k(\mathbb{R}^n \setminus \{ p \}) \simeq H^k(S^{n-1})$.
+
+Let $U = \mathbb{R}^n \setminus \{p_1, \dots, p_{l-1}\}$ and
+$V = \mathbb{R}^n \setminus \{ p_l \}$. Then
+$U \cap V = \mathbb{R}^n \setminus P$, and since $U \cap V$ is
+connected we have
+$$
+H^0(U \cap V) = H^0(\mathbb{R}^n - P) = \mathbb{R}.
+$$
+
+For $k \geq 1$ we have
+$$
+0 = H^k(\mathbb{R}^n) \xrightarrow{}
+H^k(U) \oplus H^k(V)  \xrightarrow{}
+H^k(U \cap V)         \xrightarrow{}
+H^{k+1}(\mathbb{R}^n) = 0,
+$$
+so
+$$
+       H^k(U) \oplus H^k(V)
+\simeq H^k(U \cap V)
+$$
+or
+$$
+\simeq H^k(\mathbb{R}^n \setminus \{p_1, \dots, p_{l-1}\})
+         \oplus
+       H^k(\mathbb{R}^n \setminus \{p_l\})
+\simeq H^k(\mathbb{R}^n \setminus \{ p_1, \dots, p_l \}).
+$$
+But
+$$
+       H^k(\mathbb{R}^n \setminus \{p_1, \dots, p_{l-1}\})
+         \oplus
+       H^k(\mathbb{R}^n \setminus \{p_l\})
+\simeq \mathbb{R}^{l-1} \oplus \mathbb{R}^1
+\simeq \mathbb{R}^l.
+$$
+This shows that cohomology \emph{counts holes in Euclidean space}.
+
+\begin{corol}
+If $\mathbb{R}^n$ and $\mathbb{R}^m$ are homeomorphic, then $n = m$.
+\end{corol}
+\begin{proof}
+Let $f : \mathbb{R}^n \to \mathbb{R}^m$ be a homeomorphism. Then
+$\mathbb{R}^n \setminus \{0\}$ is homeomorphic to $\mathbb{R}^m
+\setminus \{f(0)\}$, so
+$$
+       \mathbb{R}
+=      H^{n-1}(\mathbb{R}^n \setminus \{ 0 \})
+\simeq H^{n-1}(\mathbb{R}^m \setminus \{ f(0) \})
+$$
+and therefore $m = n$.
+\end{proof}
+
+\end{xmpl}
+
+In algebraic topology we will see that if we have several holes in a
+Euclidean space, we can draw a sphere around each of them, and there exists a
+retraction
+$\mathbb{R}^3 \setminus \{p_1, \dots, p_n\} \to S^2 \vee S^2 \cdots
+\vee S^2$.
+
+\begin{theorem}
+Every continuous map from the disk $\mathbb{D}^n$ to itself has a fixed
+point.
+\end{theorem}
+
+\begin{proof}
+This follows once we show that there does not exist a retraction
+$r: \mathbb{D}^n \to \mathbb{S}^{n-1}$. Suppose that
+$r : \mathbb{D}^{n} \to S^{n-1}$, i.e. $r(x) = x$ for every
+$x \in \partial \mathbb{D}^{n} = S^{n-1}$. Another way of saying
+this is that $r \circ i = \mathrm{id}_{S^{n-1}}$, where
+$i: S^{n-1} \to \mathbb{D}^{n}$ is the inclusion map. We then have a
+map in cohomology
+$$
+    \mathrm{id}_{S^{n-1}}^\ast
+:   \mathbb{R} = H^{n-1}(S^{n-1})
+\to H^{n-1}(S^{n-1}) = \mathbb{R}.
+$$
+But
+$r^\ast : \mathbb{H}^{n-1}(S^{n-1}) \to H^{n-1}(\mathbb{D}^n) = 0$
+must be the zero map, so
+$\mathrm{id}_{S^{n-1}}^\ast = i^\ast \circ 0 = 0$, a contradiction.
+\end{proof}
+
+\begin{xmpl}
+The cohomology of the 2-torus is
+$$
+  H_{dR}^k(T^2)
+= \left\{
+    \begin{array}{c c}
+      \mathbb{R},   & k = 0 \\
+      \mathbb{R}^2, & k = 1 \\
+      \mathbb{R},   & k = 2
+    \end{array}
+  \right..
+$$
+
+Cut the 2-torus along two closed curves around the ``tube'', and take
+open neighborhoods of these curves. Take $U$ and $V$ to be half-tori
+such that their intersection consists of two connected components
+$A$, $B$, each
+homeomorphic to a cylinder. Indeed each of the maps
+$A \hookrightarrow U$,
+$B \hookrightarrow V$,
+$A \hookrightarrow U$,
+$B \hookrightarrow V$
+are homotopy equivalences, and therefore induce isomorphisms in
+cohomology
+$H^\ast(U) \to H^\ast(A)$, etc. All of these sets are in turn homotopy
+equivalent to the circle $S^1$.
+
+Since $T^2$ is connected,
+$H^0(T^2) = \mathbb{R}$, so write the Mayer-Vietoris sequence
+\begin{align*}
+\mathbb{R} = H^0(T^2)                                           &\xrightarrow{}
+H^0(U) \oplus H^0(V) = \mathbb{R} \oplus \mathbb{R}             &\xrightarrow{\alpha}
+H^0(U \cap V) = H^0(A \coprod B) = \mathbb{R} \oplus \mathbb{R} &\xrightarrow{\dif_0^\ast} \\
+H^1(T^2)                                                        &\xrightarrow{i^\ast}
+H^1(U) \oplus H^1(V) = \mathbb{R} \oplus \mathbb{R}             &\xrightarrow{\beta}
+H^1(U \cap V) = H^1(A \coprod B) = \mathbb{R} \oplus \mathbb{R} &\xrightarrow{\dif_1^\ast} \\
+H^2(T^2)                                                        &\xrightarrow{}
+H^2(U) \oplus H^2(V) = 0
+\end{align*}
+Working backwards,
+$$
+       H^2(T^2)
+=      \frac{\mathbb{R} \oplus \mathbb{R}}
+            {\ker(\dif_1^\ast}
+\simeq \frac{\mathbb{R} \oplus \mathbb{R}}
+            {\mathrm{im}(\beta)}.
+$$
+By the rank-nullity theorem and exactness,
+\begin{align*}
+   \dim(H^1(T^2))
+&= \dim(\mathrm{im}(i^\ast))
+ + \dim(\ker(i^\ast)) \\
+&= \dim(\ker(\beta))
+ + \dim(\ker(i^\ast)) \\
+&= \dim(\ker(\beta))
+ + \dim(\mathrm{im}(\dif_0^\ast)) \\
+&= \dim(\ker(\beta))
+ + (2 - \dim(\ker(\dif_0^\ast))) \\
+&= \dim(\ker(\beta))
+ + 2
+ - \dim(\mathrm{im}(\alpha)).
+\end{align*}
+since $2 - \dim \ker(\dif_0^\ast) = \dim(\mathrm{im}(\dif_0^\ast))$.
+
+$\alpha : H^0(U) \oplus H^0(V) \to H^0(U \cap V)$ is the difference
+  map
+$$
+\alpha(a, b) = (b - a, b - a)
+$$
+on constant functions $a$, $b$. This map has
+$\dim(\mathrm{im}(\alpha)) = \dim(\ker(\alpha)) = 1$
+
+For $\beta$, take generators
+$\omega_U \in H^1(U) \simeq \mathbb{R}$ and
+$\omega_V \in H^1(V) \simeq \mathbb{R}$. Then
+$ H^1(U) \oplus H^1(V)
+= \{(r_1 \omega_U, r_2 \omega_V) | r_1, r_2 \in \mathbb{R}\}$.
+The fact that $A \hookrightarrow U$ is a homotopy equivalence means
+that
+$\omega_U \restrict_U$ is a generator on $U$ and
+$\omega_V \restrict_V$ is a generator on $V$, so
+$\beta : \mathbb{R}^2 \to \mathbb{R}^2$ is the map
+$(r_1, r_2) \mapsto (r_2 - r_1, r_2 - r_1)$, so
+$\dim(\ker(\beta)) = 1$ as well.
 \end{xmpl}
