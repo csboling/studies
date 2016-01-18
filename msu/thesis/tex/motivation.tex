@@ -2,35 +2,30 @@
 
 Poor reproducibility of scientific publications has been
 recognized as a growing problem in a number of research areas,
-particularly experimental psychology \cite{}, pharmaceutical research
-\cite{}, astronomy \cite{}, and areas of computer science such as
-machine learning \cite{}. Meta-analyses have suggested reproducibility rates
-in some fields as low as [FIGURE] \cite{}. Much of the recent
-attention paid to this issue comes in response to unique
-characteristics of the scientific process in the digital age,
-including unprecedented publication volume, insufficient documentation
-of complex experimental procedures, and so-called data dredging
-\cite{}, but some critics suspect that many long-standing results
-are also inadequately verifiable \cite{}. It has been suggested that
-factors such as publishing pressure, confirmation bias, and inadequate
-statistical power of hypotheses promote the widespread publication and
-citation of unverifiable claims in all areas of experimental science
-\cite{}. To make matters worse, the last few years have seen many
-cases of peer review fraud \cite{}, outright
-data falsification \cite{}, and ethically dubious activities such as
-$p$-hacking \cite{}, the practice of massaging data to cross the
-accepted threshold of statistical significance. Even researchers in
-strictly theoretical fields have expressed concerns about the
-trustworthiness of some published results, given that crucial flaws
-have been found buried in lengthy and technical proofs in pure
-mathematics \cite{} and certain areas of theoretical physics concern
-regimes which may never be amenable to experimental validation
-\cite{}. One proposition for improving the reproducibility of future
-scientific work is increased standardization and
-transparency of laboratory procedures \cite{}. Ideally, publication
-units would provide enough detail for future researchers to replicate
-every step of the experiment and data analysis and for reviewers to
-identify the source of errors and academic misconduct.
+particularly experimental psychology \cite{aac4716}, pharmaceutical research
+\cite{483531a}, astronomy \cite{}, and areas of computer science such as
+machine learning \cite{}. Large-scale replication efforts have
+suggested reproducibility rates in some fields as low as 10\%
+\cite{483531a}. Much of the recent attention paid to this issue comes in
+response to unique characteristics of the scientific process in the
+digital age, including unprecedented publication volume, insufficient
+documentation of complex experimental procedures, and so-called data
+dredging \cite{}, but some critics suspect that many long-standing
+results are also inadequately verifiable. It has been
+suggested that factors such as publishing pressure, confirmation bias,
+and inadequate statistical power of hypotheses promote the widespread
+publication and citation of unverifiable claims in all areas of
+experimental science \cite{10.1371/journal.pmed.0020124}. To make
+matters worse, the last few years have seen many cases of peer review
+fraud \cite{}, outright data falsification \cite{}, and ethically
+dubious activities such as $p$-hacking \cite{}, the practice of
+massaging data to cross the accepted threshold of statistical
+significance. Even researchers in strictly theoretical fields have
+expressed concerns about the trustworthiness of some published
+results, given that crucial flaws have been found buried in lengthy
+and technical proofs in pure mathematics \cite{} and certain areas of
+theoretical physics concern regimes which may never be amenable to
+experimental validation \cite{}.
 
 In addition to these systemic problems with the publication process,
 the day-to-day practice of modern science and engineering research
@@ -48,13 +43,34 @@ unambiguously describe their experimental procedures, and collate
 their work into self-contained, consistently formatted units for
 distribution to collaborators.
 
+One proposition for improving the
+reproducibility of future scientific work is increased standardization and
+transparency of laboratory procedures
+\cite{10.1371/journal.pmed.0020124}. Ideally, publication
+units would provide enough detail for future researchers to replicate
+every step of the experiment and data analysis associated with a
+publication and for reviewers to identify the source of errors and
+academic misconduct. Confirmation studies as well as exploratory
+research could benefit from the adoption of flexible, transparent
+software tools for collecting data and chronicling experimental
+procedures. Particularly in ``in-silico'' fields, where the entire
+experimental process involves transformation and analysis of data sets
+within the digital domain, the research process stands to benefit from
+software tools which automate and standardize tasks such as
+experimental design and record keeping. In many cases, drawing
+justified conclusions about a data set relies on
+metadata and information about experimental conditions that is
+difficult to acquire for every trial and is not obviously
+relevant at the outset, forcing researchers to backtrack and repeat
+work in order to be confident in their results. Some information
+retrieval researchers have proposed that these issues could be
+ameliorated by a mechanism known as data provenance, in which each
+data set is attached to information about when and how it was
+generated.
 
-the adoption of flexible, transparent software tools for collecting
-data and chronicling experimental procedures. By attaching provenance
-information to each dataset,
-computer-assisted data provenance tracking, leveraging computational
-tools to promote a scientific dissemination format equipped with
-richer faculties for comparison, , and collaboration than traditional
-print publications.
-
-Careful bookkeeping
+This thesis describes the design and implementation of a suite of
+software tools for data acquisition and provenance
+tracking with the goal of leveraging computer automation to create a
+scientific dissemination format equipped with richer facilities for
+comparing results, identifying new directions of research, and fostering
+collaboration than traditional print publications.
