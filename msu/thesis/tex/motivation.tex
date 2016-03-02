@@ -2,30 +2,29 @@
 
 Poor reproducibility of scientific publications has been
 recognized as a growing problem in a number of research areas,
-particularly experimental psychology \cite{aac4716}, pharmaceutical research
-\cite{483531a}, astronomy \cite{}, and areas of computer science such as
-machine learning \cite{}. Large-scale replication efforts have
+particularly those in which experiments are complex and sensitive to
+small variations in methodology. Large-scale replication efforts have
 suggested reproducibility rates in some fields as low as 10\%
-\cite{483531a}. Much of the recent attention paid to this issue comes in
-response to unique characteristics of the scientific process in the
-digital age, including unprecedented publication volume, insufficient
-documentation of complex experimental procedures, and so-called data
-dredging \cite{}, but some critics suspect that many long-standing
-results are also inadequately verifiable. It has been
-suggested that factors such as publishing pressure, confirmation bias,
-and inadequate statistical power of hypotheses promote the widespread
-publication and citation of unverifiable claims in all areas of
-experimental science \cite{10.1371/journal.pmed.0020124}. To make
-matters worse, the last few years have seen many cases of peer review
-fraud \cite{}, outright data falsification \cite{}, and ethically
-dubious activities such as $p$-hacking \cite{}, the practice of
-massaging data to cross the accepted threshold of statistical
-significance. Even researchers in strictly theoretical fields have
-expressed concerns about the trustworthiness of some published
-results, given that crucial flaws have been found buried in lengthy
-and technical proofs in pure mathematics \cite{} and certain areas of
-theoretical physics concern regimes which may never be amenable to
-experimental validation \cite{}.
+\cite{483531a}. Researchers have begun to call for improved
+documentation of the scientific process in fields as diverse as
+experimental psychology \cite{aac4716}, pharmaceutical research
+\cite{483531a}, astronomy \cite{1601.07858}, and areas of computer science such
+as machine learning \cite{}. Much of the recent attention paid to this
+issue comes in response to unique characteristics the scientific
+process has developed in the digital age, including unprecedented publication
+volume, insufficient documentation of complex experimental procedures,
+and the availability of software packages for manipulating statistics,
+but some critics suspect that many long-standing results are also
+inadequately verifiable. It has been suggested that factors such as
+publishing pressure, confirmation bias, and inadequate statistical
+power of hypotheses promote the widespread publication and citation of
+unverifiable claims in all areas of experimental science
+\cite{10.1371/journal.pmed.0020124}. To make matters worse, the last
+few years have seen many cases of peer review fraud
+\cite{Ferguson2014}, outright data falsification \cite{Fanelli2009},
+and ethically dubious activities such as $p$-hacking \cite{Head2015},
+the practice of massaging data to cross the accepted threshold of
+statistical significance.
 
 In addition to these systemic problems with the publication process,
 the day-to-day practice of modern science and engineering research
@@ -44,33 +43,65 @@ their work into self-contained, consistently formatted units for
 distribution to collaborators.
 
 One proposition for improving the
-reproducibility of future scientific work is increased standardization and
-transparency of laboratory procedures
-\cite{10.1371/journal.pmed.0020124}. Ideally, publication
-units would provide enough detail for future researchers to replicate
+reproducibility of future scientific work is to better standardize
+documentation practices for laboratory procedures
+\cite{10.1371/journal.pmed.0020124}. Ideally, a unit of disseminated
+research would provide enough detail for future researchers to replicate
 every step of the experiment and data analysis associated with a
-publication and for reviewers to identify the source of errors and
+publication and for reviewers to identify sources of errors, details
+warranting further examination, and
 academic misconduct. Confirmation studies as well as exploratory
-research could benefit from the adoption of flexible, transparent
+research could benefit from the adoption of flexible
 software tools for collecting data and chronicling experimental
-procedures. Particularly in ``in-silico'' fields, where the entire
-experimental process involves transformation and analysis of data sets
-within the digital domain, the research process stands to benefit from
-software tools which automate and standardize tasks such as
-experimental design and record keeping. In many cases, drawing
-justified conclusions about a data set relies on
+procedures. Particularly in ``\textit{in-silico}'' fields, where
+experiments consist of the transformation and analysis of data sets
+within the digital domain, research stands to benefit from
+software that can automate and standardize tasks such as
+experimental design and record keeping.
+Software tools for managing complex simulation and data analysis
+pipelines have begun to emerge in recent years \cite{Taverna,
+  VisTrails} which offer support for a number of powerful features,
+including data provenance, sharing and refining workflows, and
+packaging execution environments into virtual machines for
+later execution on different hardware.
+ However, many modern scientific endeavors involve some mixture of
+\textit{in-silico} analysis workflows and directly perturbing physical
+systems, and software toolchains for uniformly managing procedures of
+this nature remain immature. A tool suited for the challenges of
+modern research should be (i) automatic, employing computer control
+whenever possible to produce organized, uniform and repeatable
+experiments; (ii) extensible and modular, promoting adoption of new
+equipment, experimental methods, and data analysis techniques via
+user-crafted plugins; (iii) collaborative, allowing results and
+proposed experiments to be shared, annotated, and reviewed at many
+levels of detail; (iv) bespoke, accommodating and complementing the
+focus of each researcher involved in an interdisciplinary research and
+development project, and (v) provenance-aware, enabling fine-grained
+differential analysis of experimental outcomes and
+methodologies. Existing approaches do not combine data acquisition and
+archiving features with interfaces for process customization in a way
+that meets all the above goals.
+
+Fortunately,
+
+In many cases, drawing conclusions about a data set relies on
 metadata and information about experimental conditions that is
 difficult to acquire for every trial and is not obviously
 relevant at the outset, forcing researchers to backtrack and repeat
-work in order to be confident in their results. Some information
-retrieval researchers have proposed that these issues could be
-ameliorated by a mechanism known as data provenance, in which each
-data set is attached to information about when and how it was
-generated.
+work in order to be confident in their results.
 
 This thesis describes the design and implementation of a suite of
 software tools for data acquisition and provenance
 tracking with the goal of leveraging computer automation to create a
-scientific dissemination format equipped with richer facilities for
+scientific dissemination format with rich facilities for
 comparing results, identifying new directions of research, and fostering
-collaboration than traditional print publications.
+collaboration than traditional print publications. The design of the
+described software tool embraces modern web technologies, separating
+functional units into independent networked services which communicate
+by discoverable web APIs. This architecture promotes modularity,
+allowing researchers to extend the system to meet their needs, and
+enables investigators to interact with each others' research
+remotely. The framework provides high-level capabilities for
+remotely controlling lab equipment and routing captured sensor data,
+with a vision of connecting research labs to the nascent internet of
+things. To demonstrate and explore the system's capabilities, a
