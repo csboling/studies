@@ -1,5 +1,84 @@
+\chapter{Background}
+
+
+
+Laboratory Information Management System
+
+
+
+The complex needs of modern research have created several software
+markets, and there are now dozens of tools for computerizing various
+laboratory management and research tasks.
+
+\section{Workflow design software}
+
 Taverna
 VisTrails
 ReproZip
-Zettajs
+
+Defining, composing, and documenting complex procedures is a core
+organizational need of many research groups. Workflow editors provide
+users with a means of constructing executable tasks by describing how
+data moves through them, typically by visually manipulating a directed
+graph of processes.
+
+Industry groups have also made several attempts to produce a
+standardized data model for business processes and equipment, the
+most recent of which is ISO 15926 \cite{West2009}. This model promises
+a level of generality that is sufficient to enable interoperability
+between businesses in different sectors and countries and relying on
+large, varied sets of equipment and software. The still-growing
+specification encompasses information as diverse as process
+specification and refinement, structural description of organizations
+and devices, component lifecycle information and more. ISO 15926's
+representation format is based on semantic web technologies such as OWL, which
+employs a graph model to describe semantic relationships between
+entities, where each entity and relationship has an associated
+hyperlink. The standard has been under development for 25 years, but
+many specification documents have yet to be published and no software
+implementations are currently freely available. The extreme complexity
+of the model is also an impediment to adoption by end users as well as
+implementation.
+
+\section{Equipment automation tools}
+
 LabVIEW
+Zettajs
+
+It is desirable to include
+Unfortunately, relatively few LIMS vendors incorporate features for
+
+LabVIEW's G visual programming language arguably has much in common
+with some workflow editors,
+
+\section{Electronic lab notebooks}
+
+An electronic lab notebook (ELN) is a software tool for helping
+researchers to chronicle their day-to-day investigations and
+results. Several surveys of commercially available ELNs have been
+published \cite{Rubacha2011, }, but the domain is still evolving
+rapidly and many of these programs have begun to integrate
+capabilities for experiment specification and execution.
+
+Typically commercial products in this domain offer users compliance
+with the FDA's recommendation on electronic recordkeeping \cite{FDA}
+
+In particular, Agilent's OpenLAB suite (formerly Kalabie) offers a
+notebook tool which combines data collection, storage, analysis, and
+collaboration capabilities. This package is also capable of
+integrating with data collected from instruments manufactured by
+Agilent and some of its business partners.
+ still lacks modularity,
+user-customizability, version control
+
+Since many of these programs are proprietary,
+
+
+\section{Summary}
+
+A number of software tools for automating data collection, analyzing
+and comparing data sets, and interdisciplinary scientific
+collaboration have emerged in recent years. Moving toward an    will
+require the convergence of LIMS software with equipment automation .
+Many commercial LIMS are also inadequately flexible to researchers'
+rapidly changing data organization requirements
