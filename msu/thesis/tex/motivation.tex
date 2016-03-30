@@ -28,7 +28,7 @@ statistical significance.
 
 In addition to these systemic problems with the publication process,
 the day-to-day practice of modern science and engineering research
-presents a host of data organization challenges to
+presents a steadily growing host of data organization challenges to
 investigators. Often an experimental program involves many personnel,
 each with a unique specialization and research focus, performing
 interdependent experiments at multiple universities. Each such experiment is
@@ -45,9 +45,11 @@ distribution to collaborators.
 One proposition for improving the
 reproducibility of future scientific work is to better standardize
 documentation practices for laboratory procedures
-\cite{10.1371/journal.pmed.0020124}. Ideally, a unit of disseminated
+\cite{10.1371/journal.pmed.0020124} and ultimately to transition from
+traditional paper-based publication models to electronic formats which
+capture the intricacies of modern scientific work. Ideally, a unit of disseminated
 research would provide enough detail for future researchers to replicate
-every step of the experiment and data analysis associated with a
+every step of the experiment and analysis associated with a
 publication and for reviewers to identify sources of errors, details
 warranting further examination, and
 academic misconduct. Confirmation studies as well as exploratory
@@ -57,18 +59,30 @@ procedures. Particularly in ``\textit{in-silico}'' fields, where
 experiments consist of the transformation and analysis of data sets
 within the digital domain, research stands to benefit from
 software that can automate and standardize tasks such as
-experimental design and record keeping.
+experimental design and record keeping, and some publication
+organizations have begun to encourage sharing of code, procedures, and
+raw data alongside submitted manuscripts.
 Software tools for managing complex simulation and data analysis
-pipelines have begun to emerge in recent years \cite{Taverna,
-  VisTrails} which offer support for a number of powerful features,
+pipelines have begun to emerge in recent years which offer support for a number of powerful features,
 including data provenance, sharing and refining workflows, and
 packaging execution environments into virtual machines for
-later execution on different hardware.
- However, many modern scientific endeavors involve some mixture of
-\textit{in-silico} analysis workflows and directly perturbing physical
-systems, and software toolchains for uniformly managing procedures of
-this nature remain immature. A tool suited for the challenges of
-modern research should be (i) automatic, employing computer control
+later execution on different hardware \cite{VisTrails, Taverna}.
+To address some of the informatics challenges of more ``hands-on''
+research, several companies have developed
+so-called laboratory information management systems (LIMS), which are
+better suited to the inventory and data management needs of
+traditional scientific facilities such as wet labs.
+However, many scientific endeavors involve some mixture of
+structuring \textit{in-silico} analysis workflows and directly
+manipulating physical systems, and software toolchains for uniformly
+managing procedures of this nature remain immature.
+
+In fields where research involves both sophisticated software analysis
+and intensive batteries of physical experiments, investigators could
+benefit from a software platform which unifies protocol design, data
+acquisition, result annotation and archiving, signal processing, and
+other tasks involved in the complete research and development life
+cycle. Such a tool should be (i) automatic, employing computer control
 whenever possible to produce organized, uniform and repeatable
 experiments; (ii) extensible and modular, promoting adoption of new
 equipment, experimental methods, and data analysis techniques via
@@ -80,15 +94,27 @@ development project, and (v) provenance-aware, enabling fine-grained
 differential analysis of experimental outcomes and
 methodologies. Existing approaches do not combine data acquisition and
 archiving features with interfaces for process customization in a way
-that meets all the above goals.
+that meets all the above goals. In many cases tools built for
+these purposes are also insufficiently adaptable for the fast-paced
+and varied needs of active scientists, causing users to abandon the
+software once it presents more limitations than benefits.
 
-Fortunately,
-
-In many cases, drawing conclusions about a data set relies on
-metadata and information about experimental conditions that is
-difficult to acquire for every trial and is not obviously
-relevant at the outset, forcing researchers to backtrack and repeat
-work in order to be confident in their results.
+Fortunately, the rich landscape of modern web technologies has begun
+to enable software design strategies that make a complex, customizable
+end-to-end solution feasible. Network-enabled services with
+diverse purposes and internal infrastructures have become increasingly
+interoperable thanks to the adoption of self-documenting web APIs. The
+increasing sophistication of web browsers has allowed for an
+explosion of rich client-side software experiences, enabling
+full-featured user interfaces which are platform-independent and easily
+updated. A number of technologies such as distributed version control,
+demand-scaling cloud hosting services, and real-time full-duplex
+network data streaming have emerged as powerful tools for
+rapidly building robust and flexible web applications. The
+availability of inexpensive sensor and network hardware has begun to
+spur the growth of the emerging Internet of Things, a vision of the
+near future in which ubiquitous computing devices collect data,
+communicate with each other, and interact with their environments.
 
 This thesis describes the design and implementation of a suite of
 software tools for data acquisition and provenance
@@ -98,10 +124,20 @@ comparing results, identifying new directions of research, and fostering
 collaboration than traditional print publications. The design of the
 described software tool embraces modern web technologies, separating
 functional units into independent networked services which communicate
-by discoverable web APIs. This architecture promotes modularity,
-allowing researchers to extend the system to meet their needs, and
-enables investigators to interact with each others' research
-remotely. The framework provides high-level capabilities for
+by discoverable web APIs. This architecture enables investigators to
+interact with each others' research remotely and to independently
+create reusable services of their own. The core components of the system are
+modular and loosely coupled, and users are encouraged to modify,
+create, and share software components to meet the unique needs of
+their research. By designing a modular architecture which anticipates rapidly
+changing requirements and enables users to take an active role in
+software maintenance, the platform is intended to grow with its user
+base and enjoy broader usefulness and greater longevity than existing
+free and commercial lab informatics packages.
+The framework provides high-level capabilities for
 remotely controlling lab equipment and routing captured sensor data,
 with a vision of connecting research labs to the nascent internet of
 things. To demonstrate and explore the system's capabilities, a
+embedded system was developed for performing customizable
+electrochemical experiments, which includes a multi-channel arbitrary
+waveform generator.

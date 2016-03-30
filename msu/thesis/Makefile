@@ -1,12 +1,16 @@
 TOPLEVEL = thesis
-TEXFILES = $(shell find . -name '\*.tex')
-BIBFILES = $(shell find . -name '\*.bib')
+TEXFILES = $(shell find . -name '*.tex')
+BIBFILES = $(shell find . -name '*.bib')
 
 all: $(TOPLEVEL).pdf
 
-thesis.pdf: $(TEXFILES)
+$(TOPLEVEL).aux: $(TEXFILES)
 	pdflatex $(TOPLEVEL).tex
-	bibtex   $(TOPLEVEL)
+
+$(TOPLEVEL).bbl: references.bib $(TOPLEVEL).aux
+	bibtex $(TOPLEVEL)
+
+thesis.pdf: $(TOPLEVEL).bbl
 	pdflatex $(TOPLEVEL).tex
 	pdflatex $(TOPLEVEL).tex
 
